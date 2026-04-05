@@ -1156,7 +1156,7 @@
   <div class="hero-eyebrow">SSH Fleet Monitoring + OpenClaw</div>
   <h1>Your infrastructure, <em>on a leash</em></h1>
   <p class="hero-sub">
-    Monitor every machine via SSH. Rules engine with webhooks, MQTT, and command actuation. Talk to your fleet through your OpenClaw agent. Process management, GPU orchestration, and predictive alerts &mdash; all from one tool.
+    Monitor every machine via SSH &mdash; or install a lightweight agent for even easier setup. Rules engine with webhooks, MQTT, and command actuation. Talk to your fleet through your OpenClaw agent. Process management, GPU orchestration, and predictive alerts &mdash; all from one tool.
   </p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="#pricing">Start Free Trial</a>
@@ -1229,8 +1229,8 @@
 
 <section class="features-compact reveal">
   <div class="feature-compact">
-    <h4>SSH Fleet Monitoring</h4>
-    <p>CPU, GPU, RAM, disk, processes, idle time, temperatures &mdash; probed automatically every two minutes. Windows, macOS, Linux. No agent required, just SSH.</p>
+    <h4>Fleet Monitoring</h4>
+    <p>SSH into every machine &mdash; or deploy agents for zero-configuration monitoring. CPU, GPU, RAM, disk, processes, idle time, temperatures. Windows, macOS, Linux.</p>
   </div>
   <div class="feature-compact">
     <h4>Webhooks + MQTT + SSH Actuation</h4>
@@ -1258,21 +1258,22 @@
     <div class="step">
       <div class="step-num"></div>
       <div>
-        <h3>Install via Docker</h3>
-        <p>One command: <code>docker run -p 8383:8383 leassh/leassh</code></p>
+        <h3>Install Leassh server</h3>
+        <p>Docker or binary: <code>docker run -p 8383:8383 leassh/leassh</code></p>
       </div>
     </div>
     <div class="step">
       <div class="step-num"></div>
       <div>
-        <h3>Add machines to fleet.yaml</h3>
-        <p>List your hosts, SSH credentials, and probe intervals. Or use the "Add Machine" UI in the dashboard.</p>
+        <h3>Connect your machines</h3>
+        <p><strong>Via agent:</strong> Install the agent on each machine, enter your pairing code &mdash; it connects automatically through firewalls and NAT.<br>
+        <strong>Via SSH:</strong> Add machines to <code>fleet.yaml</code> with SSH credentials. No software installed on targets.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num"></div>
       <div>
-        <h3>Define rules and webhooks</h3>
+        <h3>Define rules, webhooks, and limits</h3>
         <p>Set up triggers, actuation, and limits in YAML or the UI. Fleet dashboard at <code>:8383/fleet</code>.</p>
       </div>
     </div>
@@ -1402,9 +1403,9 @@
   <div class="faq-list">
     <div class="faq-item">
       <input type="checkbox" id="faq-1" class="faq-toggle">
-      <label for="faq-1" class="faq-q">Do I need to install an agent on each machine?</label>
+      <label for="faq-1" class="faq-q">Do I need to install software on the computers I'm monitoring?</label>
       <div class="faq-a">
-        <p>No. Fleet monitoring works over SSH &mdash; Leassh connects to your machines directly and probes metrics. No agent installation required. Just add hosts to your fleet.yaml with SSH credentials.</p>
+        <p>You have two options. The recommended approach is to install the tiny Leassh agent (under 10MB) &mdash; just enter a pairing code and it connects automatically. Alternatively, power users can use SSH probing which requires no software on target machines but needs SSH access configured. Both give you the same monitoring data.</p>
       </div>
     </div>
     <div class="faq-item">
@@ -1440,6 +1441,13 @@
       <label for="faq-6" class="faq-q">How does SSH actuation differ from SSH monitoring?</label>
       <div class="faq-a">
         <p>Monitoring is read-only: Leassh probes metrics via SSH. Actuation means Leassh can also execute commands &mdash; like killing a process, restarting a service, or running a script. Actuation is opt-in and requires explicit rules in your YAML config. Only available on the Pro plan.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <input type="checkbox" id="faq-7" class="faq-toggle">
+      <label for="faq-7" class="faq-q">Can I deploy the agent remotely via SSH?</label>
+      <div class="faq-a">
+        <p>Yes. If you already have SSH access, you can install the agent without physically touching the machine. Run the install script via SSH with your pairing code. On macOS, the Screen Recording permission still needs one-time physical approval &mdash; everything else works immediately.</p>
       </div>
     </div>
   </div>

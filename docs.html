@@ -420,6 +420,8 @@
     <h2>On This Page</h2>
     <ol>
       <li><a href="#quick-start">Quick Start</a></li>
+      <li><a href="#connection-modes">Connection Modes</a></li>
+      <li><a href="#deploy-agents-ssh">Deploy Agents via SSH</a></li>
       <li><a href="#self-hosting">Self-Hosting</a></li>
       <li><a href="#configuration">Configuration Reference</a></li>
       <li><a href="#openclaw">OpenClaw Plugin</a></li>
@@ -430,13 +432,16 @@
 
   <div class="section" id="quick-start">
     <h2>Quick Start</h2>
-    <p>The fastest way to get started. No server required &mdash; just install the agent on the devices you want to monitor.</p>
+    <p>The fastest way to get started. Choose the connection method that works best for you.</p>
 
     <h3>Step 1: Create an Account</h3>
-    <p>Sign up at <a href="/#pricing">leassh.com</a> and choose a plan. You will receive a family token that identifies your fleet.</p>
+    <p>Sign up at <a href="/#pricing">leassh.com</a> and choose a plan. You will receive a pairing code that identifies your fleet.</p>
 
-    <h3>Step 2: Install the Agent</h3>
-    <p>On each device you want to monitor, run the install command for that platform:</p>
+    <h3>Step 2: Connect Your Machines</h3>
+    <p>You have two options for connecting machines:</p>
+
+    <p><strong>Option A: Install the Agent (recommended)</strong><br>
+    Install the lightweight Leassh agent on each device. Enter a pairing code and it connects automatically. Works through firewalls and NAT.</p>
 
     <div class="cmd-block">
       <span class="cmd-label">Windows (PowerShell as Admin)</span>
@@ -452,8 +457,57 @@
 
     <p>Replace <code style="color: var(--amber);">YOUR_TOKEN</code> with the token from your dashboard. For detailed platform-specific instructions, see the <a href="/install">Install page</a>.</p>
 
+    <p><strong>Option B: SSH Probing (no install on targets)</strong><br>
+    Add machines to <code style="color: var(--amber);">fleet.yaml</code> with their SSH details. Leassh probes them directly. Nothing installed on the monitored machines. Requires SSH key access. See <a href="#self-hosting">Self-Hosting</a> for details.</p>
+
     <h3>Step 3: Verify</h3>
     <p>Devices appear in your dashboard within a minute. You will start receiving activity reports and can configure screen time limits, rules, and notifications.</p>
+  </div>
+
+  <div class="section" id="connection-modes">
+    <h2>Connection Modes</h2>
+    <p>Leassh supports two ways to connect machines. Both provide the same monitoring data.</p>
+
+    <table class="config-table">
+      <thead>
+        <tr><th></th><th>Agent</th><th>SSH</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Install on target</td><td>Yes (tiny service)</td><td>No</td></tr>
+        <tr><td>Setup difficulty</td><td>Enter pairing code</td><td>Configure SSH keys</td></tr>
+        <tr><td>Works through firewalls</td><td>Yes (outbound only)</td><td>Needs inbound SSH access</td></tr>
+        <tr><td>Screenshot capability</td><td>Yes (with macOS permission)</td><td>Yes (with macOS permission)</td></tr>
+        <tr><td>Remote command execution</td><td>Paid only (tunnel mode)</td><td>Yes</td></tr>
+        <tr><td>Best for</td><td>Desktops, laptops, remote machines</td><td>Servers, NAS, VMs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section" id="deploy-agents-ssh">
+    <h2>Deploy Agents via SSH</h2>
+    <p>If you already have SSH access to a machine, you can deploy the agent remotely without physically touching the machine:</p>
+
+    <div class="cmd-block">
+      <span class="cmd-label">Linux</span>
+      <code id="cmd-deploy-linux">ssh user@192.168.1.100 "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=YOUR_CODE sudo bash"</code>
+      <button class="copy-btn" data-target="cmd-deploy-linux">Copy</button>
+    </div>
+
+    <div class="cmd-block">
+      <span class="cmd-label">Windows (PowerShell)</span>
+      <code id="cmd-deploy-win">ssh user@192.168.1.100 "powershell -Command \"& { $env:LEASSH_CODE='YOUR_CODE'; iwr -useb https://leassh.com/install-windows.ps1 | iex }\""</code>
+      <button class="copy-btn" data-target="cmd-deploy-win">Copy</button>
+    </div>
+
+    <div class="cmd-block">
+      <span class="cmd-label">macOS</span>
+      <code id="cmd-deploy-mac">ssh user@192.168.1.129 "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=YOUR_CODE sudo bash"</code>
+      <button class="copy-btn" data-target="cmd-deploy-mac">Copy</button>
+    </div>
+
+    <div class="highlight-box">
+      <p><strong>macOS Note:</strong> After deploying the agent on a Mac, the Screen Recording permission must be approved once from the machine's physical keyboard. Open System Settings &rarr; Privacy &amp; Security &rarr; Screen Recording and enable &ldquo;Leassh Capture&rdquo;. This is a one-time step required by Apple &mdash; no software can bypass it. All other monitoring features work immediately without this step.</p>
+    </div>
   </div>
 
   <div class="section" id="self-hosting">
@@ -652,7 +706,10 @@ pip install -r requirements.txt</code>
     <p>The agent buffers data locally and syncs when the connection is restored. Screen time enforcement continues to work offline based on the last known rules.</p>
 
     <h3>Can I monitor machines outside my LAN?</h3>
-    <p>Yes, via SSH tunneling or a VPN. Leassh connects to machines over SSH, so any SSH-reachable machine can be monitored regardless of network topology.</p>
+    <p>Yes. With the agent installed, machines connect outbound through any firewall or NAT. With SSH probing, use SSH tunneling or a VPN to reach machines outside your LAN.</p>
+
+    <h3>Do I need to install software on the computers I'm monitoring?</h3>
+    <p>You have two options. The recommended approach is to install the tiny Leassh agent (under 10MB) &mdash; just enter a pairing code and it connects automatically. Alternatively, power users can use SSH probing which requires no software on target machines but needs SSH access configured. Both give you the same monitoring data.</p>
   </div>
 
 </div>

@@ -656,6 +656,15 @@
         </div>
       </div>
 
+      <div class="platform-card" style="background: var(--amber-bg); border-color: rgba(212, 162, 76, 0.15);">
+        <h4>Have SSH access already?</h4>
+        <p class="plat-desc">Deploy the agent remotely without touching the machine</p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+          <code id="cmd-ssh-deploy">ssh user@machine "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=ABC123 sudo bash"</code>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -737,6 +746,8 @@ function fillCommands(code, key) {
     "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=" + code + " sudo bash";
   document.getElementById('cmd-linux').textContent =
     "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=" + code + " sudo bash";
+  document.getElementById('cmd-ssh-deploy').textContent =
+    'ssh user@machine "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=' + code + ' sudo bash"';
 }
 
 // --- Tabs ---
