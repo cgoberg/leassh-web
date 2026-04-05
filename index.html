@@ -105,6 +105,45 @@
     box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
   }
 
+  /* --- Mobile hamburger (CSS-only) --- */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 8px;
+    z-index: 101;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+    border-radius: 1px;
+  }
+
+  #nav-toggle { display: none; }
+
+  #nav-toggle:checked ~ .nav-links {
+    display: flex;
+  }
+
+  #nav-toggle:checked ~ .hamburger span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  #nav-toggle:checked ~ .hamburger span:nth-child(2) {
+    opacity: 0;
+  }
+
+  #nav-toggle:checked ~ .hamburger span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
   /* --- Hero --- */
   .hero {
     max-width: var(--max);
@@ -310,6 +349,43 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* --- Trust / Social Proof --- */
+  .trust {
+    max-width: var(--max);
+    margin: 0 auto 120px;
+    padding: 0 32px;
+  }
+
+  .trust-items {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    padding: 32px 16px;
+  }
+
+  .trust-val {
+    font-family: var(--font-d);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .trust-label {
+    font-size: 14px;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
   /* --- Features --- */
   .features {
     max-width: var(--max);
@@ -335,30 +411,67 @@
     max-width: 520px;
   }
 
-  .feature-grid {
+  /* Hero features - top row, larger cards */
+  .feature-grid-hero {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 2px;
+    margin-bottom: 2px;
   }
 
-  @media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr; } }
-
-  .feature {
-    padding: 40px 36px;
+  .feature-grid-hero .feature {
+    padding: 48px 36px;
     background: var(--bg-raised);
     transition: background 0.3s;
   }
 
-  .feature:hover { background: var(--bg-warm); }
-  .feature:first-child { border-radius: 12px 12px 0 0; }
-  .feature:nth-child(2) { border-radius: 12px 12px 0 0; }
-  .feature:nth-last-child(2) { border-radius: 0 0 12px 12px; }
-  .feature:last-child { border-radius: 0 0 12px 12px; }
+  .feature-grid-hero .feature:hover { background: var(--bg-warm); }
+  .feature-grid-hero .feature:first-child { border-radius: 12px 0 0 0; }
+  .feature-grid-hero .feature:last-child { border-radius: 0 12px 0 0; }
 
-  @media (max-width: 700px) {
-    .feature:nth-child(2) { border-radius: 0; }
-    .feature:nth-last-child(2) { border-radius: 0; }
-    .feature:last-child { border-radius: 0 0 12px 12px; }
+  .feature-grid-hero .feature h3 {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+
+  .feature-grid-hero .feature p {
+    color: var(--text-mid);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* Supporting features - bottom row, compact */
+  .feature-grid-support {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .feature-grid-support .feature {
+    padding: 28px 28px;
+    background: var(--bg-raised);
+    transition: background 0.3s;
+  }
+
+  .feature-grid-support .feature:hover { background: var(--bg-warm); }
+  .feature-grid-support .feature:first-child { border-radius: 0 0 0 12px; }
+  .feature-grid-support .feature:last-child { border-radius: 0 0 12px 0; }
+
+  .feature-grid-support .feature h3 {
+    font-family: var(--font-d);
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+  }
+
+  .feature-grid-support .feature p {
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.6;
   }
 
   .feature-label {
@@ -370,18 +483,9 @@
     margin-bottom: 12px;
   }
 
-  .feature h3 {
-    font-family: var(--font-d);
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    letter-spacing: -0.3px;
-  }
-
-  .feature p {
-    color: var(--text-mid);
-    font-size: 14px;
-    line-height: 1.7;
+  .feature-grid-support .feature-label {
+    margin-bottom: 8px;
+    font-size: 10px;
   }
 
   /* --- How it works --- */
@@ -504,10 +608,6 @@
     margin-top: 28px;
   }
 
-  @media (max-width: 640px) {
-    .privacy-modes { grid-template-columns: 1fr; }
-  }
-
   .privacy-mode {
     padding: 24px;
     background: rgba(0, 0, 0, 0.2);
@@ -555,14 +655,10 @@
 
   .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 2px;
-  }
-
-  @media (max-width: 800px) {
-    .pricing-grid { grid-template-columns: 1fr; gap: 16px; }
-    .pricing-card:first-child { border-radius: 12px; }
-    .pricing-card:last-child { border-radius: 12px; }
+    max-width: 760px;
+    margin: 0 auto;
   }
 
   .pricing-card {
@@ -662,6 +758,93 @@
     margin-top: auto;
   }
 
+  /* --- FAQ --- */
+  .faq {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 120px;
+  }
+
+  .faq-header {
+    margin-bottom: 48px;
+  }
+
+  .faq-header h2 {
+    font-family: var(--font-d);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .faq-item {
+    border-top: 1px solid var(--border);
+  }
+
+  .faq-item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .faq-toggle {
+    display: none;
+  }
+
+  .faq-q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    cursor: pointer;
+    font-family: var(--font-d);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    transition: color 0.2s;
+    user-select: none;
+    gap: 16px;
+  }
+
+  .faq-q:hover { color: var(--amber); }
+
+  .faq-q::after {
+    content: '+';
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    transition: transform 0.3s var(--ease);
+    line-height: 1;
+  }
+
+  .faq-toggle:checked + .faq-q::after {
+    transform: rotate(45deg);
+    color: var(--amber);
+  }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s var(--ease), padding 0.3s;
+    padding: 0 0;
+  }
+
+  .faq-toggle:checked ~ .faq-a {
+    max-height: 300px;
+    padding: 0 0 20px;
+  }
+
+  .faq-a p {
+    color: var(--text-mid);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 680px;
+  }
+
   /* --- CTA --- */
   .cta {
     max-width: var(--max);
@@ -734,17 +917,56 @@
     transform: translateY(0);
   }
 
+  /* --- Responsive --- */
+  @media (max-width: 800px) {
+    .pricing-grid { grid-template-columns: 1fr; gap: 16px; }
+    .pricing-card:first-child { border-radius: 12px; }
+    .pricing-card:last-child { border-radius: 12px; }
+    .feature-grid-hero { grid-template-columns: 1fr; }
+    .feature-grid-hero .feature:first-child { border-radius: 12px 12px 0 0; }
+    .feature-grid-hero .feature:last-child { border-radius: 0; }
+    .feature-grid-support { grid-template-columns: 1fr; }
+    .feature-grid-support .feature:first-child { border-radius: 0; }
+    .feature-grid-support .feature:last-child { border-radius: 0 0 12px 12px; }
+  }
+
   @media (max-width: 640px) {
     nav { padding: 16px; }
-    .nav-links { gap: 16px; }
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      z-index: 100;
+    }
+
+    .nav-links a {
+      font-size: 18px;
+    }
+
+    .hamburger {
+      display: block;
+    }
+
+    .privacy-modes { grid-template-columns: 1fr; }
     .hero { padding: 60px 16px 60px; }
-    .preview, .features, .how, .privacy, .pricing, .cta { padding-left: 16px; padding-right: 16px; }
+    .preview, .features, .how, .privacy, .pricing, .faq, .cta { padding-left: 16px; padding-right: 16px; }
+    .trust { padding-left: 16px; padding-right: 16px; }
     .privacy-box { padding: 32px 24px; }
     .step { grid-template-columns: 40px 1fr; gap: 16px; }
     .sim-metrics { display: none; }
     .footer-inner { flex-direction: column; align-items: center; text-align: center; }
     .pricing-card:first-child,
     .pricing-card:last-child { border-radius: 12px; }
+    .trust-items { gap: 8px; }
+    .trust-item { padding: 20px 8px; }
   }
 </style>
 </head>
@@ -754,11 +976,17 @@
 
 <nav>
   <a class="nav-brand" href="#">leassh</a>
+  <input type="checkbox" id="nav-toggle" aria-hidden="true">
+  <label class="hamburger" for="nav-toggle" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+  </label>
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#privacy">Privacy</a></li>
-    <li><a href="#signup" class="nav-cta">Start Free Trial</a></li>
+    <li><a href="mailto:hello@leassh.com?subject=Leassh%20Early%20Access" class="nav-cta">Join Early Access</a></li>
   </ul>
 </nav>
 
@@ -771,7 +999,7 @@
     Run everything locally for total privacy, or let our cloud handle it.
   </p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="#signup">Start Free Trial</a>
+    <a class="btn btn-primary" href="mailto:hello@leassh.com?subject=Leassh%20Early%20Access">Join Early Access</a>
     <a class="btn btn-ghost" href="#self-host">Self-Host</a>
   </div>
 </section>
@@ -817,12 +1045,33 @@
   </div>
 </section>
 
+<section class="trust reveal">
+  <div class="trust-items">
+    <div class="trust-item">
+      <div class="trust-val">100%</div>
+      <div class="trust-label">Local privacy option</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-val">3 min</div>
+      <div class="trust-label">Setup time</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-val">0</div>
+      <div class="trust-label">Data stored in our cloud</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-val">3</div>
+      <div class="trust-label">Platforms supported</div>
+    </div>
+  </div>
+</section>
+
 <section class="features reveal" id="features">
   <div class="features-header">
     <h2>Everything you need to keep your family safe</h2>
     <p>Install the agent, open the dashboard. Screen time, limits, and safety in minutes.</p>
   </div>
-  <div class="feature-grid">
+  <div class="feature-grid-hero">
     <div class="feature">
       <div class="feature-label">Screen Time</div>
       <h3>Know what they're doing</h3>
@@ -838,20 +1087,22 @@
       <h3>AI-powered content awareness</h3>
       <p>A vision AI analyzes screenshots for concerning content and alerts you via Telegram. Get immediate notifications or a calm evening digest. Factual, not paranoid. You set the sensitivity.</p>
     </div>
+  </div>
+  <div class="feature-grid-support">
     <div class="feature">
       <div class="feature-label">Privacy Choice</div>
       <h3>Your data, your rules</h3>
-      <p>Run the vision AI on your own hardware — screenshots never leave your home network. Or use our cloud, where screenshots are analyzed and immediately deleted. Never stored, never sold. Your choice.</p>
+      <p>Run the vision AI on your own hardware — screenshots never leave your home network. Or use our cloud, where screenshots are analyzed and immediately deleted. Your choice.</p>
     </div>
     <div class="feature">
       <div class="feature-label">Easy Setup</div>
-      <h3>Install the agent, enter a code, done</h3>
-      <p>Download the agent on each computer, enter your family code, and you're live. No SSH configuration, no network setup, no technical knowledge required. Works in under three minutes.</p>
+      <h3>Install, enter a code, done</h3>
+      <p>Download the agent, enter your family code, and you're live. No SSH, no network config, no technical knowledge. Works in under three minutes.</p>
     </div>
     <div class="feature">
       <div class="feature-label">Works Everywhere</div>
       <h3>Windows, macOS, Linux</h3>
-      <p>The Leassh agent runs on any computer your family uses. Windows desktops, MacBooks, Linux machines. One dashboard to manage them all, regardless of operating system.</p>
+      <p>The agent runs on any computer your family uses. One dashboard to manage them all, regardless of operating system.</p>
     </div>
   </div>
 </section>
@@ -917,14 +1168,14 @@
       <div class="pricing-price">$19<span>/mo</span></div>
       <div class="pricing-desc">Zero setup. We handle everything.</div>
       <ul class="pricing-features">
-        <li><span class="check">+</span> Screen time tracking</li>
-        <li><span class="check">+</span> Time limits &amp; enforcement</li>
+        <li><span class="check">+</span> Screen time + limits + enforcement</li>
         <li><span class="check">+</span> AI screenshot analysis</li>
         <li><span class="check">+</span> Dashboard at app.leassh.com</li>
         <li><span class="check">+</span> Up to 10 computers</li>
-        <li><span class="check">+</span> Analyzed &amp; immediately deleted</li>
+        <li><span class="check">+</span> Telegram alerts</li>
+        <li><span class="check">+</span> 14-day free trial</li>
       </ul>
-      <a class="btn btn-primary" href="#signup">Start Trial</a>
+      <a class="btn btn-primary" href="mailto:hello@leassh.com?subject=Leassh%20Early%20Access">Join Early Access</a>
     </div>
     <div class="pricing-card featured">
       <div class="pricing-badge">Full Privacy</div>
@@ -932,28 +1183,57 @@
       <div class="pricing-price">$79<span> one-time</span></div>
       <div class="pricing-desc">Self-hosted. Data never leaves home.</div>
       <ul class="pricing-features">
-        <li><span class="check">+</span> Screen time tracking</li>
-        <li><span class="check">+</span> Time limits &amp; enforcement</li>
-        <li><span class="check">+</span> Local AI analysis (your GPU)</li>
-        <li><span class="check">+</span> Dashboard on your server</li>
-        <li><span class="check">+</span> Unlimited computers</li>
+        <li><span class="check">+</span> Everything in Cloud</li>
+        <li><span class="check">+</span> Self-hosted, unlimited computers</li>
+        <li><span class="check">+</span> Your own AI (your GPU)</li>
         <li><span class="check">+</span> Data never leaves your network</li>
+        <li><span class="check">+</span> Full API access</li>
+        <li><span class="check">+</span> OpenClaw plugin included</li>
       </ul>
-      <a class="btn btn-primary" href="#signup">Download</a>
+      <a class="btn btn-primary" href="https://github.com/leassh/leassh/releases">Download</a>
     </div>
-    <div class="pricing-card">
-      <div class="pricing-name">Cloud Vision</div>
-      <div class="pricing-price">$24<span>/mo</span></div>
-      <div class="pricing-desc">Self-hosted server, cloud AI analysis.</div>
-      <ul class="pricing-features">
-        <li><span class="check">+</span> Screen time tracking</li>
-        <li><span class="check">+</span> Time limits &amp; enforcement</li>
-        <li><span class="check">+</span> Cloud AI (no GPU needed)</li>
-        <li><span class="check">+</span> Dashboard on your server</li>
-        <li><span class="check">+</span> Unlimited computers</li>
-        <li><span class="check">+</span> Analyzed &amp; immediately deleted</li>
-      </ul>
-      <a class="btn btn-primary" href="#signup">Start Trial</a>
+  </div>
+</section>
+
+<section class="faq reveal" id="faq">
+  <div class="faq-header">
+    <h2>Frequently asked questions</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <input type="checkbox" id="faq-1" class="faq-toggle">
+      <label for="faq-1" class="faq-q">What does the agent actually do?</label>
+      <div class="faq-a">
+        <p>It's a tiny background service that monitors screen activity and reports to your dashboard. It uses about 30MB of memory and is invisible to the user.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <input type="checkbox" id="faq-2" class="faq-toggle">
+      <label for="faq-2" class="faq-q">Can my child disable or uninstall the agent?</label>
+      <div class="faq-a">
+        <p>The agent runs as a system service requiring administrator access to modify. A normal user account cannot stop or uninstall it.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <input type="checkbox" id="faq-3" class="faq-toggle">
+      <label for="faq-3" class="faq-q">What data is collected?</label>
+      <div class="faq-a">
+        <p>Periodic screenshots (analyzed and deleted), CPU/memory/disk usage, running applications, and keyboard/mouse idle time. No keystrokes, no browsing history, no file contents.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <input type="checkbox" id="faq-4" class="faq-toggle">
+      <label for="faq-4" class="faq-q">Is this legal?</label>
+      <div class="faq-a">
+        <p>Yes. Parents have the legal right to monitor their minor children's computer activity. Leassh should not be used to monitor adults without their knowledge and consent.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <input type="checkbox" id="faq-5" class="faq-toggle">
+      <label for="faq-5" class="faq-q">What AI model is used?</label>
+      <div class="faq-a">
+        <p>In local mode, Leassh works with open-source vision models like Qwen3-VL that run on your own hardware. In cloud mode, we run the analysis on our infrastructure and delete screenshots immediately after processing.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -961,16 +1241,16 @@
 <section class="cta reveal" id="signup">
   <h2>Ready to take control?</h2>
   <p>Screen time limits. Activity reports. Content safety. Set up in three minutes.</p>
-  <a class="btn btn-primary" href="#signup">Start Free Trial</a>
+  <a class="btn btn-primary" href="mailto:hello@leassh.com?subject=Leassh%20Early%20Access">Join Early Access</a>
 </section>
 
 <footer>
   <div class="footer-inner">
     <div class="footer-tagline">leassh &mdash; Screen time, content safety, and fleet monitoring for families and power users.</div>
     <ul class="footer-links">
-      <li><a href="#privacy-policy">Privacy Policy</a></li>
-      <li><a href="#terms">Terms</a></li>
-      <li><a href="https://github.com/cgoberg/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="#privacy">Privacy Policy</a></li>
+      <li><a href="mailto:hello@leassh.com?subject=Terms%20of%20Service">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
       <li><a href="mailto:hello@leassh.com">Contact</a></li>
     </ul>
   </div>
@@ -984,6 +1264,13 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.15 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Close mobile nav when a link is clicked
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('nav-toggle').checked = false;
+  });
+});
 </script>
 </body>
 </html>
