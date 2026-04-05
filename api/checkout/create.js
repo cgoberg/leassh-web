@@ -9,43 +9,82 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { tier } = req.body;
+    const { tier, billing } = req.body;
 
     const prices = {
-      cloud: {
+      essential_monthly: {
         mode: 'subscription',
         price_data: {
           currency: 'usd',
-          product_data: {
-            name: 'Leassh Cloud',
-            description: 'Screen time, limits, AI analysis — up to 10 computers',
-          },
-          unit_amount: 1900,
+          product_data: { name: 'Leassh Essential' },
+          unit_amount: 799,
           recurring: { interval: 'month' },
         },
       },
-      local: {
-        mode: 'payment',
+      essential_annual: {
+        mode: 'subscription',
         price_data: {
           currency: 'usd',
-          product_data: {
-            name: 'Leassh Local',
-            description: 'Self-hosted, unlimited computers, full privacy',
-          },
-          unit_amount: 7900,
+          product_data: { name: 'Leassh Essential (Annual)' },
+          unit_amount: 5988,
+          recurring: { interval: 'year' },
+        },
+      },
+      family_monthly: {
+        mode: 'subscription',
+        price_data: {
+          currency: 'usd',
+          product_data: { name: 'Leassh Family' },
+          unit_amount: 1499,
+          recurring: { interval: 'month' },
+        },
+      },
+      family_annual: {
+        mode: 'subscription',
+        price_data: {
+          currency: 'usd',
+          product_data: { name: 'Leassh Family (Annual)' },
+          unit_amount: 11988,
+          recurring: { interval: 'year' },
+        },
+      },
+      pro_monthly: {
+        mode: 'subscription',
+        price_data: {
+          currency: 'usd',
+          product_data: { name: 'Leassh Pro' },
+          unit_amount: 2999,
+          recurring: { interval: 'month' },
+        },
+      },
+      pro_annual: {
+        mode: 'subscription',
+        price_data: {
+          currency: 'usd',
+          product_data: { name: 'Leassh Pro (Annual)' },
+          unit_amount: 23988,
+          recurring: { interval: 'year' },
         },
       },
     };
 
-    const config = prices[tier];
-    if (!config) return res.status(400).json({ error: 'Invalid tier' });
+    const key = `${tier}_${billing}`;
+    const config = prices[key];
+    if (!config) return res.status(400).json({ error: 'Invalid tier or billing period' });
 
-    const session = await stripe.checkout.sessions.create({
+    const sessionParams = {
       mode: config.mode,
       line_items: [{ price_data: config.price_data, quantity: 1 }],
       success_url: 'https://leassh.com/success?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: 'https://leassh.com/#pricing',
-    });
+    };
+
+    // Add trial for Family and Pro tiers
+    if (tier === 'family' || tier === 'pro') {
+      sessionParams.subscription_data = { trial_period_days: 14 };
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
     res.json({ url: session.url });
   } catch (err) {

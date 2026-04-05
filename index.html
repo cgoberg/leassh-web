@@ -645,7 +645,8 @@
   }
 
   .pricing-header {
-    margin-bottom: 56px;
+    margin-bottom: 40px;
+    text-align: center;
   }
 
   .pricing-header h2 {
@@ -660,22 +661,99 @@
     color: var(--text-mid);
     font-size: 17px;
     max-width: 520px;
+    margin: 0 auto;
   }
 
+  /* Billing toggle */
+  .billing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .toggle-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 0.3s;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .toggle-label.active {
+    color: var(--text);
+  }
+
+  .save-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    background: var(--green-bg);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+  }
+
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--amber);
+    border-radius: 26px;
+    transition: background 0.3s;
+  }
+
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: var(--bg);
+    border-radius: 50%;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(22px);
+  }
+
+  /* Pricing grid */
   .pricing-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 2px;
-    max-width: 760px;
+    max-width: 980px;
     margin: 0 auto;
+    align-items: stretch;
   }
 
   .pricing-card {
     background: var(--bg-raised);
-    padding: 40px 32px;
+    padding: 40px 28px;
     display: flex;
     flex-direction: column;
     transition: background 0.3s;
+    border-radius: 0;
   }
 
   .pricing-card:hover { background: var(--bg-warm); }
@@ -689,7 +767,8 @@
     border-radius: 12px;
     position: relative;
     z-index: 1;
-    box-shadow: 0 8px 40px rgba(212, 162, 76, 0.1);
+    box-shadow: 0 8px 40px rgba(212, 162, 76, 0.12);
+    transform: scale(1.03);
   }
 
   .pricing-badge {
@@ -719,7 +798,8 @@
     font-size: 36px;
     font-weight: 800;
     letter-spacing: -1px;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
+    transition: opacity 0.25s ease;
   }
 
   .pricing-price span {
@@ -729,23 +809,40 @@
     letter-spacing: 0;
   }
 
+  .pricing-price del {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-dim);
+    letter-spacing: 0;
+    text-decoration: line-through;
+    margin-right: 6px;
+  }
+
+  .pricing-billed {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+    min-height: 20px;
+    transition: opacity 0.25s ease;
+  }
+
   .pricing-desc {
     font-size: 14px;
     color: var(--text-dim);
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     line-height: 1.6;
   }
 
   .pricing-features {
     list-style: none;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     flex: 1;
   }
 
   .pricing-features li {
     font-size: 14px;
     color: var(--text-mid);
-    padding: 8px 0;
+    padding: 7px 0;
     border-bottom: 1px solid rgba(48, 43, 35, 0.4);
     display: flex;
     align-items: baseline;
@@ -765,6 +862,101 @@
     width: 100%;
     justify-content: center;
     margin-top: auto;
+  }
+
+  .founder-note {
+    font-size: 12px;
+    color: var(--amber-soft);
+    text-align: center;
+    margin-top: 12px;
+    letter-spacing: 0.2px;
+  }
+
+  /* Feature comparison table */
+  .feature-comparison {
+    max-width: 980px;
+    margin: 48px auto 0;
+  }
+
+  .comparison-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 24px;
+    color: var(--text-mid);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    margin: 0 auto;
+    font-family: var(--font-b);
+  }
+
+  .comparison-toggle:hover {
+    color: var(--amber);
+    border-color: var(--amber);
+  }
+
+  .comparison-toggle .arrow {
+    transition: transform 0.3s var(--ease);
+    display: inline-block;
+  }
+
+  .comparison-toggle.open .arrow {
+    transform: rotate(180deg);
+  }
+
+  .comparison-table {
+    display: none;
+    margin-top: 24px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .comparison-table.visible {
+    display: block;
+  }
+
+  .comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .comparison-table th {
+    background: var(--bg-raised);
+    color: var(--text);
+    font-family: var(--font-d);
+    font-weight: 700;
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .comparison-table th:not(:first-child) {
+    text-align: center;
+    width: 20%;
+  }
+
+  .comparison-table td {
+    padding: 10px 16px;
+    color: var(--text-mid);
+    border-bottom: 1px solid rgba(48, 43, 35, 0.3);
+  }
+
+  .comparison-table td:not(:first-child) {
+    text-align: center;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  .comparison-table tr:last-child td {
+    border-bottom: none;
   }
 
   /* --- FAQ --- */
@@ -931,6 +1123,9 @@
     .pricing-grid { grid-template-columns: 1fr; gap: 16px; }
     .pricing-card:first-child { border-radius: 12px; }
     .pricing-card:last-child { border-radius: 12px; }
+    .pricing-card.featured { transform: none; }
+    .comparison-table th:not(:first-child),
+    .comparison-table td:not(:first-child) { width: auto; padding: 10px 8px; font-size: 13px; }
     .feature-grid-hero { grid-template-columns: 1fr; }
     .feature-grid-hero .feature:first-child { border-radius: 12px 12px 0 0; }
     .feature-grid-hero .feature:last-child { border-radius: 0; }
@@ -1087,6 +1282,7 @@
     margin-top: 8px;
     line-height: 1.6;
     font-style: italic;
+    display: none;
   }
 
   @media (max-width: 800px) {
@@ -1128,6 +1324,7 @@
     .footer-inner { flex-direction: column; align-items: center; text-align: center; }
     .pricing-card:first-child,
     .pricing-card:last-child { border-radius: 12px; }
+    .pricing-card.featured { transform: none; }
     .trust-items { gap: 8px; }
     .trust-item { padding: 20px 8px; }
     .openclaw-box { padding: 24px; }
@@ -1460,39 +1657,116 @@
 <section class="pricing reveal" id="pricing">
   <div class="pricing-header">
     <h2>Simple, honest pricing</h2>
-    <p>Choose the plan that fits how you want to run things. Every plan includes a 14-day free trial.</p>
+    <p>Choose the plan that fits how you want to run things.</p>
   </div>
+
+  <div class="billing-toggle">
+    <span class="toggle-label active" id="toggle-annual">Annual <span class="save-badge">Save 33%</span></span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="billing-toggle">
+      <span class="toggle-slider"></span>
+    </label>
+    <span class="toggle-label" id="toggle-monthly">Monthly</span>
+  </div>
+
   <div class="pricing-grid">
+
+    <!-- Essential -->
     <div class="pricing-card">
-      <div class="pricing-name">Cloud</div>
-      <div class="pricing-price">$19<span>/mo</span></div>
-      <div class="pricing-desc">Zero setup. We handle everything.</div>
-      <div class="pricing-audience">Ideal for families. No infrastructure needed.</div>
+      <div class="pricing-name">Essential</div>
+      <div class="pricing-price" data-annual="4.99" data-monthly="7.99">
+        <del class="monthly-crossed" style="display:inline">$7.99</del> $<span class="price-value">4.99</span><span>/mo</span>
+      </div>
+      <div class="pricing-billed" data-annual-text="billed annually at $59.88" data-monthly-text="">billed annually at $59.88</div>
+      <div class="pricing-desc">Basic monitoring for budget-conscious families</div>
       <ul class="pricing-features">
-        <li><span class="check">+</span> Screen time + limits + enforcement</li>
-        <li><span class="check">+</span> AI screenshot analysis</li>
-        <li><span class="check">+</span> Dashboard at app.leassh.com</li>
-        <li><span class="check">+</span> Up to 10 computers</li>
-        <li><span class="check">+</span> Telegram alerts</li>
-        <li><span class="check">+</span> 14-day free trial</li>
+        <li><span class="check">+</span> 3 computers</li>
+        <li><span class="check">+</span> Process-based tracking</li>
+        <li><span class="check">+</span> Daily summaries</li>
+        <li><span class="check">+</span> Per-category limits</li>
       </ul>
-      <button class="btn btn-primary" onclick="startCheckout('cloud')">Get Started</button>
+      <button class="btn btn-primary" onclick="startCheckout('essential')">Get Started</button>
     </div>
+
+    <!-- Family (Recommended) -->
     <div class="pricing-card featured">
-      <div class="pricing-badge">Full Privacy</div>
-      <div class="pricing-name">Local</div>
-      <div class="pricing-price">$79<span> one-time</span></div>
-      <div class="pricing-desc">Self-hosted. Data never leaves home.</div>
-      <div class="pricing-audience">Ideal for homelabbers and self-hosters. Full API access, OpenClaw plugin included, YAML configuration, Docker support.</div>
+      <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-name">Family</div>
+      <div class="pricing-price" data-annual="9.99" data-monthly="14.99">
+        <del class="monthly-crossed" style="display:inline">$14.99</del> $<span class="price-value">9.99</span><span>/mo</span>
+      </div>
+      <div class="pricing-billed" data-annual-text="billed annually at $119.88" data-monthly-text="">billed annually at $119.88</div>
+      <div class="pricing-desc">AI-powered insights for involved parents</div>
       <ul class="pricing-features">
-        <li><span class="check">+</span> Everything in Cloud</li>
-        <li><span class="check">+</span> Self-hosted, unlimited computers</li>
-        <li><span class="check">+</span> Your own AI (your GPU)</li>
-        <li><span class="check">+</span> Data never leaves your network</li>
-        <li><span class="check">+</span> Full API access</li>
-        <li><span class="check">+</span> OpenClaw plugin included</li>
+        <li><span class="check">+</span> 10 computers</li>
+        <li><span class="check">+</span> AI screenshot analysis</li>
+        <li><span class="check">+</span> Daily + weekly behavioral reports</li>
+        <li><span class="check">+</span> Time limits + enforcement</li>
+        <li><span class="check">+</span> Content safety alerts</li>
+        <li><span class="check">+</span> Telegram notifications</li>
       </ul>
-      <button class="btn btn-primary" onclick="startCheckout('local')">Buy Now</button>
+      <button class="btn btn-primary" onclick="startCheckout('family')">Start 14-Day Free Trial</button>
+      <div class="founder-note">&#128274; Founder's price: limited spots</div>
+    </div>
+
+    <!-- Pro -->
+    <div class="pricing-card">
+      <div class="pricing-name">Pro</div>
+      <div class="pricing-price" data-annual="19.99" data-monthly="29.99">
+        <del class="monthly-crossed" style="display:inline">$29.99</del> $<span class="price-value">19.99</span><span>/mo</span>
+      </div>
+      <div class="pricing-billed" data-annual-text="billed annually at $239.88" data-monthly-text="">billed annually at $239.88</div>
+      <div class="pricing-desc">Full fleet control for power users</div>
+      <ul class="pricing-features">
+        <li><span class="check">+</span> Unlimited computers</li>
+        <li><span class="check">+</span> Everything in Family</li>
+        <li><span class="check">+</span> Rules engine + YAML config</li>
+        <li><span class="check">+</span> Webhooks + MQTT + SSH actuation</li>
+        <li><span class="check">+</span> Fleet dashboard with SSH control</li>
+        <li><span class="check">+</span> OpenClaw plugin included</li>
+        <li><span class="check">+</span> Self-hosting (Docker + binary)</li>
+        <li><span class="check">+</span> Full REST API</li>
+      </ul>
+      <button class="btn btn-primary" onclick="startCheckout('pro')">Start 14-Day Free Trial</button>
+    </div>
+
+  </div>
+
+  <!-- Feature comparison table -->
+  <div class="feature-comparison">
+    <button class="comparison-toggle" onclick="toggleComparison(this)">
+      Compare all features <span class="arrow">&#9660;</span>
+    </button>
+    <div class="comparison-table" id="comparison-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Essential</th>
+            <th>Family</th>
+            <th>Pro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Computers</td><td>3</td><td>10</td><td>Unlimited</td></tr>
+          <tr><td>Process tracking</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Daily summaries</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Per-category limits</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>AI screenshot analysis</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Weekly behavioral reports</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Time limits + enforcement</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Content safety alerts</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Telegram notifications</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Rules engine + YAML</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Webhooks + MQTT</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>SSH actuation</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Fleet dashboard</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>OpenClaw plugin</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Self-hosting</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Full REST API</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>14-day free trial</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -1598,12 +1872,60 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   });
 });
 
+// Billing toggle
+(function() {
+  var toggle = document.getElementById('billing-toggle');
+  var labelAnnual = document.getElementById('toggle-annual');
+  var labelMonthly = document.getElementById('toggle-monthly');
+
+  function updatePrices() {
+    var isMonthly = toggle.checked;
+    labelAnnual.classList.toggle('active', !isMonthly);
+    labelMonthly.classList.toggle('active', isMonthly);
+
+    document.querySelectorAll('.pricing-price[data-annual]').forEach(function(el) {
+      var priceVal = el.querySelector('.price-value');
+      var crossed = el.querySelector('.monthly-crossed');
+      if (isMonthly) {
+        priceVal.textContent = el.getAttribute('data-monthly');
+        if (crossed) crossed.style.display = 'none';
+      } else {
+        priceVal.textContent = el.getAttribute('data-annual');
+        if (crossed) crossed.style.display = 'inline';
+      }
+      el.style.opacity = '0.6';
+      setTimeout(function() { el.style.opacity = '1'; }, 50);
+    });
+
+    document.querySelectorAll('.pricing-billed').forEach(function(el) {
+      if (isMonthly) {
+        el.textContent = el.getAttribute('data-monthly-text');
+      } else {
+        el.textContent = el.getAttribute('data-annual-text');
+      }
+      el.style.opacity = '0.6';
+      setTimeout(function() { el.style.opacity = '1'; }, 50);
+    });
+  }
+
+  toggle.addEventListener('change', updatePrices);
+})();
+
+// Feature comparison toggle
+function toggleComparison(btn) {
+  var table = document.getElementById('comparison-table');
+  btn.classList.toggle('open');
+  table.classList.toggle('visible');
+}
+
 // Stripe checkout
 function startCheckout(tier) {
+  var isAnnual = !document.getElementById('billing-toggle').checked;
+  var billing = isAnnual ? 'annual' : 'monthly';
   fetch('/api/checkout/create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tier: tier }),
+    body: JSON.stringify({ tier: tier, billing: billing }),
   })
     .then(function (r) { return r.json(); })
     .then(function (d) {
