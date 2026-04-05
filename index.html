@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>leassh — Keep your machines on a leash</title>
-<meta name="description" content="SSH-based fleet monitoring, screen time tracking, and child safety. Monitor GPUs, manage processes, protect your family — all through SSH. 100% local, 100% private.">
+<title>leassh — Keep your family's screens on a leash</title>
+<meta name="description" content="Screen time tracking, AI-powered content safety, and time limit enforcement for families. Install a tiny agent, see everything from your dashboard. Run 100% locally or use our cloud — your choice.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ─── Atmosphere ─── */
+  /* --- Atmosphere --- */
   .atmo {
     position: fixed;
     inset: 0;
@@ -56,7 +56,7 @@
 
   .wrap { position: relative; z-index: 1; }
 
-  /* ─── Nav ─── */
+  /* --- Nav --- */
   nav {
     display: flex;
     align-items: center;
@@ -105,7 +105,7 @@
     box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
   }
 
-  /* ─── Hero ─── */
+  /* --- Hero --- */
   .hero {
     max-width: var(--max);
     margin: 0 auto;
@@ -186,7 +186,7 @@
     color: var(--text);
   }
 
-  /* ─── Dashboard preview ─── */
+  /* --- Dashboard preview --- */
   .preview {
     max-width: var(--max);
     margin: 0 auto 120px;
@@ -266,7 +266,7 @@
   .sim-name {
     font-weight: 600;
     font-size: 14px;
-    width: 120px;
+    min-width: 120px;
   }
 
   .sim-tag {
@@ -278,9 +278,10 @@
     border-radius: 3px;
   }
 
-  .sim-tag.idle { background: rgba(91,155,212,0.12); color: #5b9bd4; }
-  .sim-tag.active { background: rgba(106,191,105,0.12); color: var(--green); }
-  .sim-tag.offline { background: rgba(212,91,76,0.1); color: var(--red); }
+  .sim-tag.gaming { background: rgba(212, 91, 76, 0.12); color: var(--red); }
+  .sim-tag.homework { background: rgba(106, 191, 105, 0.12); color: var(--green); }
+  .sim-tag.youtube { background: rgba(212, 162, 76, 0.12); color: var(--amber); }
+  .sim-tag.offline { background: rgba(122, 111, 94, 0.15); color: var(--text-dim); }
 
   .sim-bar-track {
     flex: 1;
@@ -296,20 +297,20 @@
     transition: width 1.5s var(--ease);
   }
 
-  .sim-bar-fill.low { background: #3a5a39; width: 12%; }
-  .sim-bar-fill.med { background: var(--amber-soft); width: 45%; }
+  .sim-bar-fill.low { background: #3a5a39; width: 25%; }
+  .sim-bar-fill.med { background: var(--amber-soft); width: 55%; }
   .sim-bar-fill.high { background: var(--red); width: 87%; }
   .sim-bar-fill.off { width: 0%; }
 
   .sim-metrics {
     font-size: 12px;
     color: var(--text-dim);
-    width: 140px;
+    min-width: 140px;
     text-align: right;
     font-variant-numeric: tabular-nums;
   }
 
-  /* ─── Features ─── */
+  /* --- Features --- */
   .features {
     max-width: var(--max);
     margin: 0 auto;
@@ -383,7 +384,7 @@
     line-height: 1.7;
   }
 
-  /* ─── How it works ─── */
+  /* --- How it works --- */
   .how {
     max-width: var(--max);
     margin: 0 auto;
@@ -445,7 +446,23 @@
     font-family: 'SF Mono', 'Fira Code', monospace;
   }
 
-  /* ─── Privacy section ─── */
+  .self-host-note {
+    margin-top: 32px;
+    padding: 24px 28px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  .self-host-note strong {
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  /* --- Privacy section --- */
   .privacy {
     max-width: var(--max);
     margin: 0 auto;
@@ -463,7 +480,7 @@
     font-family: var(--font-d);
     font-size: 28px;
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     color: var(--green);
   }
 
@@ -474,9 +491,178 @@
     line-height: 1.8;
   }
 
+  .privacy-box p + p {
+    margin-top: 16px;
+  }
+
   .privacy-box strong { color: var(--text); }
 
-  /* ─── CTA ─── */
+  .privacy-modes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 28px;
+  }
+
+  @media (max-width: 640px) {
+    .privacy-modes { grid-template-columns: 1fr; }
+  }
+
+  .privacy-mode {
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(106, 191, 105, 0.1);
+  }
+
+  .privacy-mode h3 {
+    font-family: var(--font-d);
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .privacy-mode p {
+    font-size: 14px;
+    max-width: none;
+  }
+
+  /* --- Pricing --- */
+  .pricing {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 120px;
+  }
+
+  .pricing-header {
+    margin-bottom: 56px;
+  }
+
+  .pricing-header h2 {
+    font-family: var(--font-d);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  .pricing-header p {
+    color: var(--text-mid);
+    font-size: 17px;
+    max-width: 520px;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  @media (max-width: 800px) {
+    .pricing-grid { grid-template-columns: 1fr; gap: 16px; }
+    .pricing-card:first-child { border-radius: 12px; }
+    .pricing-card:last-child { border-radius: 12px; }
+  }
+
+  .pricing-card {
+    background: var(--bg-raised);
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s;
+  }
+
+  .pricing-card:hover { background: var(--bg-warm); }
+
+  .pricing-card:first-child { border-radius: 12px 0 0 12px; }
+  .pricing-card:last-child { border-radius: 0 12px 12px 0; }
+
+  .pricing-card.featured {
+    background: var(--bg-warm);
+    border: 1px solid var(--amber);
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 40px rgba(212, 162, 76, 0.1);
+  }
+
+  .pricing-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--amber);
+    background: var(--amber-bg);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    align-self: flex-start;
+  }
+
+  .pricing-name {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .pricing-price {
+    font-family: var(--font-d);
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+  }
+
+  .pricing-price span {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-mid);
+    letter-spacing: 0;
+  }
+
+  .pricing-desc {
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .pricing-features {
+    list-style: none;
+    margin-bottom: 32px;
+    flex: 1;
+  }
+
+  .pricing-features li {
+    font-size: 14px;
+    color: var(--text-mid);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(48, 43, 35, 0.4);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .pricing-features li:last-child { border-bottom: none; }
+
+  .pricing-features .check {
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 13px;
+  }
+
+  .pricing-card .btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: auto;
+  }
+
+  /* --- CTA --- */
   .cta {
     max-width: var(--max);
     margin: 0 auto;
@@ -498,16 +684,45 @@
     margin-bottom: 36px;
   }
 
-  /* ─── Footer ─── */
+  /* --- Footer --- */
   footer {
     border-top: 1px solid var(--border);
-    padding: 32px;
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-dim);
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 40px 32px;
   }
 
-  /* ─── Viewport animations ─── */
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    color: var(--text-dim);
+    max-width: 400px;
+    line-height: 1.7;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-mid); }
+
+  /* --- Viewport animations --- */
   .reveal {
     opacity: 0;
     transform: translateY(24px);
@@ -523,10 +738,13 @@
     nav { padding: 16px; }
     .nav-links { gap: 16px; }
     .hero { padding: 60px 16px 60px; }
-    .preview, .features, .how, .privacy, .cta { padding-left: 16px; padding-right: 16px; }
+    .preview, .features, .how, .privacy, .pricing, .cta { padding-left: 16px; padding-right: 16px; }
     .privacy-box { padding: 32px 24px; }
     .step { grid-template-columns: 40px 1fr; gap: 16px; }
     .sim-metrics { display: none; }
+    .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+    .pricing-card:first-child,
+    .pricing-card:last-child { border-radius: 12px; }
   }
 </style>
 </head>
@@ -538,23 +756,23 @@
   <a class="nav-brand" href="#">leassh</a>
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
-    <li><a href="#how">Setup</a></li>
+    <li><a href="#pricing">Pricing</a></li>
     <li><a href="#privacy">Privacy</a></li>
-    <li><a href="#get" class="nav-cta">Get Leassh</a></li>
+    <li><a href="#signup" class="nav-cta">Start Free Trial</a></li>
   </ul>
 </nav>
 
 <section class="hero">
-  <div class="hero-eyebrow">100% local &middot; 100% private</div>
-  <h1>Keep your machines <em>on a leash</em></h1>
+  <div class="hero-eyebrow">Family Safety &middot; Fleet Monitoring &middot; 100% Your Choice</div>
+  <h1>Keep your family's screens <em>on a leash</em></h1>
   <p class="hero-sub">
-    Monitor your family's computers through SSH. Screen time tracking, activity reports,
-    time limits, and AI-powered content safety — without installing anything on their
-    machines. No data leaves your network. Ever.
+    Install a tiny agent on your children's computers. See screen time breakdowns,
+    set daily limits, and get AI-powered activity reports — all from one dashboard.
+    Run everything locally for total privacy, or let our cloud handle it.
   </p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="#get">Get Started</a>
-    <a class="btn btn-ghost" href="#how">How it works</a>
+    <a class="btn btn-primary" href="#signup">Start Free Trial</a>
+    <a class="btn btn-ghost" href="#self-host">Self-Host</a>
   </div>
 </section>
 
@@ -564,36 +782,36 @@
       <div class="preview-dot"></div>
       <div class="preview-dot"></div>
       <div class="preview-dot"></div>
-      <span class="preview-url">127.0.0.1:18789/fleet</span>
+      <span class="preview-url">app.leassh.com</span>
     </div>
     <div class="preview-body">
       <div class="sim-node">
         <div class="sim-dot green"></div>
-        <div class="sim-name">gpu-primary</div>
-        <span class="sim-tag idle">idle</span>
+        <div class="sim-name">Emma's PC</div>
+        <span class="sim-tag homework">homework</span>
         <div class="sim-bar-track"><div class="sim-bar-fill low"></div></div>
-        <div class="sim-metrics">GPU 12% &middot; 418GB free</div>
-      </div>
-      <div class="sim-node">
-        <div class="sim-dot amber"></div>
-        <div class="sim-name">ronaldo</div>
-        <span class="sim-tag active">active</span>
-        <div class="sim-bar-track"><div class="sim-bar-fill high"></div></div>
-        <div class="sim-metrics">GPU 94% &middot; FortniteClient</div>
+        <div class="sim-metrics">1h 12min today &middot; Google Docs</div>
       </div>
       <div class="sim-node">
         <div class="sim-dot red"></div>
-        <div class="sim-name">gpu-tertiary</div>
-        <span class="sim-tag offline">offline</span>
-        <div class="sim-bar-track"><div class="sim-bar-fill off"></div></div>
-        <div class="sim-metrics">last seen 2h ago</div>
+        <div class="sim-name">Oscar's Laptop</div>
+        <span class="sim-tag gaming">gaming</span>
+        <div class="sim-bar-track"><div class="sim-bar-fill high"></div></div>
+        <div class="sim-metrics">3h 47min today &middot; limit reached</div>
+      </div>
+      <div class="sim-node">
+        <div class="sim-dot amber"></div>
+        <div class="sim-name">Living Room iMac</div>
+        <span class="sim-tag youtube">youtube</span>
+        <div class="sim-bar-track"><div class="sim-bar-fill med"></div></div>
+        <div class="sim-metrics">2h 05min today &middot; 55min left</div>
       </div>
       <div class="sim-node">
         <div class="sim-dot green"></div>
-        <div class="sim-name">macbook</div>
-        <span class="sim-tag idle">idle</span>
-        <div class="sim-bar-track"><div class="sim-bar-fill low"></div></div>
-        <div class="sim-metrics">CPU 3% &middot; 62GB free</div>
+        <div class="sim-name">Dad's Workstation</div>
+        <span class="sim-tag offline">idle</span>
+        <div class="sim-bar-track"><div class="sim-bar-fill off"></div></div>
+        <div class="sim-metrics">no limits set</div>
       </div>
     </div>
   </div>
@@ -601,92 +819,161 @@
 
 <section class="features reveal" id="features">
   <div class="features-header">
-    <h2>Everything you need to know about your machines</h2>
-    <p>One plugin. Zero install on targets. If SSH works, Leassh works.</p>
+    <h2>Everything you need to keep your family safe</h2>
+    <p>Install the agent, open the dashboard. Screen time, limits, and safety in minutes.</p>
   </div>
   <div class="feature-grid">
     <div class="feature">
       <div class="feature-label">Screen Time</div>
       <h3>Know what they're doing</h3>
-      <p>Automatic activity tracking via periodic screenshots analyzed by a local AI. See daily breakdowns: Gaming 2h, YouTube 3h, Homework 45min. Stacked time bars, category trends, weekly reports.</p>
+      <p>AI-powered screenshot analysis classifies activity automatically. See daily breakdowns: Gaming 2h, YouTube 3h, Homework 45min. Stacked time bars, category trends, and weekly reports sent to your inbox.</p>
     </div>
     <div class="feature">
-      <div class="feature-label">Limits</div>
+      <div class="feature-label">Time Limits</div>
       <h3>Boundaries that enforce themselves</h3>
-      <p>Set daily time limits per category — 2h gaming, 3h YouTube. Leassh warns when limits approach and can automatically close games when time is up. Configurable from warn to block.</p>
+      <p>Set daily time limits per category. 2h gaming, 3h YouTube — whatever works for your family. Leassh warns when limits approach and can automatically close apps when time is up.</p>
     </div>
     <div class="feature">
-      <div class="feature-label">Safety</div>
+      <div class="feature-label">Content Safety</div>
       <h3>AI-powered content awareness</h3>
-      <p>A local vision model analyzes screenshots for concerning content. Get immediate alerts, or a calm evening digest of the day's activity. Factual, not paranoid. You set the sensitivity.</p>
+      <p>A vision AI analyzes screenshots for concerning content and alerts you via Telegram. Get immediate notifications or a calm evening digest. Factual, not paranoid. You set the sensitivity.</p>
     </div>
     <div class="feature">
-      <div class="feature-label">Fleet</div>
-      <h3>Monitor all your machines</h3>
-      <p>CPU, GPU, RAM, disk, processes, idle time, logged-in users — probed via SSH every two minutes. Works on Windows, macOS, and Linux. Live dashboard updates in real time.</p>
+      <div class="feature-label">Privacy Choice</div>
+      <h3>Your data, your rules</h3>
+      <p>Run the vision AI on your own hardware — screenshots never leave your home network. Or use our cloud, where screenshots are analyzed and immediately deleted. Never stored, never sold. Your choice.</p>
     </div>
     <div class="feature">
-      <div class="feature-label">Automation</div>
-      <h3>Rules that act for you</h3>
-      <p>Define rules in YAML. When a shared machine goes idle, reclaim it for GPU workloads. Fire webhooks to Home Assistant or n8n. Publish to MQTT. Run commands directly via SSH.</p>
+      <div class="feature-label">Easy Setup</div>
+      <h3>Install the agent, enter a code, done</h3>
+      <p>Download the agent on each computer, enter your family code, and you're live. No SSH configuration, no network setup, no technical knowledge required. Works in under three minutes.</p>
     </div>
     <div class="feature">
-      <div class="feature-label">Notifications</div>
-      <h3>Stay informed, your way</h3>
-      <p>Telegram alerts, webhook notifications, or OpenClaw agent integration. Get notified when machines go offline, time limits are reached, or unusual activity is detected.</p>
+      <div class="feature-label">Works Everywhere</div>
+      <h3>Windows, macOS, Linux</h3>
+      <p>The Leassh agent runs on any computer your family uses. Windows desktops, MacBooks, Linux machines. One dashboard to manage them all, regardless of operating system.</p>
     </div>
   </div>
 </section>
 
 <section class="how reveal" id="how">
-  <h2>Three minutes to your first dashboard</h2>
+  <h2>Up and running in three minutes</h2>
   <div class="steps">
     <div class="step">
       <div class="step-num"></div>
       <div>
-        <h3>Enable SSH on your computers</h3>
-        <p>Windows 10/11, macOS, and Linux all have SSH built in — it just needs to be turned on. We provide step-by-step guides for each.</p>
+        <h3>Create your account</h3>
+        <p>Sign up at leassh.com and get your unique family code. This code links all your family's computers to your dashboard.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num"></div>
       <div>
-        <h3>Add your machines to Leassh</h3>
-        <p>Enter each computer's hostname and SSH user. Leassh tests the connection, auto-detects OS, GPU, and available tools. No software installed on the machines.</p>
+        <h3>Install the agent on each computer</h3>
+        <p>Download the tiny Leassh agent, run the installer, and enter your family code. That's it — no configuration files, no port forwarding, no terminal commands.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num"></div>
       <div>
-        <h3>Set limits and go</h3>
-        <p>Configure time limits per category, enable screen time tracking, and choose your notification channel. The family dashboard shows everything at <code>/family</code>.</p>
+        <h3>Open your dashboard</h3>
+        <p>Screen time tracking, time limits, and content alerts are live immediately. See everything at <code>app.leassh.com</code> or in the Leassh app.</p>
       </div>
     </div>
+  </div>
+  <div class="self-host-note" id="self-host">
+    <strong>Prefer self-hosting?</strong> Run your own Leassh server (Docker or binary) and point agents at your server's address instead of our cloud. Full control, full privacy — your dashboard lives at <code>your-server:8383/family</code>.
   </div>
 </section>
 
 <section class="privacy reveal" id="privacy">
   <div class="privacy-box">
-    <h2>Your data never leaves your home</h2>
+    <h2>Privacy you can actually verify</h2>
     <p>
-      Every other parental monitoring tool sends your child's screen data to their cloud servers.
-      Leassh is different. Screenshots are captured via SSH, analyzed by a vision AI running
-      <strong>on your own hardware</strong>, and summaries stay on your network.
-      <strong>No cloud service ever sees your child's screen.</strong>
-      No third-party database stores their browsing history. No company profits from your family's data.
-      Just your machines, your local AI, and your peace of mind.
+      Most parental monitoring tools send your child's screen data to their cloud servers, where it sits in a database you can't audit.
+      Leassh gives you a real choice.
     </p>
+    <div class="privacy-modes">
+      <div class="privacy-mode">
+        <h3>Local Mode</h3>
+        <p>Run a vision AI like Qwen on your own hardware. Screenshots are captured, analyzed, and summarized on your network. <strong>No data ever leaves your home.</strong> This is the gold standard of privacy.</p>
+      </div>
+      <div class="privacy-mode">
+        <h3>Cloud Mode</h3>
+        <p>Don't want to run infrastructure? Use our cloud. Screenshots are analyzed and <strong>immediately deleted</strong> — never stored in a database, never sold, never used for training. Just results, then gone.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="cta reveal" id="get">
+<section class="pricing reveal" id="pricing">
+  <div class="pricing-header">
+    <h2>Simple, honest pricing</h2>
+    <p>Choose the plan that fits how you want to run things. Every plan includes a 14-day free trial.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-name">Cloud</div>
+      <div class="pricing-price">$19<span>/mo</span></div>
+      <div class="pricing-desc">Zero setup. We handle everything.</div>
+      <ul class="pricing-features">
+        <li><span class="check">+</span> Screen time tracking</li>
+        <li><span class="check">+</span> Time limits &amp; enforcement</li>
+        <li><span class="check">+</span> AI screenshot analysis</li>
+        <li><span class="check">+</span> Dashboard at app.leassh.com</li>
+        <li><span class="check">+</span> Up to 10 computers</li>
+        <li><span class="check">+</span> Analyzed &amp; immediately deleted</li>
+      </ul>
+      <a class="btn btn-primary" href="#signup">Start Trial</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Full Privacy</div>
+      <div class="pricing-name">Local</div>
+      <div class="pricing-price">$79<span> one-time</span></div>
+      <div class="pricing-desc">Self-hosted. Data never leaves home.</div>
+      <ul class="pricing-features">
+        <li><span class="check">+</span> Screen time tracking</li>
+        <li><span class="check">+</span> Time limits &amp; enforcement</li>
+        <li><span class="check">+</span> Local AI analysis (your GPU)</li>
+        <li><span class="check">+</span> Dashboard on your server</li>
+        <li><span class="check">+</span> Unlimited computers</li>
+        <li><span class="check">+</span> Data never leaves your network</li>
+      </ul>
+      <a class="btn btn-primary" href="#signup">Download</a>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-name">Cloud Vision</div>
+      <div class="pricing-price">$24<span>/mo</span></div>
+      <div class="pricing-desc">Self-hosted server, cloud AI analysis.</div>
+      <ul class="pricing-features">
+        <li><span class="check">+</span> Screen time tracking</li>
+        <li><span class="check">+</span> Time limits &amp; enforcement</li>
+        <li><span class="check">+</span> Cloud AI (no GPU needed)</li>
+        <li><span class="check">+</span> Dashboard on your server</li>
+        <li><span class="check">+</span> Unlimited computers</li>
+        <li><span class="check">+</span> Analyzed &amp; immediately deleted</li>
+      </ul>
+      <a class="btn btn-primary" href="#signup">Start Trial</a>
+    </div>
+  </div>
+</section>
+
+<section class="cta reveal" id="signup">
   <h2>Ready to take control?</h2>
-  <p>Screen time limits. Activity reports. Content safety. No data in the cloud. Set up in three minutes.</p>
-  <a class="btn btn-primary" href="#">Get Leassh</a>
+  <p>Screen time limits. Activity reports. Content safety. Set up in three minutes.</p>
+  <a class="btn btn-primary" href="#signup">Start Free Trial</a>
 </section>
 
 <footer>
-  leassh &mdash; SSH-based fleet monitoring, screen time, and child safety. 100% local.
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; Screen time, content safety, and fleet monitoring for families and power users.</div>
+    <ul class="footer-links">
+      <li><a href="#privacy-policy">Privacy Policy</a></li>
+      <li><a href="#terms">Terms</a></li>
+      <li><a href="https://github.com/cgoberg/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="mailto:hello@leassh.com">Contact</a></li>
+    </ul>
+  </div>
 </footer>
 
 </div>
