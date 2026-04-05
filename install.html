@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Install Leassh Agent</title>
+<meta name="description" content="Download and install the Leassh agent on your child's computer. One command, three minutes, full protection.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --green-bg:   rgba(106, 191, 105, 0.08);
+    --red:        #d45b4c;
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --font-m: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 800px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-b);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .atmo {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* ─── Nav ─── */
+  nav {
+    display: flex;
+    align-items: center;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 24px 32px;
+  }
+
+  .nav-brand {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-back {
+    margin-left: auto;
+    color: var(--text-mid);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-back:hover { color: var(--text); }
+
+  /* ─── Header ─── */
+  .header {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 60px 32px 40px;
+  }
+
+  .header h1 {
+    font-family: var(--font-d);
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+
+  .header h1 em {
+    font-style: normal;
+    color: var(--amber);
+  }
+
+  .header p {
+    color: var(--text-mid);
+    font-size: 17px;
+    max-width: 560px;
+  }
+
+  /* ─── Token input ─── */
+  .token-section {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 40px;
+  }
+
+  .token-box {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+
+  .token-box label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--amber);
+    margin-bottom: 12px;
+  }
+
+  .token-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .token-input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: var(--font-m);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .token-input:focus {
+    border-color: var(--amber);
+  }
+
+  .token-input::placeholder { color: var(--text-dim); }
+
+  .token-hint {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  /* ─── Tabs ─── */
+  .tabs-section {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+  }
+
+  .tab-btn {
+    padding: 12px 24px;
+    font-family: var(--font-b);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dim);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .tab-btn:hover { color: var(--text-mid); }
+
+  .tab-btn.active {
+    color: var(--amber);
+    border-bottom-color: var(--amber);
+  }
+
+  .tab-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    vertical-align: -2px;
+  }
+
+  .tab-panel {
+    display: none;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 32px;
+  }
+
+  .tab-panel.active { display: block; }
+
+  .tab-panel h3 {
+    font-family: var(--font-d);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .tab-panel p {
+    color: var(--text-mid);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* ─── Command block ─── */
+  .cmd-block {
+    position: relative;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 48px 16px 16px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+
+  .cmd-block code {
+    font-family: var(--font-m);
+    font-size: 13px;
+    color: var(--amber);
+    white-space: pre-wrap;
+    word-break: break-all;
+    line-height: 1.6;
+  }
+
+  .cmd-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--bg-warm);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-dim);
+    font-size: 12px;
+    font-family: var(--font-b);
+    font-weight: 500;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .copy-btn:hover {
+    color: var(--text);
+    border-color: var(--text-dim);
+  }
+
+  .copy-btn.copied {
+    color: var(--green);
+    border-color: var(--green);
+  }
+
+  /* ─── Steps inside tab ─── */
+  .install-steps {
+    counter-reset: istep;
+    margin-top: 24px;
+  }
+
+  .install-step {
+    counter-increment: istep;
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .install-step::before {
+    content: counter(istep);
+    font-family: var(--font-d);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--border);
+    padding-top: 2px;
+  }
+
+  .install-step p {
+    margin-bottom: 0;
+  }
+
+  .install-step strong {
+    color: var(--text);
+  }
+
+  /* ─── Requirements note ─── */
+  .req-note {
+    background: var(--amber-bg);
+    border: 1px solid rgba(212, 162, 76, 0.15);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  .req-note strong { color: var(--amber); }
+
+  /* ─── Footer ─── */
+  footer {
+    max-width: var(--max);
+    margin: 0 auto;
+    border-top: 1px solid var(--border);
+    padding: 32px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 640px) {
+    nav, .header, .token-section, .tabs-section { padding-left: 16px; padding-right: 16px; }
+    .token-row { flex-direction: column; }
+    .tab-btn { padding: 10px 14px; font-size: 13px; }
+    .tab-panel { padding: 24px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <a class="nav-back" href="/">&larr; Back to home</a>
+</nav>
+
+<section class="header">
+  <h1>Install the <em>agent</em></h1>
+  <p>One command on your child's computer. Three minutes. Full monitoring with no visible app.</p>
+</section>
+
+<section class="token-section">
+  <div class="token-box">
+    <label>Family / Device Token</label>
+    <div class="token-row">
+      <input class="token-input" id="tokenInput" type="text" placeholder="e.g. fam_a3k9x2m7..." autocomplete="off" spellcheck="false">
+    </div>
+    <p class="token-hint">Find this in your Leassh dashboard under Devices &gt; Add Device. The install command below will update automatically.</p>
+  </div>
+</section>
+
+<section class="tabs-section">
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="windows">
+      <svg class="tab-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 2.3l6.5-.9v6.3H0V2.3zm7.3-1l8.7-1.2v7.6H7.3V1.3zM16 8.5v7.6l-8.7-1.2V8.5H16zM6.5 14.6L0 13.7V8.5h6.5v6.1z"/></svg>
+      Windows
+    </button>
+    <button class="tab-btn" data-tab="macos">
+      <svg class="tab-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M12.2 5.3c-.1-1.6 1.3-2.4 1.4-2.4-.8-1.1-2-1.3-2.4-1.3-1-.1-2 .6-2.5.6s-1.3-.6-2.2-.6C5.2 1.6 4 2.4 3.3 3.7 1.9 6.2 3 9.9 4.3 11.9c.7 1 1.5 2.1 2.5 2 1-.1 1.4-.6 2.6-.6s1.6.6 2.6.6 1.7-.9 2.4-1.9c.7-1.1 1-2.2 1-2.2-1-.4-2-1.7-2.2-4.5zM10.4 1c.5-.7.9-1.6.8-2.5-.8 0-1.7.5-2.3 1.2-.5.6-.9 1.5-.8 2.4.9.1 1.8-.4 2.3-1.1z"/></svg>
+      macOS
+    </button>
+    <button class="tab-btn" data-tab="linux">
+      <svg class="tab-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C5.2 0 4 3.2 4 5.6c0 1.2.3 2.1.5 3.1.2.8.4 1.5.4 2.3 0 .5-.1 1-.3 1.3-.3.5-.6.8-.6 1.3 0 .8.9 1.4 2.2 1.7-.1.2-.2.5-.2.7 0 .6.9 1 2 1s2-.4 2-1c0-.2-.1-.5-.2-.7 1.3-.3 2.2-.9 2.2-1.7 0-.5-.3-.8-.6-1.3-.2-.3-.3-.8-.3-1.3 0-.8.2-1.5.4-2.3.2-1 .5-1.9.5-3.1C12 3.2 10.8 0 8 0z"/></svg>
+      Linux
+    </button>
+  </div>
+
+  <!-- Windows panel -->
+  <div class="tab-panel active" id="tab-windows">
+    <h3>Install on Windows</h3>
+    <p>Open PowerShell as Administrator and paste the command below.</p>
+
+    <div class="cmd-block">
+      <span class="cmd-label">Quick install</span>
+      <code id="cmd-windows">powershell -ExecutionPolicy Bypass -Command "& { $env:LEASSH_TOKEN='<span class="token-placeholder">YOUR_TOKEN</span>'; iwr -useb https://leassh.com/install-windows.ps1 | iex }"</code>
+      <button class="copy-btn" data-target="cmd-windows">Copy</button>
+    </div>
+
+    <div class="install-steps">
+      <div class="install-step">
+        <p><strong>Open PowerShell as Administrator.</strong> Right-click the Start menu, choose "Windows Terminal (Admin)" or "PowerShell (Admin)".</p>
+      </div>
+      <div class="install-step">
+        <p><strong>Paste the command above</strong> and press Enter. The installer will download the agent, configure it with your family token, and register it as a Windows service.</p>
+      </div>
+      <div class="install-step">
+        <p><strong>Verify in your dashboard.</strong> The device will appear at <code>https://api.leassh.com/fleet</code> within a minute.</p>
+      </div>
+    </div>
+
+    <div class="req-note">
+      <strong>Requirements:</strong> Windows 10 or later. PowerShell 5.1+. Internet connection for the initial download. SSH does not need to be enabled on this machine &mdash; the agent communicates outbound to your Leassh server.
+    </div>
+  </div>
+
+  <!-- macOS panel -->
+  <div class="tab-panel" id="tab-macos">
+    <h3>Install on macOS</h3>
+    <p>Open Terminal and paste the command below.</p>
+
+    <div class="cmd-block">
+      <span class="cmd-label">Quick install</span>
+      <code id="cmd-macos">LEASSH_TOKEN='<span class="token-placeholder">YOUR_TOKEN</span>' curl -fsSL https://leassh.com/install.sh | sudo bash</code>
+      <button class="copy-btn" data-target="cmd-macos">Copy</button>
+    </div>
+
+    <div class="install-steps">
+      <div class="install-step">
+        <p><strong>Open Terminal.</strong> Press Cmd+Space, type "Terminal", press Enter.</p>
+      </div>
+      <div class="install-step">
+        <p><strong>Paste the command above</strong> and press Enter. You will be prompted for your Mac password (for sudo). The installer detects your architecture (Intel or Apple Silicon) automatically.</p>
+      </div>
+      <div class="install-step">
+        <p><strong>Verify in your dashboard.</strong> The device will appear at <code>https://api.leassh.com/fleet</code> within a minute.</p>
+      </div>
+    </div>
+
+    <div class="req-note">
+      <strong>Requirements:</strong> macOS 12 Monterey or later. curl (pre-installed). The agent installs as a launchd daemon and starts automatically on boot.
+    </div>
+  </div>
+
+  <!-- Linux panel -->
+  <div class="tab-panel" id="tab-linux">
+    <h3>Install on Linux</h3>
+    <p>Open a terminal and paste the command below.</p>
+
+    <div class="cmd-block">
+      <span class="cmd-label">Quick install</span>
+      <code id="cmd-linux">LEASSH_TOKEN='<span class="token-placeholder">YOUR_TOKEN</span>' curl -fsSL https://leassh.com/install.sh | sudo bash</code>
+      <button class="copy-btn" data-target="cmd-linux">Copy</button>
+    </div>
+
+    <div class="install-steps">
+      <div class="install-step">
+        <p><strong>Open a terminal.</strong> On Ubuntu/Debian: Ctrl+Alt+T. On other distros, use your terminal emulator of choice.</p>
+      </div>
+      <div class="install-step">
+        <p><strong>Paste the command above</strong> and press Enter. Enter your password when prompted. The installer detects your architecture (x64 or ARM64) and installs a systemd service.</p>
+      </div>
+      <div class="install-step">
+        <p><strong>Verify in your dashboard.</strong> The device will appear at <code>https://api.leassh.com/fleet</code> within a minute.</p>
+      </div>
+    </div>
+
+    <div class="req-note">
+      <strong>Requirements:</strong> A systemd-based Linux distribution (Ubuntu 20.04+, Debian 11+, Fedora 35+, etc.). curl or wget. The agent installs as a systemd service and starts automatically on boot.
+    </div>
+  </div>
+</section>
+
+<footer>
+  leassh &mdash; SSH-based fleet monitoring, screen time, and child safety. 100% local.
+</footer>
+
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Token input updates commands
+const tokenInput = document.getElementById('tokenInput');
+const placeholders = document.querySelectorAll('.token-placeholder');
+
+tokenInput.addEventListener('input', () => {
+  const val = tokenInput.value.trim() || 'YOUR_TOKEN';
+  placeholders.forEach(el => { el.textContent = val; });
+});
+
+// Copy to clipboard
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    const text = target.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  });
+});
+
+// Auto-detect OS and switch to correct tab
+(function() {
+  const ua = navigator.userAgent.toLowerCase();
+  let tab = 'windows';
+  if (ua.includes('mac')) tab = 'macos';
+  else if (ua.includes('linux')) tab = 'linux';
+
+  const btn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+  if (btn) btn.click();
+})();
+</script>
+</body>
+</html>

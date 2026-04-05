@@ -1,0 +1,7 @@
+{
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/api/license/:path*", "destination": "/api/license/validate" }
+  ]
+}
