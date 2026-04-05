@@ -6,11 +6,16 @@
     { "source": "/api/license/create", "destination": "/api/license/create" },
     { "source": "/api/checkout/create", "destination": "/api/checkout/create" },
     { "source": "/api/checkout/fulfill", "destination": "/api/checkout/fulfill" },
+    { "source": "/api/account/register", "destination": "/api/account/register" },
+    { "source": "/api/account/upgrade", "destination": "/api/account/upgrade" },
+    { "source": "/api/rendezvous/register", "destination": "/api/rendezvous/register" },
+    { "source": "/api/rendezvous/lookup", "destination": "/api/rendezvous/lookup" },
     { "source": "/success", "destination": "/success.html" },
     { "source": "/use-cases", "destination": "/use-cases.html" },
     { "source": "/privacy-policy", "destination": "/privacy-policy.html" },
     { "source": "/docs", "destination": "/docs.html" },
     { "source": "/install", "destination": "/install.html" },
-    { "source": "/fleet", "destination": "/fleet.html" }
+    { "source": "/fleet", "destination": "/fleet.html" },
+    { "source": "/setup", "destination": "/setup.html" }
   ]
 }

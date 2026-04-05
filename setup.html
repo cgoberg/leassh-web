@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leassh Setup — Create Your Account</title>
+<meta name="description" content="Set up your Leassh account, get your pairing code, and install agents on your machines.">
+<meta property="og:title" content="Leassh Setup — Get Started">
+<meta property="og:description" content="Create your Leassh account in seconds. Get a pairing code and connect your machines.">
+<meta property="og:url" content="https://leassh.com/setup">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://leassh.com/setup">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --green-bg:   rgba(106, 191, 105, 0.08);
+    --red:        #d45b4c;
+    --red-bg:     rgba(212, 91, 76, 0.06);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --font-m: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 720px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-b);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .atmo {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* --- Nav --- */
+  nav {
+    display: flex;
+    align-items: center;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 24px 32px;
+  }
+
+  .nav-brand {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-links {
+    margin-left: auto;
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--text-mid);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+
+  .nav-cta {
+    background: var(--amber);
+    color: var(--bg) !important;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s;
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
+  }
+
+  /* --- Mobile hamburger --- */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+    border-radius: 1px;
+  }
+
+  #nav-toggle { display: none; }
+
+  #nav-toggle:checked ~ .nav-links { display: flex; }
+  #nav-toggle:checked ~ .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  #nav-toggle:checked ~ .hamburger span:nth-child(2) { opacity: 0; }
+  #nav-toggle:checked ~ .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* --- Content --- */
+  .setup {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 60px 32px 120px;
+  }
+
+  .setup h1 {
+    font-family: var(--font-d);
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+
+  .setup h1 em {
+    font-style: normal;
+    color: var(--amber);
+  }
+
+  .setup-sub {
+    color: var(--text-mid);
+    font-size: 17px;
+    margin-bottom: 48px;
+    line-height: 1.6;
+  }
+
+  /* Steps */
+  .step {
+    margin-bottom: 48px;
+    opacity: 1;
+    transition: opacity 0.4s var(--ease);
+  }
+
+  .step.locked {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--amber-bg);
+    border: 1.5px solid var(--amber);
+    color: var(--amber);
+    font-weight: 700;
+    font-size: 14px;
+    font-family: var(--font-d);
+    margin-bottom: 12px;
+  }
+
+  .step-num.done {
+    background: var(--green-bg);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .step h2 {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .step p {
+    color: var(--text-mid);
+    font-size: 15px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  /* Form */
+  .form-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .form-row input[type="email"] {
+    flex: 1;
+    padding: 12px 16px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 15px;
+    font-family: var(--font-b);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-row input:focus {
+    border-color: var(--amber);
+  }
+
+  .form-row input::placeholder {
+    color: var(--text-dim);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-b);
+  }
+
+  .btn:hover { transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .btn-primary {
+    background: var(--amber);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover:not(:disabled) { box-shadow: 0 6px 30px rgba(212, 162, 76, 0.3); }
+
+  /* Pairing code display */
+  .code-display {
+    display: none;
+    margin-top: 24px;
+    padding: 24px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .code-display.visible { display: block; animation: fadeUp 0.5s var(--ease); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .code-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  .code-value {
+    font-family: var(--font-d);
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--amber);
+    letter-spacing: 8px;
+    margin-bottom: 4px;
+    user-select: all;
+  }
+
+  .code-hint {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  .api-key-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--bg-warm);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .api-key-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .api-key-value {
+    flex: 1;
+    font-family: var(--font-m);
+    font-size: 13px;
+    color: var(--text-mid);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    user-select: all;
+  }
+
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-mid);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-b);
+    white-space: nowrap;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  .copy-btn.copied {
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-b);
+    transition: all 0.2s;
+  }
+
+  .tab:hover { color: var(--text-mid); }
+
+  .tab.active {
+    color: var(--amber);
+    border-bottom-color: var(--amber);
+  }
+
+  .tab-panel {
+    display: none;
+    padding: 24px 0;
+  }
+
+  .tab-panel.active { display: block; animation: fadeUp 0.3s var(--ease); }
+
+  /* Code blocks */
+  .code-block {
+    position: relative;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+  }
+
+  .code-block code {
+    font-family: var(--font-m);
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    white-space: pre;
+    display: block;
+  }
+
+  .code-block .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .string { color: var(--green); }
+  .code-block .key { color: var(--amber); }
+
+  /* Platform cards */
+  .platform-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .platform-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .platform-card h4 {
+    font-family: var(--font-d);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .platform-card .plat-icon {
+    font-size: 20px;
+  }
+
+  .platform-card .plat-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+
+  /* Error */
+  .error-msg {
+    display: none;
+    color: var(--red);
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  .error-msg.visible { display: block; }
+
+  /* Footer */
+  footer {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 32px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  footer a {
+    color: var(--text-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  footer a:hover { color: var(--amber); }
+
+  /* --- Mobile --- */
+  @media (max-width: 640px) {
+    .hamburger { display: block; }
+
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      z-index: 100;
+    }
+
+    .nav-links a { font-size: 18px; }
+
+    .form-row { flex-direction: column; }
+
+    .code-value {
+      font-size: 32px;
+      letter-spacing: 4px;
+    }
+
+    .api-key-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a href="/" class="nav-brand">leassh</a>
+  <input type="checkbox" id="nav-toggle" aria-hidden="true">
+  <label class="hamburger" for="nav-toggle" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+  </label>
+  <ul class="nav-links">
+    <li><a href="/#features">Features</a></li>
+    <li><a href="/#pricing">Pricing</a></li>
+    <li><a href="/fleet">Fleet</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/setup" class="active">Setup</a></li>
+  </ul>
+</nav>
+
+<div class="setup">
+  <h1>Set up <em>Leassh</em></h1>
+  <p class="setup-sub">Create an account, configure your server, and install agents on the machines you want to monitor. Takes about three minutes.</p>
+
+  <!-- Step 1: Create Account -->
+  <div class="step" id="step1">
+    <div class="step-num" id="step1-num">1</div>
+    <h2>Create your account</h2>
+    <p>Enter your email to get a pairing code. This code links your server and agents together.</p>
+
+    <form id="register-form" onsubmit="return false;">
+      <div class="form-row">
+        <input type="email" id="email-input" placeholder="you@example.com" required autocomplete="email">
+        <button type="submit" class="btn btn-primary" id="register-btn">Create Account</button>
+      </div>
+      <div class="error-msg" id="register-error"></div>
+    </form>
+
+    <div class="code-display" id="code-display">
+      <div class="code-label">Your Pairing Code</div>
+      <div class="code-value" id="pairing-code"></div>
+      <div class="code-hint">Write this down. You will need it to connect agents to your server.</div>
+
+      <div class="api-key-row">
+        <span class="api-key-label">API Key</span>
+        <span class="api-key-value" id="api-key"></span>
+        <button class="copy-btn" onclick="copyText('api-key', this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Set up server -->
+  <div class="step locked" id="step2">
+    <div class="step-num">2</div>
+    <h2>Set up your server</h2>
+    <p>The server collects data from agents and serves the dashboard. Choose self-hosted or cloud.</p>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('self-hosted')">Self-Hosted</button>
+      <button class="tab" onclick="switchTab('cloud')">Cloud</button>
+    </div>
+
+    <div class="tab-panel active" id="panel-self-hosted">
+      <p>Add these to your <code style="color:var(--amber);font-family:var(--font-m);font-size:14px;">fleet.yaml</code> configuration:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <code><span class="comment"># fleet.yaml</span>
+<span class="key">pairing_code</span>: <span class="string" id="yaml-code">ABC123</span>
+<span class="key">api_key</span>: <span class="string" id="yaml-key">your-api-key</span>
+<span class="key">rendezvous</span>: <span class="string">https://leassh.com/api/rendezvous</span></code>
+      </div>
+
+      <p style="margin-top:16px;">Then start the server with Docker:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <code>docker run -d --name leassh-server \
+  -p 8383:8383 \
+  -v ./fleet.yaml:/app/fleet.yaml \
+  ghcr.io/leassh/server:latest</code>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-cloud">
+      <div style="padding:24px;background:var(--green-bg);border:1px solid rgba(106,191,105,0.2);border-radius:10px;">
+        <h4 style="font-family:var(--font-d);font-size:16px;font-weight:700;margin-bottom:6px;color:var(--green);">No server needed</h4>
+        <p style="color:var(--text-mid);font-size:14px;margin:0;">Your dashboard is at <strong style="color:var(--text);">app.leassh.com</strong>. Skip this step and install agents directly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Install agents -->
+  <div class="step locked" id="step3">
+    <div class="step-num">3</div>
+    <h2>Install agents</h2>
+    <p>Install the agent on each computer you want to monitor. It connects to your server using the pairing code.</p>
+
+    <div class="platform-cards">
+
+      <div class="platform-card">
+        <h4><span class="plat-icon">&#xf17a;</span> Windows</h4>
+        <p class="plat-desc">Run in PowerShell as Administrator</p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+          <code id="cmd-windows">$env:LEASSH_CODE='ABC123'; irm https://leassh.com/install.ps1 | iex</code>
+        </div>
+      </div>
+
+      <div class="platform-card">
+        <h4><span class="plat-icon">&#xf179;</span> macOS</h4>
+        <p class="plat-desc">Run in Terminal</p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+          <code id="cmd-macos">curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=ABC123 sudo bash</code>
+        </div>
+      </div>
+
+      <div class="platform-card">
+        <h4><span class="plat-icon">&#xf17c;</span> Linux</h4>
+        <p class="plat-desc">Run in terminal (Debian, Ubuntu, Fedora, Arch)</p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+          <code id="cmd-linux">curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=ABC123 sudo bash</code>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="/">leassh.com</a> &middot; <a href="/privacy-policy">Privacy</a> &middot; <a href="/docs">Docs</a>
+</footer>
+
+</div>
+
+<script>
+// --- Registration ---
+const form = document.getElementById('register-form');
+const emailInput = document.getElementById('email-input');
+const registerBtn = document.getElementById('register-btn');
+const errorEl = document.getElementById('register-error');
+const codeDisplay = document.getElementById('code-display');
+
+let accountData = null;
+
+form.addEventListener('submit', async () => {
+  const email = emailInput.value.trim();
+  if (!email) return;
+
+  registerBtn.disabled = true;
+  registerBtn.textContent = 'Creating...';
+  errorEl.classList.remove('visible');
+
+  try {
+    const resp = await fetch('/api/account/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      throw new Error(data.error || 'Registration failed');
+    }
+
+    accountData = data;
+
+    // Show pairing code
+    document.getElementById('pairing-code').textContent = data.pairing_code;
+    document.getElementById('api-key').textContent = data.api_key;
+    codeDisplay.classList.add('visible');
+
+    // Mark step 1 done
+    document.getElementById('step1-num').textContent = '\u2713';
+    document.getElementById('step1-num').classList.add('done');
+
+    // Unlock steps 2 and 3
+    document.getElementById('step2').classList.remove('locked');
+    document.getElementById('step3').classList.remove('locked');
+
+    // Fill in code in all command templates
+    fillCommands(data.pairing_code, data.api_key);
+
+    // Disable form
+    emailInput.disabled = true;
+    registerBtn.textContent = 'Account Created';
+
+  } catch (err) {
+    errorEl.textContent = err.message;
+    errorEl.classList.add('visible');
+    registerBtn.disabled = false;
+    registerBtn.textContent = 'Create Account';
+  }
+});
+
+function fillCommands(code, key) {
+  document.getElementById('yaml-code').textContent = code;
+  document.getElementById('yaml-key').textContent = key;
+  document.getElementById('cmd-windows').textContent =
+    "$env:LEASSH_CODE='" + code + "'; irm https://leassh.com/install.ps1 | iex";
+  document.getElementById('cmd-macos').textContent =
+    "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=" + code + " sudo bash";
+  document.getElementById('cmd-linux').textContent =
+    "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=" + code + " sudo bash";
+}
+
+// --- Tabs ---
+function switchTab(panel) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('panel-' + panel).classList.add('active');
+}
+
+// --- Copy helpers ---
+function copyText(id, btn) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = 'Copied';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'Copy'; }, 2000);
+  });
+}
+
+function copyBlock(btn) {
+  const code = btn.parentElement.querySelector('code');
+  navigator.clipboard.writeText(code.textContent).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = 'Copied';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'Copy'; }, 2000);
+  });
+}
+</script>
+</body>
+</html>
