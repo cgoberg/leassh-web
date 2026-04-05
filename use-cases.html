@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Use Cases — leassh</title>
+<meta name="description" content="Explore real-world use cases for leassh: parental screen time, GPU fleet management, elder care, productivity tracking, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --green-bg:   rgba(106, 191, 105, 0.08);
+    --red:        #d45b4c;
+    --red-bg:     rgba(212, 91, 76, 0.06);
+    --blue:       #5b9fd4;
+    --blue-bg:    rgba(91, 159, 212, 0.08);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-b);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .atmo {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* --- Nav --- */
+  nav {
+    display: flex;
+    align-items: center;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 24px 32px;
+  }
+
+  .nav-brand {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-links {
+    margin-left: auto;
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-mid);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--amber); }
+
+  .nav-cta {
+    background: var(--amber);
+    color: var(--bg) !important;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s;
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
+  }
+
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 8px;
+    z-index: 101;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+    border-radius: 1px;
+  }
+
+  #nav-toggle { display: none; }
+  #nav-toggle:checked ~ .nav-links { display: flex; }
+  #nav-toggle:checked ~ .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  #nav-toggle:checked ~ .hamburger span:nth-child(2) { opacity: 0; }
+  #nav-toggle:checked ~ .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* --- Page Header --- */
+  .page-header {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 64px 32px 32px;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    font-family: var(--font-d);
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .page-header h1 em {
+    font-style: normal;
+    color: var(--amber);
+  }
+
+  .page-header p {
+    color: var(--text-mid);
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* --- Filters --- */
+  .filters {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 24px 32px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    color: var(--text-mid);
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-family: var(--font-b);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s var(--ease);
+  }
+
+  .filter-btn:hover {
+    border-color: var(--amber-soft);
+    color: var(--text);
+  }
+
+  .filter-btn.active {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: var(--bg);
+    font-weight: 600;
+  }
+
+  /* --- Cards Grid --- */
+  .cards {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 24px 32px 80px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s var(--ease);
+  }
+
+  .card:hover {
+    border-color: rgba(212, 162, 76, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    padding: 24px 24px 16px;
+  }
+
+  .card-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .badge-families {
+    background: var(--amber-bg);
+    color: var(--amber);
+    border: 1px solid rgba(212, 162, 76, 0.2);
+  }
+
+  .badge-power {
+    background: var(--blue-bg);
+    color: var(--blue);
+    border: 1px solid rgba(91, 159, 212, 0.2);
+  }
+
+  .badge-both {
+    background: var(--green-bg);
+    color: var(--green);
+    border: 1px solid rgba(106, 191, 105, 0.2);
+  }
+
+  .badge-easy {
+    background: var(--green-bg);
+    color: var(--green);
+    border: 1px solid rgba(106, 191, 105, 0.15);
+  }
+
+  .badge-intermediate {
+    background: var(--amber-bg);
+    color: var(--amber-soft);
+    border: 1px solid rgba(212, 162, 76, 0.15);
+  }
+
+  .card-header h3 {
+    font-family: var(--font-d);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .card-header p {
+    color: var(--text-mid);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .card-toggle {
+    display: block;
+    width: 100%;
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    border-top: 1px solid var(--border);
+    color: var(--amber);
+    font-family: var(--font-b);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+  }
+
+  .card-toggle:hover {
+    background: var(--amber-bg);
+  }
+
+  .card-toggle .arrow {
+    display: inline-block;
+    transition: transform 0.3s var(--ease);
+    margin-left: 4px;
+  }
+
+  .card-toggle.open .arrow {
+    transform: rotate(90deg);
+  }
+
+  .card-detail {
+    display: none;
+    padding: 0 24px 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-detail.open {
+    display: block;
+  }
+
+  .card-detail h4 {
+    font-family: var(--font-d);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--amber);
+    margin-top: 20px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .card-detail p {
+    color: var(--text-mid);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+
+  .card-detail pre {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-mid);
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  }
+
+  .card-detail pre code {
+    color: var(--text-mid);
+  }
+
+  .card-detail .notifications-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 8px;
+  }
+
+  .card-detail .notifications-list li {
+    color: var(--text-mid);
+    font-size: 14px;
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .card-detail .notifications-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+  }
+
+  /* --- Footer --- */
+  .footer {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 40px 32px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+
+  .footer a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+
+  .footer a:hover { text-decoration: underline; }
+
+  /* --- Mobile --- */
+  @media (max-width: 768px) {
+    .hamburger { display: block; }
+
+    .nav-links {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      z-index: 100;
+    }
+
+    .nav-links a { font-size: 18px; }
+
+    .cards {
+      grid-template-columns: 1fr;
+    }
+
+    .page-header {
+      padding: 40px 24px 24px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" aria-hidden="true">
+  <label class="hamburger" for="nav-toggle" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+  </label>
+  <ul class="nav-links">
+    <li><a href="/#features-families">Features</a></li>
+    <li><a href="/use-cases" class="active">Use Cases</a></li>
+    <li><a href="/#pricing">Pricing</a></li>
+    <li><a href="/#privacy">Privacy</a></li>
+    <li><a href="/#pricing" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<section class="page-header">
+  <h1>Use Case <em>Library</em></h1>
+  <p>Deployable templates for families, power users, and everyone in between. Pick a use case, copy the config, and go.</p>
+</section>
+
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="families">Families</button>
+  <button class="filter-btn" data-filter="power">Power Users</button>
+</div>
+
+<div class="cards">
+
+  <!-- 1. Gaming Time Limits -->
+  <div class="card" data-audience="families">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-families">Families</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Gaming Time Limits</h3>
+      <p>Set daily gaming caps with gentle warnings before enforcement kicks in.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>The Problem</h4>
+      <p>Your child games too much and loses track of time. You want fair limits without constant arguments.</p>
+      <h4>How Leassh Solves It</h4>
+      <p>Leassh monitors running processes and vision-classified screenshots. When gaming time hits 80%, the child gets a warning notification. At 100%, the gaming app is closed automatically.</p>
+      <h4>Sample Configuration</h4>
+      <pre><code>screen_time:
+  enabled: true
+  capture_interval_minutes: 5
+
+time_limits:
+  - node: kids-pc
+    category: gaming
+    max_minutes_per_day: 120
+
+enforcement:
+  - node: kids-pc
+    category: gaming
+    warn_percent: 80
+    action: kill_category</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Telegram alert at 80% of daily limit</li>
+        <li>Automatic process termination at 100%</li>
+        <li>Daily summary of gaming vs other activities</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2. Weekly Behavioral Report -->
+  <div class="card" data-audience="families">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-families">Families</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Weekly Behavioral Report</h3>
+      <p>Get a warm, factual summary of your child's computer habits every week.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>The Problem</h4>
+      <p>You want to understand your child's computer habits without hovering over their shoulder or reading their messages.</p>
+      <h4>How Leassh Solves It</h4>
+      <p>Leassh captures periodic screenshots, classifies activities via AI vision, and generates a weekly narrative report. The tone is like a thoughtful teacher at a parent conference: positive, factual, and non-judgmental.</p>
+      <h4>Sample Configuration</h4>
+      <pre><code>screen_time:
+  enabled: true
+  capture_interval_minutes: 10
+  data_retention_days: 30
+  vision:
+    ollama_url: http://localhost:11434
+    model: llava
+
+# Call the insights API weekly:
+# GET /fleet/api/insights/kids-pc/weekly</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Weekly report with highlights, patterns, and notable observations</li>
+        <li>Week-over-week comparison with specific numbers</li>
+        <li>New app and category detection</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3. Bedtime Enforcement -->
+  <div class="card" data-audience="families">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-families">Families</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Bedtime Enforcement</h3>
+      <p>Automatically log off the computer on school nights at a set time.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>The Problem</h4>
+      <p>They stay up late on the computer, especially on school nights. Morning battles follow.</p>
+      <h4>How Leassh Solves It</h4>
+      <p>A time-based rule detects when someone is logged in past bedtime on weeknights and issues a warning, then forces a logoff after a grace period.</p>
+      <h4>Sample Configuration</h4>
+      <pre><code>rules:
+  - name: bedtime_enforcement
+    when: "time >= 22:00 AND time < 06:00 AND day_of_week IN [Mon,Tue,Wed,Thu,Sun]"
+    nodes: [kids-pc]
+    actions:
+      - notify: warning
+      - ssh_command: "shutdown /l /f"  # Windows logoff
+
+notifications:
+  telegram:
+    bot_token: "your-bot-token"
+    chat_id: "your-chat-id"</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Telegram warning 10 minutes before bedtime</li>
+        <li>Automatic logoff at bedtime on school nights</li>
+        <li>Weekend schedule can be different or disabled</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4. GPU Fleet for AI Inference -->
+  <div class="card" data-audience="power">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>GPU Fleet for AI Inference</h3>
+      <p>Reclaim your GPUs from family gaming for Ollama inference workloads.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>The Problem</h4>
+      <p>Your family uses the GPUs you need for Ollama, ComfyUI, or training runs. You need shared machines to prioritize inference during work hours.</p>
+      <h4>How Leassh Solves It</h4>
+      <p>Leassh monitors GPU utilization across machines, blacklists games during work hours, and can start/stop Ollama services based on rules.</p>
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: gpu-workstation-1
+    host: 192.168.1.50
+    ssh: user@192.168.1.50
+    gpu: nvidia
+    shared: true
+
+blacklist:
+  global:
+    - steam.exe
+    - epicgameslauncher.exe
+
+rules:
+  - name: work_hours_gpu_priority
+    when: "time >= 09:00 AND time < 18:00 AND day_of_week IN [Mon,Tue,Wed,Thu,Fri]"
+    actions:
+      - kill_blacklisted
+      - ssh_command: "systemctl start ollama"
+  - name: evening_free
+    when: "time >= 18:00"
+    actions:
+      - ssh_command: "systemctl stop ollama"</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Games killed during work hours on shared GPU machines</li>
+        <li>Ollama automatically started/stopped by schedule</li>
+        <li>GPU utilization tracking and alerts</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5. Home Server Auto-Recovery -->
+  <div class="card" data-audience="power">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>Home Server Auto-Recovery</h3>
+      <p>Detect crashed services and restart them automatically with Telegram alerts.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>The Problem</h4>
+      <p>Your home services crash and you don't notice for hours. Plex, Home Assistant, or Nextcloud go down silently.</p>
+      <h4>How Leassh Solves It</h4>
+      <p>Leassh probes your servers every few minutes, detects when critical processes disappear, restarts them via SSH, and sends you a notification.</p>
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: homelab-server
+    host: 192.168.1.10
+    ssh: admin@192.168.1.10
+
+rules:
+  - name: plex_recovery
+    when: "NOT process_running('plexmediaserver')"
+    nodes: [homelab-server]
+    actions:
+      - ssh_command: "systemctl restart plexmediaserver"
+      - notify: warning
+  - name: nextcloud_recovery
+    when: "NOT process_running('apache2')"
+    nodes: [homelab-server]
+    actions:
+      - ssh_command: "systemctl restart apache2"
+      - notify: warning
+
+notifications:
+  telegram:
+    bot_token: "your-bot-token"
+    chat_id: "your-chat-id"</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Automatic service restart within minutes of a crash</li>
+        <li>Telegram notification with service name and node</li>
+        <li>Trend tracking for disk, RAM, and temperature</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 6. Homework vs Entertainment -->
+  <div class="card" data-audience="families">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-families">Families</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>Homework vs Entertainment</h3>
+      <p>Understand whether computer time is productive homework or passive entertainment.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>The Problem</h4>
+      <p>They say they're doing homework, but are they really? You want data, not surveillance.</p>
+      <h4>How Leassh Solves It</h4>
+      <p>Deep vision analysis classifies not just the app but the content quality and engagement type. You see a breakdown of "active learning" vs "passive consumption" without reading their screen.</p>
+      <h4>Sample Configuration</h4>
+      <pre><code>screen_time:
+  enabled: true
+  capture_interval_minutes: 5
+  vision:
+    ollama_url: http://localhost:11434
+    model: llava
+
+# Use the deep analysis endpoint for richer data:
+# GET /fleet/api/insights/kids-pc/deep
+#
+# Returns: content_quality, engagement_type,
+#          specific_content, new_or_notable</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Category breakdown: homework vs gaming vs youtube</li>
+        <li>Content quality classification (educational, creative, passive)</li>
+        <li>Engagement type tracking (active creation vs passive browsing)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 7. Social Media Awareness -->
+  <div class="card" data-audience="families">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-families">Families</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>Social Media Awareness</h3>
+      <p>Know which platforms they use and how much, without reading their messages.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>The Problem</h4>
+      <p>You want to know what social platforms your child uses without invading their privacy or reading their conversations.</p>
+      <h4>How Leassh Solves It</h4>
+      <p>Vision analysis identifies social media platforms from screenshots without capturing message content. You get time-per-platform data, not conversation logs.</p>
+      <h4>Sample Configuration</h4>
+      <pre><code>screen_time:
+  enabled: true
+  capture_interval_minutes: 10
+  vision:
+    ollama_url: http://localhost:11434
+    model: llava
+
+# The weekly report breaks down social media by platform.
+# Deep analysis captures platform names in specific_content.
+#
+# Optional: set time limits on social media
+time_limits:
+  - node: kids-pc
+    category: social_media
+    max_minutes_per_day: 60</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Platform breakdown: Discord, Instagram, TikTok, etc.</li>
+        <li>Time spent per platform in weekly report</li>
+        <li>Alert when a new social platform appears</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 8. Shared Machine Management -->
+  <div class="card" data-audience="power">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Shared Machine Management</h3>
+      <p>Auto-kill heavy apps left running on shared workstations after idle timeout.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>The Problem</h4>
+      <p>People leave heavy apps running on shared workstations. Chrome with 200 tabs, Blender renders, or Docker containers eating all the RAM.</p>
+      <h4>How Leassh Solves It</h4>
+      <p>Leassh detects idle sessions and kills specified resource-heavy processes after a configurable timeout. Shared machine etiquette, enforced.</p>
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: shared-workstation
+    host: 192.168.1.30
+    ssh: admin@192.168.1.30
+    shared: true
+
+rules:
+  - name: idle_cleanup
+    when: "idle_minutes > 30"
+    nodes: [shared-workstation]
+    actions:
+      - ssh_command: "pkill -f 'blender|chrome|firefox'"
+      - notify: info
+
+probe:
+  idle_threshold: 600  # 10 min for idle detection</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Automatic cleanup of heavy apps after 30 min idle</li>
+        <li>Notification when cleanup occurs</li>
+        <li>RAM and CPU usage tracking per machine</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 9. Elder Care Check-In -->
+  <div class="card" data-audience="families">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-families">Families</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Elder Care Check-In</h3>
+      <p>Monitor that an elderly parent is using their computer normally, with alerts on pattern changes.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>The Problem</h4>
+      <p>Is your parent using their computer normally? A sudden change in patterns could mean they need help.</p>
+      <h4>How Leassh Solves It</h4>
+      <p>Leassh establishes usage baselines over time. When patterns change significantly (no login by usual time, unusually long sessions, sudden drop in activity), you get alerted.</p>
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: moms-pc
+    host: 192.168.1.20
+    ssh: user@192.168.1.20
+
+screen_time:
+  enabled: true
+  capture_interval_minutes: 15
+  data_retention_days: 60
+
+rules:
+  - name: no_morning_login
+    when: "time >= 11:00 AND NOT logged_in"
+    nodes: [moms-pc]
+    actions:
+      - notify: warning
+
+notifications:
+  telegram:
+    bot_token: "your-bot-token"
+    chat_id: "your-chat-id"</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Alert if no login by expected time</li>
+        <li>Weekly usage pattern report</li>
+        <li>Detection of significant routine changes</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 10. Content Creator Productivity -->
+  <div class="card" data-audience="both">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-both">Both</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Content Creator Productivity</h3>
+      <p>Self-monitoring mode: see where your time actually goes with AI classification.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>The Problem</h4>
+      <p>Where does your time actually go? You think you spent 4 hours editing, but vision says 2 hours editing and 2 hours on Reddit.</p>
+      <h4>How Leassh Solves It</h4>
+      <p>Run leassh on your own machine in self-monitoring mode. No enforcement, no limits, just honest data about your computer usage patterns and a weekly summary.</p>
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: my-workstation
+    host: localhost
+    ssh: me@localhost
+    permissions:
+      screenshot: true
+
+screen_time:
+  enabled: true
+  capture_interval_minutes: 10
+  vision:
+    ollama_url: http://localhost:11434
+    model: llava
+
+# No enforcement, no time limits.
+# Just data and weekly reports.
+# GET /fleet/api/insights/my-workstation/weekly</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Honest breakdown of productive vs entertainment time</li>
+        <li>Weekly narrative report with trends</li>
+        <li>Top apps and category breakdown</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p><a href="/">leassh</a> &middot; Keep your machines on a leash</p>
+</footer>
+
+</div>
+
+<script>
+// Filter buttons
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.card');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = btn.dataset.filter;
+    cards.forEach(card => {
+      if (filter === 'all') {
+        card.style.display = '';
+      } else if (filter === 'families') {
+        card.style.display = (card.dataset.audience === 'families' || card.dataset.audience === 'both') ? '' : 'none';
+      } else if (filter === 'power') {
+        card.style.display = (card.dataset.audience === 'power' || card.dataset.audience === 'both') ? '' : 'none';
+      }
+    });
+  });
+});
+
+// Card expand/collapse
+document.querySelectorAll('.card-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const detail = btn.nextElementSibling;
+    const isOpen = detail.classList.contains('open');
+
+    detail.classList.toggle('open');
+    btn.classList.toggle('open');
+    btn.innerHTML = isOpen
+      ? 'View Template <span class="arrow">&rarr;</span>'
+      : 'Close <span class="arrow">&rarr;</span>';
+  });
+});
+</script>
+</body>
+</html>
