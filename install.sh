@@ -54,6 +54,7 @@ ARCH="$(uname -m)"
 case "$OS" in
     Linux)  PLATFORM="linux"  ;;
     Darwin)
+        OS="darwin"
         error "macOS binaries coming soon. For now, build from source."
         echo ""
         echo "  See: https://github.com/leassh/leassh"
