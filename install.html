@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Install Leassh Agent</title>
-<meta name="description" content="Download and install the Leassh agent on your child's computer. One command, three minutes, full protection.">
+<meta name="description" content="Download and install the Leassh agent. One command, three minutes, full protection.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -25,9 +25,9 @@
     --green:      #6abf69;
     --green-bg:   rgba(106, 191, 105, 0.08);
     --red:        #d45b4c;
-    --font-d: 'Bricolage Grotesque', Georgia, serif;
-    --font-b: 'Instrument Sans', system-ui, sans-serif;
-    --font-m: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    --font-d: "Bricolage Grotesque", Georgia, serif;
+    --font-b: "Instrument Sans", system-ui, sans-serif;
+    --font-m: "SF Mono", "Fira Code", "Cascadia Code", monospace;
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
     --max: 800px;
   }
@@ -55,7 +55,6 @@
 
   .wrap { position: relative; z-index: 1; }
 
-  /* ─── Nav ─── */
   nav {
     display: flex;
     align-items: center;
@@ -84,7 +83,6 @@
 
   .nav-back:hover { color: var(--text); }
 
-  /* ─── Header ─── */
   .header {
     max-width: var(--max);
     margin: 0 auto;
@@ -110,7 +108,6 @@
     max-width: 560px;
   }
 
-  /* ─── Token input ─── */
   .token-section {
     max-width: var(--max);
     margin: 0 auto;
@@ -164,7 +161,6 @@
     color: var(--text-dim);
   }
 
-  /* ─── Tabs ─── */
   .tabs-section {
     max-width: var(--max);
     margin: 0 auto;
@@ -231,7 +227,6 @@
     margin-bottom: 16px;
   }
 
-  /* ─── Command block ─── */
   .cmd-block {
     position: relative;
     background: var(--bg);
@@ -287,7 +282,6 @@
     border-color: var(--green);
   }
 
-  /* ─── Steps inside tab ─── */
   .install-steps {
     counter-reset: istep;
     margin-top: 24px;
@@ -318,7 +312,6 @@
     color: var(--text);
   }
 
-  /* ─── Requirements note ─── */
   .req-note {
     background: var(--amber-bg);
     border: 1px solid rgba(212, 162, 76, 0.15);
@@ -331,7 +324,6 @@
 
   .req-note strong { color: var(--amber); }
 
-  /* ─── Footer ─── */
   footer {
     max-width: var(--max);
     margin: 0 auto;
@@ -361,7 +353,7 @@
 
 <section class="header">
   <h1>Install the <em>agent</em></h1>
-  <p>One command on your child's computer. Three minutes. Full monitoring with no visible app.</p>
+  <p>One command on your child&#x27;s computer. Three minutes. Full monitoring with no visible app.</p>
 </section>
 
 <section class="token-section">
@@ -397,16 +389,22 @@
 
     <div class="cmd-block">
       <span class="cmd-label">Quick install</span>
-      <code id="cmd-windows">powershell -ExecutionPolicy Bypass -Command "& { $env:LEASSH_TOKEN='<span class="token-placeholder">YOUR_TOKEN</span>'; iwr -useb https://leassh.com/install-windows.ps1 | iex }"</code>
+      <code id="cmd-windows">powershell -ExecutionPolicy Bypass -Command "&amp; { $env:LEASSH_TOKEN=&#x27;<span class="token-placeholder">YOUR_TOKEN</span>&#x27;; iwr -useb https://leassh.com/install-windows.ps1 | iex }"</code>
       <button class="copy-btn" data-target="cmd-windows">Copy</button>
+    </div>
+
+    <div class="cmd-block">
+      <span class="cmd-label">Or download directly</span>
+      <code id="cmd-windows-dl">https://github.com/leassh/leassh/releases/download/v0.1.0/leassh-windows-x64.tar.gz</code>
+      <button class="copy-btn" data-target="cmd-windows-dl">Copy</button>
     </div>
 
     <div class="install-steps">
       <div class="install-step">
-        <p><strong>Open PowerShell as Administrator.</strong> Right-click the Start menu, choose "Windows Terminal (Admin)" or "PowerShell (Admin)".</p>
+        <p><strong>Open PowerShell as Administrator.</strong> Right-click the Start menu, choose &quot;Windows Terminal (Admin)&quot; or &quot;PowerShell (Admin)&quot;.</p>
       </div>
       <div class="install-step">
-        <p><strong>Paste the command above</strong> and press Enter. The installer will download the agent, configure it with your family token, and register it as a Windows service.</p>
+        <p><strong>Paste the command above</strong> and press Enter. The installer will download the agent from GitHub releases, configure it with your family token, and register it as a Windows service.</p>
       </div>
       <div class="install-step">
         <p><strong>Verify in your dashboard.</strong> The device will appear at <code>https://api.leassh.com/fleet</code> within a minute.</p>
@@ -421,28 +419,28 @@
   <!-- macOS panel -->
   <div class="tab-panel" id="tab-macos">
     <h3>Install on macOS</h3>
-    <p>Open Terminal and paste the command below.</p>
+    <p>macOS binaries are coming soon. For now, you can build from source.</p>
 
     <div class="cmd-block">
-      <span class="cmd-label">Quick install</span>
-      <code id="cmd-macos">LEASSH_TOKEN='<span class="token-placeholder">YOUR_TOKEN</span>' curl -fsSL https://leassh.com/install.sh | sudo bash</code>
+      <span class="cmd-label">Build from source</span>
+      <code id="cmd-macos">git clone https://github.com/leassh/leassh.git &amp;&amp; cd leassh &amp;&amp; cargo build --release</code>
       <button class="copy-btn" data-target="cmd-macos">Copy</button>
     </div>
 
     <div class="install-steps">
       <div class="install-step">
-        <p><strong>Open Terminal.</strong> Press Cmd+Space, type "Terminal", press Enter.</p>
+        <p><strong>Clone the repository</strong> and build with Cargo (Rust toolchain required).</p>
       </div>
       <div class="install-step">
-        <p><strong>Paste the command above</strong> and press Enter. You will be prompted for your Mac password (for sudo). The installer detects your architecture (Intel or Apple Silicon) automatically.</p>
+        <p><strong>Run the agent</strong> with your token: <code>./target/release/leassh-agent --setup api.leassh.com YOUR_TOKEN &quot;My Mac&quot;</code></p>
       </div>
       <div class="install-step">
-        <p><strong>Verify in your dashboard.</strong> The device will appear at <code>https://api.leassh.com/fleet</code> within a minute.</p>
+        <p><strong>Pre-built macOS binaries</strong> (Intel and Apple Silicon) will be available in a future release.</p>
       </div>
     </div>
 
     <div class="req-note">
-      <strong>Requirements:</strong> macOS 12 Monterey or later. curl (pre-installed). The agent installs as a launchd daemon and starts automatically on boot.
+      <strong>Coming soon:</strong> Pre-built macOS binaries for Intel and Apple Silicon. In the meantime, building from source requires Rust 1.75+ and Cargo. See the <a href="https://github.com/leassh/leassh" style="color: var(--amber);">GitHub repository</a> for full build instructions.
     </div>
   </div>
 
@@ -453,8 +451,15 @@
 
     <div class="cmd-block">
       <span class="cmd-label">Quick install</span>
-      <code id="cmd-linux">LEASSH_TOKEN='<span class="token-placeholder">YOUR_TOKEN</span>' curl -fsSL https://leassh.com/install.sh | sudo bash</code>
+      <code id="cmd-linux">LEASSH_TOKEN=&#x27;<span class="token-placeholder">YOUR_TOKEN</span>&#x27; curl -fsSL https://leassh.com/install.sh | sudo bash</code>
       <button class="copy-btn" data-target="cmd-linux">Copy</button>
+    </div>
+
+    <div class="cmd-block">
+      <span class="cmd-label">Or download directly</span>
+      <code id="cmd-linux-dl">x64:   https://github.com/leassh/leassh/releases/download/v0.1.0/leassh-linux-x64.tar.gz
+arm64: https://github.com/leassh/leassh/releases/download/v0.1.0/leassh-linux-arm64.tar.gz</code>
+      <button class="copy-btn" data-target="cmd-linux-dl">Copy</button>
     </div>
 
     <div class="install-steps">
@@ -462,7 +467,7 @@
         <p><strong>Open a terminal.</strong> On Ubuntu/Debian: Ctrl+Alt+T. On other distros, use your terminal emulator of choice.</p>
       </div>
       <div class="install-step">
-        <p><strong>Paste the command above</strong> and press Enter. Enter your password when prompted. The installer detects your architecture (x64 or ARM64) and installs a systemd service.</p>
+        <p><strong>Paste the command above</strong> and press Enter. Enter your password when prompted. The installer auto-detects your architecture (x64 or ARM64) and downloads the correct binary from GitHub releases.</p>
       </div>
       <div class="install-step">
         <p><strong>Verify in your dashboard.</strong> The device will appear at <code>https://api.leassh.com/fleet</code> within a minute.</p>
@@ -483,35 +488,37 @@
 
 <script>
 // Tab switching
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
   });
 });
 
 // Token input updates commands
-const tokenInput = document.getElementById('tokenInput');
-const placeholders = document.querySelectorAll('.token-placeholder');
+const tokenInput = document.getElementById("tokenInput");
+const placeholders = document.querySelectorAll(".token-placeholder");
 
-tokenInput.addEventListener('input', () => {
-  const val = tokenInput.value.trim() || 'YOUR_TOKEN';
+tokenInput.addEventListener("input", () => {
+  const val = tokenInput.value.trim() || "YOUR_TOKEN";
   placeholders.forEach(el => { el.textContent = val; });
 });
 
 // Copy to clipboard
-document.querySelectorAll('.copy-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = document.getElementById(btn.dataset.target);
+document.querySelectorAll(".copy-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const targetId = btn.dataset.target;
+    const target = document.getElementById(targetId);
+    if (!target) return;
     const text = target.textContent;
     navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
       setTimeout(() => {
-        btn.textContent = 'Copy';
-        btn.classList.remove('copied');
+        btn.textContent = "Copy";
+        btn.classList.remove("copied");
       }, 2000);
     });
   });
@@ -520,11 +527,11 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
 // Auto-detect OS and switch to correct tab
 (function() {
   const ua = navigator.userAgent.toLowerCase();
-  let tab = 'windows';
-  if (ua.includes('mac')) tab = 'macos';
-  else if (ua.includes('linux')) tab = 'linux';
+  let tab = "windows";
+  if (ua.includes("mac")) tab = "macos";
+  else if (ua.includes("linux")) tab = "linux";
 
-  const btn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+  const btn = document.querySelector(".tab-btn[data-tab=\"" + tab + "\"]");
   if (btn) btn.click();
 })();
 </script>

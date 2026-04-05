@@ -1,5 +1,5 @@
 #!/bin/bash
-# Leassh Agent Installer for macOS and Linux
+# Leassh Agent Installer for Linux
 # Usage: curl -fsSL https://leassh.com/install.sh | sudo bash
 # Or with family code:
 #   LEASSH_TOKEN=your-code curl -fsSL https://leassh.com/install.sh | sudo bash
@@ -29,7 +29,7 @@ cat <<'LOGO'
  | |  __/ (_| \__ \__ \ | | |
  |_|\___|\__,_|___/___/_| |_|
 
- Agent Installer for macOS / Linux
+ Agent Installer for Linux
 
 LOGO
 
@@ -53,7 +53,12 @@ ARCH="$(uname -m)"
 
 case "$OS" in
     Linux)  PLATFORM="linux"  ;;
-    Darwin) PLATFORM="macos"  ;;
+    Darwin)
+        error "macOS binaries coming soon. For now, build from source."
+        echo ""
+        echo "  See: https://github.com/leassh/leassh"
+        exit 1
+        ;;
     *)
         error "Unsupported operating system: $OS"
         exit 1
@@ -128,22 +133,46 @@ done
 # ---------------------------------------------------------------------------
 # 5. Download the agent binary
 # ---------------------------------------------------------------------------
-BINARY_URL="https://releases.leassh.com/agent/latest/leassh-agent-${PLATFORM}-${ARCH_SUFFIX}"
+VERSION="v0.1.0"
+DOWNLOAD_URL="https://github.com/leassh/leassh/releases/download/${VERSION}/leassh-${PLATFORM}-${ARCH_SUFFIX}.tar.gz"
 BINARY_PATH="${INSTALL_DIR}/leassh-agent"
+TMP_DIR="$(mktemp -d)"
 
-step "Downloading agent from $BINARY_URL ..."
+step "Downloading agent from $DOWNLOAD_URL ..."
 
 if command -v curl &>/dev/null; then
-    curl -fsSL "$BINARY_URL" -o "$BINARY_PATH"
+    curl -fsSL "$DOWNLOAD_URL" -o "${TMP_DIR}/leassh.tar.gz"
 elif command -v wget &>/dev/null; then
-    wget -q "$BINARY_URL" -O "$BINARY_PATH"
+    wget -q "$DOWNLOAD_URL" -O "${TMP_DIR}/leassh.tar.gz"
 else
     error "Neither curl nor wget found. Install one and try again."
+    rm -rf "$TMP_DIR"
     exit 1
 fi
 
+# Extract the tarball
+tar -xzf "${TMP_DIR}/leassh.tar.gz" -C "$TMP_DIR"
+
+# Find and install the binary
+if [ -f "${TMP_DIR}/leassh-agent" ]; then
+    mv "${TMP_DIR}/leassh-agent" "$BINARY_PATH"
+elif [ -f "${TMP_DIR}/leassh" ]; then
+    mv "${TMP_DIR}/leassh" "$BINARY_PATH"
+else
+    # Grab the first executable we find
+    FOUND_BIN=$(find "$TMP_DIR" -type f -executable | head -1)
+    if [ -n "$FOUND_BIN" ]; then
+        mv "$FOUND_BIN" "$BINARY_PATH"
+    else
+        error "Could not find agent binary in the downloaded archive."
+        rm -rf "$TMP_DIR"
+        exit 1
+    fi
+fi
+
+rm -rf "$TMP_DIR"
 chmod +x "$BINARY_PATH"
-info "Downloaded to $BINARY_PATH"
+info "Installed to $BINARY_PATH"
 
 # ---------------------------------------------------------------------------
 # 6. Run agent setup
@@ -163,9 +192,8 @@ fi
 # ---------------------------------------------------------------------------
 step "Installing system service..."
 
-if [ "$PLATFORM" = "linux" ]; then
-    # systemd service
-    cat > /etc/systemd/system/leassh-agent.service <<EOF
+# systemd service
+cat > /etc/systemd/system/leassh-agent.service <<EOF
 [Unit]
 Description=Leassh Agent
 After=network-online.target
@@ -183,43 +211,10 @@ WorkingDirectory=${DATA_DIR}
 WantedBy=multi-user.target
 EOF
 
-    systemctl daemon-reload
-    systemctl enable leassh-agent
-    systemctl start leassh-agent
-    info "systemd service installed and started"
-
-elif [ "$PLATFORM" = "macos" ]; then
-    # launchd plist
-    PLIST_PATH="/Library/LaunchDaemons/com.leassh.agent.plist"
-    cat > "$PLIST_PATH" <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>Label</key>
-    <string>com.leassh.agent</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>${BINARY_PATH}</string>
-        <string>--run</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>KeepAlive</key>
-    <true/>
-    <key>WorkingDirectory</key>
-    <string>${DATA_DIR}</string>
-    <key>StandardOutPath</key>
-    <string>/var/log/leassh-agent.log</string>
-    <key>StandardErrorPath</key>
-    <string>/var/log/leassh-agent.err</string>
-</dict>
-</plist>
-EOF
-
-    launchctl load -w "$PLIST_PATH"
-    info "launchd service installed and started"
-fi
+systemctl daemon-reload
+systemctl enable leassh-agent
+systemctl start leassh-agent
+info "systemd service installed and started"
 
 # ---------------------------------------------------------------------------
 # 8. Verify
@@ -227,18 +222,10 @@ fi
 step "Verifying service..."
 sleep 2
 
-if [ "$PLATFORM" = "linux" ]; then
-    if systemctl is-active --quiet leassh-agent; then
-        info "Leassh Agent service is running"
-    else
-        warn "Service not active yet. Check: systemctl status leassh-agent"
-    fi
-elif [ "$PLATFORM" = "macos" ]; then
-    if launchctl list | grep -q com.leassh.agent; then
-        info "Leassh Agent service is running"
-    else
-        warn "Service not detected yet. Check: launchctl list | grep leassh"
-    fi
+if systemctl is-active --quiet leassh-agent; then
+    info "Leassh Agent service is running"
+else
+    warn "Service not active yet. Check: systemctl status leassh-agent"
 fi
 
 # ---------------------------------------------------------------------------
@@ -252,20 +239,10 @@ echo ""
 echo "  Device '$NAME' will appear in your dashboard shortly."
 echo "  Dashboard: https://$SERVER/fleet"
 echo ""
-
-if [ "$PLATFORM" = "linux" ]; then
-    echo "  Manage the service:"
-    echo "    Start:   sudo systemctl start leassh-agent"
-    echo "    Stop:    sudo systemctl stop leassh-agent"
-    echo "    Status:  sudo systemctl status leassh-agent"
-    echo "    Logs:    sudo journalctl -u leassh-agent -f"
-    echo "    Remove:  sudo $BINARY_PATH --uninstall"
-elif [ "$PLATFORM" = "macos" ]; then
-    echo "  Manage the service:"
-    echo "    Stop:    sudo launchctl unload /Library/LaunchDaemons/com.leassh.agent.plist"
-    echo "    Start:   sudo launchctl load /Library/LaunchDaemons/com.leassh.agent.plist"
-    echo "    Logs:    tail -f /var/log/leassh-agent.log"
-    echo "    Remove:  sudo $BINARY_PATH --uninstall"
-fi
-
+echo "  Manage the service:"
+echo "    Start:   sudo systemctl start leassh-agent"
+echo "    Stop:    sudo systemctl stop leassh-agent"
+echo "    Status:  sudo systemctl status leassh-agent"
+echo "    Logs:    sudo journalctl -u leassh-agent -f"
+echo "    Remove:  sudo $BINARY_PATH --uninstall"
 echo ""

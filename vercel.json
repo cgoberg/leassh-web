@@ -2,6 +2,7 @@
   "buildCommand": null,
   "outputDirectory": ".",
   "rewrites": [
-    { "source": "/api/license/:path*", "destination": "/api/license/validate" }
+    { "source": "/api/license/validate", "destination": "/api/license/validate" },
+    { "source": "/api/license/create", "destination": "/api/license/create" }
   ]
 }

@@ -83,15 +83,22 @@ if (-not (Test-Path $InstallDir)) {
 # ---------------------------------------------------------------------------
 # 4. Download the agent binary
 # ---------------------------------------------------------------------------
-$BinaryUrl  = "https://releases.leassh.com/agent/latest/leassh-agent-windows-x64.exe"
+$Version    = "v0.1.0"
+$BinaryUrl  = "https://github.com/leassh/leassh/releases/download/$Version/leassh-windows-x64.tar.gz"
+$TempDir    = Join-Path $env:TEMP "leassh-install"
+$TarPath    = Join-Path $TempDir "leassh-windows-x64.tar.gz"
 $BinaryPath = Join-Path $InstallDir "leassh-agent.exe"
+
+if (-not (Test-Path $TempDir)) {
+    New-Item -ItemType Directory -Path $TempDir -Force | Out-Null
+}
 
 Write-Host "Downloading agent from $BinaryUrl ..." -ForegroundColor Yellow
 
 try {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    Invoke-WebRequest -Uri $BinaryUrl -OutFile $BinaryPath -UseBasicParsing
-    Write-Host "[OK] Downloaded to $BinaryPath" -ForegroundColor Green
+    Invoke-WebRequest -Uri $BinaryUrl -OutFile $TarPath -UseBasicParsing
+    Write-Host "[OK] Downloaded archive" -ForegroundColor Green
 } catch {
     Write-Host "ERROR: Failed to download agent binary." -ForegroundColor Red
     Write-Host "  $_" -ForegroundColor Red
@@ -99,6 +106,33 @@ try {
     Write-Host "You can download manually from: $BinaryUrl" -ForegroundColor Yellow
     Write-Host "Place it at: $BinaryPath" -ForegroundColor Yellow
     exit 1
+}
+
+# Extract the tarball
+Write-Host "Extracting..." -ForegroundColor Yellow
+try {
+    tar -xzf $TarPath -C $TempDir
+    # Find the exe in the extracted files
+    $ExtractedExe = Get-ChildItem -Path $TempDir -Filter "*.exe" -Recurse | Select-Object -First 1
+    if ($ExtractedExe) {
+        Copy-Item -Path $ExtractedExe.FullName -Destination $BinaryPath -Force
+    } else {
+        # If no .exe found, look for leassh-agent or leassh binary
+        $ExtractedBin = Get-ChildItem -Path $TempDir -Recurse | Where-Object { $_.Name -match "^leassh" -and -not $_.Name.EndsWith(".tar.gz") } | Select-Object -First 1
+        if ($ExtractedBin) {
+            Copy-Item -Path $ExtractedBin.FullName -Destination $BinaryPath -Force
+        } else {
+            Write-Host "ERROR: Could not find agent binary in the downloaded archive." -ForegroundColor Red
+            exit 1
+        }
+    }
+    Write-Host "[OK] Extracted to $BinaryPath" -ForegroundColor Green
+} catch {
+    Write-Host "ERROR: Failed to extract archive." -ForegroundColor Red
+    Write-Host "  $_" -ForegroundColor Red
+    exit 1
+} finally {
+    Remove-Item -Path $TempDir -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 # ---------------------------------------------------------------------------
