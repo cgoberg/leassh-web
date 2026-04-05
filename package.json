@@ -1,0 +1,7 @@
+{
+  "name": "leassh-web",
+  "private": true,
+  "dependencies": {
+    "stripe": "^17"
+  }
+}

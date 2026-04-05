@@ -986,7 +986,7 @@
     <li><a href="#features">Features</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#privacy">Privacy</a></li>
-    <li><a href="mailto:hello@leassh.com?subject=Leassh%20Early%20Access" class="nav-cta">Join Early Access</a></li>
+    <li><a href="#pricing" class="nav-cta">Get Started</a></li>
   </ul>
 </nav>
 
@@ -999,7 +999,7 @@
     Run everything locally for total privacy, or let our cloud handle it.
   </p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="mailto:hello@leassh.com?subject=Leassh%20Early%20Access">Join Early Access</a>
+    <a class="btn btn-primary" href="#pricing">Get Started</a>
     <a class="btn btn-ghost" href="#self-host">Self-Host</a>
   </div>
 </section>
@@ -1175,7 +1175,7 @@
         <li><span class="check">+</span> Telegram alerts</li>
         <li><span class="check">+</span> 14-day free trial</li>
       </ul>
-      <a class="btn btn-primary" href="mailto:hello@leassh.com?subject=Leassh%20Early%20Access">Join Early Access</a>
+      <button class="btn btn-primary" onclick="startCheckout('cloud')">Get Started</button>
     </div>
     <div class="pricing-card featured">
       <div class="pricing-badge">Full Privacy</div>
@@ -1190,7 +1190,7 @@
         <li><span class="check">+</span> Full API access</li>
         <li><span class="check">+</span> OpenClaw plugin included</li>
       </ul>
-      <a class="btn btn-primary" href="https://github.com/leassh/leassh/releases">Download</a>
+      <button class="btn btn-primary" onclick="startCheckout('local')">Buy Now</button>
     </div>
   </div>
 </section>
@@ -1241,7 +1241,7 @@
 <section class="cta reveal" id="signup">
   <h2>Ready to take control?</h2>
   <p>Screen time limits. Activity reports. Content safety. Set up in three minutes.</p>
-  <a class="btn btn-primary" href="mailto:hello@leassh.com?subject=Leassh%20Early%20Access">Join Early Access</a>
+  <a class="btn btn-primary" href="#pricing">Get Started</a>
 </section>
 
 <footer>
@@ -1271,6 +1271,26 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     document.getElementById('nav-toggle').checked = false;
   });
 });
+
+// Stripe checkout
+function startCheckout(tier) {
+  fetch('/api/checkout/create', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tier: tier }),
+  })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (d.url) {
+        window.location = d.url;
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+    })
+    .catch(function () {
+      alert('Network error. Please try again.');
+    });
+}
 </script>
 </body>
 </html>
