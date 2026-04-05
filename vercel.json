@@ -10,6 +10,7 @@
     { "source": "/use-cases", "destination": "/use-cases.html" },
     { "source": "/privacy-policy", "destination": "/privacy-policy.html" },
     { "source": "/docs", "destination": "/docs.html" },
-    { "source": "/install", "destination": "/install.html" }
+    { "source": "/install", "destination": "/install.html" },
+    { "source": "/fleet", "destination": "/fleet.html" }
   ]
 }

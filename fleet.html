@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>leassh — Understand your child's digital life</title>
-<meta name="description" content="AI-powered parental insight. Screen time tracking, behavioral reports, content safety alerts. No spyware. No keyloggers. Just understanding.">
-<meta property="og:title" content="Leassh — Understand your child's digital life">
-<meta property="og:description" content="AI-powered screen time tracking, weekly behavioral reports, and content safety alerts. 100% local privacy option.">
-<meta property="og:url" content="https://leassh.com">
+<title>leassh — Fleet Monitoring for Power Users</title>
+<meta name="description" content="Monitor every machine via SSH. Rules engine with webhooks, MQTT, and command actuation. Talk to your fleet through your OpenClaw agent.">
+<meta property="og:title" content="Leassh Fleet — Your infrastructure, on a leash">
+<meta property="og:description" content="SSH fleet monitoring with rules, webhooks, MQTT, and OpenClaw integration. Process management, GPU orchestration, and predictive alerts.">
+<meta property="og:url" content="https://leassh.com/fleet">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Leassh — Understand your child's digital life">
-<meta name="twitter:description" content="Screen time tracking, AI content safety, and weekly behavioral reports for families.">
-<link rel="canonical" href="https://leassh.com">
+<meta name="twitter:title" content="Leassh Fleet — Your infrastructure, on a leash">
+<meta name="twitter:description" content="SSH fleet monitoring with rules, webhooks, and OpenClaw integration.">
+<link rel="canonical" href="https://leassh.com/fleet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -188,7 +188,7 @@
   .hero-sub {
     font-size: 18px;
     color: var(--text-mid);
-    max-width: 580px;
+    max-width: 600px;
     line-height: 1.7;
     margin-bottom: 40px;
   }
@@ -342,11 +342,10 @@
     border-radius: 3px;
   }
 
-  .sim-tag.gaming { background: rgba(212, 91, 76, 0.12); color: var(--red); }
-  .sim-tag.homework { background: rgba(106, 191, 105, 0.12); color: var(--green); }
-  .sim-tag.youtube { background: rgba(212, 162, 76, 0.12); color: var(--amber); }
+  .sim-tag.gpu { background: rgba(212, 162, 76, 0.12); color: var(--amber); }
+  .sim-tag.active { background: rgba(212, 91, 76, 0.12); color: var(--red); }
+  .sim-tag.idle { background: rgba(122, 111, 94, 0.15); color: var(--text-dim); }
   .sim-tag.offline { background: rgba(122, 111, 94, 0.15); color: var(--text-dim); }
-  .sim-tag.creative { background: rgba(106, 191, 105, 0.12); color: var(--green); }
 
   .sim-bar-track {
     flex: 1;
@@ -370,47 +369,9 @@
   .sim-metrics {
     font-size: 12px;
     color: var(--text-dim);
-    min-width: 140px;
+    min-width: 180px;
     text-align: right;
     font-variant-numeric: tabular-nums;
-  }
-
-  /* --- Social Proof / Trust --- */
-  .trust {
-    max-width: var(--max);
-    margin: 0 auto 100px;
-    padding: 0 32px;
-  }
-
-  .trust-copy {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 32px;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .trust-pill {
-    font-size: 14px;
-    color: var(--text-mid);
-    padding: 10px 20px;
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    white-space: nowrap;
-  }
-
-  .trust-pill strong {
-    color: var(--text);
-    font-weight: 600;
-  }
-
-  .trust-urgency {
-    text-align: center;
-    margin-top: 24px;
-    font-size: 14px;
-    color: var(--amber-soft);
-    font-weight: 500;
   }
 
   /* --- Feature Hero (large two-column block) --- */
@@ -457,43 +418,25 @@
 
   .feature-hero-text p:last-child {
     margin-bottom: 0;
-    font-style: italic;
-    color: var(--text-dim);
   }
 
-  /* Report card visual */
-  .report-card {
-    background: var(--bg-warm);
+  /* Code block visual */
+  .code-block {
+    background: #0d0b08;
     border: 1px solid var(--border);
     border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .report-header {
-    background: var(--amber-bg);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 20px;
-    font-family: var(--font-d);
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--amber);
-  }
-
-  .report-item {
-    padding: 12px 20px;
-    font-size: 14px;
+    padding: 24px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
     color: var(--text-mid);
-    border-bottom: 1px solid rgba(48, 43, 35, 0.4);
-    font-variant-numeric: tabular-nums;
   }
 
-  .report-item:last-child { border-bottom: none; }
-
-  .report-item.highlight {
-    color: var(--green);
-    font-weight: 600;
-    background: var(--green-bg);
-  }
+  .code-block .yaml-key { color: var(--amber); }
+  .code-block .yaml-val { color: var(--green); }
+  .code-block .yaml-comment { color: var(--text-dim); }
 
   /* --- Features Compact (3 items, no cards) --- */
   .features-compact {
@@ -517,6 +460,57 @@
     font-size: 14px;
     color: var(--text-mid);
     line-height: 1.7;
+  }
+
+  /* --- OpenClaw section --- */
+  .openclaw-section {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 120px;
+  }
+
+  .openclaw-box {
+    background: var(--amber-bg);
+    border: 1px solid rgba(212, 162, 76, 0.15);
+    border-radius: 12px;
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .openclaw-text {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .openclaw-box h3 {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--amber);
+  }
+
+  .openclaw-box p {
+    font-size: 15px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    max-width: 520px;
+  }
+
+  .btn-openclaw {
+    background: transparent;
+    color: var(--amber);
+    border: 1px solid var(--amber);
+    white-space: nowrap;
+  }
+
+  .btn-openclaw:hover {
+    background: var(--amber);
+    color: var(--bg);
   }
 
   /* --- How it works --- */
@@ -579,68 +573,6 @@
     font-size: 13px;
     color: var(--amber);
     font-family: 'SF Mono', 'Fira Code', monospace;
-  }
-
-  /* --- Privacy section --- */
-  .privacy {
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 0 32px 120px;
-  }
-
-  .privacy-box {
-    background: var(--green-bg);
-    border: 1px solid rgba(106, 191, 105, 0.15);
-    border-radius: 12px;
-    padding: 48px;
-  }
-
-  .privacy-box h2 {
-    font-family: var(--font-d);
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 24px;
-    color: var(--green);
-  }
-
-  .privacy-box p {
-    color: var(--text-mid);
-    font-size: 15px;
-    max-width: 600px;
-    line-height: 1.8;
-  }
-
-  .privacy-box p + p {
-    margin-top: 16px;
-  }
-
-  .privacy-box strong { color: var(--text); }
-
-  .privacy-modes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 28px;
-  }
-
-  .privacy-mode {
-    padding: 24px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    border: 1px solid rgba(106, 191, 105, 0.1);
-  }
-
-  .privacy-mode h3 {
-    font-family: var(--font-d);
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--text);
-  }
-
-  .privacy-mode p {
-    font-size: 14px;
-    max-width: none;
   }
 
   /* --- Pricing --- */
@@ -1181,19 +1113,16 @@
       box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
     }
 
-    .privacy-modes { grid-template-columns: 1fr; }
     .hero { padding: 60px 16px 60px; }
-    .preview, .feature-hero-block, .features-compact, .how, .privacy, .pricing, .faq, .cta { padding-left: 16px; padding-right: 16px; }
-    .trust { padding-left: 16px; padding-right: 16px; }
-    .privacy-box { padding: 32px 24px; }
+    .preview, .feature-hero-block, .features-compact, .how, .pricing, .faq, .cta, .openclaw-section { padding-left: 16px; padding-right: 16px; }
     .step { grid-template-columns: 40px 1fr; gap: 16px; }
     .sim-metrics { display: none; }
     .footer-inner { flex-direction: column; align-items: center; text-align: center; }
     .pricing-card:first-child,
     .pricing-card:last-child { border-radius: 12px; }
     .pricing-card.featured { transform: none; }
-    .trust-copy { gap: 12px; }
     .feature-hero { padding: 32px 24px; }
+    .openclaw-box { padding: 24px; flex-direction: column; text-align: center; }
   }
 
   /* Hide mobile CTA on desktop */
@@ -1216,7 +1145,6 @@
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#privacy">Privacy</a></li>
     <li><a href="/use-cases">Use Cases</a></li>
     <li><a href="/docs">Docs</a></li>
     <li><a href="#pricing" class="nav-cta">Start Free Trial</a></li>
@@ -1224,17 +1152,17 @@
 </nav>
 
 <section class="hero">
-  <div class="hero-eyebrow">AI-Powered Parental Insight</div>
-  <h1>Understand your child's <em>digital life</em></h1>
+  <div class="hero-eyebrow">SSH Fleet Monitoring + OpenClaw</div>
+  <h1>Your infrastructure, <em>on a leash</em></h1>
   <p class="hero-sub">
-    Leassh watches what your children do on their computers &mdash; not to surveil, but to help you understand. AI-powered activity reports, screen time tracking, and gentle time limits. No spyware. No keyloggers. Just understanding.
+    Monitor every machine via SSH. Rules engine with webhooks, MQTT, and command actuation. Talk to your fleet through your OpenClaw agent. Process management, GPU orchestration, and predictive alerts &mdash; all from one tool.
   </p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="#pricing">Start 14-Day Free Trial</a>
-    <a class="btn btn-ghost" href="#features">See how it works</a>
+    <a class="btn btn-primary" href="#pricing">Start Free Trial</a>
+    <a class="btn btn-ghost" href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">View on GitHub</a>
   </div>
   <div class="hero-alt-link">
-    <a href="/fleet">Looking for fleet monitoring? &rarr;</a>
+    <a href="/">Looking for family monitoring? &rarr;</a>
   </div>
 </section>
 
@@ -1244,128 +1172,107 @@
       <div class="preview-dot"></div>
       <div class="preview-dot"></div>
       <div class="preview-dot"></div>
-      <span class="preview-url">app.leassh.com/family</span>
+      <span class="preview-url">leassh-server:8383/fleet</span>
     </div>
     <div class="preview-body">
       <div class="sim-node">
         <div class="sim-dot green"></div>
-        <div class="sim-name">Emma's PC</div>
-        <span class="sim-tag homework">homework</span>
+        <div class="sim-name">gpu-primary</div>
+        <span class="sim-tag idle">idle</span>
         <div class="sim-bar-track"><div class="sim-bar-fill low"></div></div>
-        <div class="sim-metrics">1h 12min today &middot; Google Docs</div>
+        <div class="sim-metrics">GPU 12% &middot; 418 GB free &middot; 42 &deg;C</div>
       </div>
       <div class="sim-node">
         <div class="sim-dot red"></div>
-        <div class="sim-name">Oscar's Laptop</div>
-        <span class="sim-tag gaming">gaming</span>
+        <div class="sim-name">ronaldo</div>
+        <span class="sim-tag active">active</span>
         <div class="sim-bar-track"><div class="sim-bar-fill high"></div></div>
-        <div class="sim-metrics">3h 47min today &middot; limit reached</div>
+        <div class="sim-metrics">GPU 94% &middot; FortniteClient &middot; 78 &deg;C</div>
       </div>
       <div class="sim-node">
         <div class="sim-dot amber"></div>
-        <div class="sim-name">Living Room iMac</div>
-        <span class="sim-tag youtube">youtube</span>
-        <div class="sim-bar-track"><div class="sim-bar-fill med"></div></div>
-        <div class="sim-metrics">2h 05min today &middot; 55min left</div>
+        <div class="sim-name">gpu-tertiary</div>
+        <span class="sim-tag offline">offline</span>
+        <div class="sim-bar-track"><div class="sim-bar-fill off"></div></div>
+        <div class="sim-metrics">last seen 6h ago</div>
       </div>
       <div class="sim-node">
         <div class="sim-dot green"></div>
-        <div class="sim-name">Dad's Workstation</div>
-        <span class="sim-tag offline">idle</span>
-        <div class="sim-bar-track"><div class="sim-bar-fill off"></div></div>
-        <div class="sim-metrics">no limits set</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="trust reveal">
-  <div class="trust-copy">
-    <div class="trust-pill">Backed by the <strong>OpenClaw</strong> open-source community</div>
-    <div class="trust-pill"><strong>Zero</strong> data stored in our cloud</div>
-    <div class="trust-pill"><strong>100%</strong> local privacy option</div>
-    <div class="trust-pill">Works on <strong>Windows, Mac, Linux</strong></div>
-  </div>
-  <div class="trust-urgency">Early access &mdash; be among the first 100 families</div>
-</section>
-
-<section class="privacy reveal" id="privacy">
-  <div class="privacy-box">
-    <h2>Privacy you can actually verify</h2>
-    <p>
-      Most parental monitoring tools send your child's screen data to their cloud servers, where it sits in a database you can't audit.
-      Leassh gives you a real choice.
-    </p>
-    <div class="privacy-modes">
-      <div class="privacy-mode">
-        <h3>Local Mode</h3>
-        <p>Run a vision AI like Qwen on your own hardware. Screenshots are captured, analyzed, and summarized on your network. <strong>No data ever leaves your home.</strong> This is the gold standard of privacy.</p>
-      </div>
-      <div class="privacy-mode">
-        <h3>Cloud Mode</h3>
-        <p>Don't want to run infrastructure? Use our cloud. Screenshots are analyzed and <strong>immediately deleted</strong> &mdash; never stored in a database, never sold, never used for training. Just results, then gone.</p>
+        <div class="sim-name">macbook</div>
+        <span class="sim-tag idle">idle</span>
+        <div class="sim-bar-track"><div class="sim-bar-fill low"></div></div>
+        <div class="sim-metrics">CPU 3% &middot; 14 GB free &middot; 31 &deg;C</div>
       </div>
     </div>
   </div>
 </section>
 
 <section class="feature-hero-block reveal" id="features">
-  <div class="section-label">What makes Leassh different</div>
+  <div class="section-label">Built for power users</div>
   <div class="feature-hero">
     <div class="feature-hero-text">
-      <h3>Weekly Behavioral Reports</h3>
-      <p>Not just "3 hours of gaming." Leassh tells you: "Oscar discovered Scratch programming this week and spent 4 hours across 3 sessions. His YouTube searches shifted from Minecraft Let's Plays to coding tutorials. This looks like a genuine interest developing."</p>
-      <p>Like having a thoughtful teacher who watches alongside your child and reports back to you &mdash; weekly, warmly, without judgment.</p>
+      <h3>Rules That Act For You</h3>
+      <p>Define rules in YAML. When a shared machine goes idle with a game running, Leassh kills the process and starts Ollama. When disk fills past 90%, fire a webhook. Nine built-in triggers ship active by default.</p>
     </div>
     <div class="feature-hero-visual">
-      <div class="report-card">
-        <div class="report-header">This Week: Oscar's Laptop</div>
-        <div class="report-item highlight">Creative/Coding &#8593; 4h (NEW)</div>
-        <div class="report-item">Gaming &#8595; 5h (was 8h)</div>
-        <div class="report-item">YouTube &#8776; 5.5h</div>
-        <div class="report-item">Homework &#8776; 3.8h</div>
-      </div>
+      <div class="code-block"><span class="yaml-key">rules:</span>
+  - <span class="yaml-key">name:</span> <span class="yaml-val">reclaim-idle-gpu</span>
+    <span class="yaml-key">when:</span> <span class="yaml-val">node.idle_minutes > 30 AND node.has_blacklisted_process</span>
+    <span class="yaml-key">do:</span>
+      - <span class="yaml-val">kill_blacklisted_processes</span>
+      - <span class="yaml-key">ssh_command:</span> <span class="yaml-val">"ollama serve"</span>
+      - <span class="yaml-key">webhook:</span> <span class="yaml-val">gpu_reclaimed</span></div>
     </div>
   </div>
 </section>
 
 <section class="features-compact reveal">
   <div class="feature-compact">
-    <h4>Time Limits That Enforce Themselves</h4>
-    <p>2h gaming, 3h YouTube &mdash; set limits per category. Leassh warns at 80% and can close apps when time is up.</p>
+    <h4>SSH Fleet Monitoring</h4>
+    <p>CPU, GPU, RAM, disk, processes, idle time, temperatures &mdash; probed automatically every two minutes. Windows, macOS, Linux. No agent required, just SSH.</p>
   </div>
   <div class="feature-compact">
-    <h4>Content Safety Alerts</h4>
-    <p>AI analyzes screenshots for concerning content. Immediate Telegram alerts or a calm evening digest. You set the sensitivity.</p>
+    <h4>Webhooks + MQTT + SSH Actuation</h4>
+    <p>Webhooks with template variables, MQTT for Home Assistant, SSH commands on any node. Kill processes, restart services, reclaim GPUs &mdash; automatically or on demand.</p>
   </div>
   <div class="feature-compact">
-    <h4>Your Data, Your Rules</h4>
-    <p>Run the AI on your own hardware &mdash; screenshots never leave home. Or use our cloud where they're analyzed and immediately deleted.</p>
+    <h4>Trend Prediction</h4>
+    <p>Rate-of-change analysis on disk, RAM, and temperature. "Disk losing 12 GB/h, critical in ~40 minutes." Not reactive &mdash; predictive.</p>
+  </div>
+</section>
+
+<section class="openclaw-section reveal">
+  <div class="openclaw-box">
+    <div class="openclaw-text">
+      <h3>Free OpenClaw Plugin</h3>
+      <p>Ask your AI agent "how's the fleet?" and get real-time answers. Proactive alerts in chat. The free plugin monitors &mdash; Leassh Pro acts.</p>
+    </div>
+    <a class="btn btn-openclaw" href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">Star on GitHub &rarr;</a>
   </div>
 </section>
 
 <section class="how reveal" id="how">
-  <h2>Up and running in three minutes</h2>
+  <h2>Deploy in three commands</h2>
   <div class="steps">
     <div class="step">
       <div class="step-num"></div>
       <div>
-        <h3>Create your account and get a family code</h3>
-        <p>Sign up at leassh.com and get your unique family code. This code links all your family's computers to your dashboard.</p>
+        <h3>Install via Docker</h3>
+        <p>One command: <code>docker run -p 8383:8383 leassh/leassh</code></p>
       </div>
     </div>
     <div class="step">
       <div class="step-num"></div>
       <div>
-        <h3>Install the tiny agent on each computer</h3>
-        <p>Download the Leassh agent, run the installer, and enter your family code. No configuration files, no terminal. Works on Windows, macOS, and Linux.</p>
+        <h3>Add machines to fleet.yaml</h3>
+        <p>List your hosts, SSH credentials, and probe intervals. Or use the "Add Machine" UI in the dashboard.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num"></div>
       <div>
-        <h3>Open your dashboard &mdash; tracking is live immediately</h3>
-        <p>Screen time, limits, and content alerts are live right away at <code>app.leassh.com</code>. Weekly reports start arriving after the first full week.</p>
+        <h3>Define rules and webhooks</h3>
+        <p>Set up triggers, actuation, and limits in YAML or the UI. Fleet dashboard at <code>:8383/fleet</code>.</p>
       </div>
     </div>
   </div>
@@ -1374,7 +1281,7 @@
 <section class="pricing reveal" id="pricing">
   <div class="pricing-header">
     <h2>Simple, honest pricing</h2>
-    <p>Choose the plan that fits your family.</p>
+    <p>Choose the plan that fits your infrastructure.</p>
   </div>
 
   <div class="billing-toggle">
@@ -1395,53 +1302,56 @@
         <del class="monthly-crossed" style="display:inline">$7.99</del> $<span class="price-value">4.99</span><span>/mo</span>
       </div>
       <div class="pricing-billed" data-annual-text="billed annually at $59.88" data-monthly-text="">billed annually at $59.88</div>
-      <div class="pricing-desc">Getting started</div>
+      <div class="pricing-desc">Basic monitoring</div>
       <ul class="pricing-features">
-        <li><span class="check">+</span> 3 computers</li>
-        <li><span class="check">+</span> Process-based tracking</li>
+        <li><span class="check">+</span> 3 machines</li>
+        <li><span class="check">+</span> SSH probing</li>
         <li><span class="check">+</span> Daily summaries</li>
-        <li><span class="check">+</span> Per-category limits</li>
+        <li><span class="check">+</span> Basic alerts</li>
       </ul>
       <button class="btn btn-primary" onclick="startCheckout('essential')">Get Started</button>
     </div>
 
-    <!-- Family (Recommended) -->
-    <div class="pricing-card featured">
-      <div class="pricing-badge">For Most Families</div>
+    <!-- Family -->
+    <div class="pricing-card">
       <div class="pricing-name">Family</div>
       <div class="pricing-price" data-annual="9.99" data-monthly="14.99">
         <del class="monthly-crossed" style="display:inline">$14.99</del> $<span class="price-value">9.99</span><span>/mo</span>
       </div>
       <div class="pricing-billed" data-annual-text="billed annually at $119.88" data-monthly-text="">billed annually at $119.88</div>
-      <div class="pricing-desc">AI-powered insights for involved parents</div>
+      <div class="pricing-desc">Monitoring + AI insights</div>
       <ul class="pricing-features">
-        <li><span class="check">+</span> 10 computers</li>
+        <li><span class="check">+</span> 10 machines</li>
         <li><span class="check">+</span> AI screenshot analysis</li>
-        <li><span class="check">+</span> Daily + weekly behavioral reports</li>
+        <li><span class="check">+</span> Weekly behavioral reports</li>
         <li><span class="check">+</span> Time limits + enforcement</li>
         <li><span class="check">+</span> Content safety alerts</li>
         <li><span class="check">+</span> Telegram notifications</li>
       </ul>
       <button class="btn btn-primary" onclick="startCheckout('family')">Start 14-Day Free Trial</button>
-      <div class="founder-note">&#128274; Founder's price: limited spots</div>
     </div>
 
-    <!-- Pro -->
-    <div class="pricing-card">
+    <!-- Pro (Recommended on fleet page) -->
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Full Fleet Control</div>
       <div class="pricing-name">Pro</div>
       <div class="pricing-price" data-annual="19.99" data-monthly="29.99">
         <del class="monthly-crossed" style="display:inline">$29.99</del> $<span class="price-value">19.99</span><span>/mo</span>
       </div>
       <div class="pricing-billed" data-annual-text="billed annually at $239.88" data-monthly-text="">billed annually at $239.88</div>
-      <div class="pricing-desc">For technical parents who want full control</div>
+      <div class="pricing-desc">Everything you need for fleet control</div>
       <ul class="pricing-features">
-        <li><span class="check">+</span> Unlimited computers</li>
+        <li><span class="check">+</span> Unlimited machines</li>
         <li><span class="check">+</span> Everything in Family</li>
-        <li><span class="check">+</span> Advanced rules engine</li>
-        <li><span class="check">+</span> Self-hosting option</li>
-        <li><span class="check">+</span> API access</li>
+        <li><span class="check">+</span> Rules engine + YAML config</li>
+        <li><span class="check">+</span> Webhooks + MQTT + SSH actuation</li>
+        <li><span class="check">+</span> Fleet dashboard with SSH control</li>
+        <li><span class="check">+</span> OpenClaw plugin included</li>
+        <li><span class="check">+</span> Self-hosting (Docker + binary)</li>
+        <li><span class="check">+</span> Full REST API</li>
       </ul>
       <button class="btn btn-primary" onclick="startCheckout('pro')">Start 14-Day Free Trial</button>
+      <div class="founder-note">&#128274; Founder's price: limited spots</div>
     </div>
 
   </div>
@@ -1462,18 +1372,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>Computers</td><td>3</td><td>10</td><td>Unlimited</td></tr>
-          <tr><td>Process tracking</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Machines</td><td>3</td><td>10</td><td>Unlimited</td></tr>
+          <tr><td>SSH probing</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
           <tr><td>Daily summaries</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Per-category limits</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Basic alerts</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
           <tr><td>AI screenshot analysis</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Weekly behavioral reports</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Weekly reports</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
           <tr><td>Time limits + enforcement</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Content safety alerts</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
           <tr><td>Telegram notifications</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Advanced rules engine</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Self-hosting option</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>API access</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Rules engine + YAML</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Webhooks + MQTT</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>SSH actuation</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Fleet dashboard</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>OpenClaw plugin</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Self-hosting</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
+          <tr><td>Full REST API</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
           <tr><td>14-day free trial</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
         </tbody>
       </table>
@@ -1488,65 +1401,66 @@
   <div class="faq-list">
     <div class="faq-item">
       <input type="checkbox" id="faq-1" class="faq-toggle">
-      <label for="faq-1" class="faq-q">What does the agent actually do?</label>
+      <label for="faq-1" class="faq-q">Do I need to install an agent on each machine?</label>
       <div class="faq-a">
-        <p>It's a tiny background service that monitors screen activity and reports to your dashboard. It uses about 30MB of memory and is invisible to the user.</p>
+        <p>No. Fleet monitoring works over SSH &mdash; Leassh connects to your machines directly and probes metrics. No agent installation required. Just add hosts to your fleet.yaml with SSH credentials.</p>
       </div>
     </div>
     <div class="faq-item">
       <input type="checkbox" id="faq-2" class="faq-toggle">
-      <label for="faq-2" class="faq-q">Can my child disable or uninstall the agent?</label>
+      <label for="faq-2" class="faq-q">How does the rules engine work?</label>
       <div class="faq-a">
-        <p>The agent runs as a system service requiring administrator access to modify. A normal user account cannot stop or uninstall it.</p>
+        <p>Define rules in YAML with conditions and actions. Conditions can reference any probe metric (CPU, GPU, disk, temperature, processes, idle time). Actions include webhooks, MQTT messages, and SSH commands. Nine built-in rules ship active by default &mdash; you can customize or disable them.</p>
       </div>
     </div>
     <div class="faq-item">
       <input type="checkbox" id="faq-3" class="faq-toggle">
-      <label for="faq-3" class="faq-q">What data is collected?</label>
+      <label for="faq-3" class="faq-q">What is the OpenClaw plugin?</label>
       <div class="faq-a">
-        <p>Periodic screenshots (analyzed and deleted), CPU/memory/disk usage, running applications, and keyboard/mouse idle time. No keystrokes, no browsing history, no file contents.</p>
+        <p>openclaw-fleet is a free, open-source plugin that connects your Leassh fleet data to any OpenClaw-compatible AI agent. Ask "how's the fleet?" in natural language and get real-time status, proactive alerts, and suggested actions. Available at github.com/leassh/openclaw-fleet.</p>
       </div>
     </div>
     <div class="faq-item">
       <input type="checkbox" id="faq-4" class="faq-toggle">
-      <label for="faq-4" class="faq-q">Is this legal?</label>
+      <label for="faq-4" class="faq-q">Can I self-host everything?</label>
       <div class="faq-a">
-        <p>Yes. Parents have the legal right to monitor their minor children's computer activity. Leassh should not be used to monitor adults without their knowledge and consent.</p>
+        <p>Yes. The Pro plan includes full self-hosting support. Run <code>docker run -p 8383:8383 leassh/leassh</code> or download the binary. Your dashboard, your data, your infrastructure. No cloud dependency.</p>
       </div>
     </div>
     <div class="faq-item">
       <input type="checkbox" id="faq-5" class="faq-toggle">
-      <label for="faq-5" class="faq-q">What AI model is used?</label>
+      <label for="faq-5" class="faq-q">What data is collected via SSH?</label>
       <div class="faq-a">
-        <p>In local mode, Leassh works with open-source vision models like Qwen3-VL that run on your own hardware. In cloud mode, we run the analysis on our infrastructure and delete screenshots immediately after processing.</p>
+        <p>CPU, GPU, RAM, disk usage, temperatures, running processes, active users, idle time, and network interfaces. All data is collected via read-only SSH commands. Leassh never modifies your machines unless you define actuation rules that explicitly do so.</p>
       </div>
     </div>
     <div class="faq-item">
       <input type="checkbox" id="faq-6" class="faq-toggle">
-      <label for="faq-6" class="faq-q">How do the weekly reports work?</label>
+      <label for="faq-6" class="faq-q">How does SSH actuation differ from SSH monitoring?</label>
       <div class="faq-a">
-        <p>Every Sunday, Leassh's AI reviews the week's activity data and generates a human-readable summary. It highlights trends, new interests, and shifts in behavior &mdash; not just raw screen time numbers. Reports are sent to your email and available in the dashboard.</p>
+        <p>Monitoring is read-only: Leassh probes metrics via SSH. Actuation means Leassh can also execute commands &mdash; like killing a process, restarting a service, or running a script. Actuation is opt-in and requires explicit rules in your YAML config. Only available on the Pro plan.</p>
       </div>
     </div>
   </div>
 </section>
 
 <section class="cta reveal" id="signup">
-  <h2>Start your free trial</h2>
-  <p>See what your kids are really doing. Set up in three minutes. Cancel anytime.</p>
+  <h2>Put your fleet on a leash</h2>
+  <p>Rules, webhooks, and SSH actuation. Deploy in under three minutes.</p>
   <div class="hero-actions" style="justify-content: center;">
-    <a class="btn btn-primary" href="#pricing">Start 14-Day Free Trial</a>
+    <a class="btn btn-primary" href="#pricing">Start Free Trial</a>
+    <a class="btn btn-ghost" href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">OpenClaw Plugin</a>
   </div>
 </section>
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-tagline">leassh &mdash; AI-powered screen time insights for families.</div>
+    <div class="footer-tagline">leassh &mdash; SSH fleet monitoring, rules, and actuation for power users.</div>
     <ul class="footer-links">
-      <li><a href="/fleet">Fleet Monitoring &rarr;</a></li>
+      <li><a href="/">Family Monitoring &rarr;</a></li>
       <li><a href="/privacy-policy">Privacy Policy</a></li>
       <li><a href="/privacy-policy#terms">Terms</a></li>
-      <li><a href="/docs">Docs</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
       <li><a href="mailto:hello@leassh.com">Contact</a></li>
     </ul>
   </div>
