@@ -52,7 +52,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* --- Atmosphere --- */
   .atmo {
     position: fixed;
     inset: 0;
@@ -83,6 +82,31 @@
     letter-spacing: -0.5px;
   }
 
+  .nav-toggle-input { display: none; }
+
+  .nav-hamburger {
+    display: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+    margin-left: auto;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+    border-radius: 1px;
+  }
+
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
   .nav-links {
     margin-left: auto;
     display: flex;
@@ -102,6 +126,9 @@
   .nav-links a:hover { color: var(--text); }
   .nav-links a.active { color: var(--text); }
 
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+
   .nav-cta {
     background: var(--amber);
     color: var(--bg) !important;
@@ -116,43 +143,7 @@
     box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
   }
 
-  /* --- Mobile hamburger (CSS-only) --- */
-  .hamburger {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    z-index: 101;
-  }
-
-  .hamburger span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--text);
-    margin: 5px 0;
-    transition: transform 0.3s var(--ease), opacity 0.2s;
-    border-radius: 1px;
-  }
-
-  #nav-toggle { display: none; }
-
-  #nav-toggle:checked ~ .nav-links {
-    display: flex;
-  }
-
-  #nav-toggle:checked ~ .hamburger span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-
-  #nav-toggle:checked ~ .hamburger span:nth-child(2) {
-    opacity: 0;
-  }
-
-  #nav-toggle:checked ~ .hamburger span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-  }
+  .nav-cta-mobile { display: none; }
 
   /* --- Hero --- */
   .hero {
@@ -180,10 +171,7 @@
     margin-bottom: 28px;
   }
 
-  .hero h1 em {
-    font-style: normal;
-    color: var(--amber);
-  }
+  .hero h1 em { font-style: normal; color: var(--amber); }
 
   .hero-sub {
     font-size: 18px;
@@ -231,29 +219,15 @@
   }
 
   .btn:hover { transform: translateY(-2px); }
-
-  .btn-primary {
-    background: var(--amber);
-    color: var(--bg);
-  }
-
+  .btn-primary { background: var(--amber); color: var(--bg); }
   .btn-primary:hover { box-shadow: 0 6px 30px rgba(212, 162, 76, 0.3); }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--text-mid);
-    border: 1px solid var(--border);
-  }
-
-  .btn-ghost:hover {
-    border-color: var(--text-dim);
-    color: var(--text);
-  }
+  .btn-ghost { background: transparent; color: var(--text-mid); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); }
 
   /* --- Dashboard preview --- */
   .preview {
     max-width: var(--max);
-    margin: 0 auto 120px;
+    margin: 0 auto 100px;
     padding: 0 32px;
   }
 
@@ -288,14 +262,10 @@
     margin-left: 12px;
     font-size: 12px;
     color: var(--text-dim);
-    font-family: var(--font-b);
   }
 
-  .preview-body {
-    padding: 32px;
-  }
+  .preview-body { padding: 32px; }
 
-  /* Simulated dashboard nodes */
   .sim-node {
     display: flex;
     align-items: center;
@@ -316,22 +286,12 @@
     to { opacity: 1; transform: translateX(0); }
   }
 
-  .sim-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
+  .sim-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .sim-dot.green { background: var(--green); box-shadow: 0 0 8px rgba(106,191,105,0.4); }
   .sim-dot.amber { background: var(--amber); box-shadow: 0 0 8px rgba(212,162,76,0.3); }
   .sim-dot.red { background: var(--red); box-shadow: 0 0 8px rgba(212,91,76,0.3); }
 
-  .sim-name {
-    font-weight: 600;
-    font-size: 14px;
-    min-width: 120px;
-  }
+  .sim-name { font-weight: 600; font-size: 14px; min-width: 120px; }
 
   .sim-tag {
     font-size: 10px;
@@ -348,20 +308,8 @@
   .sim-tag.offline { background: rgba(122, 111, 94, 0.15); color: var(--text-dim); }
   .sim-tag.creative { background: rgba(106, 191, 105, 0.12); color: var(--green); }
 
-  .sim-bar-track {
-    flex: 1;
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .sim-bar-fill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 1.5s var(--ease);
-  }
-
+  .sim-bar-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .sim-bar-fill { height: 100%; border-radius: 2px; transition: width 1.5s var(--ease); }
   .sim-bar-fill.low { background: #3a5a39; width: 25%; }
   .sim-bar-fill.med { background: var(--amber-soft); width: 55%; }
   .sim-bar-fill.high { background: var(--red); width: 87%; }
@@ -375,10 +323,10 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* --- Social Proof / Trust --- */
+  /* --- Trust --- */
   .trust {
     max-width: var(--max);
-    margin: 0 auto 100px;
+    margin: 0 auto 80px;
     padding: 0 32px;
   }
 
@@ -400,10 +348,7 @@
     white-space: nowrap;
   }
 
-  .trust-pill strong {
-    color: var(--text);
-    font-weight: 600;
-  }
+  .trust-pill strong { color: var(--text); font-weight: 600; }
 
   .trust-urgency {
     text-align: center;
@@ -413,7 +358,7 @@
     font-weight: 500;
   }
 
-  /* --- Feature Hero (large two-column block) --- */
+  /* --- Behavioral report preview --- */
   .feature-hero-block {
     max-width: var(--max);
     margin: 0 auto;
@@ -461,7 +406,6 @@
     color: var(--text-dim);
   }
 
-  /* Report card visual */
   .report-card {
     background: var(--bg-warm);
     border: 1px solid var(--border);
@@ -495,17 +439,17 @@
     background: var(--green-bg);
   }
 
-  /* --- Features Compact (3 items, no cards) --- */
-  .features-compact {
+  /* --- Feature highlights --- */
+  .highlights {
     max-width: var(--max);
     margin: 0 auto;
-    padding: 0 32px 120px;
+    padding: 0 32px 80px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+    gap: 32px;
   }
 
-  .feature-compact h4 {
+  .highlight-card h4 {
     font-family: var(--font-d);
     font-size: 18px;
     font-weight: 600;
@@ -513,17 +457,27 @@
     margin-bottom: 8px;
   }
 
-  .feature-compact p {
+  .highlight-card p {
     font-size: 14px;
     color: var(--text-mid);
     line-height: 1.7;
+    margin-bottom: 12px;
   }
+
+  .highlight-card a {
+    color: var(--amber);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .highlight-card a:hover { color: var(--amber-soft); }
 
   /* --- How it works --- */
   .how {
     max-width: var(--max);
     margin: 0 auto;
-    padding: 0 32px 120px;
+    padding: 0 32px 80px;
   }
 
   .how h2 {
@@ -559,17 +513,8 @@
   }
 
   .step-num::before { content: counter(step); }
-
-  .step h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-
-  .step p {
-    color: var(--text-mid);
-    font-size: 14px;
-  }
+  .step h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+  .step p { color: var(--text-mid); font-size: 14px; }
 
   .step code {
     display: inline-block;
@@ -581,81 +526,19 @@
     font-family: 'SF Mono', 'Fira Code', monospace;
   }
 
-  /* --- Privacy section --- */
-  .privacy {
+  /* --- Pricing preview --- */
+  .pricing-preview {
     max-width: var(--max);
     margin: 0 auto;
-    padding: 0 32px 120px;
+    padding: 0 32px 80px;
   }
 
-  .privacy-box {
-    background: var(--green-bg);
-    border: 1px solid rgba(106, 191, 105, 0.15);
-    border-radius: 12px;
-    padding: 48px;
-  }
-
-  .privacy-box h2 {
-    font-family: var(--font-d);
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 24px;
-    color: var(--green);
-  }
-
-  .privacy-box p {
-    color: var(--text-mid);
-    font-size: 15px;
-    max-width: 600px;
-    line-height: 1.8;
-  }
-
-  .privacy-box p + p {
-    margin-top: 16px;
-  }
-
-  .privacy-box strong { color: var(--text); }
-
-  .privacy-modes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 28px;
-  }
-
-  .privacy-mode {
-    padding: 24px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    border: 1px solid rgba(106, 191, 105, 0.1);
-  }
-
-  .privacy-mode h3 {
-    font-family: var(--font-d);
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--text);
-  }
-
-  .privacy-mode p {
-    font-size: 14px;
-    max-width: none;
-  }
-
-  /* --- Pricing --- */
-  .pricing {
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 0 32px 120px;
-  }
-
-  .pricing-header {
-    margin-bottom: 40px;
+  .pricing-preview-header {
     text-align: center;
+    margin-bottom: 40px;
   }
 
-  .pricing-header h2 {
+  .pricing-preview-header h2 {
     font-family: var(--font-d);
     font-size: clamp(28px, 4vw, 40px);
     font-weight: 700;
@@ -663,394 +546,68 @@
     margin-bottom: 12px;
   }
 
-  .pricing-header p {
-    color: var(--text-mid);
-    font-size: 17px;
-    max-width: 520px;
-    margin: 0 auto;
-  }
-
-  /* Billing toggle */
-  .billing-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 48px;
-  }
-
-  .toggle-label {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: color 0.3s;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .toggle-label.active {
-    color: var(--text);
-  }
-
-  .save-badge {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--green);
-    background: var(--green-bg);
-    padding: 2px 8px;
-    border-radius: 4px;
-    letter-spacing: 0.5px;
-  }
-
-  .toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 48px;
-    height: 26px;
-  }
-
-  .toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .toggle-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--amber);
-    border-radius: 26px;
-    transition: background 0.3s;
-  }
-
-  .toggle-slider::before {
-    content: '';
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    left: 3px;
-    bottom: 3px;
-    background: var(--bg);
-    border-radius: 50%;
-    transition: transform 0.3s var(--ease);
-  }
-
-  .toggle-switch input:checked + .toggle-slider::before {
-    transform: translateX(22px);
-  }
-
-  /* Pricing grid */
-  .pricing-grid {
+  .pricing-mini-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2px;
-    max-width: 980px;
-    margin: 0 auto;
-    align-items: stretch;
-  }
-
-  .pricing-card {
-    background: var(--bg-raised);
-    padding: 40px 28px;
-    display: flex;
-    flex-direction: column;
-    transition: background 0.3s;
-    border-radius: 0;
-  }
-
-  .pricing-card:hover { background: var(--bg-warm); }
-
-  .pricing-card:first-child { border-radius: 12px 0 0 12px; }
-  .pricing-card:last-child { border-radius: 0 12px 12px 0; }
-
-  .pricing-card.featured {
-    background: var(--bg-warm);
-    border: 1px solid var(--amber);
-    border-radius: 12px;
-    position: relative;
-    z-index: 1;
-    box-shadow: 0 8px 40px rgba(212, 162, 76, 0.12);
-    transform: scale(1.03);
-  }
-
-  .pricing-badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--amber);
-    background: var(--amber-bg);
-    padding: 4px 12px;
-    border-radius: 4px;
-    margin-bottom: 16px;
-    align-self: flex-start;
-  }
-
-  .pricing-name {
-    font-family: var(--font-d);
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    letter-spacing: -0.3px;
-  }
-
-  .pricing-price {
-    font-family: var(--font-d);
-    font-size: 36px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    margin-bottom: 2px;
-    transition: opacity 0.25s ease;
-  }
-
-  .pricing-price span {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text-mid);
-    letter-spacing: 0;
-  }
-
-  .pricing-price del {
-    font-size: 20px;
-    font-weight: 500;
-    color: var(--text-dim);
-    letter-spacing: 0;
-    text-decoration: line-through;
-    margin-right: 6px;
-  }
-
-  .pricing-billed {
-    font-size: 13px;
-    color: var(--text-dim);
-    margin-bottom: 4px;
-    min-height: 20px;
-    transition: opacity 0.25s ease;
-  }
-
-  .pricing-desc {
-    font-size: 14px;
-    color: var(--text-dim);
-    margin-bottom: 24px;
-    line-height: 1.6;
-  }
-
-  .pricing-features {
-    list-style: none;
-    margin-bottom: 28px;
-    flex: 1;
-  }
-
-  .pricing-features li {
-    font-size: 14px;
-    color: var(--text-mid);
-    padding: 7px 0;
-    border-bottom: 1px solid rgba(48, 43, 35, 0.4);
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-  }
-
-  .pricing-features li:last-child { border-bottom: none; }
-
-  .pricing-features .check {
-    color: var(--green);
-    font-weight: 700;
-    flex-shrink: 0;
-    font-size: 13px;
-  }
-
-  .pricing-card .btn {
-    width: 100%;
-    justify-content: center;
-    margin-top: auto;
-  }
-
-  .founder-note {
-    font-size: 12px;
-    color: var(--amber-soft);
-    text-align: center;
-    margin-top: 12px;
-    letter-spacing: 0.2px;
-  }
-
-  /* Feature comparison table */
-  .feature-comparison {
-    max-width: 980px;
-    margin: 48px auto 0;
-  }
-
-  .comparison-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 24px;
-    color: var(--text-mid);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
-    margin: 0 auto;
-    font-family: var(--font-b);
-  }
-
-  .comparison-toggle:hover {
-    color: var(--amber);
-    border-color: var(--amber);
-  }
-
-  .comparison-toggle .arrow {
-    transition: transform 0.3s var(--ease);
-    display: inline-block;
-  }
-
-  .comparison-toggle.open .arrow {
-    transform: rotate(180deg);
-  }
-
-  .comparison-table {
-    display: none;
-    margin-top: 24px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .comparison-table.visible {
-    display: block;
-  }
-
-  .comparison-table table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-  }
-
-  .comparison-table th {
-    background: var(--bg-raised);
-    color: var(--text);
-    font-family: var(--font-d);
-    font-weight: 700;
-    padding: 14px 16px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .comparison-table th:not(:first-child) {
-    text-align: center;
-    width: 20%;
-  }
-
-  .comparison-table td {
-    padding: 10px 16px;
-    color: var(--text-mid);
-    border-bottom: 1px solid rgba(48, 43, 35, 0.3);
-  }
-
-  .comparison-table td:not(:first-child) {
-    text-align: center;
-    color: var(--green);
-    font-weight: 600;
-  }
-
-  .comparison-table tr:last-child td {
-    border-bottom: none;
-  }
-
-  /* --- FAQ --- */
-  .faq {
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 0 32px 120px;
-  }
-
-  .faq-header {
-    margin-bottom: 48px;
-  }
-
-  .faq-header h2 {
-    font-family: var(--font-d);
-    font-size: clamp(28px, 4vw, 40px);
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
-
-  .faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .faq-item {
-    border-top: 1px solid var(--border);
-  }
-
-  .faq-item:last-child {
-    border-bottom: 1px solid var(--border);
-  }
-
-  .faq-toggle {
-    display: none;
-  }
-
-  .faq-q {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 0;
-    cursor: pointer;
-    font-family: var(--font-d);
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--text);
-    transition: color 0.2s;
-    user-select: none;
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
+    max-width: 800px;
+    margin: 0 auto 24px;
   }
 
-  .faq-q:hover { color: var(--amber); }
-
-  .faq-q::after {
-    content: '+';
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--text-dim);
-    flex-shrink: 0;
-    transition: transform 0.3s var(--ease);
-    line-height: 1;
+  .pricing-mini {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    text-align: center;
+    transition: border-color 0.2s;
   }
 
-  .faq-toggle:checked + .faq-q::after {
-    transform: rotate(45deg);
+  .pricing-mini:hover { border-color: var(--amber); }
+
+  .pricing-mini.featured {
+    border-color: var(--amber);
+    background: var(--bg-warm);
+  }
+
+  .pricing-mini-name {
+    font-family: var(--font-d);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .pricing-mini-price {
+    font-family: var(--font-d);
+    font-size: 28px;
+    font-weight: 800;
     color: var(--amber);
+    margin-bottom: 8px;
   }
 
-  .faq-a {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s var(--ease), padding 0.3s;
-    padding: 0 0;
-  }
-
-  .faq-toggle:checked ~ .faq-a {
-    max-height: 300px;
-    padding: 0 0 20px;
-  }
-
-  .faq-a p {
+  .pricing-mini-price span {
+    font-size: 14px;
+    font-weight: 500;
     color: var(--text-mid);
-    font-size: 15px;
-    line-height: 1.7;
-    max-width: 680px;
   }
+
+  .pricing-mini-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .pricing-preview-link {
+    text-align: center;
+  }
+
+  .pricing-preview-link a {
+    color: var(--amber);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .pricing-preview-link a:hover { color: var(--amber-soft); }
 
   /* --- CTA --- */
   .cta {
@@ -1101,6 +658,7 @@
     display: flex;
     gap: 24px;
     list-style: none;
+    flex-wrap: wrap;
   }
 
   .footer-links a {
@@ -1126,14 +684,9 @@
 
   /* --- Responsive --- */
   @media (max-width: 800px) {
-    .pricing-grid { grid-template-columns: 1fr; gap: 16px; }
-    .pricing-card:first-child { border-radius: 12px; }
-    .pricing-card:last-child { border-radius: 12px; }
-    .pricing-card.featured { transform: none; }
-    .comparison-table th:not(:first-child),
-    .comparison-table td:not(:first-child) { width: auto; padding: 10px 8px; font-size: 13px; }
     .feature-hero { grid-template-columns: 1fr; gap: 32px; }
-    .features-compact { grid-template-columns: 1fr; gap: 32px; }
+    .highlights { grid-template-columns: 1fr; gap: 24px; }
+    .pricing-mini-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 640px) {
@@ -1141,10 +694,7 @@
     .nav-links {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: var(--bg);
       flex-direction: column;
       align-items: center;
@@ -1153,16 +703,10 @@
       z-index: 100;
     }
 
-    .nav-links a {
-      font-size: 18px;
-    }
+    .nav-links a { font-size: 18px; }
 
-    .hamburger {
-      display: block;
-      margin-left: auto;
-    }
+    .nav-hamburger { display: block; }
 
-    /* CTA always visible on mobile, right of hamburger */
     .nav-cta-mobile {
       display: inline-flex !important;
       font-size: 13px;
@@ -1181,23 +725,15 @@
       box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
     }
 
-    .privacy-modes { grid-template-columns: 1fr; }
     .hero { padding: 60px 16px 60px; }
-    .preview, .feature-hero-block, .features-compact, .how, .privacy, .pricing, .faq, .cta { padding-left: 16px; padding-right: 16px; }
+    .preview, .feature-hero-block, .highlights, .how, .pricing-preview, .cta { padding-left: 16px; padding-right: 16px; }
     .trust { padding-left: 16px; padding-right: 16px; }
-    .privacy-box { padding: 32px 24px; }
     .step { grid-template-columns: 40px 1fr; gap: 16px; }
     .sim-metrics { display: none; }
     .footer-inner { flex-direction: column; align-items: center; text-align: center; }
-    .pricing-card:first-child,
-    .pricing-card:last-child { border-radius: 12px; }
-    .pricing-card.featured { transform: none; }
-    .trust-copy { gap: 12px; }
     .feature-hero { padding: 32px 24px; }
+    .trust-copy { gap: 12px; }
   }
-
-  /* Hide mobile CTA on desktop */
-  .nav-cta-mobile { display: none; }
 </style>
 </head>
 <body>
@@ -1206,22 +742,18 @@
 
 <nav>
   <a class="nav-brand" href="/">leassh</a>
-  <input type="checkbox" id="nav-toggle" aria-hidden="true">
-  <label class="hamburger" for="nav-toggle" aria-label="Toggle navigation">
-    <span></span>
-    <span></span>
-    <span></span>
-  </label>
-  <a class="nav-cta-mobile" href="#pricing">Start Free Trial</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
   <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#privacy">Privacy</a></li>
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
     <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/privacy">Privacy</a></li>
     <li><a href="/docs">Docs</a></li>
-    <li><a href="/setup">Setup</a></li>
-    <li><a href="#pricing" class="nav-cta">Start Free Trial</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
   </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
 </nav>
 
 <section class="hero">
@@ -1231,8 +763,8 @@
     Leassh watches what your children do on their computers &mdash; not to surveil, but to help you understand. AI-powered activity reports, screen time tracking, and gentle time limits. No spyware. No keyloggers. Just understanding.
   </p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="#pricing">Start 14-Day Free Trial</a>
-    <a class="btn btn-ghost" href="#features">See how it works</a>
+    <a class="btn btn-primary" href="/setup">Start 14-Day Free Trial</a>
+    <a class="btn btn-ghost" href="/features">See how it works</a>
   </div>
   <div class="hero-alt-link">
     <a href="/fleet">Looking for fleet monitoring? &rarr;</a>
@@ -1290,27 +822,7 @@
   <div class="trust-urgency">Early access &mdash; be among the first 100 families</div>
 </section>
 
-<section class="privacy reveal" id="privacy">
-  <div class="privacy-box">
-    <h2>Privacy you can actually verify</h2>
-    <p>
-      Most parental monitoring tools send your child's screen data to their cloud servers, where it sits in a database you can't audit.
-      Leassh gives you a real choice.
-    </p>
-    <div class="privacy-modes">
-      <div class="privacy-mode">
-        <h3>Local Mode</h3>
-        <p>Run a vision AI like Qwen on your own hardware. Screenshots are captured, analyzed, and summarized on your network. <strong>No data ever leaves your home.</strong> This is the gold standard of privacy.</p>
-      </div>
-      <div class="privacy-mode">
-        <h3>Cloud Mode</h3>
-        <p>Don't want to run infrastructure? Use our cloud. Screenshots are analyzed and <strong>immediately deleted</strong> &mdash; never stored in a database, never sold, never used for training. Just results, then gone.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="feature-hero-block reveal" id="features">
+<section class="feature-hero-block reveal">
   <div class="section-label">What makes Leassh different</div>
   <div class="feature-hero">
     <div class="feature-hero-text">
@@ -1330,22 +842,26 @@
   </div>
 </section>
 
-<section class="features-compact reveal">
-  <div class="feature-compact">
-    <h4>Time Limits That Enforce Themselves</h4>
-    <p>2h gaming, 3h YouTube &mdash; set limits per category. Leassh warns at 80% and can close apps when time is up.</p>
+<!-- Feature highlights with links to /features -->
+<section class="highlights reveal">
+  <div class="highlight-card">
+    <h4>Activity Timeline</h4>
+    <p>Visual day-at-a-glance showing exactly what your child did and when. Color-coded by category with detailed breakdowns.</p>
+    <a href="/features">See the timeline &rarr;</a>
   </div>
-  <div class="feature-compact">
+  <div class="highlight-card">
+    <h4>Time Limits + Bedtime</h4>
+    <p>Set per-category limits with automatic enforcement. Games close when time is up. Computers log off at bedtime.</p>
+    <a href="/features">See how limits work &rarr;</a>
+  </div>
+  <div class="highlight-card">
     <h4>Content Safety Alerts</h4>
-    <p>AI analyzes screenshots for concerning content. Immediate Telegram alerts or a calm evening digest. You set the sensitivity.</p>
-  </div>
-  <div class="feature-compact">
-    <h4>Your Data, Your Rules</h4>
-    <p>Run the AI on your own hardware &mdash; screenshots never leave home. Or use our cloud where they're analyzed and immediately deleted.</p>
+    <p>AI watches for concerning content and sends you a Telegram notification. Only flagged content is reported &mdash; everything else stays private.</p>
+    <a href="/features">See alert examples &rarr;</a>
   </div>
 </section>
 
-<section class="how reveal" id="how">
+<section class="how reveal">
   <h2>Up and running in three minutes</h2>
   <div class="steps">
     <div class="step">
@@ -1372,189 +888,55 @@
   </div>
 </section>
 
-<section class="pricing reveal" id="pricing">
-  <div class="pricing-header">
+<!-- Pricing preview -->
+<section class="pricing-preview reveal">
+  <div class="pricing-preview-header">
     <h2>Simple, honest pricing</h2>
-    <p>Choose the plan that fits your family.</p>
   </div>
-
-  <div class="billing-toggle">
-    <span class="toggle-label active" id="toggle-annual">Annual <span class="save-badge">Save 33%</span></span>
-    <label class="toggle-switch">
-      <input type="checkbox" id="billing-toggle">
-      <span class="toggle-slider"></span>
-    </label>
-    <span class="toggle-label" id="toggle-monthly">Monthly</span>
+  <div class="pricing-mini-grid">
+    <div class="pricing-mini">
+      <div class="pricing-mini-name">Essential</div>
+      <div class="pricing-mini-price">$4.99<span>/mo</span></div>
+      <div class="pricing-mini-desc">3 computers, basic tracking</div>
+    </div>
+    <div class="pricing-mini featured">
+      <div class="pricing-mini-name">Family</div>
+      <div class="pricing-mini-price">$9.99<span>/mo</span></div>
+      <div class="pricing-mini-desc">AI reports, limits, alerts</div>
+    </div>
+    <div class="pricing-mini">
+      <div class="pricing-mini-name">Pro</div>
+      <div class="pricing-mini-price">$19.99<span>/mo</span></div>
+      <div class="pricing-mini-desc">Unlimited + fleet control</div>
+    </div>
   </div>
-
-  <div class="pricing-grid">
-
-    <!-- Essential -->
-    <div class="pricing-card">
-      <div class="pricing-name">Essential</div>
-      <div class="pricing-price" data-annual="4.99" data-monthly="7.99">
-        <del class="monthly-crossed" style="display:inline">$7.99</del> $<span class="price-value">4.99</span><span>/mo</span>
-      </div>
-      <div class="pricing-billed" data-annual-text="billed annually at $59.88" data-monthly-text="">billed annually at $59.88</div>
-      <div class="pricing-desc">Getting started</div>
-      <ul class="pricing-features">
-        <li><span class="check">+</span> 3 computers</li>
-        <li><span class="check">+</span> Process-based tracking</li>
-        <li><span class="check">+</span> Daily summaries</li>
-        <li><span class="check">+</span> Per-category limits</li>
-      </ul>
-      <button class="btn btn-primary" onclick="startCheckout('essential')">Get Started</button>
-    </div>
-
-    <!-- Family (Recommended) -->
-    <div class="pricing-card featured">
-      <div class="pricing-badge">For Most Families</div>
-      <div class="pricing-name">Family</div>
-      <div class="pricing-price" data-annual="9.99" data-monthly="14.99">
-        <del class="monthly-crossed" style="display:inline">$14.99</del> $<span class="price-value">9.99</span><span>/mo</span>
-      </div>
-      <div class="pricing-billed" data-annual-text="billed annually at $119.88" data-monthly-text="">billed annually at $119.88</div>
-      <div class="pricing-desc">AI-powered insights for involved parents</div>
-      <ul class="pricing-features">
-        <li><span class="check">+</span> 10 computers</li>
-        <li><span class="check">+</span> AI screenshot analysis</li>
-        <li><span class="check">+</span> Daily + weekly behavioral reports</li>
-        <li><span class="check">+</span> Time limits + enforcement</li>
-        <li><span class="check">+</span> Content safety alerts</li>
-        <li><span class="check">+</span> Telegram notifications</li>
-      </ul>
-      <button class="btn btn-primary" onclick="startCheckout('family')">Start 14-Day Free Trial</button>
-      <div class="founder-note">&#128274; Founder's price: limited spots</div>
-    </div>
-
-    <!-- Pro -->
-    <div class="pricing-card">
-      <div class="pricing-name">Pro</div>
-      <div class="pricing-price" data-annual="19.99" data-monthly="29.99">
-        <del class="monthly-crossed" style="display:inline">$29.99</del> $<span class="price-value">19.99</span><span>/mo</span>
-      </div>
-      <div class="pricing-billed" data-annual-text="billed annually at $239.88" data-monthly-text="">billed annually at $239.88</div>
-      <div class="pricing-desc">For technical parents who want full control</div>
-      <ul class="pricing-features">
-        <li><span class="check">+</span> Unlimited computers</li>
-        <li><span class="check">+</span> Everything in Family</li>
-        <li><span class="check">+</span> Advanced rules engine</li>
-        <li><span class="check">+</span> Self-hosting option</li>
-        <li><span class="check">+</span> API access</li>
-      </ul>
-      <button class="btn btn-primary" onclick="startCheckout('pro')">Start 14-Day Free Trial</button>
-    </div>
-
-  </div>
-
-  <!-- Feature comparison table -->
-  <div class="feature-comparison">
-    <button class="comparison-toggle" onclick="toggleComparison(this)">
-      Compare all features <span class="arrow">&#9660;</span>
-    </button>
-    <div class="comparison-table" id="comparison-table">
-      <table>
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Essential</th>
-            <th>Family</th>
-            <th>Pro</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Computers</td><td>3</td><td>10</td><td>Unlimited</td></tr>
-          <tr><td>Process tracking</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Daily summaries</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Per-category limits</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>AI screenshot analysis</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Weekly behavioral reports</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Time limits + enforcement</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Content safety alerts</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Telegram notifications</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Advanced rules engine</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Self-hosting option</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>API access</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>14-day free trial</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="pricing-preview-link">
+    <a href="/pricing">See all plans and compare features &rarr;</a>
   </div>
 </section>
 
-<section class="faq reveal" id="faq">
-  <div class="faq-header">
-    <h2>Frequently asked questions</h2>
-  </div>
-  <div class="faq-list">
-    <div class="faq-item">
-      <input type="checkbox" id="faq-1" class="faq-toggle">
-      <label for="faq-1" class="faq-q">What does the agent actually do?</label>
-      <div class="faq-a">
-        <p>It's a tiny background service that monitors screen activity and reports to your dashboard. It uses about 30MB of memory and is invisible to the user.</p>
-      </div>
-    </div>
-    <div class="faq-item">
-      <input type="checkbox" id="faq-2" class="faq-toggle">
-      <label for="faq-2" class="faq-q">Can my child disable or uninstall the agent?</label>
-      <div class="faq-a">
-        <p>The agent runs as a system service requiring administrator access to modify. A normal user account cannot stop or uninstall it.</p>
-      </div>
-    </div>
-    <div class="faq-item">
-      <input type="checkbox" id="faq-3" class="faq-toggle">
-      <label for="faq-3" class="faq-q">What data is collected?</label>
-      <div class="faq-a">
-        <p>Periodic screenshots (analyzed and deleted), CPU/memory/disk usage, running applications, and keyboard/mouse idle time. No keystrokes, no browsing history, no file contents.</p>
-      </div>
-    </div>
-    <div class="faq-item">
-      <input type="checkbox" id="faq-4" class="faq-toggle">
-      <label for="faq-4" class="faq-q">Is this legal?</label>
-      <div class="faq-a">
-        <p>Yes. Parents have the legal right to monitor their minor children's computer activity. Leassh should not be used to monitor adults without their knowledge and consent.</p>
-      </div>
-    </div>
-    <div class="faq-item">
-      <input type="checkbox" id="faq-5" class="faq-toggle">
-      <label for="faq-5" class="faq-q">What AI model is used?</label>
-      <div class="faq-a">
-        <p>In local mode, Leassh works with open-source vision models like Qwen3-VL that run on your own hardware. In cloud mode, we run the analysis on our infrastructure and delete screenshots immediately after processing.</p>
-      </div>
-    </div>
-    <div class="faq-item">
-      <input type="checkbox" id="faq-6" class="faq-toggle">
-      <label for="faq-6" class="faq-q">How do the weekly reports work?</label>
-      <div class="faq-a">
-        <p>Every Sunday, Leassh's AI reviews the week's activity data and generates a human-readable summary. It highlights trends, new interests, and shifts in behavior &mdash; not just raw screen time numbers. Reports are sent to your email and available in the dashboard.</p>
-      </div>
-    </div>
-    <div class="faq-item">
-      <input type="checkbox" id="faq-7" class="faq-toggle">
-      <label for="faq-7" class="faq-q">Do I need to install software on the computers I'm monitoring?</label>
-      <div class="faq-a">
-        <p>You have two options. The recommended approach is to install the tiny Leassh agent (under 10MB) &mdash; just enter a pairing code and it connects automatically. Alternatively, power users can use SSH probing which requires no software on target machines but needs SSH access configured. Both give you the same monitoring data.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="cta reveal" id="signup">
+<section class="cta reveal">
   <h2>Start your free trial</h2>
   <p>See what your kids are really doing. Set up in three minutes. Cancel anytime.</p>
   <div class="hero-actions" style="justify-content: center;">
-    <a class="btn btn-primary" href="#pricing">Start 14-Day Free Trial</a>
+    <a class="btn btn-primary" href="/setup">Start 14-Day Free Trial</a>
   </div>
 </section>
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-tagline">leassh &mdash; AI-powered screen time insights for families.</div>
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
     <ul class="footer-links">
-      <li><a href="/fleet">Fleet Monitoring &rarr;</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
       <li><a href="/privacy-policy">Privacy Policy</a></li>
       <li><a href="/privacy-policy#terms">Terms</a></li>
-      <li><a href="/docs">Docs</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
       <li><a href="mailto:hello@leassh.com">Contact</a></li>
     </ul>
   </div>
@@ -1563,86 +945,16 @@
 </div>
 
 <script>
-// Intersection Observer for scroll-reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.15 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Close mobile nav when a link is clicked
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', () => {
     document.getElementById('nav-toggle').checked = false;
   });
 });
-
-// Billing toggle
-(function() {
-  var toggle = document.getElementById('billing-toggle');
-  var labelAnnual = document.getElementById('toggle-annual');
-  var labelMonthly = document.getElementById('toggle-monthly');
-
-  function updatePrices() {
-    var isMonthly = toggle.checked;
-    labelAnnual.classList.toggle('active', !isMonthly);
-    labelMonthly.classList.toggle('active', isMonthly);
-
-    document.querySelectorAll('.pricing-price[data-annual]').forEach(function(el) {
-      var priceVal = el.querySelector('.price-value');
-      var crossed = el.querySelector('.monthly-crossed');
-      if (isMonthly) {
-        priceVal.textContent = el.getAttribute('data-monthly');
-        if (crossed) crossed.style.display = 'none';
-      } else {
-        priceVal.textContent = el.getAttribute('data-annual');
-        if (crossed) crossed.style.display = 'inline';
-      }
-      el.style.opacity = '0.6';
-      setTimeout(function() { el.style.opacity = '1'; }, 50);
-    });
-
-    document.querySelectorAll('.pricing-billed').forEach(function(el) {
-      if (isMonthly) {
-        el.textContent = el.getAttribute('data-monthly-text');
-      } else {
-        el.textContent = el.getAttribute('data-annual-text');
-      }
-      el.style.opacity = '0.6';
-      setTimeout(function() { el.style.opacity = '1'; }, 50);
-    });
-  }
-
-  toggle.addEventListener('change', updatePrices);
-})();
-
-// Feature comparison toggle
-function toggleComparison(btn) {
-  var table = document.getElementById('comparison-table');
-  btn.classList.toggle('open');
-  table.classList.toggle('visible');
-}
-
-// Stripe checkout
-function startCheckout(tier) {
-  var isAnnual = !document.getElementById('billing-toggle').checked;
-  var billing = isAnnual ? 'annual' : 'monthly';
-  fetch('/api/checkout/create', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tier: tier, billing: billing }),
-  })
-    .then(function (r) { return r.json(); })
-    .then(function (d) {
-      if (d.url) {
-        window.location = d.url;
-      } else {
-        alert('Something went wrong. Please try again.');
-      }
-    })
-    .catch(function () {
-      alert('Network error. Please try again.');
-    });
-}
 </script>
 </body>
 </html>

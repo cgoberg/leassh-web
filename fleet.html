@@ -116,17 +116,21 @@
     box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
   }
 
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+
   /* --- Mobile hamburger (CSS-only) --- */
-  .hamburger {
+  .nav-toggle-input { display: none; }
+
+  .nav-hamburger {
     display: none;
-    background: none;
-    border: none;
     cursor: pointer;
     padding: 8px;
     z-index: 101;
+    margin-left: auto;
   }
 
-  .hamburger span {
+  .nav-hamburger span {
     display: block;
     width: 22px;
     height: 2px;
@@ -136,21 +140,19 @@
     border-radius: 1px;
   }
 
-  #nav-toggle { display: none; }
-
-  #nav-toggle:checked ~ .nav-links {
+  .nav-toggle-input:checked ~ .nav-links {
     display: flex;
   }
 
-  #nav-toggle:checked ~ .hamburger span:nth-child(1) {
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
   }
 
-  #nav-toggle:checked ~ .hamburger span:nth-child(2) {
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) {
     opacity: 0;
   }
 
-  #nav-toggle:checked ~ .hamburger span:nth-child(3) {
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
   }
 
@@ -1089,9 +1091,8 @@
       font-size: 18px;
     }
 
-    .hamburger {
+    .nav-hamburger {
       display: block;
-      margin-left: auto;
     }
 
     /* CTA always visible on mobile, right of hamburger */
@@ -1135,21 +1136,18 @@
 
 <nav>
   <a class="nav-brand" href="/">leassh</a>
-  <input type="checkbox" id="nav-toggle" aria-hidden="true">
-  <label class="hamburger" for="nav-toggle" aria-label="Toggle navigation">
-    <span></span>
-    <span></span>
-    <span></span>
-  </label>
-  <a class="nav-cta-mobile" href="#pricing">Start Free Trial</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
   <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
     <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/privacy">Privacy</a></li>
     <li><a href="/docs">Docs</a></li>
-    <li><a href="/setup">Setup</a></li>
-    <li><a href="#pricing" class="nav-cta">Start Free Trial</a></li>
+    <li><a href="/" class="nav-fleet">Families</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
   </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
 </nav>
 
 <section class="hero">
@@ -1159,7 +1157,7 @@
     Monitor every machine via SSH &mdash; or install a lightweight agent for even easier setup. Rules engine with webhooks, MQTT, and command actuation. Talk to your fleet through your OpenClaw agent. Process management, GPU orchestration, and predictive alerts &mdash; all from one tool.
   </p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="#pricing">Start Free Trial</a>
+    <a class="btn btn-primary" href="/pricing">Start Free Trial</a>
     <a class="btn btn-ghost" href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">View on GitHub</a>
   </div>
   <div class="hero-alt-link">
@@ -1457,16 +1455,22 @@
   <h2>Put your fleet on a leash</h2>
   <p>Rules, webhooks, and SSH actuation. Deploy in under three minutes.</p>
   <div class="hero-actions" style="justify-content: center;">
-    <a class="btn btn-primary" href="#pricing">Start Free Trial</a>
+    <a class="btn btn-primary" href="/pricing">Start Free Trial</a>
     <a class="btn btn-ghost" href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">OpenClaw Plugin</a>
   </div>
 </section>
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-tagline">leassh &mdash; SSH fleet monitoring, rules, and actuation for power users.</div>
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
     <ul class="footer-links">
-      <li><a href="/">Family Monitoring &rarr;</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
       <li><a href="/privacy-policy">Privacy Policy</a></li>
       <li><a href="/privacy-policy#terms">Terms</a></li>
       <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>

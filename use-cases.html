@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Use Cases — leassh</title>
-<meta name="description" content="Explore real-world use cases for leassh: parental screen time, GPU fleet management, elder care, productivity tracking, and more.">
-<meta property="og:title" content="Leassh — Keep your machines on a leash">
-<meta property="og:description" content="Screen time tracking, AI content safety, and fleet monitoring. 100% local privacy option.">
+<meta name="description" content="Deployable templates for leassh Pro: GPU fleet, Docker monitoring, CI/CD, game servers, NAS health, and 15+ more ready-to-use configs.">
+<meta property="og:title" content="Leassh Use Cases — Power user templates">
+<meta property="og:description" content="GPU fleets, Docker monitoring, CI/CD, game servers, NAS health. Deployable YAML templates.">
 <meta property="og:url" content="https://leassh.com/use-cases">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Leassh — Keep your machines on a leash">
-<meta name="twitter:description" content="Screen time tracking, AI content safety, and fleet monitoring.">
+<meta name="twitter:title" content="Leassh Use Cases">
+<meta name="twitter:description" content="Power user templates. GPU fleets, Docker, CI/CD, game servers, NAS health, and more.">
 <link rel="canonical" href="https://leassh.com/use-cases">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,11 +84,37 @@
     letter-spacing: -0.5px;
   }
 
+  .nav-toggle-input { display: none; }
+
+  .nav-hamburger {
+    display: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+    margin-left: auto;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+    border-radius: 1px;
+  }
+
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
   .nav-links {
     margin-left: auto;
     display: flex;
     gap: 32px;
     list-style: none;
+    align-items: center;
   }
 
   .nav-links a {
@@ -100,7 +126,10 @@
   }
 
   .nav-links a:hover { color: var(--text); }
-  .nav-links a.active { color: var(--amber); }
+  .nav-links a.active { color: var(--text); }
+
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
 
   .nav-cta {
     background: var(--amber);
@@ -116,37 +145,13 @@
     box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
   }
 
-  .hamburger {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-left: auto;
-    padding: 8px;
-    z-index: 101;
-  }
-
-  .hamburger span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--text);
-    margin: 5px 0;
-    transition: transform 0.3s var(--ease), opacity 0.2s;
-    border-radius: 1px;
-  }
-
-  #nav-toggle { display: none; }
-  #nav-toggle:checked ~ .nav-links { display: flex; }
-  #nav-toggle:checked ~ .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  #nav-toggle:checked ~ .hamburger span:nth-child(2) { opacity: 0; }
-  #nav-toggle:checked ~ .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-cta-mobile { display: none; }
 
   /* --- Page Header --- */
   .page-header {
     max-width: var(--max);
     margin: 0 auto;
-    padding: 64px 32px 32px;
+    padding: 80px 32px 32px;
     text-align: center;
   }
 
@@ -171,41 +176,19 @@
     margin: 0 auto;
   }
 
-  /* --- Filters --- */
-  .filters {
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 24px 32px;
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .filter-btn {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    color: var(--text-mid);
-    padding: 8px 20px;
-    border-radius: 100px;
-    font-family: var(--font-b);
+  .page-header .family-note {
+    display: inline-block;
+    margin-top: 16px;
     font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s var(--ease);
+    color: var(--text-dim);
   }
 
-  .filter-btn:hover {
-    border-color: var(--amber-soft);
-    color: var(--text);
+  .page-header .family-note a {
+    color: var(--amber);
+    text-decoration: none;
   }
 
-  .filter-btn.active {
-    background: var(--amber);
-    border-color: var(--amber);
-    color: var(--bg);
-    font-weight: 600;
-  }
+  .page-header .family-note a:hover { text-decoration: underline; }
 
   /* --- Cards Grid --- */
   .cards {
@@ -226,7 +209,7 @@
   }
 
   .card:hover {
-    border-color: rgba(212, 162, 76, 0.3);
+    border-color: rgba(91, 159, 212, 0.3);
     transform: translateY(-2px);
   }
 
@@ -248,12 +231,6 @@
     letter-spacing: 0.5px;
     padding: 3px 10px;
     border-radius: 100px;
-  }
-
-  .badge-families {
-    background: var(--amber-bg);
-    color: var(--amber);
-    border: 1px solid rgba(212, 162, 76, 0.2);
   }
 
   .badge-power {
@@ -278,6 +255,12 @@
     background: var(--amber-bg);
     color: var(--amber-soft);
     border: 1px solid rgba(212, 162, 76, 0.15);
+  }
+
+  .badge-advanced {
+    background: var(--red-bg);
+    color: var(--red);
+    border: 1px solid rgba(212, 91, 76, 0.15);
   }
 
   .card-header h3 {
@@ -310,9 +293,7 @@
     transition: background 0.2s;
   }
 
-  .card-toggle:hover {
-    background: var(--amber-bg);
-  }
+  .card-toggle:hover { background: var(--amber-bg); }
 
   .card-toggle .arrow {
     display: inline-block;
@@ -320,9 +301,7 @@
     margin-left: 4px;
   }
 
-  .card-toggle.open .arrow {
-    transform: rotate(90deg);
-  }
+  .card-toggle.open .arrow { transform: rotate(90deg); }
 
   .card-detail {
     display: none;
@@ -330,9 +309,7 @@
     border-top: 1px solid var(--border);
   }
 
-  .card-detail.open {
-    display: block;
-  }
+  .card-detail.open { display: block; }
 
   .card-detail h4 {
     font-family: var(--font-d);
@@ -365,9 +342,7 @@
     font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
   }
 
-  .card-detail pre code {
-    color: var(--text-mid);
-  }
+  .card-detail pre code { color: var(--text-mid); }
 
   .card-detail .notifications-list {
     list-style: none;
@@ -395,27 +370,52 @@
   }
 
   /* --- Footer --- */
-  .footer {
+  footer {
+    border-top: 1px solid var(--border);
     max-width: var(--max);
     margin: 0 auto;
     padding: 40px 32px;
-    border-top: 1px solid var(--border);
-    text-align: center;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
     color: var(--text-dim);
-    font-size: 14px;
+    max-width: 400px;
+    line-height: 1.7;
   }
 
-  .footer a {
-    color: var(--amber);
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text-dim);
     text-decoration: none;
+    transition: color 0.2s;
   }
 
-  .footer a:hover { text-decoration: underline; }
+  .footer-links a:hover { color: var(--text-mid); }
 
-  /* --- Mobile --- */
+  /* --- Responsive --- */
   @media (max-width: 768px) {
-    .hamburger { display: block; }
+    .cards { grid-template-columns: 1fr; }
+    .page-header { padding: 40px 24px 24px; }
+  }
 
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
     .nav-links {
       display: none;
       position: fixed;
@@ -424,19 +424,27 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 24px;
+      gap: 32px;
       z-index: 100;
     }
 
     .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: block; }
 
-    .cards {
-      grid-template-columns: 1fr;
+    .nav-cta-mobile {
+      display: inline-flex !important;
+      font-size: 13px;
+      padding: 6px 14px;
+      background: var(--amber);
+      color: var(--bg) !important;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      text-decoration: none;
+      margin-left: 12px;
     }
 
-    .page-header {
-      padding: 40px 24px 24px;
-    }
+    .cards { padding-left: 16px; padding-right: 16px; }
+    .footer-inner { flex-direction: column; align-items: center; text-align: center; }
   }
 </style>
 </head>
@@ -446,164 +454,40 @@
 
 <nav>
   <a class="nav-brand" href="/">leassh</a>
-  <input type="checkbox" id="nav-toggle" aria-hidden="true">
-  <label class="hamburger" for="nav-toggle" aria-label="Toggle navigation">
-    <span></span>
-    <span></span>
-    <span></span>
-  </label>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
   <ul class="nav-links">
-    <li><a href="/#features-families">Features</a></li>
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
     <li><a href="/use-cases" class="active">Use Cases</a></li>
-    <li><a href="/#pricing">Pricing</a></li>
-    <li><a href="/#privacy">Privacy</a></li>
-    <li><a href="/#pricing" class="nav-cta">Get Started</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
   </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
 </nav>
 
 <section class="page-header">
-  <h1>Use Case <em>Library</em></h1>
-  <p>Deployable templates for families, power users, and everyone in between. Pick a use case, copy the config, and go.</p>
+  <h1>Use Case <em>Templates</em></h1>
+  <p>Deployable YAML configs for power users. Pick a use case, copy the template, go.</p>
+  <div class="family-note">Looking for family features? <a href="/features">See the Features page &rarr;</a></div>
 </section>
-
-<div class="filters">
-  <button class="filter-btn active" data-filter="all">All</button>
-  <button class="filter-btn" data-filter="families">Families</button>
-  <button class="filter-btn" data-filter="power">Power Users</button>
-</div>
 
 <div class="cards">
 
-  <!-- 1. Gaming Time Limits -->
-  <div class="card" data-audience="families">
-    <div class="card-header">
-      <div class="card-badges">
-        <span class="badge badge-families">Families</span>
-        <span class="badge badge-easy">Easy</span>
-      </div>
-      <h3>Gaming Time Limits</h3>
-      <p>Set daily gaming caps with gentle warnings before enforcement kicks in.</p>
-    </div>
-    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
-    <div class="card-detail">
-      <h4>The Problem</h4>
-      <p>Your child games too much and loses track of time. You want fair limits without constant arguments.</p>
-      <h4>How Leassh Solves It</h4>
-      <p>Leassh monitors running processes and vision-classified screenshots. When gaming time hits 80%, the child gets a warning notification. At 100%, the gaming app is closed automatically.</p>
-      <h4>Sample Configuration</h4>
-      <pre><code>screen_time:
-  enabled: true
-  capture_interval_minutes: 5
-
-time_limits:
-  - node: kids-pc
-    category: gaming
-    max_minutes_per_day: 120
-
-enforcement:
-  - node: kids-pc
-    category: gaming
-    warn_percent: 80
-    action: kill_category</code></pre>
-      <h4>What You Get</h4>
-      <ul class="notifications-list">
-        <li>Telegram alert at 80% of daily limit</li>
-        <li>Automatic process termination at 100%</li>
-        <li>Daily summary of gaming vs other activities</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 2. Weekly Behavioral Report -->
-  <div class="card" data-audience="families">
-    <div class="card-header">
-      <div class="card-badges">
-        <span class="badge badge-families">Families</span>
-        <span class="badge badge-easy">Easy</span>
-      </div>
-      <h3>Weekly Behavioral Report</h3>
-      <p>Get a warm, factual summary of your child's computer habits every week.</p>
-    </div>
-    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
-    <div class="card-detail">
-      <h4>The Problem</h4>
-      <p>You want to understand your child's computer habits without hovering over their shoulder or reading their messages.</p>
-      <h4>How Leassh Solves It</h4>
-      <p>Leassh captures periodic screenshots, classifies activities via AI vision, and generates a weekly narrative report. The tone is like a thoughtful teacher at a parent conference: positive, factual, and non-judgmental.</p>
-      <h4>Sample Configuration</h4>
-      <pre><code>screen_time:
-  enabled: true
-  capture_interval_minutes: 10
-  data_retention_days: 30
-  vision:
-    ollama_url: http://localhost:11434
-    model: llava
-
-# Call the insights API weekly:
-# GET /fleet/api/insights/kids-pc/weekly</code></pre>
-      <h4>What You Get</h4>
-      <ul class="notifications-list">
-        <li>Weekly report with highlights, patterns, and notable observations</li>
-        <li>Week-over-week comparison with specific numbers</li>
-        <li>New app and category detection</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 3. Bedtime Enforcement -->
-  <div class="card" data-audience="families">
-    <div class="card-header">
-      <div class="card-badges">
-        <span class="badge badge-families">Families</span>
-        <span class="badge badge-easy">Easy</span>
-      </div>
-      <h3>Bedtime Enforcement</h3>
-      <p>Automatically log off the computer on school nights at a set time.</p>
-    </div>
-    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
-    <div class="card-detail">
-      <h4>The Problem</h4>
-      <p>They stay up late on the computer, especially on school nights. Morning battles follow.</p>
-      <h4>How Leassh Solves It</h4>
-      <p>A time-based rule detects when someone is logged in past bedtime on weeknights and issues a warning, then forces a logoff after a grace period.</p>
-      <h4>Sample Configuration</h4>
-      <pre><code>rules:
-  - name: bedtime_enforcement
-    when: "time >= 22:00 AND time < 06:00 AND day_of_week IN [Mon,Tue,Wed,Thu,Sun]"
-    nodes: [kids-pc]
-    actions:
-      - notify: warning
-      - ssh_command: "shutdown /l /f"  # Windows logoff
-
-notifications:
-  telegram:
-    bot_token: "your-bot-token"
-    chat_id: "your-chat-id"</code></pre>
-      <h4>What You Get</h4>
-      <ul class="notifications-list">
-        <li>Telegram warning 10 minutes before bedtime</li>
-        <li>Automatic logoff at bedtime on school nights</li>
-        <li>Weekend schedule can be different or disabled</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 4. GPU Fleet for AI Inference -->
-  <div class="card" data-audience="power">
+  <!-- 1. GPU Fleet for AI Inference -->
+  <div class="card">
     <div class="card-header">
       <div class="card-badges">
         <span class="badge badge-power">Power Users</span>
         <span class="badge badge-intermediate">Intermediate</span>
       </div>
       <h3>GPU Fleet for AI Inference</h3>
-      <p>Reclaim your GPUs from family gaming for Ollama inference workloads.</p>
+      <p>Reclaim your GPUs from gaming for Ollama inference workloads. Schedule-based priority switching.</p>
     </div>
     <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
     <div class="card-detail">
-      <h4>The Problem</h4>
-      <p>Your family uses the GPUs you need for Ollama, ComfyUI, or training runs. You need shared machines to prioritize inference during work hours.</p>
-      <h4>How Leassh Solves It</h4>
-      <p>Leassh monitors GPU utilization across machines, blacklists games during work hours, and can start/stop Ollama services based on rules.</p>
       <h4>Sample Configuration</h4>
       <pre><code>nodes:
   - name: gpu-workstation-1
@@ -636,8 +520,8 @@ rules:
     </div>
   </div>
 
-  <!-- 5. Home Server Auto-Recovery -->
-  <div class="card" data-audience="power">
+  <!-- 2. Home Server Auto-Recovery -->
+  <div class="card">
     <div class="card-header">
       <div class="card-badges">
         <span class="badge badge-power">Power Users</span>
@@ -648,10 +532,6 @@ rules:
     </div>
     <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
     <div class="card-detail">
-      <h4>The Problem</h4>
-      <p>Your home services crash and you don't notice for hours. Plex, Home Assistant, or Nextcloud go down silently.</p>
-      <h4>How Leassh Solves It</h4>
-      <p>Leassh probes your servers every few minutes, detects when critical processes disappear, restarts them via SSH, and sends you a notification.</p>
       <h4>Sample Configuration</h4>
       <pre><code>nodes:
   - name: homelab-server
@@ -685,87 +565,8 @@ notifications:
     </div>
   </div>
 
-  <!-- 6. Homework vs Entertainment -->
-  <div class="card" data-audience="families">
-    <div class="card-header">
-      <div class="card-badges">
-        <span class="badge badge-families">Families</span>
-        <span class="badge badge-intermediate">Intermediate</span>
-      </div>
-      <h3>Homework vs Entertainment</h3>
-      <p>Understand whether computer time is productive homework or passive entertainment.</p>
-    </div>
-    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
-    <div class="card-detail">
-      <h4>The Problem</h4>
-      <p>They say they're doing homework, but are they really? You want data, not surveillance.</p>
-      <h4>How Leassh Solves It</h4>
-      <p>Deep vision analysis classifies not just the app but the content quality and engagement type. You see a breakdown of "active learning" vs "passive consumption" without reading their screen.</p>
-      <h4>Sample Configuration</h4>
-      <pre><code>screen_time:
-  enabled: true
-  capture_interval_minutes: 5
-  vision:
-    ollama_url: http://localhost:11434
-    model: llava
-
-# Use the deep analysis endpoint for richer data:
-# GET /fleet/api/insights/kids-pc/deep
-#
-# Returns: content_quality, engagement_type,
-#          specific_content, new_or_notable</code></pre>
-      <h4>What You Get</h4>
-      <ul class="notifications-list">
-        <li>Category breakdown: homework vs gaming vs youtube</li>
-        <li>Content quality classification (educational, creative, passive)</li>
-        <li>Engagement type tracking (active creation vs passive browsing)</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 7. Social Media Awareness -->
-  <div class="card" data-audience="families">
-    <div class="card-header">
-      <div class="card-badges">
-        <span class="badge badge-families">Families</span>
-        <span class="badge badge-intermediate">Intermediate</span>
-      </div>
-      <h3>Social Media Awareness</h3>
-      <p>Know which platforms they use and how much, without reading their messages.</p>
-    </div>
-    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
-    <div class="card-detail">
-      <h4>The Problem</h4>
-      <p>You want to know what social platforms your child uses without invading their privacy or reading their conversations.</p>
-      <h4>How Leassh Solves It</h4>
-      <p>Vision analysis identifies social media platforms from screenshots without capturing message content. You get time-per-platform data, not conversation logs.</p>
-      <h4>Sample Configuration</h4>
-      <pre><code>screen_time:
-  enabled: true
-  capture_interval_minutes: 10
-  vision:
-    ollama_url: http://localhost:11434
-    model: llava
-
-# The weekly report breaks down social media by platform.
-# Deep analysis captures platform names in specific_content.
-#
-# Optional: set time limits on social media
-time_limits:
-  - node: kids-pc
-    category: social_media
-    max_minutes_per_day: 60</code></pre>
-      <h4>What You Get</h4>
-      <ul class="notifications-list">
-        <li>Platform breakdown: Discord, Instagram, TikTok, etc.</li>
-        <li>Time spent per platform in weekly report</li>
-        <li>Alert when a new social platform appears</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 8. Shared Machine Management -->
-  <div class="card" data-audience="power">
+  <!-- 3. Shared Machine Management -->
+  <div class="card">
     <div class="card-header">
       <div class="card-badges">
         <span class="badge badge-power">Power Users</span>
@@ -776,10 +577,6 @@ time_limits:
     </div>
     <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
     <div class="card-detail">
-      <h4>The Problem</h4>
-      <p>People leave heavy apps running on shared workstations. Chrome with 200 tabs, Blender renders, or Docker containers eating all the RAM.</p>
-      <h4>How Leassh Solves It</h4>
-      <p>Leassh detects idle sessions and kills specified resource-heavy processes after a configurable timeout. Shared machine etiquette, enforced.</p>
       <h4>Sample Configuration</h4>
       <pre><code>nodes:
   - name: shared-workstation
@@ -796,7 +593,7 @@ rules:
       - notify: info
 
 probe:
-  idle_threshold: 600  # 10 min for idle detection</code></pre>
+  idle_threshold: 600</code></pre>
       <h4>What You Get</h4>
       <ul class="notifications-list">
         <li>Automatic cleanup of heavy apps after 30 min idle</li>
@@ -806,55 +603,8 @@ probe:
     </div>
   </div>
 
-  <!-- 9. Elder Care Check-In -->
-  <div class="card" data-audience="families">
-    <div class="card-header">
-      <div class="card-badges">
-        <span class="badge badge-families">Families</span>
-        <span class="badge badge-easy">Easy</span>
-      </div>
-      <h3>Elder Care Check-In</h3>
-      <p>Monitor that an elderly parent is using their computer normally, with alerts on pattern changes.</p>
-    </div>
-    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
-    <div class="card-detail">
-      <h4>The Problem</h4>
-      <p>Is your parent using their computer normally? A sudden change in patterns could mean they need help.</p>
-      <h4>How Leassh Solves It</h4>
-      <p>Leassh establishes usage baselines over time. When patterns change significantly (no login by usual time, unusually long sessions, sudden drop in activity), you get alerted.</p>
-      <h4>Sample Configuration</h4>
-      <pre><code>nodes:
-  - name: moms-pc
-    host: 192.168.1.20
-    ssh: user@192.168.1.20
-
-screen_time:
-  enabled: true
-  capture_interval_minutes: 15
-  data_retention_days: 60
-
-rules:
-  - name: no_morning_login
-    when: "time >= 11:00 AND NOT logged_in"
-    nodes: [moms-pc]
-    actions:
-      - notify: warning
-
-notifications:
-  telegram:
-    bot_token: "your-bot-token"
-    chat_id: "your-chat-id"</code></pre>
-      <h4>What You Get</h4>
-      <ul class="notifications-list">
-        <li>Alert if no login by expected time</li>
-        <li>Weekly usage pattern report</li>
-        <li>Detection of significant routine changes</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 10. Content Creator Productivity -->
-  <div class="card" data-audience="both">
+  <!-- 4. Content Creator Productivity -->
+  <div class="card">
     <div class="card-header">
       <div class="card-badges">
         <span class="badge badge-both">Both</span>
@@ -865,10 +615,6 @@ notifications:
     </div>
     <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
     <div class="card-detail">
-      <h4>The Problem</h4>
-      <p>Where does your time actually go? You think you spent 4 hours editing, but vision says 2 hours editing and 2 hours on Reddit.</p>
-      <h4>How Leassh Solves It</h4>
-      <p>Run leassh on your own machine in self-monitoring mode. No enforcement, no limits, just honest data about your computer usage patterns and a weekly summary.</p>
       <h4>Sample Configuration</h4>
       <pre><code>nodes:
   - name: my-workstation
@@ -896,37 +642,597 @@ screen_time:
     </div>
   </div>
 
+  <!-- 5. Docker Container Monitoring -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>Docker Container Monitoring</h3>
+      <p>Watch container health, restart crashed containers, and alert on resource spikes.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: docker-host
+    host: 192.168.1.15
+    ssh: admin@192.168.1.15
+
+rules:
+  - name: container_health
+    when: "ssh_output('docker ps --filter health=unhealthy -q') != ''"
+    nodes: [docker-host]
+    actions:
+      - ssh_command: "docker restart $(docker ps --filter health=unhealthy -q)"
+      - notify: warning
+  - name: container_down
+    when: "NOT process_running('containerd')"
+    nodes: [docker-host]
+    actions:
+      - ssh_command: "systemctl restart docker"
+      - notify: critical</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Auto-restart unhealthy containers</li>
+        <li>Docker daemon crash recovery</li>
+        <li>Container resource usage tracking</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 6. CI/CD Build Machine Fleet -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-advanced">Advanced</span>
+      </div>
+      <h3>CI/CD Build Machine Fleet</h3>
+      <p>Monitor build agents, detect overloaded nodes, and rebalance workloads.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: build-agent-1
+    host: 192.168.1.40
+    ssh: ci@192.168.1.40
+  - name: build-agent-2
+    host: 192.168.1.41
+    ssh: ci@192.168.1.41
+  - name: build-agent-3
+    host: 192.168.1.42
+    ssh: ci@192.168.1.42
+
+rules:
+  - name: build_agent_overload
+    when: "cpu_percent > 95 AND duration_minutes > 10"
+    actions:
+      - notify: warning
+      - webhook: build_overload
+  - name: build_agent_down
+    when: "NOT reachable"
+    actions:
+      - notify: critical</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Build agent health dashboard</li>
+        <li>Overload detection with webhook integration</li>
+        <li>Unreachable agent alerts</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 7. Mining Rig Management -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>Mining Rig Management</h3>
+      <p>GPU temperature monitoring, hashrate tracking, and auto-shutdown on overheat.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: rig-01
+    host: 192.168.1.60
+    ssh: miner@192.168.1.60
+    gpu: nvidia
+  - name: rig-02
+    host: 192.168.1.61
+    ssh: miner@192.168.1.61
+    gpu: nvidia
+
+rules:
+  - name: gpu_overheat
+    when: "gpu_temp > 85"
+    actions:
+      - ssh_command: "systemctl stop miner"
+      - notify: critical
+  - name: gpu_warm
+    when: "gpu_temp > 75"
+    actions:
+      - notify: warning
+  - name: hashrate_drop
+    when: "gpu_utilization < 50 AND process_running('miner')"
+    actions:
+      - ssh_command: "systemctl restart miner"
+      - notify: info</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Auto-shutdown on dangerous temperatures</li>
+        <li>Hashrate drop detection with auto-restart</li>
+        <li>Per-rig GPU temperature dashboard</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 8. Development Environment Sync -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Development Environment Sync</h3>
+      <p>Detect when dev servers drift from expected config. Alert on unexpected changes.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: dev-server
+    host: 192.168.1.25
+    ssh: dev@192.168.1.25
+
+rules:
+  - name: config_drift
+    when: "ssh_output('md5sum /etc/nginx/nginx.conf') != 'expected_hash'"
+    nodes: [dev-server]
+    actions:
+      - notify: warning
+  - name: unexpected_service
+    when: "process_running('apache2')"
+    nodes: [dev-server]
+    actions:
+      - notify: info</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Config file change detection</li>
+        <li>Unexpected service alerts</li>
+        <li>Environment consistency monitoring</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 9. Network Attached Storage Health -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Network Attached Storage Health</h3>
+      <p>Disk space, SMART status, and RAID rebuild progress monitoring.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: nas-primary
+    host: 192.168.1.5
+    ssh: admin@192.168.1.5
+
+rules:
+  - name: disk_space_critical
+    when: "disk_used_percent > 90"
+    nodes: [nas-primary]
+    actions:
+      - notify: critical
+  - name: disk_space_warning
+    when: "disk_used_percent > 80"
+    nodes: [nas-primary]
+    actions:
+      - notify: warning
+  - name: smart_health
+    when: "ssh_output('smartctl -H /dev/sda') contains 'FAILED'"
+    nodes: [nas-primary]
+    actions:
+      - notify: critical</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Disk space alerts at 80% and 90% thresholds</li>
+        <li>SMART health monitoring per drive</li>
+        <li>Predictive "disk full in X hours" alerts</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 10. Remote Office IT -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>Remote Office IT</h3>
+      <p>Monitor employee workstations across branch offices. Detect offline machines and resource issues.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: office-nyc-01
+    host: 10.0.1.10
+    ssh: admin@10.0.1.10
+    tags: [nyc, workstation]
+  - name: office-nyc-02
+    host: 10.0.1.11
+    ssh: admin@10.0.1.11
+    tags: [nyc, workstation]
+  - name: office-lon-01
+    host: 10.0.2.10
+    ssh: admin@10.0.2.10
+    tags: [london, workstation]
+
+rules:
+  - name: workstation_offline
+    when: "NOT reachable AND time >= 09:00 AND time < 18:00"
+    actions:
+      - notify: warning
+  - name: disk_low
+    when: "disk_used_percent > 85"
+    actions:
+      - notify: info</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Cross-office machine health dashboard</li>
+        <li>Business-hours offline alerts</li>
+        <li>Per-office resource tracking</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 11. Lab Equipment Monitoring -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-advanced">Advanced</span>
+      </div>
+      <h3>Lab Equipment / ML Training</h3>
+      <p>Track GPU clusters for ML training runs. Alert on job completion or hardware issues.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: gpu-cluster-a
+    host: 192.168.1.100
+    ssh: ml@192.168.1.100
+    gpu: nvidia
+  - name: gpu-cluster-b
+    host: 192.168.1.101
+    ssh: ml@192.168.1.101
+    gpu: nvidia
+
+rules:
+  - name: training_complete
+    when: "gpu_utilization < 5 AND previous_gpu_utilization > 80"
+    actions:
+      - notify: info
+      - webhook: training_done
+  - name: gpu_error
+    when: "gpu_temp > 90 OR ssh_output('nvidia-smi') contains 'ERR'"
+    actions:
+      - notify: critical</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Training job completion detection</li>
+        <li>GPU error and overheat alerts</li>
+        <li>Cluster utilization dashboard</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 12. Game Server Fleet -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Game Server Fleet</h3>
+      <p>Monitor Minecraft, Valheim, Palworld, etc. servers. Auto-restart on crash.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: minecraft-server
+    host: 192.168.1.70
+    ssh: game@192.168.1.70
+  - name: valheim-server
+    host: 192.168.1.71
+    ssh: game@192.168.1.71
+
+rules:
+  - name: minecraft_crash
+    when: "NOT process_running('java') AND node.name == 'minecraft-server'"
+    actions:
+      - ssh_command: "cd /opt/minecraft && ./start.sh"
+      - notify: warning
+  - name: valheim_crash
+    when: "NOT process_running('valheim_server')"
+    nodes: [valheim-server]
+    actions:
+      - ssh_command: "cd /opt/valheim && ./start_server.sh"
+      - notify: warning
+  - name: high_memory
+    when: "mem_used_percent > 90"
+    actions:
+      - notify: critical</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Automatic game server restart on crash</li>
+        <li>Memory and CPU monitoring per server</li>
+        <li>Telegram alerts when servers go down or recover</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 13. Media Server Management -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Media Server Management</h3>
+      <p>Monitor Plex/Jellyfin transcoding load and disk space for media libraries.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: media-server
+    host: 192.168.1.12
+    ssh: admin@192.168.1.12
+
+rules:
+  - name: plex_down
+    when: "NOT process_running('Plex Media Server')"
+    nodes: [media-server]
+    actions:
+      - ssh_command: "systemctl restart plexmediaserver"
+      - notify: warning
+  - name: media_disk_full
+    when: "disk_used_percent > 85"
+    nodes: [media-server]
+    actions:
+      - notify: warning
+  - name: transcode_overload
+    when: "cpu_percent > 90 AND duration_minutes > 5"
+    nodes: [media-server]
+    actions:
+      - notify: info</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Plex/Jellyfin crash recovery</li>
+        <li>Media library disk space alerts</li>
+        <li>Transcoding load monitoring</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 14. Kubernetes Node Health -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-advanced">Advanced</span>
+      </div>
+      <h3>Kubernetes Node Health</h3>
+      <p>Monitor the underlying nodes, not just pods. Detect hardware issues before they cascade.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: k8s-node-1
+    host: 192.168.1.80
+    ssh: admin@192.168.1.80
+  - name: k8s-node-2
+    host: 192.168.1.81
+    ssh: admin@192.168.1.81
+  - name: k8s-node-3
+    host: 192.168.1.82
+    ssh: admin@192.168.1.82
+
+rules:
+  - name: kubelet_down
+    when: "NOT process_running('kubelet')"
+    actions:
+      - ssh_command: "systemctl restart kubelet"
+      - notify: critical
+  - name: node_disk_pressure
+    when: "disk_used_percent > 85"
+    actions:
+      - notify: warning
+      - webhook: k8s_disk_pressure
+  - name: node_memory_pressure
+    when: "mem_used_percent > 90"
+    actions:
+      - notify: warning</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Kubelet crash detection and recovery</li>
+        <li>Node-level disk and memory pressure alerts</li>
+        <li>Webhook integration for k8s-native tooling</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 15. Print Server Fleet -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Print Server Fleet</h3>
+      <p>Monitor print queues and server health across locations.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: print-server-hq
+    host: 192.168.1.90
+    ssh: admin@192.168.1.90
+  - name: print-server-branch
+    host: 10.0.2.90
+    ssh: admin@10.0.2.90
+
+rules:
+  - name: cups_down
+    when: "NOT process_running('cupsd')"
+    actions:
+      - ssh_command: "systemctl restart cups"
+      - notify: warning
+  - name: print_queue_stuck
+    when: "ssh_output('lpstat -o | wc -l') > 20"
+    actions:
+      - notify: warning</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>CUPS crash recovery</li>
+        <li>Stuck queue detection</li>
+        <li>Multi-location print server dashboard</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 16. Classroom Computer Lab -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>Classroom Computer Lab</h3>
+      <p>Manage and monitor computers in a school lab. Enforce policies during class hours.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: lab-pc-01
+    host: 192.168.10.1
+    ssh: admin@192.168.10.1
+    tags: [lab, classroom-a]
+  # ... repeat for each PC
+
+blacklist:
+  global:
+    - steam.exe
+    - epicgameslauncher.exe
+    - discord.exe
+
+rules:
+  - name: class_hours_enforcement
+    when: "time >= 08:00 AND time < 15:00 AND day_of_week IN [Mon,Tue,Wed,Thu,Fri]"
+    actions:
+      - kill_blacklisted
+  - name: end_of_day_shutdown
+    when: "time >= 17:00"
+    actions:
+      - ssh_command: "shutdown -h now"</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Game and social media blocking during class</li>
+        <li>Automated end-of-day shutdown</li>
+        <li>Lab-wide usage reporting</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 17. Rendering Farm -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-advanced">Advanced</span>
+      </div>
+      <h3>Rendering Farm</h3>
+      <p>Blender/video rendering job tracking, GPU allocation, and completion alerts.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: render-node-1
+    host: 192.168.1.110
+    ssh: render@192.168.1.110
+    gpu: nvidia
+  - name: render-node-2
+    host: 192.168.1.111
+    ssh: render@192.168.1.111
+    gpu: nvidia
+
+rules:
+  - name: render_complete
+    when: "NOT process_running('blender') AND previous_process_running('blender')"
+    actions:
+      - notify: info
+      - webhook: render_done
+  - name: render_gpu_overheat
+    when: "gpu_temp > 88"
+    actions:
+      - ssh_command: "pkill blender"
+      - notify: critical
+  - name: render_stalled
+    when: "gpu_utilization < 10 AND process_running('blender') AND duration_minutes > 30"
+    actions:
+      - notify: warning</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Render job completion alerts with webhooks</li>
+        <li>GPU overheat protection</li>
+        <li>Stalled render detection</li>
+      </ul>
+    </div>
+  </div>
+
 </div>
 
-<footer class="footer">
-  <p><a href="/">leassh</a> &middot; Keep your machines on a leash</p>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="mailto:hello@leassh.com">Contact</a></li>
+    </ul>
+  </div>
 </footer>
 
 </div>
 
 <script>
-// Filter buttons
-const filterBtns = document.querySelectorAll('.filter-btn');
-const cards = document.querySelectorAll('.card');
-
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const filter = btn.dataset.filter;
-    cards.forEach(card => {
-      if (filter === 'all') {
-        card.style.display = '';
-      } else if (filter === 'families') {
-        card.style.display = (card.dataset.audience === 'families' || card.dataset.audience === 'both') ? '' : 'none';
-      } else if (filter === 'power') {
-        card.style.display = (card.dataset.audience === 'power' || card.dataset.audience === 'both') ? '' : 'none';
-      }
-    });
-  });
-});
-
 // Card expand/collapse
 document.querySelectorAll('.card-toggle').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -938,6 +1244,12 @@ document.querySelectorAll('.card-toggle').forEach(btn => {
     btn.innerHTML = isOpen
       ? 'View Template <span class="arrow">&rarr;</span>'
       : 'Close <span class="arrow">&rarr;</span>';
+  });
+});
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('nav-toggle').checked = false;
   });
 });
 </script>

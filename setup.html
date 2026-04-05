@@ -113,17 +113,23 @@
     box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
   }
 
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+
+  .nav-cta-mobile { display: none; }
+
   /* --- Mobile hamburger --- */
-  .hamburger {
+  .nav-toggle-input { display: none; }
+
+  .nav-hamburger {
     display: none;
-    background: none;
-    border: none;
     cursor: pointer;
     padding: 8px;
     z-index: 101;
+    margin-left: auto;
   }
 
-  .hamburger span {
+  .nav-hamburger span {
     display: block;
     width: 22px;
     height: 2px;
@@ -133,12 +139,10 @@
     border-radius: 1px;
   }
 
-  #nav-toggle { display: none; }
-
-  #nav-toggle:checked ~ .nav-links { display: flex; }
-  #nav-toggle:checked ~ .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  #nav-toggle:checked ~ .hamburger span:nth-child(2) { opacity: 0; }
-  #nav-toggle:checked ~ .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   /* --- Content --- */
   .setup {
@@ -498,7 +502,8 @@
 
   /* --- Mobile --- */
   @media (max-width: 640px) {
-    .hamburger { display: block; }
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-hamburger { display: block; }
 
     .nav-links {
       display: none;
@@ -517,6 +522,18 @@
 
     .nav-links a { font-size: 18px; }
 
+    .nav-cta-mobile {
+      display: inline-flex !important;
+      font-size: 13px;
+      padding: 6px 14px;
+      background: var(--amber);
+      color: var(--bg) !important;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      text-decoration: none;
+      margin-left: 12px;
+    }
+
     .form-row { flex-direction: column; }
 
     .code-value {
@@ -533,20 +550,19 @@
 <div class="wrap">
 
 <nav>
-  <a href="/" class="nav-brand">leassh</a>
-  <input type="checkbox" id="nav-toggle" aria-hidden="true">
-  <label class="hamburger" for="nav-toggle" aria-label="Toggle navigation">
-    <span></span>
-    <span></span>
-    <span></span>
-  </label>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
   <ul class="nav-links">
-    <li><a href="/#features">Features</a></li>
-    <li><a href="/#pricing">Pricing</a></li>
-    <li><a href="/fleet">Fleet</a></li>
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/privacy">Privacy</a></li>
     <li><a href="/docs">Docs</a></li>
-    <li><a href="/setup" class="active">Setup</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
   </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
 </nav>
 
 <div class="setup">
@@ -671,12 +687,17 @@
 </div>
 
 <footer>
-  <a href="/">leassh.com</a> &middot; <a href="/privacy-policy">Privacy</a> &middot; <a href="/docs">Docs</a>
+  <a href="/">Home</a> &middot; <a href="/features">Features</a> &middot; <a href="/pricing">Pricing</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/docs">Docs</a> &middot; <a href="/fleet">Fleet</a> &middot; <a href="/privacy-policy">Privacy Policy</a> &middot; <a href="mailto:hello@leassh.com">Contact</a>
 </footer>
 
 </div>
 
 <script>
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('nav-toggle').checked = false;
+  });
+});
 // --- Registration ---
 const form = document.getElementById('register-form');
 const emailInput = document.getElementById('email-input');

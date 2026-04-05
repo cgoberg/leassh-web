@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy — leassh</title>
+<meta name="description" content="How leassh handles your data. Local mode, cloud mode, what we collect, what we don't. Your data, your rules.">
+<meta property="og:title" content="Leassh Privacy — Your data, your rules">
+<meta property="og:description" content="Choose local or cloud mode. See exactly what we collect and what we don't. Verifiable privacy.">
+<meta property="og:url" content="https://leassh.com/privacy">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Leassh Privacy">
+<meta name="twitter:description" content="Your data, your rules. Local or cloud mode. Verifiable privacy.">
+<link rel="canonical" href="https://leassh.com/privacy">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --green-bg:   rgba(106, 191, 105, 0.08);
+    --red:        #d45b4c;
+    --red-bg:     rgba(212, 91, 76, 0.06);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-b);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .atmo {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(106,191,105,0.05), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(212,162,76,0.03), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* --- Nav --- */
+  nav {
+    display: flex;
+    align-items: center;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 24px 32px;
+  }
+
+  .nav-brand {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-toggle-input { display: none; }
+
+  .nav-hamburger {
+    display: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+    margin-left: auto;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+    border-radius: 1px;
+  }
+
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-links {
+    margin-left: auto;
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--text-mid);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+
+  .nav-cta {
+    background: var(--amber);
+    color: var(--bg) !important;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s;
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
+  }
+
+  .nav-cta-mobile { display: none; }
+
+  /* --- Page Header --- */
+  .page-header {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 80px 32px 20px;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    font-family: var(--font-d);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.08;
+    margin-bottom: 16px;
+    color: var(--green);
+  }
+
+  .page-header p {
+    color: var(--text-mid);
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* --- Data Flow Visual --- */
+  .flow-section {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 60px 32px 40px;
+  }
+
+  .flow-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .flow-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+  }
+
+  .flow-card.local {
+    border-color: rgba(106, 191, 105, 0.25);
+  }
+
+  .flow-card.cloud {
+    border-color: rgba(212, 162, 76, 0.25);
+  }
+
+  .flow-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .flow-card h3 {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .flow-card.local h3 { color: var(--green); }
+  .flow-card.cloud h3 { color: var(--amber); }
+
+  .flow-card p {
+    font-size: 15px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .flow-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .flow-node {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-mid);
+  }
+
+  .flow-arrow {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .flow-card.local .flow-arrow { color: var(--green); }
+  .flow-card.cloud .flow-arrow { color: var(--amber); }
+
+  .flow-node.highlight-green {
+    border-color: rgba(106, 191, 105, 0.3);
+    color: var(--green);
+  }
+
+  .flow-node.highlight-amber {
+    border-color: rgba(212, 162, 76, 0.3);
+    color: var(--amber);
+  }
+
+  .flow-node.deleted {
+    border-color: rgba(212, 91, 76, 0.3);
+    color: var(--red);
+    text-decoration: line-through;
+  }
+
+  /* --- What we collect / don't collect --- */
+  .collect-section {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+
+  .collect-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .collect-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+  }
+
+  .collect-card h3 {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  .collect-card.yes h3 { color: var(--text); }
+  .collect-card.no h3 { color: var(--green); }
+
+  .collect-list {
+    list-style: none;
+  }
+
+  .collect-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(48, 43, 35, 0.4);
+    font-size: 15px;
+    color: var(--text-mid);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    line-height: 1.5;
+  }
+
+  .collect-list li:last-child { border-bottom: none; }
+
+  .collect-icon {
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .collect-card.yes .collect-icon { color: var(--amber); }
+  .collect-card.no .collect-icon { color: var(--green); }
+
+  /* --- Manifesto --- */
+  .manifesto {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 60px 32px;
+  }
+
+  .manifesto-box {
+    background: var(--green-bg);
+    border: 1px solid rgba(106, 191, 105, 0.15);
+    border-radius: 12px;
+    padding: 56px;
+    text-align: center;
+  }
+
+  .manifesto-box h2 {
+    font-family: var(--font-d);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    color: var(--green);
+    margin-bottom: 24px;
+  }
+
+  .manifesto-box p {
+    font-size: 17px;
+    color: var(--text-mid);
+    line-height: 1.8;
+    max-width: 640px;
+    margin: 0 auto 16px;
+  }
+
+  .manifesto-box p strong {
+    color: var(--text);
+  }
+
+  /* --- Competitor comparison --- */
+  .compare-section {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 40px 32px 60px;
+  }
+
+  .compare-section h2 {
+    font-family: var(--font-d);
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .compare-table {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .compare-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .compare-table th {
+    background: var(--bg-raised);
+    color: var(--text);
+    font-family: var(--font-d);
+    font-weight: 700;
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .compare-table th:not(:first-child) { text-align: center; }
+
+  .compare-table td {
+    padding: 12px 20px;
+    color: var(--text-mid);
+    border-bottom: 1px solid rgba(48, 43, 35, 0.3);
+  }
+
+  .compare-table td:not(:first-child) { text-align: center; }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  /* --- Legal link --- */
+  .legal-link {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 80px;
+    text-align: center;
+  }
+
+  .legal-link p {
+    color: var(--text-mid);
+    font-size: 15px;
+  }
+
+  .legal-link a {
+    color: var(--amber);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .legal-link a:hover { text-decoration: underline; }
+
+  /* --- Footer --- */
+  footer {
+    border-top: 1px solid var(--border);
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    color: var(--text-dim);
+    max-width: 400px;
+    line-height: 1.7;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-mid); }
+
+  /* --- Viewport animations --- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 800px) {
+    .flow-grid { grid-template-columns: 1fr; }
+    .collect-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--bg);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      z-index: 100;
+    }
+
+    .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: block; }
+
+    .nav-cta-mobile {
+      display: inline-flex !important;
+      font-size: 13px;
+      padding: 6px 14px;
+      background: var(--amber);
+      color: var(--bg) !important;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      text-decoration: none;
+      margin-left: 12px;
+      transition: transform 0.2s var(--ease), box-shadow 0.2s;
+    }
+
+    .page-header { padding: 48px 16px 16px; }
+    .flow-section { padding-left: 16px; padding-right: 16px; }
+    .collect-section { padding-left: 16px; padding-right: 16px; }
+    .manifesto { padding-left: 16px; padding-right: 16px; }
+    .manifesto-box { padding: 32px 24px; }
+    .compare-section { padding-left: 16px; padding-right: 16px; }
+    .flow-card { padding: 24px; }
+    .collect-card { padding: 24px; }
+    .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/privacy" class="active">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<section class="page-header">
+  <h1>Your data, your rules</h1>
+  <p>We built Leassh so you never have to trust us with your family's data. Here's exactly how it works.</p>
+</section>
+
+<!-- Data flow visual -->
+<section class="flow-section reveal">
+  <div class="flow-grid">
+    <div class="flow-card local">
+      <div class="flow-icon">&#128274;</div>
+      <h3>Local Mode</h3>
+      <p>Run a vision AI like Qwen on your own hardware. Screenshots are captured, analyzed, and summarized entirely on your network. <strong style="color:var(--green)">No data ever leaves your home.</strong> This is the gold standard of privacy.</p>
+      <div class="flow-diagram">
+        <span class="flow-node">Screenshot</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-node highlight-green">Your AI (local)</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-node highlight-green">Results stay local</span>
+      </div>
+    </div>
+    <div class="flow-card cloud">
+      <div class="flow-icon">&#9729;&#65039;</div>
+      <h3>Cloud Mode</h3>
+      <p>Don't want to run infrastructure? Use our cloud. Screenshots are encrypted in transit, analyzed by our AI, and <strong style="color:var(--amber)">immediately deleted</strong> &mdash; never stored in a database, never sold, never used for training.</p>
+      <div class="flow-diagram">
+        <span class="flow-node">Screenshot</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-node highlight-amber">Our AI (analyze)</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-node deleted">Deleted instantly</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What we collect / don't collect -->
+<section class="collect-section reveal">
+  <div class="collect-grid">
+    <div class="collect-card yes">
+      <h3>What we collect</h3>
+      <ul class="collect-list">
+        <li><span class="collect-icon">&#9679;</span> Periodic screenshots (analyzed and immediately deleted in cloud mode, never sent in local mode)</li>
+        <li><span class="collect-icon">&#9679;</span> CPU, memory, and disk usage metrics</li>
+        <li><span class="collect-icon">&#9679;</span> Running application names and window titles</li>
+        <li><span class="collect-icon">&#9679;</span> Keyboard and mouse idle time (is someone using the computer?)</li>
+        <li><span class="collect-icon">&#9679;</span> AI-generated activity summaries and categories</li>
+      </ul>
+    </div>
+    <div class="collect-card no">
+      <h3>What we DON'T collect</h3>
+      <ul class="collect-list">
+        <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No keystrokes.</strong> We never record what anyone types.</li>
+        <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No browsing history.</strong> We don't monitor URLs or search queries.</li>
+        <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No file contents.</strong> We never read documents, emails, or messages.</li>
+        <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No stored screenshots.</strong> In cloud mode, they're analyzed and gone. Permanently.</li>
+        <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No data selling.</strong> Your data is never sold, shared, or used for AI training.</li>
+        <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No third-party analytics.</strong> No Google Analytics, no Facebook pixel, no trackers.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Manifesto -->
+<section class="manifesto reveal">
+  <div class="manifesto-box">
+    <h2>Your data, your rules</h2>
+    <p>
+      We believe parents should be able to understand their children's digital lives <strong>without surrendering their family's privacy</strong> to yet another company.
+    </p>
+    <p>
+      That's why Local Mode exists. Run the AI on your own hardware &mdash; a laptop, a NAS, even a Raspberry Pi with a GPU. <strong>Your screenshots never touch our servers. Your data never leaves your home.</strong>
+    </p>
+    <p>
+      If you choose Cloud Mode for convenience, we designed it with one principle: <strong>analyze and delete</strong>. Screenshots are encrypted in transit, processed by our AI in RAM, and destroyed. No database. No retention. No audit trail we could be subpoenaed for.
+    </p>
+    <p>
+      We can't sell what we don't have. We can't be breached if there's nothing to breach. We can't be compelled to hand over data that doesn't exist.
+    </p>
+  </div>
+</section>
+
+<!-- Competitor comparison -->
+<section class="compare-section reveal">
+  <h2>How we compare</h2>
+  <div class="compare-table">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Typical tools</th>
+          <th style="color:var(--green)">Leassh</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Screenshot storage</td>
+          <td style="color:var(--red)">Their servers, indefinitely</td>
+          <td style="color:var(--green)">Analyzed &amp; deleted, or never sent</td>
+        </tr>
+        <tr>
+          <td>Keystroke logging</td>
+          <td style="color:var(--red)">Often included</td>
+          <td style="color:var(--green)">Never. Not even as an option.</td>
+        </tr>
+        <tr>
+          <td>Browsing history</td>
+          <td style="color:var(--red)">Full URL logging</td>
+          <td style="color:var(--green)">Not collected</td>
+        </tr>
+        <tr>
+          <td>Data used for training</td>
+          <td style="color:var(--red)">Read the fine print</td>
+          <td style="color:var(--green)">Never. Zero exceptions.</td>
+        </tr>
+        <tr>
+          <td>Self-hosted option</td>
+          <td style="color:var(--text-dim)">Rare</td>
+          <td style="color:var(--green)">Full local mode, on your hardware</td>
+        </tr>
+        <tr>
+          <td>Open source components</td>
+          <td style="color:var(--text-dim)">No</td>
+          <td style="color:var(--green)">OpenClaw fleet plugin on GitHub</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Legal link -->
+<section class="legal-link reveal">
+  <p>Want the legal version? Read our full <a href="/privacy-policy">Privacy Policy</a> and <a href="/privacy-policy#terms">Terms of Service</a>.</p>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="mailto:hello@leassh.com">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('nav-toggle').checked = false;
+  });
+});
+</script>
+</body>
+</html>

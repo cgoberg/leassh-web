@@ -81,16 +81,62 @@
     letter-spacing: -0.5px;
   }
 
-  .nav-back {
+  .nav-toggle-input { display: none; }
+
+  .nav-hamburger {
+    display: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
     margin-left: auto;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+    border-radius: 1px;
+  }
+
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-links {
+    margin-left: auto;
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
     color: var(--text-mid);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     transition: color 0.2s;
   }
 
-  .nav-back:hover { color: var(--text); }
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+
+  .nav-cta {
+    background: var(--amber);
+    color: var(--bg) !important;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+  }
+
+  .nav-cta-mobile { display: none; }
 
   .header {
     max-width: var(--max);
@@ -344,7 +390,32 @@
   }
 
   @media (max-width: 640px) {
-    nav, .header, .token-section, .tabs-section { padding-left: 16px; padding-right: 16px; }
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--bg);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      z-index: 100;
+    }
+    .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: block; }
+    .nav-cta-mobile {
+      display: inline-flex !important;
+      font-size: 13px;
+      padding: 6px 14px;
+      background: var(--amber);
+      color: var(--bg) !important;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      text-decoration: none;
+      margin-left: 12px;
+    }
+    .header, .token-section, .tabs-section { padding-left: 16px; padding-right: 16px; }
     .token-row { flex-direction: column; }
     .tab-btn { padding: 10px 14px; font-size: 13px; }
     .tab-panel { padding: 24px 16px; }
@@ -357,7 +428,18 @@
 
 <nav>
   <a class="nav-brand" href="/">leassh</a>
-  <a class="nav-back" href="/">&larr; Back to home</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
 </nav>
 
 <section class="header">
@@ -490,13 +572,30 @@ arm64: https://github.com/leassh/leassh/releases/download/v0.1.0/leassh-linux-ar
   </div>
 </section>
 
-<footer>
-  leassh &mdash; SSH-based fleet monitoring, screen time, and child safety. 100% local.
+<footer style="max-width:var(--max); margin:0 auto; padding:40px 32px; border-top:1px solid var(--border);">
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:24px;">
+    <div style="font-size:13px; color:var(--text-dim);">leassh &mdash; understand digital life.</div>
+    <div style="display:flex; gap:24px; flex-wrap:wrap;">
+      <a href="/" style="font-size:13px; color:var(--text-dim); text-decoration:none;">Home</a>
+      <a href="/features" style="font-size:13px; color:var(--text-dim); text-decoration:none;">Features</a>
+      <a href="/pricing" style="font-size:13px; color:var(--text-dim); text-decoration:none;">Pricing</a>
+      <a href="/privacy" style="font-size:13px; color:var(--text-dim); text-decoration:none;">Privacy</a>
+      <a href="/docs" style="font-size:13px; color:var(--text-dim); text-decoration:none;">Docs</a>
+      <a href="/fleet" style="font-size:13px; color:var(--text-dim); text-decoration:none;">Fleet</a>
+      <a href="/privacy-policy" style="font-size:13px; color:var(--text-dim); text-decoration:none;">Privacy Policy</a>
+      <a href="mailto:hello@leassh.com" style="font-size:13px; color:var(--text-dim); text-decoration:none;">Contact</a>
+    </div>
+  </div>
 </footer>
 
 </div>
 
 <script>
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('nav-toggle').checked = false;
+  });
+});
 // Tab switching
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {

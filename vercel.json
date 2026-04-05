@@ -2,73 +2,23 @@
   "buildCommand": null,
   "outputDirectory": ".",
   "rewrites": [
-    {
-      "source": "/api/license/validate",
-      "destination": "/api/license/validate"
-    },
-    {
-      "source": "/api/license/create",
-      "destination": "/api/license/create"
-    },
-    {
-      "source": "/api/checkout/create",
-      "destination": "/api/checkout/create"
-    },
-    {
-      "source": "/api/checkout/fulfill",
-      "destination": "/api/checkout/fulfill"
-    },
-    {
-      "source": "/api/account/register",
-      "destination": "/api/account/register"
-    },
-    {
-      "source": "/api/account/upgrade",
-      "destination": "/api/account/upgrade"
-    },
-    {
-      "source": "/api/rendezvous/register",
-      "destination": "/api/rendezvous/register"
-    },
-    {
-      "source": "/api/rendezvous/lookup",
-      "destination": "/api/rendezvous/lookup"
-    },
-    {
-      "source": "/api/telemetry/ingest",
-      "destination": "/api/telemetry/ingest"
-    },
-    {
-      "source": "/api/registry/v1",
-      "destination": "/api/registry/v1"
-    },
-    {
-      "source": "/success",
-      "destination": "/success.html"
-    },
-    {
-      "source": "/use-cases",
-      "destination": "/use-cases.html"
-    },
-    {
-      "source": "/privacy-policy",
-      "destination": "/privacy-policy.html"
-    },
-    {
-      "source": "/docs",
-      "destination": "/docs.html"
-    },
-    {
-      "source": "/install",
-      "destination": "/install.html"
-    },
-    {
-      "source": "/fleet",
-      "destination": "/fleet.html"
-    },
-    {
-      "source": "/setup",
-      "destination": "/setup.html"
-    }
+    { "source": "/api/license/validate", "destination": "/api/license/validate" },
+    { "source": "/api/license/create", "destination": "/api/license/create" },
+    { "source": "/api/checkout/create", "destination": "/api/checkout/create" },
+    { "source": "/api/checkout/fulfill", "destination": "/api/checkout/fulfill" },
+    { "source": "/api/account/register", "destination": "/api/account/register" },
+    { "source": "/api/account/upgrade", "destination": "/api/account/upgrade" },
+    { "source": "/api/rendezvous/register", "destination": "/api/rendezvous/register" },
+    { "source": "/api/rendezvous/lookup", "destination": "/api/rendezvous/lookup" },
+    { "source": "/success", "destination": "/success.html" },
+    { "source": "/use-cases", "destination": "/use-cases.html" },
+    { "source": "/privacy-policy", "destination": "/privacy-policy.html" },
+    { "source": "/docs", "destination": "/docs.html" },
+    { "source": "/install", "destination": "/install.html" },
+    { "source": "/fleet", "destination": "/fleet.html" },
+    { "source": "/setup", "destination": "/setup.html" },
+    { "source": "/features", "destination": "/features.html" },
+    { "source": "/pricing", "destination": "/pricing.html" },
+    { "source": "/privacy", "destination": "/privacy.html" }
   ]
 }
