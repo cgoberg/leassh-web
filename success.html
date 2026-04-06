@@ -589,11 +589,23 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   }
 
   try {
-    const res = await fetch('/api/checkout/fulfill?session_id=' + encodeURIComponent(sessionId));
-    const data = await res.json();
+    // Retry up to 8 times (max ~15s) to allow Stripe webhook processing time
+    let res, data;
+    for (let attempt = 0; attempt < 8; attempt++) {
+      if (attempt > 0) await new Promise(r => setTimeout(r, attempt < 4 ? 1500 : 3000));
+      res = await fetch('/api/checkout/fulfill?session_id=' + encodeURIComponent(sessionId));
+      data = await res.json();
+      if (res.status !== 202) break; // 202 means webhook not processed yet
+    }
 
-    if (!res.ok) {
+    if (!res.ok && res.status !== 202) {
       errorMessage.textContent = data.error || 'Could not verify payment. Please contact support.';
+      showState(stateError);
+      return;
+    }
+
+    if (res.status === 202 || data.pending) {
+      errorMessage.textContent = 'Your payment was received but license generation is still processing. Please refresh in a moment or contact support at hello@leassh.com.';
       showState(stateError);
       return;
     }

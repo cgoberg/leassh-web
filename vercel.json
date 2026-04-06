@@ -6,6 +6,7 @@
     { "source": "/api/license/create", "destination": "/api/license/create" },
     { "source": "/api/checkout/create", "destination": "/api/checkout/create" },
     { "source": "/api/checkout/fulfill", "destination": "/api/checkout/fulfill" },
+    { "source": "/api/checkout/webhook", "destination": "/api/checkout/webhook" },
     { "source": "/api/account/register", "destination": "/api/account/register" },
     { "source": "/api/account/upgrade", "destination": "/api/account/upgrade" },
     { "source": "/api/rendezvous/register", "destination": "/api/rendezvous/register" },
