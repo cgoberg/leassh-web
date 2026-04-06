@@ -1,6 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const crypto = require('crypto');
 const supabase = require('../_lib/supabase');
+const { sendEmail } = require('../_lib/email');
 
 function generateLicenseKey() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -89,6 +90,51 @@ async function createLicense(session) {
   }
 
   console.log('LICENSE_CREATED: ' + license_key + ' | ' + tier + ' | ' + (isAnnual ? 'annual' : 'monthly') + ' | ' + email + ' | session: ' + session.id);
+
+  if (email) {
+    const tierLabel = tier.charAt(0).toUpperCase() + tier.slice(1);
+    const billingLabel = isAnnual ? 'annual' : 'monthly';
+    sendEmail({
+      to: email,
+      subject: 'Your Leassh license key',
+      text: [
+        'Thank you for subscribing to Leassh ' + tierLabel + '!',
+        '',
+        'Your license key is:',
+        license_key,
+        '',
+        'To activate, add this to your fleet.yaml:',
+        '',
+        '  license_key: ' + license_key,
+        '',
+        'Documentation: https://leassh.com/docs',
+        'Manage your subscription: https://leassh.com/account',
+        '',
+        'Plan: Leassh ' + tierLabel + ' (' + billingLabel + ')',
+        '',
+        '— The Leassh team',
+        'https://leassh.com',
+      ].join('\n'),
+      html: `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 16px;color:#1a1a1a">
+  <h1 style="font-size:24px;margin-bottom:8px">Your Leassh license key</h1>
+  <p>Thank you for subscribing to <strong>Leassh ${tierLabel}</strong> (${billingLabel})!</p>
+  <p>Your license key is:</p>
+  <p style="font-size:18px;font-weight:700;letter-spacing:2px;font-family:monospace;background:#f5f5f5;padding:16px 24px;border-radius:8px;display:inline-block">${license_key}</p>
+  <p>Add it to your <code>fleet.yaml</code> to activate:</p>
+  <pre style="background:#f5f5f5;padding:12px 16px;border-radius:6px;font-size:14px">license_key: ${license_key}</pre>
+  <p>
+    <a href="https://leassh.com/docs" style="color:#d4a24c">Documentation</a> &nbsp;·&nbsp;
+    <a href="https://leassh.com/account" style="color:#d4a24c">Manage subscription</a>
+  </p>
+  <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
+  <p style="color:#999;font-size:12px">Leassh — <a href="https://leassh.com" style="color:#999">leassh.com</a></p>
+</body>
+</html>`,
+    }).catch(() => {});
+  }
 }
 
 module.exports = async (req, res) => {
