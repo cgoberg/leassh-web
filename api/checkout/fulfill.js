@@ -1,5 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const crypto = require('crypto');
+const supabase = require('../_lib/supabase');
 
 function generateLicenseKey() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -22,6 +23,12 @@ const tierMap = {
   'Leassh Family (Annual)':    { tier: 'family',    features: ['monitoring', 'vision', 'enforcement', 'notifications', 'screen_time', 'daily_summaries', 'weekly_reports', 'content_safety'] },
   'Leassh Pro':                { tier: 'pro',       features: ['monitoring', 'vision', 'enforcement', 'notifications', 'screen_time', 'daily_summaries', 'weekly_reports', 'content_safety', 'rules', 'actuation', 'fleet', 'webhooks', 'mqtt', 'ssh', 'api', 'self_hosting', 'openclaw'] },
   'Leassh Pro (Annual)':       { tier: 'pro',       features: ['monitoring', 'vision', 'enforcement', 'notifications', 'screen_time', 'daily_summaries', 'weekly_reports', 'content_safety', 'rules', 'actuation', 'fleet', 'webhooks', 'mqtt', 'ssh', 'api', 'self_hosting', 'openclaw'] },
+};
+
+const maxNodesMap = {
+  essential: 3,
+  family: 10,
+  pro: 0, // unlimited
 };
 
 function identifyTier(productName) {
@@ -67,19 +74,43 @@ module.exports = async (req, res) => {
       || '';
 
     const { tier, features } = identifyTier(productName);
-    const key = generateLicenseKey();
+    const license_key = generateLicenseKey();
     const email = session.customer_email || session.customer_details?.email || null;
     const isAnnual = lineItem?.price?.recurring?.interval === 'year';
+    const max_nodes = maxNodesMap[tier] ?? 5;
 
-    // Log the license creation for now — proper storage can be added later
-    console.log(`LICENSE_CREATED: ${key} | ${tier} | ${isAnnual ? 'annual' : 'monthly'} | ${email} | session: ${session_id}`);
+    // Calculate expiry: 1 year for annual, 35 days for monthly (grace period)
+    const now = new Date();
+    const expires_at = new Date(now.getTime() + (isAnnual ? 365 : 35) * 24 * 60 * 60 * 1000).toISOString();
+
+    // Store license in Supabase
+    const { error } = await supabase
+      .from('licenses')
+      .insert({
+        license_key,
+        stripe_session_id: session_id,
+        tier,
+        features,
+        email,
+        max_nodes,
+        billing: isAnnual ? 'annual' : 'monthly',
+        expires_at,
+        created_at: now.toISOString(),
+      });
+
+    if (error) {
+      console.error('Supabase license insert error:', error.message);
+      // Don't fail the response — the key was generated, log it for manual recovery
+    }
+
+    console.log('LICENSE_CREATED: ' + license_key + ' | ' + tier + ' | ' + (isAnnual ? 'annual' : 'monthly') + ' | ' + email + ' | session: ' + session_id);
 
     res.json({
-      license_key: key,
-      tier: tier,
-      features: features,
+      license_key,
+      tier,
+      features,
       billing: isAnnual ? 'annual' : 'monthly',
-      email: email,
+      email,
     });
   } catch (err) {
     console.error('Fulfill error:', err.message);

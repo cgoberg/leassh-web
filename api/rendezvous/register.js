@@ -1,4 +1,4 @@
-const { accounts, addresses } = require('../_lib/store');
+const supabase = require('../_lib/supabase');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,28 +19,38 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'addresses array required' });
     }
 
-    // Validate api_key against stored account
-    const account = accounts.get(pairing_code);
+    // Validate api_key against stored account in Supabase
+    const { data: account, error: lookupErr } = await supabase
+      .from('accounts')
+      .select('api_key')
+      .eq('pairing_code', pairing_code)
+      .maybeSingle();
+
+    if (lookupErr) {
+      console.error('Supabase account lookup error:', lookupErr.message);
+      return res.status(500).json({ error: 'Registration failed' });
+    }
+
     if (account && account.api_key !== api_key) {
       return res.status(403).json({ error: 'Invalid api_key for this pairing code' });
     }
 
-    // If account not in memory (cold start), trust the api_key and re-create
-    if (!account) {
-      accounts.set(pairing_code, {
-        api_key,
-        email: null,
-        account_id: null,
-        created_at: new Date().toISOString(),
-        restored: true,
-      });
-    }
+    // Upsert into rendezvous table
+    const { error: upsertErr } = await supabase
+      .from('rendezvous')
+      .upsert(
+        {
+          pairing_code,
+          addresses: addrs,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'pairing_code' }
+      );
 
-    // Store/update addresses
-    addresses.set(pairing_code, {
-      addresses: addrs,
-      updated_at: new Date().toISOString(),
-    });
+    if (upsertErr) {
+      console.error('Supabase upsert error:', upsertErr.message);
+      return res.status(500).json({ error: 'Registration failed' });
+    }
 
     console.log('RENDEZVOUS_REGISTER', JSON.stringify({
       pairing_code,

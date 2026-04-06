@@ -1,6 +1,8 @@
 // POST /api/telemetry/ingest
 // Receives anonymous or verbose telemetry from agents/servers
-// Stores in Vercel function logs for analysis
+// Stores in Supabase + Vercel function logs
+
+const supabase = require('../_lib/supabase');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,16 +17,14 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Log for our analysis (viewable in Vercel function logs)
-    console.log('TELEMETRY:', JSON.stringify({
-      ts: new Date().toISOString(),
-      version: data.leassh_version,
-      binary: data.binary_type,
+    const row = {
+      leassh_version: data.leassh_version,
+      binary_type: data.binary_type,
       os: data.os,
-      os_version: data.os_version,
-      arch: data.arch,
-      registry_version: data.registry_version,
-      telemetry_level: data.telemetry_level,
+      os_version: data.os_version || null,
+      arch: data.arch || null,
+      registry_version: data.registry_version || null,
+      telemetry_level: data.telemetry_level || null,
       failure_count: (data.failures || []).length,
       success_count: (data.successes || []).length,
       missing_tools: data.missing_tools || [],
@@ -32,14 +32,28 @@ module.exports = async (req, res) => {
         cmd: f.command_id,
         err: f.error_type,
         n: f.count,
-        // Only present for verbose level
         ...(f.command_output_truncated ? { output: f.command_output_truncated } : {}),
         ...(f.os_locale ? { locale: f.os_locale } : {}),
       })),
-    }));
+      received_at: new Date().toISOString(),
+    };
+
+    // Store in Supabase
+    const { error } = await supabase
+      .from('telemetry')
+      .insert(row);
+
+    if (error) {
+      console.error('Supabase telemetry insert error:', error.message);
+      // Don't fail — still log to Vercel
+    }
+
+    // Keep console.log for Vercel logs
+    console.log('TELEMETRY:', JSON.stringify(row));
 
     res.json({ status: 'ok' });
   } catch (e) {
+    console.error('Telemetry error:', e.message);
     res.status(500).json({ error: 'Internal error' });
   }
 };

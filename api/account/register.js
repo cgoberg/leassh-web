@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { accounts } = require('../_lib/store');
+const supabase = require('../_lib/supabase');
 
 // Characters that are unambiguous when read aloud or typed
 const ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
@@ -44,8 +44,15 @@ module.exports = async (req, res) => {
     const api_key = generateApiKey();
     const created_at = new Date().toISOString();
 
-    // Store in memory
-    accounts.set(pairing_code, { api_key, email, account_id, created_at });
+    // Store in Supabase
+    const { error } = await supabase
+      .from('accounts')
+      .insert({ account_id, pairing_code, api_key, email, created_at });
+
+    if (error) {
+      console.error('Supabase insert error:', error.message);
+      return res.status(500).json({ error: 'Registration failed' });
+    }
 
     // Audit trail in Vercel function logs
     console.log('ACCOUNT_CREATED', JSON.stringify({
