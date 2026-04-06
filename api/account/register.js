@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const supabase = require('../_lib/supabase');
+const { enforceRateLimit } = require('../_lib/rate-limit');
 
 // Characters that are unambiguous when read aloud or typed
 const ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
@@ -31,6 +32,12 @@ module.exports = async (req, res) => {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  // Enforce rate limiting
+  const rateLimitError = enforceRateLimit(req, res, 'account');
+  if (rateLimitError) {
+    return rateLimitError;
+  }
 
   try {
     const { email } = req.body || {};

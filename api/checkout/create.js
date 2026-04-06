@@ -1,4 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const { enforceRateLimit } = require('../_lib/rate-limit');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -7,6 +8,12 @@ module.exports = async (req, res) => {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  // Enforce rate limiting
+  const rateLimitError = enforceRateLimit(req, res, 'checkout');
+  if (rateLimitError) {
+    return rateLimitError;
+  }
 
   try {
     const { tier, billing } = req.body;

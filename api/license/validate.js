@@ -1,6 +1,7 @@
 // Vercel serverless function: POST /api/license/validate
 const supabase = require('../_lib/supabase');
 const { TIERS, setCorsHeaders } = require('../_lib/license');
+const { enforceRateLimit } = require('../_lib/rate-limit');
 
 module.exports = async (req, res) => {
   setCorsHeaders(res);
@@ -12,6 +13,12 @@ module.exports = async (req, res) => {
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Enforce rate limiting
+  const rateLimitError = enforceRateLimit(req, res, 'license');
+  if (rateLimitError) {
+    return rateLimitError;
   }
 
   try {
