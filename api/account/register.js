@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
     // Store in Supabase
     const { error } = await supabase
       .from('accounts')
-      .insert({ account_id, pairing_code, api_key, email, created_at });
+      .insert({ pairing_code, api_key, email });
 
     if (error) {
       console.error('Supabase insert error:', error.message);
