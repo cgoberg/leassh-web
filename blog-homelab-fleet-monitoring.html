@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSH Fleet Monitoring for Your Homelab: No Prometheus, No Grafana, No YAML Hell — Leassh</title>
+<meta name="description" content="You have five machines. Prometheus needs exporters on all of them. Grafana needs dashboards. There's a simpler way: SSH in, ask what's happening, get an answer.">
+<meta property="og:title" content="SSH Fleet Monitoring for Your Homelab: No Prometheus, No Grafana, No YAML Hell">
+<meta property="og:description" content="Prometheus is great — for large deployments. For a homelab with 3–10 machines you want to understand without a week of setup, SSH-based fleet monitoring is the better answer.">
+<meta property="og:url" content="https://leassh.com/blog/homelab-fleet-monitoring">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-07">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/homelab-fleet-monitoring">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SSH Fleet Monitoring for Your Homelab: No Prometheus, No Grafana, No YAML Hell",
+  "description": "You have five machines. Prometheus needs exporters on all of them. Grafana needs dashboards. There's a simpler way: SSH in, ask what's happening, get an answer.",
+  "datePublished": "2026-04-07",
+  "dateModified": "2026-04-07",
+  "url": "https://leassh.com/blog/homelab-fleet-monitoring",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/homelab-fleet-monitoring" },
+  "author": { "@type": "Person", "name": "Carl-Gustav Öberg", "url": "https://leassh.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --green-bg:   rgba(106, 191, 105, 0.08);
+    --red:        #d45b4c;
+    --blue:       #5b9fd4;
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  /* Article header */
+  .article-header {
+    max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px;
+  }
+
+  .article-breadcrumb {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+  }
+
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+
+  .article-header h1 {
+    font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px;
+  }
+
+  .article-byline {
+    color: var(--text-dim); font-size: 14px;
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    padding-bottom: 32px; border-bottom: 1px solid var(--border);
+  }
+
+  .article-byline strong { color: var(--text-mid); font-weight: 600; }
+
+  /* Prose */
+  .article-body {
+    max-width: var(--prose); margin: 0 auto; padding: 48px 32px 80px;
+  }
+
+  .article-body p { margin-bottom: 24px; }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body h2 {
+    font-family: var(--font-d); font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700; letter-spacing: -0.5px; line-height: 1.2;
+    margin: 52px 0 20px; color: var(--text);
+  }
+
+  .article-body h3 {
+    font-family: var(--font-d); font-size: clamp(18px, 2.5vw, 22px);
+    font-weight: 700; margin: 36px 0 14px; color: var(--text);
+  }
+
+  .article-body ul, .article-body ol {
+    padding-left: 24px; margin-bottom: 24px;
+  }
+
+  .article-body li { margin-bottom: 10px; color: var(--text-mid); }
+  .article-body li strong { color: var(--text); }
+
+  .article-body strong { color: var(--text); font-weight: 600; }
+  .article-body em { font-style: italic; color: var(--text-mid); }
+  .article-body a { color: var(--amber); text-decoration: none; }
+  .article-body a:hover { text-decoration: underline; }
+
+  .article-body blockquote {
+    border-left: 3px solid var(--amber); padding: 12px 24px;
+    margin: 32px 0; background: var(--amber-bg); border-radius: 0 8px 8px 0;
+    font-style: italic; color: var(--text-mid);
+  }
+
+  .callout {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px 28px; margin: 36px 0;
+  }
+
+  .callout-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--amber); margin-bottom: 12px;
+  }
+
+  .callout p { color: var(--text-mid); margin: 0; font-size: 15px; }
+
+  /* Terminal block */
+  .terminal {
+    background: #0a0908; border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px 24px; margin: 32px 0; overflow-x: auto;
+    font-family: 'Menlo', 'Consolas', 'SF Mono', monospace; font-size: 14px;
+    line-height: 1.6; color: var(--text-mid);
+  }
+
+  .terminal .prompt { color: var(--text-dim); user-select: none; }
+  .terminal .cmd { color: var(--text); }
+  .terminal .out { color: var(--text-mid); }
+  .terminal .out-good { color: var(--green); }
+  .terminal .out-warn { color: var(--amber); }
+  .terminal .out-dim { color: var(--text-dim); }
+  .terminal .comment { color: #5a5040; font-style: italic; }
+
+  .code-block {
+    background: #0a0908; border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px 24px; margin: 32px 0; overflow-x: auto;
+    font-family: 'Menlo', 'Consolas', 'SF Mono', monospace; font-size: 14px;
+    line-height: 1.6; color: var(--text-mid);
+    white-space: pre;
+  }
+
+  .platform-table {
+    width: 100%; border-collapse: collapse; margin: 36px 0; font-size: 14px;
+  }
+
+  .platform-table th {
+    text-align: left; padding: 10px 14px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .platform-table td {
+    padding: 12px 14px; border-bottom: 1px solid var(--border);
+    color: var(--text-dim); vertical-align: top; font-family: 'Menlo', 'Consolas', monospace; font-size: 13px;
+  }
+
+  .platform-table td:first-child { color: var(--text-mid); font-family: var(--font-b); font-size: 14px; font-weight: 500; }
+
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 4px;
+  }
+
+  .tag-good { background: rgba(106, 191, 105, 0.12); color: var(--green); }
+  .tag-ok { background: rgba(212, 162, 76, 0.12); color: var(--amber); }
+  .tag-na { background: rgba(122,111,94,0.1); color: var(--text-dim); }
+
+  .article-author-bio {
+    border-top: 1px solid var(--border); margin-top: 64px; padding-top: 32px;
+    font-size: 14px; color: var(--text-dim); line-height: 1.7;
+  }
+
+  /* CTA */
+  .post-cta {
+    max-width: var(--prose); margin: 0 auto; padding: 0 32px 100px;
+  }
+
+  .post-cta-inner {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 16px; padding: 40px; text-align: center;
+  }
+
+  .post-cta-inner h2 {
+    font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px);
+    font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+
+  .post-cta-inner p { color: var(--text-mid); margin-bottom: 28px; font-size: 16px; }
+
+  .btn-primary { display: inline-block; background: var(--amber); color: var(--bg); padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); max-width: var(--max); margin: 0 auto; padding: 40px 32px; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .footer-tagline { font-size: 13px; color: var(--text-dim); max-width: 400px; line-height: 1.7; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; list-style: none; }
+  .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text-mid); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links {
+      display: none; flex-direction: column; width: 100%;
+      background: var(--bg-raised); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; gap: 16px; margin-top: 8px;
+    }
+    .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: flex; flex-direction: column; justify-content: center; }
+    .nav-cta-mobile {
+      display: block; background: var(--amber); color: var(--bg); padding: 8px 18px;
+      border-radius: 6px; font-weight: 700; font-size: 14px; text-decoration: none; margin-left: auto; margin-right: 8px;
+    }
+    .article-header, .article-body, .post-cta { padding-left: 20px; padding-right: 20px; }
+    .platform-table { font-size: 12px; }
+    .platform-table th, .platform-table td { padding: 8px 10px; }
+    .terminal, .code-block { font-size: 12px; padding: 16px; }
+  }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<header class="article-header">
+  <div class="article-breadcrumb">
+    <a href="/blog">Blog</a>
+    <span>&rsaquo;</span>
+    Homelab
+  </div>
+  <h1>SSH Fleet Monitoring for Your Homelab: No Prometheus, No Grafana, No YAML Hell</h1>
+  <div class="article-byline">
+    <strong>Carl-Gustav &Ouml;berg</strong>
+    <span>April 7, 2026</span>
+    <span>8 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>I have eight machines on my home network. Two are dedicated to local LLM inference, three are shared gaming PCs my kids use, one is a Proxmox node, one is a Raspberry Pi 5 running Pi-hole and Home Assistant, and one is a NAS. I know them all intimately. I also have no idea what any of them are doing right now without SSH-ing in to check.</p>
+
+  <p>That&rsquo;s the homelab problem in miniature: the machines you care about most are the ones you understand least in aggregate. You built them, you know their configs, and yet you have no single view of what&rsquo;s running, what&rsquo;s straining, or what happened last night while you were asleep.</p>
+
+  <h2>The Prometheus Trap</h2>
+
+  <p>The standard advice is to set up Prometheus and Grafana. And Prometheus is genuinely excellent software &mdash; I use it at work. But for a homelab with 5&ndash;10 machines, the overhead is real:</p>
+
+  <ul>
+    <li><strong>node_exporter on every machine</strong> &mdash; that&rsquo;s an agent to install, configure, and maintain on every box, including Windows machines where it&rsquo;s not native</li>
+    <li><strong>Prometheus config</strong> &mdash; a scrape config that needs updating every time you add a machine</li>
+    <li><strong>Grafana dashboards</strong> &mdash; you&rsquo;ll spend an afternoon building the perfect dashboard and then never look at it</li>
+    <li><strong>Alertmanager</strong> &mdash; another service to run if you want notifications</li>
+    <li><strong>Retention</strong> &mdash; Prometheus stores time series locally; now you&rsquo;re thinking about disk space</li>
+  </ul>
+
+  <p>I&rsquo;m not saying the stack isn&rsquo;t worth it. For a production environment or a serious homelab with 20+ nodes it absolutely is. But if what you actually want is &ldquo;tell me what&rsquo;s happening across my machines right now,&rdquo; Prometheus is a 10-hour project for a 10-second answer.</p>
+
+  <h2>What SSH Already Gives You</h2>
+
+  <p>Here&rsquo;s the thing: you already have SSH access to every Linux and macOS machine in your lab. Windows has had a native OpenSSH server since 2019. Every metric you could want &mdash; CPU load, RAM pressure, GPU utilization, disk usage, running processes, logged-in users, temperatures &mdash; is available via a command over SSH.</p>
+
+  <p>The question is whether you want to run those commands manually every time, or whether you want something that does it continuously, correlates the results, and surfaces them when something interesting happens.</p>
+
+  <div class="callout">
+    <div class="callout-label">The SSH Monitoring Model</div>
+    <p>One monitoring process holds a persistent SSH connection to each machine. Every minute or so, it runs a set of OS-appropriate commands, parses the output, and maintains state. No agents installed on target machines. No open ports beyond SSH. The data never leaves your network.</p>
+  </div>
+
+  <p>This is the architecture I built into <a href="/fleet">Leassh&rsquo;s fleet monitoring plugin</a>, and it&rsquo;s fundamentally different from the exporter-based model: the intelligence is on the monitoring side, not the monitored side. Your machines don&rsquo;t know they&rsquo;re being monitored. They&rsquo;re just answering SSH commands.</p>
+
+  <h2>What It Looks Like in Practice</h2>
+
+  <p>Once configured, you get two things. First, a natural language interface via OpenClaw &mdash; your AI agent can answer questions about your fleet in real time:</p>
+
+  <div class="terminal">
+    <div><span class="prompt">you &gt; </span><span class="cmd">how's the fleet?</span></div>
+    <div>&nbsp;</div>
+    <div><span class="out-good">gpu-primary</span><span class="out">  ONLINE  CPU 12%  GPU 8%  RAM 18GB/24GB  disk 847GB free</span></div>
+    <div><span class="out-good">gpu-secondary</span><span class="out"> ONLINE  CPU 6%   GPU 0%  RAM 6GB/16GB   disk 1.2TB free</span></div>
+    <div><span class="out-warn">nas</span><span class="out">          ONLINE  CPU 3%   disk </span><span class="out-warn">WARNING: 89% full</span></div>
+    <div><span class="out-good">proxmox</span><span class="out">      ONLINE  CPU 31%  RAM 28GB/64GB  4 VMs active</span></div>
+    <div><span class="out-good">pi5</span><span class="out">          ONLINE  CPU 4%   RAM 2.1GB/8GB</span></div>
+    <div><span class="out-dim">gaming-1</span><span class="out-dim">     IDLE (no users, 43min)</span></div>
+    <div><span class="out-dim">gaming-2</span><span class="out-dim">     IDLE (no users, 2h 11min)</span></div>
+    <div><span class="out-warn">gaming-3</span><span class="out">     ONLINE  user: felix, GPU </span><span class="out-warn">91%</span><span class="out"> (Fortnite)</span></div>
+    <div>&nbsp;</div>
+    <div><span class="out-dim comment"># nas disk warning flagged — you've got ~3 days at current write rate</span></div>
+  </div>
+
+  <p>That&rsquo;s one query, no dashboard to build, no alert to configure beforehand. The NAS disk warning surfaces because the system is tracking disk usage over time and doing rate-of-change math &mdash; &ldquo;time to full based on current write rate&rdquo; is more useful than &ldquo;89% used.&rdquo;</p>
+
+  <p>Second, there&rsquo;s a live dashboard served at <code>/fleet</code> &mdash; all nodes, status bars, GPU VRAM, disk, active users, last seen. It auto-refreshes. For the big-picture view it&rsquo;s faster than any terminal.</p>
+
+  <h2>The Configuration Is One File</h2>
+
+  <p>The entire setup is a single <code>fleet.yaml</code>:</p>
+
+  <div class="code-block">license_key: "your-license-key"
+
+nodes:
+  - name: gpu-primary
+    host: 192.168.1.100
+    ssh: carl@192.168.1.100
+    os: linux
+
+  - name: nas
+    host: 192.168.1.105
+    ssh: admin@192.168.1.105
+    os: linux
+
+  - name: proxmox
+    host: 192.168.1.110
+    ssh: root@192.168.1.110
+    os: linux
+
+  - name: gaming-3
+    host: 192.168.1.131
+    ssh: carl@192.168.1.131
+    os: windows
+
+probes:
+  health_interval: 60      # seconds
+  metrics_interval: 120
+  idle_threshold: 30        # minutes before marking IDLE
+
+load_thresholds:
+  low: 30
+  high: 70</div>
+
+  <p>Add a node, restart the binary, it starts showing up. Remove a node, it disappears. No service discovery config, no scrape rules, no relabeling.</p>
+
+  <h2>Cross-Platform Without the Pain</h2>
+
+  <p>The part that took the most work to build is the part you don&rsquo;t see: getting the same logical metric from machines that answer completely different commands.</p>
+
+  <table class="platform-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Linux</th>
+        <th>macOS</th>
+        <th>Windows</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>CPU usage</td>
+        <td>/proc/stat</td>
+        <td>top -l 1</td>
+        <td>Get-CimInstance</td>
+      </tr>
+      <tr>
+        <td>RAM</td>
+        <td>/proc/meminfo</td>
+        <td>vm_stat</td>
+        <td>Get-CimInstance</td>
+      </tr>
+      <tr>
+        <td>Disk</td>
+        <td>df -h</td>
+        <td>df -h</td>
+        <td>Get-CimInstance</td>
+      </tr>
+      <tr>
+        <td>GPU (NVIDIA)</td>
+        <td>nvidia-smi</td>
+        <td><span class="tag tag-na">N/A</span></td>
+        <td>nvidia-smi</td>
+      </tr>
+      <tr>
+        <td>Idle time</td>
+        <td>xprintidle / input mtime</td>
+        <td>ioreg HIDIdleTime</td>
+        <td>GetLastInputInfo</td>
+      </tr>
+      <tr>
+        <td>Processes</td>
+        <td>ps aux</td>
+        <td>ps aux</td>
+        <td>Get-Process</td>
+      </tr>
+      <tr>
+        <td>Screenshots</td>
+        <td>scrot / grim</td>
+        <td>screencapture</td>
+        <td>PowerShell task¹</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:14px; color: var(--text-dim); margin-top: -20px;">¹ <em>Windows SSH runs in Session 0 (no desktop). Screenshots require creating a scheduled task in the interactive user session — the binary handles this automatically.</em></p>
+
+  <p>All of these commands live in a JSON registry, not hardcoded in the binary. If a command isn&rsquo;t available on a given machine, that metric is skipped gracefully. Add a new command variant without recompiling.</p>
+
+  <h2>Alerts That Don&rsquo;t Require Pre-Configuration</h2>
+
+  <p>Traditional monitoring is reactive: you define a threshold, something crosses it, you get an alert. That&rsquo;s fine when you know what to watch for. But homelab failures are creative &mdash; it&rsquo;s rarely the alert you configured that fires, it&rsquo;s the one you forgot to set up.</p>
+
+  <p>SSH fleet monitoring has an advantage here because the monitoring system understands <em>behavior</em>, not just thresholds. When a previously-idle machine suddenly has a high-GPU process running, that&rsquo;s surfaced without you pre-defining &ldquo;alert if GPU > 80%.&rdquo; The agent sees the state change and tells you about it.</p>
+
+  <p>Concrete examples of what gets flagged automatically:</p>
+
+  <ul>
+    <li><strong>Node went offline</strong> with last-known metrics and how long it&rsquo;s been down</li>
+    <li><strong>Disk trend critical</strong> &mdash; time-to-full estimate based on rolling regression, not just current percentage</li>
+    <li><strong>Unknown heavy process</strong> &mdash; something consuming &gt;30% CPU or GPU that the system hasn&rsquo;t seen before</li>
+    <li><strong>Node back online</strong> after being unreachable &mdash; brief recovery confirmation</li>
+  </ul>
+
+  <h2>Where It Fits in the Monitoring Stack</h2>
+
+  <p>I still run Prometheus at work and wouldn&rsquo;t replace it for production systems. For my homelab, SSH fleet monitoring does what I actually need:</p>
+
+  <blockquote>&ldquo;Tell me what my machines are doing right now, flag anything unusual, and let me ask questions without opening five terminal tabs.&rdquo;</blockquote>
+
+  <p>If you&rsquo;re running fewer than 20 nodes and spending more time maintaining your monitoring stack than actually using it, that&rsquo;s a signal to simplify. SSH is already there. The commands already work. The only question is whether you&rsquo;re running them manually every time or whether something runs them for you.</p>
+
+  <p>The fleet plugin is free for OpenClaw users &mdash; unlimited nodes, MIT licensed. The full Leassh product adds rules automation (&ldquo;kill this process on idle machines&rdquo;), screen time enforcement, and AI behavioral reports for family machines. But for pure fleet monitoring, the free tier is the whole thing.</p>
+
+  <p><strong>Related reading:</strong> If you&rsquo;re also dealing with kids gaming on your GPU machines, see <a href="/blog/homelab-gpu">How to Stop Your Kids From Hijacking Your Homelab GPU</a> for the automated enforcement side of the same setup.</p>
+
+  <div class="article-author-bio">
+    <strong>Carl-Gustav &Ouml;berg</strong> is the founder of Leassh, a fleet monitoring and family safety platform built on SSH. He runs a mixed homelab of Linux, macOS, and Windows machines and built Leassh primarily to solve his own problems.
+  </div>
+
+</article>
+
+<div class="post-cta">
+  <div class="post-cta-inner">
+    <h2>Your whole homelab, one conversation away</h2>
+    <p>Ask your OpenClaw agent &ldquo;what&rsquo;s happening on the fleet?&rdquo; and get a real answer from live machine data. Free plugin, unlimited nodes.</p>
+    <a class="btn-primary" href="/fleet">Get the Fleet Plugin</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
