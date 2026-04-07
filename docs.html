@@ -541,11 +541,11 @@
 
     <div class="cmd-block">
       <span class="cmd-label">Linux / macOS</span>
-      <code id="cmd-nix">LEASSH_TOKEN='YOUR_TOKEN' curl -fsSL https://leassh.com/install.sh | sudo bash</code>
+      <code id="cmd-nix">curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE='YOUR_CODE' bash</code>
       <button class="copy-btn" data-target="cmd-nix">Copy</button>
     </div>
 
-    <p>Replace <code style="color: var(--amber);">YOUR_TOKEN</code> with the token from your dashboard. For detailed platform-specific instructions, see the <a href="/install">Install page</a>.</p>
+    <p>Replace <code style="color: var(--amber);">YOUR_CODE</code> with the pairing code from your dashboard. For detailed platform-specific instructions, see the <a href="/install">Install page</a>.</p>
 
     <p><strong>Option B: SSH Probing (no install on targets)</strong><br>
     Add machines to <code style="color: var(--amber);">fleet.yaml</code> with their SSH details. Leassh probes them directly. Nothing installed on the monitored machines. Requires SSH key access. See <a href="#self-hosting">Self-Hosting</a> for details.</p>
