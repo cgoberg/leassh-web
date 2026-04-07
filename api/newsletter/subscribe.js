@@ -1,7 +1,13 @@
 const supabase = require('../_lib/supabase');
 const { sendEmail } = require('../_lib/email');
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') return res.status(200).end();
+
   // Only allow POST requests
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
@@ -118,4 +124,4 @@ You can unsubscribe anytime by replying with "unsubscribe".`,
     console.error('Newsletter subscription error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-}
+};
