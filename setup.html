@@ -658,6 +658,10 @@
       <div class="platform-card">
         <h4><span class="plat-icon">&#xf179;</span> macOS</h4>
         <p class="plat-desc">Run in Terminal</p>
+        <div style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;background:rgba(212,162,76,0.08);border:1px solid rgba(212,162,76,0.25);border-radius:6px;margin-bottom:14px;font-size:13px;line-height:1.5;">
+          <span style="color:var(--amber);flex-shrink:0;font-size:15px;">&#9888;</span>
+          <span style="color:var(--amber);font-weight:600;">Apple Silicon only&nbsp;</span><span style="color:var(--text-mid);">Requires an M1, M2, or M3 Mac. Intel Mac support is coming soon.</span>
+        </div>
         <div class="code-block">
           <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
           <code id="cmd-macos">curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=ABC123 sudo bash</code>
