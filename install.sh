@@ -53,13 +53,7 @@ ARCH="$(uname -m)"
 
 case "$OS" in
     Linux)  PLATFORM="linux"  ;;
-    Darwin)
-        OS="darwin"
-        error "macOS binaries coming soon. For now, build from source."
-        echo ""
-        echo "  See: https://github.com/leassh/leassh"
-        exit 1
-        ;;
+    Darwin) PLATFORM="darwin" ;;
     *)
         error "Unsupported operating system: $OS"
         exit 1
@@ -67,7 +61,13 @@ case "$OS" in
 esac
 
 case "$ARCH" in
-    x86_64|amd64)   ARCH_SUFFIX="x64"   ;;
+    x86_64|amd64)
+        if [ "$PLATFORM" = "darwin" ]; then
+            error "Intel Mac binaries are not available yet. If you have an Apple Silicon Mac (M1/M2/M3), use that instead, or run under Rosetta."
+            exit 1
+        fi
+        ARCH_SUFFIX="x64"
+        ;;
     aarch64|arm64)   ARCH_SUFFIX="arm64" ;;
     *)
         error "Unsupported architecture: $ARCH"
@@ -193,8 +193,9 @@ fi
 # ---------------------------------------------------------------------------
 step "Installing system service..."
 
-# systemd service
-cat > /etc/systemd/system/leassh-agent.service <<EOF
+if [ "$PLATFORM" = "linux" ]; then
+    # systemd service
+    cat > /etc/systemd/system/leassh-agent.service <<EOF
 [Unit]
 Description=Leassh Agent
 After=network-online.target
@@ -212,10 +213,43 @@ WorkingDirectory=${DATA_DIR}
 WantedBy=multi-user.target
 EOF
 
-systemctl daemon-reload
-systemctl enable leassh-agent
-systemctl start leassh-agent
-info "systemd service installed and started"
+    systemctl daemon-reload
+    systemctl enable leassh-agent
+    systemctl start leassh-agent
+    info "systemd service installed and started"
+
+elif [ "$PLATFORM" = "darwin" ]; then
+    # launchd plist
+    PLIST_PATH="/Library/LaunchDaemons/com.leassh.agent.plist"
+    cat > "$PLIST_PATH" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.leassh.agent</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>${BINARY_PATH}</string>
+    <string>--run</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>WorkingDirectory</key>
+  <string>${DATA_DIR}</string>
+  <key>StandardOutPath</key>
+  <string>/var/log/leassh-agent.log</string>
+  <key>StandardErrorPath</key>
+  <string>/var/log/leassh-agent.log</string>
+</dict>
+</plist>
+EOF
+
+    launchctl load -w "$PLIST_PATH"
+    info "launchd service installed and started"
+fi
 
 # ---------------------------------------------------------------------------
 # 8. Verify
@@ -223,10 +257,18 @@ info "systemd service installed and started"
 step "Verifying service..."
 sleep 2
 
-if systemctl is-active --quiet leassh-agent; then
-    info "Leassh Agent service is running"
-else
-    warn "Service not active yet. Check: systemctl status leassh-agent"
+if [ "$PLATFORM" = "linux" ]; then
+    if systemctl is-active --quiet leassh-agent; then
+        info "Leassh Agent service is running"
+    else
+        warn "Service not active yet. Check: systemctl status leassh-agent"
+    fi
+elif [ "$PLATFORM" = "darwin" ]; then
+    if launchctl list com.leassh.agent &>/dev/null; then
+        info "Leassh Agent service is running"
+    else
+        warn "Service not active yet. Check: sudo launchctl list com.leassh.agent"
+    fi
 fi
 
 # ---------------------------------------------------------------------------
@@ -241,9 +283,15 @@ echo "  Device '$NAME' will appear in your dashboard shortly."
 echo "  Dashboard: https://$SERVER/fleet"
 echo ""
 echo "  Manage the service:"
-echo "    Start:   sudo systemctl start leassh-agent"
-echo "    Stop:    sudo systemctl stop leassh-agent"
-echo "    Status:  sudo systemctl status leassh-agent"
-echo "    Logs:    sudo journalctl -u leassh-agent -f"
+if [ "$PLATFORM" = "linux" ]; then
+    echo "    Start:   sudo systemctl start leassh-agent"
+    echo "    Stop:    sudo systemctl stop leassh-agent"
+    echo "    Status:  sudo systemctl status leassh-agent"
+    echo "    Logs:    sudo journalctl -u leassh-agent -f"
+else
+    echo "    Start:   sudo launchctl load /Library/LaunchDaemons/com.leassh.agent.plist"
+    echo "    Stop:    sudo launchctl unload /Library/LaunchDaemons/com.leassh.agent.plist"
+    echo "    Logs:    tail -f /var/log/leassh-agent.log"
+fi
 echo "    Remove:  sudo $BINARY_PATH --uninstall"
 echo ""

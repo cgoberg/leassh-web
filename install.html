@@ -511,29 +511,35 @@
 
   <!-- macOS panel -->
   <div class="tab-panel" id="tab-macos">
-    <h3>Install on macOS</h3>
-    <p>macOS binaries are coming soon. For now, you can build from source.</p>
+    <h3>Install on macOS (Apple Silicon)</h3>
+    <p>Open Terminal and paste the command below. Requires macOS 12+ on Apple Silicon (M1/M2/M3).</p>
 
     <div class="cmd-block">
-      <span class="cmd-label">Build from source</span>
-      <code id="cmd-macos">git clone https://github.com/leassh/leassh.git &amp;&amp; cd leassh &amp;&amp; cargo build --release</code>
+      <span class="cmd-label">Quick install</span>
+      <code id="cmd-macos">LEASSH_TOKEN='<span class="token-placeholder">YOUR_TOKEN</span>' curl -fsSL https://leassh.com/install.sh | sudo bash</code>
       <button class="copy-btn" data-target="cmd-macos">Copy</button>
+    </div>
+
+    <div class="cmd-block">
+      <span class="cmd-label">Or download directly</span>
+      <code id="cmd-macos-dl">https://github.com/leassh/leassh/releases/download/v0.1.0/leassh-darwin-arm64.tar.gz</code>
+      <button class="copy-btn" data-target="cmd-macos-dl">Copy</button>
     </div>
 
     <div class="install-steps">
       <div class="install-step">
-        <p><strong>Clone the repository</strong> and build with Cargo (Rust toolchain required).</p>
+        <p><strong>Open Terminal</strong> (Applications &rarr; Utilities &rarr; Terminal).</p>
       </div>
       <div class="install-step">
-        <p><strong>Run the agent</strong> with your token: <code>./target/release/leassh-agent --setup api.leassh.com YOUR_TOKEN &quot;My Mac&quot;</code></p>
+        <p><strong>Paste the command above</strong> and press Enter. Enter your password when prompted. The installer downloads the agent, configures it with your token, and registers it as a launchd service.</p>
       </div>
       <div class="install-step">
-        <p><strong>Pre-built macOS binaries</strong> (Intel and Apple Silicon) will be available in a future release.</p>
+        <p><strong>Verify in your dashboard.</strong> The device will appear at <code>https://api.leassh.com/fleet</code> within a minute.</p>
       </div>
     </div>
 
     <div class="req-note">
-      <strong>Coming soon:</strong> Pre-built macOS binaries for Intel and Apple Silicon. In the meantime, building from source requires Rust 1.75+ and Cargo. See the <a href="https://github.com/leassh/leassh" style="color: var(--amber);">GitHub repository</a> for full build instructions.
+      <strong>Requirements:</strong> macOS 12 Monterey or later on Apple Silicon (M1/M2/M3). Intel Mac support coming soon.
     </div>
   </div>
 
