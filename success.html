@@ -376,6 +376,37 @@
     font-family: 'SF Mono', 'Fira Code', monospace;
   }
 
+  .step .install-cmd {
+    display: block;
+    background: var(--bg-warm);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--amber);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    word-break: break-all;
+    line-height: 1.6;
+  }
+
+  .setup-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--amber);
+    color: var(--bg);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 12px;
+    transition: opacity 0.2s;
+  }
+
+  .setup-cta:hover { opacity: 0.88; }
+
   .step a {
     color: var(--amber);
     text-decoration: none;
@@ -505,7 +536,7 @@
     </div>
 
     <h1>Your license key</h1>
-    <p class="success-sub">Save this key somewhere safe. You'll need it to activate Leassh on your computers.</p>
+    <p class="success-sub">Save this somewhere safe. You'll use it in the next step to create your account and get your install code.</p>
 
     <div class="license-card">
       <div class="license-label">License Key</div>
@@ -516,7 +547,7 @@
       </div>
       <button class="copy-btn" id="copy-btn" onclick="copyKey()">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25v-7.5z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25v-7.5zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25h-7.5z"/></svg>
-        Copy to clipboard
+        Copy license key
       </button>
     </div>
 
@@ -526,29 +557,35 @@
         <div class="step">
           <div class="step-num"></div>
           <div>
-            <h3>Download the Leassh agent</h3>
-            <p>Get the installer for Windows, macOS, or Linux from the <a href="/install">install page</a>.</p>
+            <h3>Create your account &amp; get your pairing code</h3>
+            <p>Go to <a href="/setup">leassh.com/setup</a> and enter the license key above. You'll get a short <strong>pairing code</strong> (like <code>79SKY6</code>) — this is what you'll use to install the agent.</p>
+            <a class="setup-cta" href="/setup">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm.75 4.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5z"/></svg>
+              Go to Setup &rarr;
+            </a>
           </div>
         </div>
         <div class="step">
           <div class="step-num"></div>
           <div>
-            <h3>Install on each computer</h3>
-            <p>Run the installer and enter your license key when prompted: <code id="key-preview"></code></p>
+            <h3>Install on each computer you want to monitor</h3>
+            <p>On Linux or macOS, run this command — replace <code>XXXXXX</code> with your pairing code from /setup:</p>
+            <code class="install-cmd">LEASSH_CODE=XXXXXX curl -fsSL https://leassh.com/install.sh | sudo bash</code>
+            <p style="margin-top:10px;">On Windows, use <a href="/install">leassh.com/install</a> to download and run the installer.</p>
           </div>
         </div>
         <div class="step">
           <div class="step-num"></div>
           <div>
             <h3 id="step3-title">Open your dashboard</h3>
-            <p id="step3-desc">Screen time, limits, and activity reports are live. Visit <code>app.leassh.com</code> to see your family dashboard.</p>
+            <p id="step3-desc">Screen time, limits, and activity reports are live. Visit <a href="/setup">your dashboard</a> to see your family's computers.</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="help-note">
-      A copy of your license key has been sent to your email. Need help? Reach out at <a href="mailto:hello@leassh.com">hello@leassh.com</a> and we'll get you set up.
+      A copy of your license key has been sent to your email. Need help getting set up? Reach out at <a href="mailto:hello@leassh.com">hello@leassh.com</a> and we'll walk you through it.
     </div>
   </div>
 </main>
@@ -614,7 +651,6 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     // Populate the success view
     document.getElementById('license-key').textContent = data.license_key;
     document.getElementById('license-tier').textContent = data.tier === 'cloud' ? 'Leassh Cloud' : 'Leassh Local';
-    document.getElementById('key-preview').textContent = data.license_key;
 
     if (data.email) {
       document.getElementById('license-email').textContent = data.email;
@@ -644,7 +680,7 @@ function copyKey() {
     btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.78 5.22a.75.75 0 0 0-1.06 0L7 8.94 5.28 7.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.06 0l4.25-4.25a.75.75 0 0 0 0-1.06z"/></svg> Copied!';
     setTimeout(function () {
       btn.classList.remove('copied');
-      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25v-7.5z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25v-7.5zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25h-7.5z"/></svg> Copy to clipboard';
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25v-7.5z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25v-7.5zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25h-7.5z"/></svg> Copy license key';
     }, 2500);
   });
 }
