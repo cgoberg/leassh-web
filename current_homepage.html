@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>leassh — Understand your child's digital life</title>
+<meta name="description" content="AI-powered parental insight. Screen time tracking, behavioral reports, content safety alerts. No spyware. No keyloggers. Just understanding.">
+<meta property="og:title" content="Leassh — Understand your child's digital life">
+<meta property="og:description" content="AI-powered screen time tracking, weekly behavioral reports, and content safety alerts. 100% local privacy option.">
+<meta property="og:url" content="https://leassh.com">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Leassh — Understand your child's digital life">
+<meta name="twitter:description" content="Screen time tracking, AI content safety, and weekly behavioral reports for families.">
+<link rel="canonical" href="https://leassh.com">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://leassh.com/#organization",
+      "name": "Leassh",
+      "url": "https://leassh.com",
+      "description": "AI-powered parental monitoring and fleet management. Understand your child's digital life — not to surveil, but to help.",
+      "founder": { "@type": "Person", "name": "Carl-Gustav Öberg" }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://leassh.com/#website",
+      "url": "https://leassh.com",
+      "name": "Leassh",
+      "publisher": { "@id": "https://leassh.com/#organization" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Leassh",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Windows, macOS, Linux",
+      "url": "https://leassh.com",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "14-day free trial"
+      },
+      "publisher": { "@id": "https://leassh.com/#organization" }
+    }
+  ]
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --green-bg:   rgba(106, 191, 105, 0.08);
+    --red:        #d45b4c;
+    --red-bg:     rgba(212, 91, 76, 0.06);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-b);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .atmo {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* --- Nav --- */
+  nav {
+    display: flex;
+    align-items: center;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 24px 32px;
+  }
+
+  .nav-brand {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-toggle-input { display: none; }
+
+  .nav-hamburger {
+    display: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+    margin-left: auto;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+    border-radius: 1px;
+  }
+
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-links {
+    margin-left: auto;
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--text-mid);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+
+  .nav-cta {
+    background: var(--amber);
+    color: var(--bg) !important;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s;
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
+  }
+
+  .nav-cta-mobile { display: none; }
+
+  /* --- Hero --- */
+  .hero {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 100px 32px 80px;
+  }
+
+  .hero-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--amber);
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-family: var(--font-d);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    max-width: 720px;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 em { font-style: normal; color: var(--amber); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-mid);
+    max-width: 580px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-alt-link {
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  .hero-alt-link a {
+    color: var(--amber-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .hero-alt-link a:hover { color: var(--amber); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-b);
+  }
+
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--amber); color: var(--bg); }
+  .btn-primary:hover { box-shadow: 0 6px 30px rgba(212, 162, 76, 0.3); }
+  .btn-ghost { background: transparent; color: var(--text-mid); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); }
+
+  /* --- Dashboard preview --- */
+  .preview {
+    max-width: var(--max);
+    margin: 0 auto 100px;
+    padding: 0 32px;
+  }
+
+  .preview-frame {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  }
+
+  .preview-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .preview-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+
+  .preview-dot:nth-child(1) { background: #e25d53; }
+  .preview-dot:nth-child(2) { background: #e8a035; }
+  .preview-dot:nth-child(3) { background: #56c13e; }
+
+  .preview-url {
+    margin-left: 12px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .preview-body { padding: 32px; }
+
+  .sim-node {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(48, 43, 35, 0.5);
+    animation: simSlide 0.6s var(--ease) both;
+  }
+
+  .sim-node:last-child { border-bottom: none; }
+  .sim-node:nth-child(1) { animation-delay: 0.1s; }
+  .sim-node:nth-child(2) { animation-delay: 0.2s; }
+  .sim-node:nth-child(3) { animation-delay: 0.3s; }
+  .sim-node:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes simSlide {
+    from { opacity: 0; transform: translateX(-12px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .sim-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .sim-dot.green { background: var(--green); box-shadow: 0 0 8px rgba(106,191,105,0.4); }
+  .sim-dot.amber { background: var(--amber); box-shadow: 0 0 8px rgba(212,162,76,0.3); }
+  .sim-dot.red { background: var(--red); box-shadow: 0 0 8px rgba(212,91,76,0.3); }
+
+  .sim-name { font-weight: 600; font-size: 14px; min-width: 120px; }
+
+  .sim-tag {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .sim-tag.gaming { background: rgba(212, 91, 76, 0.12); color: var(--red); }
+  .sim-tag.homework { background: rgba(106, 191, 105, 0.12); color: var(--green); }
+  .sim-tag.youtube { background: rgba(212, 162, 76, 0.12); color: var(--amber); }
+  .sim-tag.offline { background: rgba(122, 111, 94, 0.15); color: var(--text-dim); }
+  .sim-tag.creative { background: rgba(106, 191, 105, 0.12); color: var(--green); }
+
+  .sim-bar-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .sim-bar-fill { height: 100%; border-radius: 2px; transition: width 1.5s var(--ease); }
+  .sim-bar-fill.low { background: #3a5a39; width: 25%; }
+  .sim-bar-fill.med { background: var(--amber-soft); width: 55%; }
+  .sim-bar-fill.high { background: var(--red); width: 87%; }
+  .sim-bar-fill.off { width: 0%; }
+
+  .sim-metrics {
+    font-size: 12px;
+    color: var(--text-dim);
+    min-width: 140px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --- Trust --- */
+  .trust {
+    max-width: var(--max);
+    margin: 0 auto 80px;
+    padding: 0 32px;
+  }
+
+  .trust-copy {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .trust-pill {
+    font-size: 14px;
+    color: var(--text-mid);
+    padding: 10px 20px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+
+  .trust-pill strong { color: var(--text); font-weight: 600; }
+
+  .trust-urgency {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--amber-soft);
+    font-weight: 500;
+  }
+
+  /* --- Behavioral report preview --- */
+  .feature-hero-block {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  .feature-hero-block .section-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--amber);
+    margin-bottom: 40px;
+  }
+
+  .feature-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 48px;
+  }
+
+  .feature-hero-text h3 {
+    font-family: var(--font-d);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+
+  .feature-hero-text p {
+    font-size: 15px;
+    color: var(--text-mid);
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .feature-hero-text p:last-child {
+    margin-bottom: 0;
+    font-style: italic;
+    color: var(--text-dim);
+  }
+
+  .report-card {
+    background: var(--bg-warm);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .report-header {
+    background: var(--amber-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    font-family: var(--font-d);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--amber);
+  }
+
+  .report-item {
+    padding: 12px 20px;
+    font-size: 14px;
+    color: var(--text-mid);
+    border-bottom: 1px solid rgba(48, 43, 35, 0.4);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .report-item:last-child { border-bottom: none; }
+
+  .report-item.highlight {
+    color: var(--green);
+    font-weight: 600;
+    background: var(--green-bg);
+  }
+
+  /* --- Feature highlights --- */
+  .highlights {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .highlight-card h4 {
+    font-family: var(--font-d);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    margin-bottom: 8px;
+  }
+
+  .highlight-card p {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .highlight-card a {
+    color: var(--amber);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .highlight-card a:hover { color: var(--amber-soft); }
+
+  /* --- How it works --- */
+  .how {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  .how h2 {
+    font-family: var(--font-d);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 56px;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    counter-reset: step;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 24px;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    counter-increment: step;
+  }
+
+  .step-num {
+    font-family: var(--font-d);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+  }
+
+  .step-num::before { content: counter(step); }
+  .step h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+  .step p { color: var(--text-mid); font-size: 14px; }
+
+  .step code {
+    display: inline-block;
+    background: var(--bg-warm);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--amber);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  /* --- Pricing preview --- */
+  .pricing-preview {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  .pricing-preview-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .pricing-preview-header h2 {
+    font-family: var(--font-d);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  .pricing-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto 24px;
+  }
+
+  .pricing-mini {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+
+  .pricing-mini:hover { border-color: var(--amber); }
+
+  .pricing-mini.featured {
+    border-color: var(--amber);
+    background: var(--bg-warm);
+  }
+
+  .pricing-mini-name {
+    font-family: var(--font-d);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .pricing-mini-price {
+    font-family: var(--font-d);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+
+  .pricing-mini-price span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-mid);
+  }
+
+  .pricing-mini-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .pricing-preview-link {
+    text-align: center;
+  }
+
+  .pricing-preview-link a {
+    color: var(--amber);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .pricing-preview-link a:hover { color: var(--amber-soft); }
+
+  /* --- CTA --- */
+  .cta {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px 120px;
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-family: var(--font-d);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+
+  .cta p {
+    color: var(--text-mid);
+    font-size: 17px;
+    margin-bottom: 36px;
+  }
+
+  /* --- Footer --- */
+  footer {
+    border-top: 1px solid var(--border);
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    color: var(--text-dim);
+    max-width: 400px;
+    line-height: 1.7;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-mid); }
+
+  /* --- Viewport animations --- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 800px) {
+    .feature-hero { grid-template-columns: 1fr; gap: 32px; }
+    .highlights { grid-template-columns: 1fr; gap: 24px; }
+    .pricing-mini-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--bg);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      z-index: 100;
+    }
+
+    .nav-links a { font-size: 18px; }
+
+    .nav-hamburger { display: block; }
+
+    .nav-cta-mobile {
+      display: inline-flex !important;
+      font-size: 13px;
+      padding: 6px 14px;
+      background: var(--amber);
+      color: var(--bg) !important;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      text-decoration: none;
+      margin-left: 12px;
+      transition: transform 0.2s var(--ease), box-shadow 0.2s;
+    }
+
+    .nav-cta-mobile:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
+    }
+
+    .hero { padding: 60px 16px 60px; }
+    .preview, .feature-hero-block, .highlights, .how, .pricing-preview, .cta { padding-left: 16px; padding-right: 16px; }
+    .trust { padding-left: 16px; padding-right: 16px; }
+    .step { grid-template-columns: 40px 1fr; gap: 16px; }
+    .sim-metrics { display: none; }
+    .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+    .feature-hero { padding: 32px 24px; }
+    .trust-copy { gap: 12px; }
+  }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/blog">Blog</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">AI-Powered Parental Insight</div>
+  <h1>Understand your child's <em>digital life</em></h1>
+  <p class="hero-sub">
+    Leassh watches what your children do on their computers &mdash; not to surveil, but to help you understand. AI-powered activity reports, screen time tracking, and gentle time limits. No spyware. No keyloggers. Just understanding.
+  </p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="/setup">Start 14-Day Free Trial</a>
+    <a class="btn btn-ghost" href="/features">See how it works</a>
+  </div>
+  <div class="hero-alt-link">
+    <a href="/fleet">Looking for fleet monitoring? &rarr;</a>
+  </div>
+</section>
+
+<section class="preview reveal">
+  <div class="preview-frame">
+    <div class="preview-bar">
+      <div class="preview-dot"></div>
+      <div class="preview-dot"></div>
+      <div class="preview-dot"></div>
+      <span class="preview-url">leassh.local:8383/family</span>
+    </div>
+    <div class="preview-body">
+      <div class="sim-node">
+        <div class="sim-dot green"></div>
+        <div class="sim-name">Emma's PC</div>
+        <span class="sim-tag homework">homework</span>
+        <div class="sim-bar-track"><div class="sim-bar-fill low"></div></div>
+        <div class="sim-metrics">1h 12min today &middot; Google Docs</div>
+      </div>
+      <div class="sim-node">
+        <div class="sim-dot red"></div>
+        <div class="sim-name">Oscar's Laptop</div>
+        <span class="sim-tag gaming">gaming</span>
+        <div class="sim-bar-track"><div class="sim-bar-fill high"></div></div>
+        <div class="sim-metrics">3h 47min today &middot; limit reached</div>
+      </div>
+      <div class="sim-node">
+        <div class="sim-dot amber"></div>
+        <div class="sim-name">Living Room iMac</div>
+        <span class="sim-tag youtube">youtube</span>
+        <div class="sim-bar-track"><div class="sim-bar-fill med"></div></div>
+        <div class="sim-metrics">2h 05min today &middot; 55min left</div>
+      </div>
+      <div class="sim-node">
+        <div class="sim-dot green"></div>
+        <div class="sim-name">Dad's Workstation</div>
+        <span class="sim-tag offline">idle</span>
+        <div class="sim-bar-track"><div class="sim-bar-fill off"></div></div>
+        <div class="sim-metrics">no limits set</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trust reveal">
+  <div class="trust-copy">
+    <div class="trust-pill">Backed by the <strong>OpenClaw</strong> open-source community</div>
+    <div class="trust-pill"><strong>Zero</strong> data stored in our cloud</div>
+    <div class="trust-pill"><strong>100%</strong> local privacy option</div>
+    <div class="trust-pill">Works on <strong>Windows, Mac, Linux</strong></div>
+  </div>
+  <div class="trust-urgency">Early access &mdash; be among the first 100 families</div>
+</section>
+
+<section class="feature-hero-block reveal">
+  <div class="section-label">What makes Leassh different</div>
+  <div class="feature-hero">
+    <div class="feature-hero-text">
+      <h3>Weekly Behavioral Reports</h3>
+      <p>Not just "3 hours of gaming." Leassh tells you: "Oscar discovered Scratch programming this week and spent 4 hours across 3 sessions. His YouTube searches shifted from Minecraft Let's Plays to coding tutorials. This looks like a genuine interest developing."</p>
+      <p>Like having a thoughtful teacher who watches alongside your child and reports back to you &mdash; weekly, warmly, without judgment.</p>
+    </div>
+    <div class="feature-hero-visual">
+      <div class="report-card">
+        <div class="report-header">This Week: Oscar's Laptop</div>
+        <div class="report-item highlight">Creative/Coding &#8593; 4h (NEW)</div>
+        <div class="report-item">Gaming &#8595; 5h (was 8h)</div>
+        <div class="report-item">YouTube &#8776; 5.5h</div>
+        <div class="report-item">Homework &#8776; 3.8h</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Feature highlights with links to /features -->
+<section class="highlights reveal">
+  <div class="highlight-card">
+    <h4>Activity Timeline</h4>
+    <p>Visual day-at-a-glance showing exactly what your child did and when. Color-coded by category with detailed breakdowns.</p>
+    <a href="/features">See the timeline &rarr;</a>
+  </div>
+  <div class="highlight-card">
+    <h4>Time Limits + Bedtime</h4>
+    <p>Set per-category limits with automatic enforcement. Games close when time is up. Computers log off at bedtime.</p>
+    <a href="/features">See how limits work &rarr;</a>
+  </div>
+  <div class="highlight-card">
+    <h4>Content Safety Alerts</h4>
+    <p>AI watches for concerning content and sends you a Telegram notification. Only flagged content is reported &mdash; everything else stays private.</p>
+    <a href="/features">See alert examples &rarr;</a>
+  </div>
+</section>
+
+<section class="how reveal">
+  <h2>Up and running in three minutes</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num"></div>
+      <div>
+        <h3>Create your account and get a family code</h3>
+        <p>Sign up at leassh.com and get your unique family code. This code links all your family's computers to your dashboard.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num"></div>
+      <div>
+        <h3>Install the tiny agent on each computer</h3>
+        <p>Download the Leassh agent, run the installer, and enter your family code. No configuration files, no terminal. Works on Windows, macOS, and Linux.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num"></div>
+      <div>
+        <h3>Open your dashboard &mdash; tracking is live immediately</h3>
+        <p>Screen time, limits, and content alerts are live right away in your dashboard. Weekly reports start arriving after the first full week.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing preview -->
+<section class="pricing-preview reveal">
+  <div class="pricing-preview-header">
+    <h2>Simple, honest pricing</h2>
+  </div>
+  <div class="pricing-mini-grid">
+    <div class="pricing-mini">
+      <div class="pricing-mini-name">Essential</div>
+      <div class="pricing-mini-price">$4.99<span>/mo</span></div>
+      <div class="pricing-mini-desc">3 computers, basic tracking</div>
+    </div>
+    <div class="pricing-mini featured">
+      <div class="pricing-mini-name">Family</div>
+      <div class="pricing-mini-price">$9.99<span>/mo</span></div>
+      <div class="pricing-mini-desc">AI reports, limits, alerts</div>
+    </div>
+    <div class="pricing-mini">
+      <div class="pricing-mini-name">Pro</div>
+      <div class="pricing-mini-price">$19.99<span>/mo</span></div>
+      <div class="pricing-mini-desc">Unlimited + fleet control</div>
+    </div>
+  </div>
+  <div class="pricing-preview-link">
+    <a href="/pricing">See all plans and compare features &rarr;</a>
+  </div>
+</section>
+
+<section class="cta reveal">
+  <h2>Start your free trial</h2>
+  <p>See what your kids are really doing. Set up in three minutes. Cancel anytime.</p>
+  <div class="hero-actions" style="justify-content: center;">
+    <a class="btn btn-primary" href="/setup">Start 14-Day Free Trial</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('nav-toggle').checked = false;
+  });
+});
+</script>
+</body>
+</html>
