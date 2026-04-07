@@ -1,8 +1,8 @@
 #!/bin/bash
 # Leassh Agent Installer for Linux
 # Usage: curl -fsSL https://leassh.com/install.sh | sudo bash
-# Or with family code:
-#   LEASSH_TOKEN=your-code curl -fsSL https://leassh.com/install.sh | sudo bash
+# Or with pairing code (from https://leassh.com/setup):
+#   LEASSH_CODE=your-code curl -fsSL https://leassh.com/install.sh | sudo bash
 
 set -euo pipefail
 
@@ -80,41 +80,35 @@ info "Detected $PLATFORM ($ARCH_SUFFIX)"
 # ---------------------------------------------------------------------------
 # 3. Gather configuration
 # ---------------------------------------------------------------------------
-DEFAULT_SERVER="api.leassh.com"
 DEFAULT_NAME="$(hostname -s 2>/dev/null || hostname)"
 
-# Interactive prompts (skip if stdin is not a terminal)
-if [ -t 0 ]; then
-    printf "Leassh server address [%s]: " "$DEFAULT_SERVER"
-    read -r SERVER_INPUT
-    SERVER="${SERVER_INPUT:-$DEFAULT_SERVER}"
+# Pairing code: set via LEASSH_CODE env var or prompted interactively
+CODE="${LEASSH_CODE:-}"
 
-    if [ -z "${LEASSH_TOKEN:-}" ]; then
-        printf "Family/device token (from your Leassh dashboard): "
-        read -r TOKEN_INPUT
-        LEASSH_TOKEN="${TOKEN_INPUT}"
+# Interactive prompts (skip if stdin is not a terminal — e.g. piped install)
+if [ -t 0 ]; then
+    if [ -z "$CODE" ]; then
+        printf "Pairing code (from https://leassh.com/setup): "
+        read -r CODE_INPUT
+        CODE="${CODE_INPUT}"
     fi
 
     printf "Friendly name for this computer [%s]: " "$DEFAULT_NAME"
     read -r NAME_INPUT
     NAME="${NAME_INPUT:-$DEFAULT_NAME}"
 else
-    SERVER="${LEASSH_SERVER:-$DEFAULT_SERVER}"
     NAME="${LEASSH_NAME:-$DEFAULT_NAME}"
 fi
 
-TOKEN="${LEASSH_TOKEN:-}"
-
-if [ -z "$TOKEN" ]; then
-    error "A token is required. Find it in your Leassh dashboard under Devices > Add Device."
-    echo "  Set it via: LEASSH_TOKEN=your-code curl -fsSL https://leassh.com/install.sh | sudo bash"
+if [ -z "$CODE" ]; then
+    error "A pairing code is required. Get one at https://leassh.com/setup"
+    echo "  Set it via: LEASSH_CODE=your-code curl -fsSL https://leassh.com/install.sh | sudo bash"
     exit 1
 fi
 
 echo ""
-printf "  Server : ${CYAN}%s${RESET}\n" "$SERVER"
-printf "  Token  : ${CYAN}%.6s...${RESET}\n" "$TOKEN"
-printf "  Name   : ${CYAN}%s${RESET}\n" "$NAME"
+printf "  Pairing code : ${CYAN}%s${RESET}\n" "$CODE"
+printf "  Name         : ${CYAN}%s${RESET}\n" "$NAME"
 echo ""
 
 # ---------------------------------------------------------------------------
@@ -180,11 +174,11 @@ info "Installed to $BINARY_PATH"
 # ---------------------------------------------------------------------------
 step "Running agent setup..."
 
-if "$BINARY_PATH" --setup "$SERVER" "$TOKEN" "$NAME"; then
+if "$BINARY_PATH" --setup --pair "$CODE" "$NAME"; then
     info "Agent setup complete"
 else
     error "Agent setup failed."
-    echo "  Try running manually: $BINARY_PATH --setup $SERVER <token> $NAME"
+    echo "  Try running manually: $BINARY_PATH --setup --pair $CODE $NAME"
     exit 1
 fi
 
@@ -280,7 +274,7 @@ printf "${GREEN}  Leassh Agent installed successfully!${RESET}\n"
 printf "${AMBER}============================================${RESET}\n"
 echo ""
 echo "  Device '$NAME' will appear in your dashboard shortly."
-echo "  Dashboard: https://$SERVER/fleet"
+echo "  Dashboard: https://leassh.com/family"
 echo ""
 echo "  Manage the service:"
 if [ "$PLATFORM" = "linux" ]; then
