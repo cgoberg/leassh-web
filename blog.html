@@ -123,6 +123,19 @@
 
   .post-read-more::after { content: ' →'; }
 
+  .post-tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 3px 10px; border-radius: 20px; margin-bottom: 14px;
+  }
+  .post-tag-ai       { background: rgba(212,162,76,0.14);  color: #d4a24c; }
+  .post-tag-privacy  { background: rgba(106,191,105,0.13); color: #6abf69; }
+  .post-tag-parenting{ background: rgba(212,162,76,0.09);  color: #c4913f; }
+  .post-tag-screentime{ background: rgba(212,162,76,0.09); color: #c4913f; }
+  .post-tag-gaming   { background: rgba(168,120,210,0.13); color: #a878d2; }
+  .post-tag-homelab  { background: rgba(80,160,220,0.13);  color: #5aacdc; }
+  .post-tag-reviews  { background: rgba(180,175,165,0.10); color: #b8ad9b; }
+
   /* CTA */
   .cta { max-width: var(--max); margin: 0 auto; padding: 0 32px 100px; text-align: center; }
   .cta h2 { font-family: var(--font-d); font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
@@ -190,49 +203,56 @@
 
 <div class="blog-grid">
   <a class="post-card reveal" href="/blog/what-is-my-child-doing-on-the-computer">
-    <div class="post-meta">April 7, 2026 &middot; Carl-Gustav &Ouml;berg</div>
+    <span class="post-tag post-tag-ai">AI Understanding</span>
+    <div class="post-meta">April 7, 2026 &middot; Carl-Gustav &Ouml;berg &middot; 9 min read</div>
     <h2>What Is My Child Actually Doing on the Computer?</h2>
     <p>You know they were on the computer for three hours. But doing what? &ldquo;2h Chrome, 1h Roblox&rdquo; isn&rsquo;t an answer. AI can now turn behavioral patterns into a weekly portrait &mdash; what they&rsquo;re learning, what they&rsquo;re passionate about, what changed this week.</p>
     <span class="post-read-more">Read article</span>
   </a>
 
   <a class="post-card reveal" href="/blog/monitor-child-without-spyware">
-    <div class="post-meta">April 7, 2026 &middot; Carl-Gustav &Ouml;berg</div>
+    <span class="post-tag post-tag-privacy">Privacy</span>
+    <div class="post-meta">April 7, 2026 &middot; Carl-Gustav &Ouml;berg &middot; 9 min read</div>
     <h2>How to Monitor Your Child&rsquo;s Computer Without Installing Spyware</h2>
     <p>Most parental monitoring apps are, technically, spyware &mdash; hidden processes, cloud data upload, indiscriminate capture. There&rsquo;s a better approach: behavioral insight from the outside, data that stays on your home network, and a conversation your child knows about.</p>
     <span class="post-read-more">Read article</span>
   </a>
 
   <a class="post-card reveal" href="/blog/parental-control-comparison-2026">
-    <div class="post-meta">April 7, 2026 &middot; Carl-Gustav &Ouml;berg</div>
+    <span class="post-tag post-tag-reviews">Reviews</span>
+    <div class="post-meta">April 7, 2026 &middot; Carl-Gustav &Ouml;berg &middot; 11 min read</div>
     <h2>Best Parental Control Software 2026: Bark vs Qustodio vs Net Nanny vs Leassh</h2>
     <p>An honest comparison from someone who built one of them. What Bark does well (a lot), where Qustodio fits, why Net Nanny is fading, and the question none of them fully answer.</p>
     <span class="post-read-more">Read article</span>
   </a>
 
   <a class="post-card reveal" href="/blog/understanding-vs-monitoring">
-    <div class="post-meta">April 6, 2026 &middot; Carl-Gustav &Ouml;berg</div>
+    <span class="post-tag post-tag-parenting">Digital Parenting</span>
+    <div class="post-meta">April 6, 2026 &middot; Carl-Gustav &Ouml;berg &middot; 8 min read</div>
     <h2>Understanding Your Child's Digital Life: Why "Monitoring" Isn't Enough</h2>
     <p>Most parental control dashboards tell you how long your child used the computer. But "4 hours on the computer" means nothing without context. Emma's 4 hours could be learning 3D modeling or mindlessly scrolling. Here's why the distinction matters.</p>
     <span class="post-read-more">Read article</span>
   </a>
 
   <a class="post-card reveal" href="/blog/screen-time-management-2026">
-    <div class="post-meta">April 6, 2026 &middot; Carl-Gustav &Ouml;berg</div>
+    <span class="post-tag post-tag-screentime">Screen Time</span>
+    <div class="post-meta">April 6, 2026 &middot; Carl-Gustav &Ouml;berg &middot; 9 min read</div>
     <h2>Screen Time Management for Families: Beyond Time Limits in 2026</h2>
     <p>The standard advice &mdash; 2 hours max &mdash; treats 3 hours of coding and 1 hour of TikTok as identical. One is good, one isn't, and a timer can't tell the difference. A better framework for 2026.</p>
     <span class="post-read-more">Read article</span>
   </a>
 
   <a class="post-card reveal" href="/blog/gaming-addiction-children">
-    <div class="post-meta">April 6, 2026 &middot; Carl-Gustav &Ouml;berg</div>
+    <span class="post-tag post-tag-gaming">Gaming</span>
+    <div class="post-meta">April 6, 2026 &middot; Carl-Gustav &Ouml;berg &middot; 10 min read</div>
     <h2>Gaming Addiction in Children: Real Signs, False Alarms, and Solutions</h2>
     <p>A father panicked because his son played Minecraft 5 hours on weekends. Turned out he was building cities, teaching himself architecture, and making YouTube tutorials. Not addiction &mdash; passion. Here's how to tell the difference.</p>
     <span class="post-read-more">Read article</span>
   </a>
 
   <a class="post-card reveal" href="/blog/homelab-gpu">
-    <div class="post-meta">April 7, 2026 &middot; Carl-Gustav &Ouml;berg</div>
+    <span class="post-tag post-tag-homelab">Homelab</span>
+    <div class="post-meta">April 7, 2026 &middot; Carl-Gustav &Ouml;berg &middot; 8 min read</div>
     <h2>How to Stop Your Kids From Hijacking Your Homelab GPU</h2>
     <p>My Ollama inference dropped to 3 tokens per second. My son had fired up Fortnite on the same machine. Here&rsquo;s the SSH fleet monitoring setup that fixed it automatically &mdash; no cgroups required.</p>
     <span class="post-read-more">Read article</span>
