@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Net Nanny vs Leassh: Why Android Support Still Matters in 2026 — Leassh</title>
+<meta name="description" content="Net Nanny still can't monitor Android devices in 2026. Here's why that matters for modern families and how cross-platform parental control actually works.">
+<meta property="og:title" content="Net Nanny vs Leassh: Why Android Support Still Matters in 2026">
+<meta property="og:description" content="Net Nanny promised Android support years ago but still can't monitor Android devices. For modern families, true cross-platform support isn't optional.">
+<meta property="og:url" content="https://leassh.com/blog/net-nanny-vs-leassh-android">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-07">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/net-nanny-vs-leassh-android">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Net Nanny vs Leassh: Why Android Support Still Matters in 2026",
+  "description": "Net Nanny still can't monitor Android devices in 2026. Here's why that matters for modern families and how cross-platform parental control actually works.",
+  "datePublished": "2026-04-07",
+  "dateModified": "2026-04-07",
+  "url": "https://leassh.com/blog/net-nanny-vs-leassh-android",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/net-nanny-vs-leassh-android" },
+  "author": { "@type": "Person", "name": "Carl-Gustav Öberg", "url": "https://leassh.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --red:        #d45b4c;
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  .article-header { max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px; }
+  .article-breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-header h1 { font-family: var(--font-d); font-size: clamp(36px, 6vw, 56px); font-weight: 700; line-height: 1.15; margin-bottom: 16px; }
+  .article-byline { display: flex; gap: 24px; font-size: 14px; color: var(--text-mid); }
+  .article-byline strong { color: var(--text); }
+
+  .article-body { max-width: var(--prose); margin: 0 auto; padding: 0 32px 120px; }
+  .article-body p { margin-bottom: 24px; }
+  .article-body p:last-child { margin-bottom: 0; }
+  .article-body h2 { font-family: var(--font-d); font-size: 32px; font-weight: 600; margin: 48px 0 24px; color: var(--amber); }
+  .article-body h3 { font-family: var(--font-d); font-size: 24px; font-weight: 600; margin: 36px 0 16px; }
+  .article-body ul, .article-body ol { margin: 24px 0; padding-left: 24px; }
+  .article-body li { margin-bottom: 8px; }
+  .article-body a { color: var(--amber); text-decoration: underline; text-decoration-color: rgba(212, 162, 76, 0.3); text-underline-offset: 3px; transition: all 0.2s; }
+  .article-body a:hover { text-decoration-color: var(--amber); }
+  .article-body strong { font-weight: 600; }
+  .article-body em { font-style: italic; color: var(--text-mid); }
+
+  .comparison-table {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 32px 0;
+    overflow: hidden;
+  }
+  .comparison-table table { width: 100%; border-collapse: collapse; }
+  .comparison-table th { background: var(--bg-warm); padding: 16px; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border); }
+  .comparison-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .comparison-table tr:last-child td { border-bottom: none; }
+  .comparison-table .status-yes { color: var(--green); font-weight: 600; }
+  .comparison-table .status-no { color: var(--red); font-weight: 600; }
+  .comparison-table .status-limited { color: var(--amber); font-weight: 600; }
+
+  .highlight-box {
+    background: var(--amber-bg);
+    border-left: 4px solid var(--amber);
+    padding: 24px;
+    margin: 32px 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .article-author-bio { margin-top: 72px; padding: 24px 0; border-top: 1px solid var(--border); font-size: 15px; color: var(--text-mid); }
+
+  .article-cta {
+    background: linear-gradient(135deg, var(--amber-bg), var(--bg-warm));
+    border: 1px solid rgba(212, 162, 76, 0.2);
+    border-radius: 12px;
+    padding: 32px;
+    margin: 48px 0;
+    text-align: center;
+  }
+
+  .article-cta h3 {
+    font-family: var(--font-d);
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--amber);
+  }
+
+  .article-cta p {
+    margin-bottom: 24px;
+    color: var(--text-mid);
+  }
+
+  .article-cta .cta-button {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--bg);
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s;
+  }
+
+  .article-cta .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(212, 162, 76, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .nav-hamburger { display: block; }
+    .nav-links {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: 280px; background: var(--bg-raised);
+      flex-direction: column; justify-content: center; gap: 24px;
+      display: none; z-index: 100;
+    }
+    .nav-cta-mobile { display: block !important; }
+    .nav-cta { display: none !important; }
+    .article-header { padding: 48px 24px 32px; }
+    .article-body { padding: 0 24px 80px; }
+    .comparison-table { font-size: 14px; }
+    .comparison-table th, .comparison-table td { padding: 8px 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a href="/" class="nav-brand">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/blog">Blog</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/pricing" class="nav-cta">Start Free Trial</a></li>
+    <li><a href="/pricing" class="nav-cta-mobile">Start Free Trial</a></li>
+  </ul>
+</nav>
+
+<header class="article-header">
+  <div class="article-breadcrumb">
+    <a href="/blog">Blog</a>
+    <span>&rsaquo;</span>
+    Digital Parenting
+  </div>
+  <h1>Net Nanny vs Leassh: Why Android Support Still Matters in 2026</h1>
+  <div class="article-byline">
+    <strong>Carl-Gustav &Ouml;berg</strong>
+    <span>April 7, 2026</span>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>Net Nanny has been promising Android support for years. As of 2026, they still can't monitor Android devices. For a parental control company that's been around since 1996, this isn't just a feature gap — it's a fundamental misunderstanding of how modern families use technology.</p>
+
+  <p>Here's what that means for parents trying to choose between Net Nanny and genuinely cross-platform alternatives like Leassh.</p>
+
+  <h2>The Android Gap That Won't Close</h2>
+
+  <p>According to multiple 2026 reviews and direct communication with Net Nanny support, <strong>Net Nanny still has no Android child monitoring app</strong>. Their support team has confirmed they don't have a specific release date, despite promising Android compatibility "soon" for over two years.</p>
+
+  <p>What Net Nanny does have is a parent management app for Android phones — so parents can adjust settings and view reports from their own Android devices. But if your child uses an Android phone, tablet, or Chromebook, Net Nanny can't monitor it.</p>
+
+  <div class="highlight-box">
+    <strong>The Bottom Line:</strong> In 2026, if your family has any Android devices that children use, Net Nanny simply isn't an option. Full stop.
+  </div>
+
+  <h2>Why This Actually Matters</h2>
+
+  <p>Android holds roughly 71% of the global smartphone market. In many regions, it's over 80%. More importantly, Android devices are often the more affordable option for families buying multiple devices — exactly the situation where parental controls become essential.</p>
+
+  <p>Consider these common family scenarios where Net Nanny's Android limitation becomes a dealbreaker:</p>
+
+  <ul>
+    <li><strong>Mixed households:</strong> Dad has an iPhone, Mom has Android, kids have budget Android tablets</li>
+    <li><strong>Chromebook families:</strong> Many schools issue Chromebooks; kids often have personal Chromebooks too</li>
+    <li><strong>Hand-me-down phones:</strong> Older Android phones becoming kids' first smartphones</li>
+    <li><strong>Budget-conscious parents:</strong> Android devices offer better value at every price point</li>
+  </ul>
+
+  <p>In any of these situations, Net Nanny creates an artificial limitation: you either replace your Android devices with iOS ones (expensive) or accept that some devices simply can't be monitored (defeats the purpose).</p>
+
+  <h2>Platform Support Comparison</h2>
+
+  <div class="comparison-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>Net Nanny</th>
+          <th>Leassh</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Windows</td>
+          <td><span class="status-yes">Full Support</span></td>
+          <td><span class="status-yes">Full Support</span></td>
+        </tr>
+        <tr>
+          <td>macOS</td>
+          <td><span class="status-yes">Full Support</span></td>
+          <td><span class="status-yes">Full Support</span></td>
+        </tr>
+        <tr>
+          <td>iOS (iPhone/iPad)</td>
+          <td><span class="status-yes">Full Support</span></td>
+          <td><span class="status-limited">Via Screen Time</span></td>
+        </tr>
+        <tr>
+          <td>Android</td>
+          <td><span class="status-no">Not Supported</span></td>
+          <td><span class="status-yes">Full Support</span></td>
+        </tr>
+        <tr>
+          <td>Linux</td>
+          <td><span class="status-no">Not Supported</span></td>
+          <td><span class="status-yes">Full Support</span></td>
+        </tr>
+        <tr>
+          <td>Chromebook</td>
+          <td><span class="status-no">Not Supported</span></td>
+          <td><span class="status-yes">Full Support</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What Net Nanny Does Well (When It Works)</h2>
+
+  <p>To be fair to Net Nanny, on the platforms it does support, it's genuinely effective:</p>
+
+  <ul>
+    <li><strong>Web filtering:</strong> Among the most sophisticated content blocking engines available</li>
+    <li><strong>Real-time protection:</strong> Blocks inappropriate content as it loads, not just by category</li>
+    <li><strong>Long track record:</strong> 30 years of development means stability and reliability</li>
+    <li><strong>Simple setup:</strong> Installation and configuration is straightforward</li>
+  </ul>
+
+  <p>For families that are entirely Windows, macOS, and iOS, Net Nanny can be an effective web filtering tool. The problem is that "entirely Windows, macOS, and iOS" describes fewer and fewer households every year.</p>
+
+  <h2>How Leassh Handles Cross-Platform Monitoring</h2>
+
+  <p>Leassh takes a different technical approach that makes true cross-platform support possible: instead of requiring platform-specific apps, it works through SSH connections that exist on all modern operating systems.</p>
+
+  <p>This means:</p>
+
+  <ul>
+    <li><strong>No Android app needed:</strong> Monitoring works through the Linux subsystem that Android runs on</li>
+    <li><strong>Consistent features:</strong> The same behavioral reports and screen time tracking work identically across all platforms</li>
+    <li><strong>Future-proof:</strong> New devices and operating systems don't require separate development cycles</li>
+    <li><strong>Local option:</strong> All monitoring data can stay on your home network, unlike cloud-dependent solutions</li>
+  </ul>
+
+  <p>The trade-off is setup complexity. Leassh requires more technical knowledge to configure than Net Nanny's click-to-install approach. For families comfortable with that trade-off, it removes the artificial platform limitations entirely.</p>
+
+  <h2>What This Means for Your Family</h2>
+
+  <p>The choice between Net Nanny and Leassh often comes down to a simple question: <em>Do you need to monitor Android devices?</em></p>
+
+  <p>If your answer is yes, Net Nanny isn't viable. If your answer is "not now, but maybe in the future," you're betting that Net Nanny will finally deliver Android support before your family needs it — a bet they've been asking customers to make for several years now.</p>
+
+  <p>If your family is genuinely iOS and desktop-only, and web filtering is your primary concern, Net Nanny's strength in content blocking might outweigh its platform limitations.</p>
+
+  <p>But for most families in 2026, buying a parental control solution that can't monitor the world's most popular mobile operating system feels like buying a car that only drives on Sundays — technically functional, but missing the point.</p>
+
+  <div class="article-cta">
+    <h3>Try Cross-Platform Monitoring</h3>
+    <p>Leassh works on Windows, macOS, Linux, Android, and Chromebook out of the box. See behavioral reports and screen time tracking that work consistently across all your family's devices.</p>
+    <a href="/pricing" class="cta-button">Start 14-Day Free Trial</a>
+  </div>
+
+  <p><strong>Further reading:</strong> <a href="/blog/parental-control-comparison-2026">Best Parental Control Software 2026: Full Comparison</a> — how Net Nanny, Bark, Qustodio, and Leassh compare across all features. And <a href="/blog/understanding-vs-monitoring">Understanding vs Monitoring: Beyond Screen Time</a> — why behavioral understanding matters more than time limits.</p>
+
+  <div class="article-author-bio">
+    <strong>Carl-Gustav &Ouml;berg</strong> is the founder of Leassh, a family technology platform focused on understanding children&rsquo;s digital development rather than limiting it. He lives with his family in Stockholm, where he continues building tools that help parents support their children&rsquo;s digital creativity and learning across all platforms.
+  </div>
+
+</article>
+
+</div>
+</body>
+</html>
