@@ -619,14 +619,27 @@
 <span class="key">rendezvous</span>: <span class="string">https://leassh.com/api/rendezvous</span></code>
       </div>
 
-      <p style="margin-top:16px;">Then start the server with Docker:</p>
+      <p style="margin-top:16px;">Then start the server. Download the binary from <a href="https://github.com/leassh/leassh/releases/latest" target="_blank" rel="noopener" style="color:var(--amber);font-weight:600;">GitHub Releases</a>:</p>
 
       <div class="code-block">
         <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
-        <code>docker run -d --name leassh-server \
+        <code><span class="comment"># Linux x64</span>
+curl -L https://github.com/leassh/leassh/releases/latest/download/leassh-linux-x64.tar.gz | tar xz
+./leassh-server fleet.yaml</code>
+      </div>
+
+      <div style="margin-top:4px;padding:14px 16px;background:var(--bg-warm);border:1px solid var(--border);border-radius:8px;">
+        <p style="font-size:13px;color:var(--text-dim);margin:0 0 10px;">
+          <strong style="color:var(--text-mid);">Docker option</strong> — the container image requires a GitHub login:
+        </p>
+        <div class="code-block" style="margin:0;">
+          <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+          <code>docker login ghcr.io <span class="comment"># GitHub username + personal access token</span>
+docker run -d --name leassh-server \
   -p 8383:8383 \
   -v ./fleet.yaml:/app/fleet.yaml \
   ghcr.io/leassh/server:latest</code>
+        </div>
       </div>
     </div>
 

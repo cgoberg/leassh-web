@@ -604,30 +604,30 @@
     <h2>Self-Hosting</h2>
     <p>Run everything on your own hardware. Zero data leaves your network.</p>
 
-    <h3>Option A: Docker Compose</h3>
-    <div class="cmd-block">
-      <span class="cmd-label">docker-compose.yml</span>
-      <code id="cmd-docker">version: "3.8"
-services:
-  leassh-server:
-    image: ghcr.io/leassh/leassh-server:latest
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./fleet.yaml:/etc/leassh/fleet.yaml
-      - ./data:/var/lib/leassh
-    environment:
-      - LEASSH_MODE=local
-      - OLLAMA_URL=http://host.docker.internal:11434</code>
-      <button class="copy-btn" data-target="cmd-docker">Copy</button>
-    </div>
-
-    <h3>Option B: Binary</h3>
+    <h3>Option A: Binary (recommended)</h3>
     <p>Download the server binary from <a href="https://github.com/leassh/leassh/releases">GitHub Releases</a> and run it directly:</p>
     <div class="cmd-block">
-      <span class="cmd-label">Run the server</span>
-      <code id="cmd-binary">./leassh-server --config /path/to/fleet.yaml --mode local</code>
+      <span class="cmd-label">Linux x64</span>
+      <code id="cmd-binary">curl -L https://github.com/leassh/leassh/releases/latest/download/leassh-linux-x64.tar.gz | tar xz
+./leassh-server fleet.yaml</code>
       <button class="copy-btn" data-target="cmd-binary">Copy</button>
+    </div>
+
+    <h3>Option B: Docker</h3>
+    <p>The container image is hosted on GitHub Container Registry. Authenticate first:</p>
+    <div class="cmd-block">
+      <span class="cmd-label">docker-compose.yml</span>
+      <code id="cmd-docker">docker login ghcr.io  # GitHub username + personal access token
+
+version: "3.8"
+services:
+  leassh-server:
+    image: ghcr.io/leassh/server:latest
+    ports:
+      - "8383:8383"
+    volumes:
+      - ./fleet.yaml:/app/fleet.yaml</code>
+      <button class="copy-btn" data-target="cmd-docker">Copy</button>
     </div>
 
     <h3>Requirements</h3>
