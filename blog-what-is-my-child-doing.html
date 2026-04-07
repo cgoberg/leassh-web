@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is My Child Doing on the Computer? How AI Explains It Without Spying — Leassh</title>
+<meta name="description" content="You know your child spent three hours on the computer. But doing what? AI can now turn raw activity into a readable weekly portrait — what they're learning, what they're obsessed with, what changed.">
+<meta property="og:title" content="What Is My Child Doing on the Computer? How AI Explains It Without Spying">
+<meta property="og:description" content="You know they were on the computer for three hours. But doing what? Modern AI turns raw activity into a readable weekly portrait — no keyloggers, no cloud surveillance.">
+<meta property="og:url" content="https://leassh.com/blog/what-is-my-child-doing-on-the-computer">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-07">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/what-is-my-child-doing-on-the-computer">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  /* Article header */
+  .article-header {
+    max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px;
+  }
+
+  .article-breadcrumb {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+  }
+
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+
+  .article-header h1 {
+    font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px;
+  }
+
+  .article-byline {
+    color: var(--text-dim); font-size: 14px;
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    padding-bottom: 32px; border-bottom: 1px solid var(--border);
+  }
+
+  .article-byline strong { color: var(--text-mid); font-weight: 600; }
+
+  /* Prose */
+  .article-body {
+    max-width: var(--prose); margin: 0 auto; padding: 48px 32px 80px;
+  }
+
+  .article-body p { margin-bottom: 24px; }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body h2 {
+    font-family: var(--font-d); font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700; letter-spacing: -0.5px; line-height: 1.2;
+    margin: 52px 0 20px; color: var(--text);
+  }
+
+  .article-body h3 {
+    font-family: var(--font-d); font-size: clamp(18px, 2.5vw, 22px);
+    font-weight: 700; margin: 36px 0 14px; color: var(--text);
+  }
+
+  .article-body ul, .article-body ol {
+    padding-left: 24px; margin-bottom: 24px;
+  }
+
+  .article-body li { margin-bottom: 10px; color: var(--text-mid); }
+  .article-body li strong { color: var(--text); }
+
+  .article-body strong { color: var(--text); font-weight: 600; }
+
+  .article-body em { font-style: italic; color: var(--text-mid); }
+
+  .article-body a { color: var(--amber); text-decoration: none; }
+  .article-body a:hover { text-decoration: underline; }
+
+  .article-body blockquote {
+    border-left: 3px solid var(--amber); padding: 12px 24px;
+    margin: 32px 0; background: var(--amber-bg); border-radius: 0 8px 8px 0;
+    font-style: italic; color: var(--text-mid);
+  }
+
+  .callout {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px 28px; margin: 36px 0;
+  }
+
+  .callout-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--amber); margin-bottom: 12px;
+  }
+
+  .callout p { color: var(--text-mid); margin: 0; font-size: 15px; }
+  .callout p + p { margin-top: 12px; }
+
+  .report-sample {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px 32px; margin: 36px 0;
+    font-family: var(--font-b);
+  }
+
+  .report-sample-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--text-dim); margin-bottom: 20px;
+  }
+
+  .report-sample-title {
+    font-family: var(--font-d); font-size: 17px; font-weight: 700;
+    color: var(--text); margin-bottom: 4px;
+  }
+
+  .report-sample-week {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 20px;
+  }
+
+  .report-sample-body {
+    font-size: 15px; color: var(--text-mid); line-height: 1.75;
+  }
+
+  .report-sample-body strong { color: var(--text); }
+
+  .report-highlight {
+    display: inline-block; background: rgba(106,191,105,0.1);
+    color: #6abf69; border-radius: 4px; padding: 2px 8px;
+    font-size: 13px; font-weight: 600; margin-left: 6px;
+  }
+
+  .example-pair {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px 28px; margin: 32px 0;
+  }
+
+  .example-row { display: flex; gap: 16px; margin-bottom: 16px; }
+  .example-row:last-child { margin-bottom: 0; }
+  .example-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; padding: 4px 10px; border-radius: 4px; white-space: nowrap; align-self: flex-start;
+    margin-top: 2px;
+  }
+  .example-label.instead-of { background: rgba(212, 91, 76, 0.12); color: #d45b4c; }
+  .example-label.ai-report { background: rgba(106, 191, 105, 0.12); color: #6abf69; }
+  .example-text { color: var(--text-mid); font-size: 15px; line-height: 1.6; }
+
+  .article-author-bio {
+    border-top: 1px solid var(--border); margin-top: 64px; padding-top: 32px;
+    font-size: 14px; color: var(--text-dim); line-height: 1.7;
+  }
+
+  /* CTA */
+  .post-cta {
+    max-width: var(--prose); margin: 0 auto; padding: 0 32px 100px;
+  }
+
+  .post-cta-inner {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 16px; padding: 40px; text-align: center;
+  }
+
+  .post-cta-inner h2 {
+    font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px);
+    font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+
+  .post-cta-inner p { color: var(--text-mid); margin-bottom: 28px; font-size: 16px; }
+
+  .btn-primary { display: inline-block; background: var(--amber); color: var(--bg); padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); max-width: var(--max); margin: 0 auto; padding: 40px 32px; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .footer-tagline { font-size: 13px; color: var(--text-dim); max-width: 400px; line-height: 1.7; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; list-style: none; }
+  .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text-mid); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links {
+      display: none; flex-direction: column; width: 100%;
+      background: var(--bg-raised); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; gap: 16px; margin-top: 8px;
+    }
+    .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: flex; flex-direction: column; justify-content: center; }
+    .nav-cta-mobile {
+      display: block; background: var(--amber); color: var(--bg); padding: 8px 18px;
+      border-radius: 6px; font-weight: 700; font-size: 14px; text-decoration: none; margin-left: auto; margin-right: 8px;
+    }
+    .article-header, .article-body, .post-cta { padding-left: 20px; padding-right: 20px; }
+    .example-row { flex-direction: column; gap: 8px; }
+    .report-sample { padding: 20px; }
+  }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<header class="article-header">
+  <div class="article-breadcrumb">
+    <a href="/blog">Blog</a>
+    <span>&rsaquo;</span>
+    Digital Parenting
+  </div>
+  <h1>What Is My Child Actually Doing on the Computer?</h1>
+  <div class="article-byline">
+    <strong>Carl-Gustav &Ouml;berg</strong>
+    <span>April 7, 2026</span>
+    <span>9 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>It&rsquo;s a question most parents have asked themselves at least once. Your child disappears into their room after school, the computer comes on, and three hours later they emerge for dinner. You know they were on the computer. But doing <em>what?</em></p>
+
+  <p>If you ask them, you might get &ldquo;just stuff&rdquo; or &ldquo;watching videos&rdquo; or &ldquo;homework.&rdquo; If you check their traditional parental control app, you&rsquo;ll see a bar chart: two hours of Chrome, forty-five minutes of Minecraft, thirty minutes of Discord. That&rsquo;s not an answer. That&rsquo;s a different way of saying &ldquo;stuff.&rdquo;</p>
+
+  <p>What you actually want to know is something richer: was this time well-spent? What are they interested in right now? Is there a pattern I should know about? And crucially &mdash; is everything okay?</p>
+
+  <p>This is the problem I set out to solve when building Leassh. Not just <em>how long</em>, but <em>what</em>. And the answer, it turns out, requires AI &mdash; not surveillance.</p>
+
+  <h2>Why Raw Activity Logs Don&rsquo;t Answer the Question</h2>
+
+  <p>The parental control industry has had fifteen years to answer &ldquo;what is my child doing?&rdquo; and mostly failed. The dominant approach &mdash; log every app opened, every website visited, every minute of screen time &mdash; produces data that parents can&rsquo;t practically interpret.</p>
+
+  <p>Consider what a raw activity log looks like for a typical Tuesday:</p>
+
+  <ul>
+    <li>Chrome &mdash; 3h 14m</li>
+    <li>Roblox Studio &mdash; 1h 42m</li>
+    <li>Discord &mdash; 47m</li>
+    <li>VS Code &mdash; 31m</li>
+    <li>YouTube &mdash; 28m</li>
+  </ul>
+
+  <p>Is this a good day or a bad day? You genuinely cannot tell. Chrome could be researching a history project or watching reaction videos. Roblox Studio could be creative game building or compulsive play. VS Code means coding &mdash; but what, and toward what goal? Discord is talking to people &mdash; but which people, about what?</p>
+
+  <p>The data answers the question &ldquo;what apps did they use?&rdquo; when what you asked was &ldquo;what were they <em>doing?</em>&rdquo;</p>
+
+  <h2>What AI Changes</h2>
+
+  <p>Modern AI changes this equation in a fundamental way. Instead of just collecting data, it can interpret patterns and translate them into human-readable narrative. The same capability that lets an AI summarize a long document can summarize a week of activity into a coherent picture of what your child was actually engaged with.</p>
+
+  <p>Here&rsquo;s what that looks like in practice. The raw Tuesday log above, analyzed over a week, becomes something like this:</p>
+
+  <div class="report-sample">
+    <div class="report-sample-label">Example weekly report</div>
+    <div class="report-sample-title">Oscar&rsquo;s week <span class="report-highlight">New interest detected</span></div>
+    <div class="report-sample-week">April 1&ndash;7, 2026</div>
+    <div class="report-sample-body">
+      <p><strong>This week Oscar discovered Lua scripting.</strong> He spent most of his Roblox Studio time not playing games but building one &mdash; a parkour map with custom physics. He hit a wall on Wednesday (the jump mechanics weren&rsquo;t working), but came back to it Thursday and Friday with visible persistence.</p>
+      <p>His YouTube watching was almost entirely Roblox developer tutorials and one hour of general game design theory. VS Code was used to practice Lua snippets from those tutorials. Discord messages were mostly in a Roblox dev server asking other players for help.</p>
+      <p><strong>Nothing here looks concerning.</strong> The interest is new, specific, and getting deeper rather than broader. He&rsquo;s doing the equivalent of learning a musical instrument &mdash; drilling fundamentals, getting stuck, figuring it out. Worth asking him about his project.</p>
+    </div>
+  </div>
+
+  <p>Notice what this is and isn&rsquo;t. It&rsquo;s not a transcript of what he typed. It&rsquo;s not screenshots of his screen. It&rsquo;s a behavioral portrait &mdash; derived from patterns, not content. The AI doesn&rsquo;t need to read his messages to understand that he&rsquo;s learning to code; it can see that sequence in where he went and for how long.</p>
+
+  <h2>How It Works Without Surveillance</h2>
+
+  <p>Parents sometimes worry that &ldquo;AI understanding what my child is doing&rdquo; means reading everything. It doesn&rsquo;t have to. The key insight is that context gives you more information than content.</p>
+
+  <p>Think of it this way: if I told you a teenager spent four hours on the computer &mdash; one hour in Blender, two hours watching Blender tutorials on YouTube, and one hour in a Discord server called &ldquo;3D artists&rdquo; &mdash; you could tell me exactly what they were doing. You didn&rsquo;t need to read a single message or see a single screenshot.</p>
+
+  <p>This is the approach Leassh takes. The agent that runs on your child&rsquo;s computer observes <em>behavioral signals</em>: which applications were in focus and for how long, what categories of websites were visited (not which specific pages), how engagement patterns changed over time, whether creative applications were being used or just consumed. That data never leaves your home network. The AI analysis runs locally.</p>
+
+  <div class="callout">
+    <div class="callout-label">On privacy</div>
+    <p>Leassh is designed so that behavioral analysis happens on your home network, not in a cloud data center that stores your child&rsquo;s activity history indefinitely. Your child&rsquo;s data is yours. We think this matters for both privacy and trust.</p>
+    <p>If you want to understand what behavioral signals are collected, you can read the full technical explanation at <a href="/privacy">leassh.com/privacy</a>.</p>
+  </div>
+
+  <h2>The Four Questions Every Parent Actually Has</h2>
+
+  <p>When parents ask &ldquo;what is my child doing on the computer,&rdquo; they&rsquo;re usually asking one of four underlying questions. Good AI-powered monitoring should answer all four.</p>
+
+  <h3>1. Is my child okay?</h3>
+
+  <p>This is the safety question. Parents worry about exposure to harmful content, contact with dangerous people, signs of distress. Traditional content filters try to answer this by blocking categories of websites &mdash; a blunt tool that blocks too much and misses too much.</p>
+
+  <p>Behavioral AI approaches this differently: rather than looking for specific keywords, it looks for pattern changes. A child who suddenly spends hours reading forums they never visited before, or who stops engaging with their usual creative activities, or who significantly increases time on communication apps late at night &mdash; these patterns are signals worth surfacing, regardless of what specific content they were viewing.</p>
+
+  <h3>2. Are they wasting their time?</h3>
+
+  <p>This is the quality question. &ldquo;Wasting time&rdquo; is genuinely hard to define, but it has behavioral signatures. Compulsive, repetitive engagement with a single passive activity. Clicking between apps without settling into anything for more than a few minutes. Increasing time on social media with decreasing time on anything creative or educational.</p>
+
+  <p>The opposite &mdash; deep engagement, progression, curiosity that leads somewhere &mdash; also has signatures. When a child starts spending more time in creative tools, and that gets longer and more focused over weeks, something good is happening.</p>
+
+  <h3>3. What are they interested in?</h3>
+
+  <p>This is the parenting question, and it&rsquo;s the most valuable and most neglected. Children develop interests fast, and if you don&rsquo;t know what they&rsquo;re into, you can&rsquo;t support it.</p>
+
+  <blockquote>&ldquo;Oscar discovered Scratch this week.&rdquo; That one sentence from a weekly report opened a conversation that led to him joining a kids&rsquo; coding club. Without the report, I would have seen &ldquo;2h of Chrome&rdquo; and had no idea what to ask.&rdquo;</blockquote>
+
+  <p>These are the moments that make AI monitoring worth it. Not catching kids doing something wrong &mdash; catching them doing something right, and being there to encourage it.</p>
+
+  <h3>4. Is there a new pattern I should know about?</h3>
+
+  <p>Children&rsquo;s digital behavior changes as they grow. A 10-year-old and a 14-year-old use computers in completely different ways. What&rsquo;s normal also shifts over time &mdash; more social apps, more communication, different content interests.</p>
+
+  <p>The right tool tracks changes over time, not just current state. When a gradual drift happens, you want to notice it before it becomes something you need to address urgently.</p>
+
+  <h2>What Good AI Reports Don&rsquo;t Do</h2>
+
+  <p>It&rsquo;s worth being clear about what AI behavioral reports should <em>not</em> do &mdash; both for ethical reasons and practical ones.</p>
+
+  <div class="example-pair">
+    <div class="example-row">
+      <span class="example-label instead-of">Avoid</span>
+      <span class="example-text">Logging keystrokes, capturing screenshots, reading message content, or storing any personally identifiable data in the cloud</span>
+    </div>
+    <div class="example-row">
+      <span class="example-label ai-report">Instead</span>
+      <span class="example-text">Observing application focus patterns, category-level web activity, and engagement signals &mdash; enough for behavioral understanding without content surveillance</span>
+    </div>
+  </div>
+
+  <div class="example-pair">
+    <div class="example-row">
+      <span class="example-label instead-of">Avoid</span>
+      <span class="example-text">Alerting parents to every unusual thing, creating anxiety and micromanagement</span>
+    </div>
+    <div class="example-row">
+      <span class="example-label ai-report">Instead</span>
+      <span class="example-text">Weekly portrait reports that give an honest picture of a full week, with exceptions surfaced only when a pattern genuinely warrants attention</span>
+    </div>
+  </div>
+
+  <p>The goal is to be the equivalent of a thoughtful teacher who knows your child well &mdash; not a surveillance camera that records everything and flags anything unusual.</p>
+
+  <h2>How to Have the Conversation</h2>
+
+  <p>Some parents worry that using monitoring tools &mdash; even non-invasive behavioral ones &mdash; will damage trust with their children. This is worth taking seriously. The approach I recommend:</p>
+
+  <p><strong>Tell your child it&rsquo;s there.</strong> Not to ask permission, but because children who know about it don&rsquo;t behave differently &mdash; and knowing you&rsquo;re not being secretly watched preserves trust. &ldquo;I have a tool that gives me a weekly summary of what you&rsquo;re working on. Not what you&rsquo;re saying to people or what pages you&rsquo;re reading &mdash; just a general picture of how you&rsquo;re spending time.&rdquo;</p>
+
+  <p><strong>Use it to open conversations, not close them.</strong> A weekly report that says your child spent significant time on Scratch is an invitation to ask &ldquo;I heard you were building something &mdash; tell me about it,&rdquo; not to say &ldquo;you spent three hours on computers and I want to check your work.&rdquo; Those two conversations go very differently.</p>
+
+  <p><strong>Don&rsquo;t react to data, react to patterns.</strong> One week of unusual computer use during exam season means nothing. A months-long drift toward passive consumption and away from any creative engagement is worth a gentle conversation. Let the AI do the pattern work; let you do the parenting.</p>
+
+  <h2>The Bottom Line</h2>
+
+  <p>The question &ldquo;what is my child doing on the computer?&rdquo; deserves a real answer. Not a bar chart of app minutes. Not a content filter log. A narrative &mdash; what they&rsquo;re interested in, how they&rsquo;re spending their time, whether they&rsquo;re developing or drifting, whether there&rsquo;s anything worth paying attention to this week.</p>
+
+  <p>That answer is available now. It doesn&rsquo;t require reading your child&rsquo;s messages, storing screenshots in the cloud, or installing hidden software they don&rsquo;t know about. It requires understanding behavioral patterns &mdash; which is exactly what AI is good at.</p>
+
+  <p>If you want to see what this looks like for your own family, <a href="/setup">Leassh has a 14-day free trial</a>. The first weekly report usually surprises parents &mdash; not because it uncovers something alarming, but because it tells them something genuinely interesting about a child they thought they already knew well.</p>
+
+  <p><strong>Related reading:</strong> For a deeper look at the difference between behavioral understanding and content surveillance, see <a href="/blog/understanding-vs-monitoring">Understanding Your Child&rsquo;s Digital Life: Why &ldquo;Monitoring&rdquo; Isn&rsquo;t Enough</a>. For a direct comparison of monitoring approaches, see <a href="/blog/monitor-child-without-spyware">How to Monitor Your Child&rsquo;s Computer Without Installing Spyware</a>.</p>
+
+  <div class="article-author-bio">
+    <strong>Carl-Gustav &Ouml;berg</strong> is the founder of Leassh, a family technology platform that helps parents understand their children&rsquo;s digital lives through behavioral insight rather than content surveillance. He has over a decade of experience building monitoring and analytics systems.
+  </div>
+
+</article>
+
+<div class="post-cta">
+  <div class="post-cta-inner">
+    <h2>Get a weekly portrait of what your kids are actually doing</h2>
+    <p>AI-powered behavioral reports &mdash; not just bar charts. Runs on your home network. 14-day free trial, no credit card required.</p>
+    <a class="btn-primary" href="/setup">Start Free Trial</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

@@ -44,6 +44,7 @@
     { "source": "/blog/gaming-addiction-children", "destination": "/blog-gaming-addiction.html" },
     { "source": "/blog/homelab-gpu", "destination": "/blog-homelab-gpu.html" },
     { "source": "/blog/monitor-child-without-spyware", "destination": "/blog-monitor-child-without-spyware.html" },
+    { "source": "/blog/what-is-my-child-doing-on-the-computer", "destination": "/blog-what-is-my-child-doing.html" },
     { "source": "/support", "destination": "/support.html" }
   ]
 }
