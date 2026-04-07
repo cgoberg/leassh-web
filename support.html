@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — leassh</title>
+<meta name="description" content="Get help with leassh. Send us a message and we'll get back to you within 1-2 business days.">
+<meta property="og:title" content="Leassh Support">
+<meta property="og:description" content="Get help with leassh. Send us a message and we'll get back to you within 1-2 business days.">
+<meta property="og:url" content="https://leassh.com/support">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/support">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --green-bg:   rgba(106, 191, 105, 0.08);
+    --red:        #d45b4c;
+    --red-bg:     rgba(212, 91, 76, 0.06);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-b);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .atmo {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* --- Nav --- */
+  nav {
+    display: flex;
+    align-items: center;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 24px 32px;
+  }
+
+  .nav-brand {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-toggle-input { display: none; }
+
+  .nav-hamburger {
+    display: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+    margin-left: auto;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    margin: 5px 0;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+    border-radius: 1px;
+  }
+
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .nav-links {
+    margin-left: auto;
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--text-mid);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+
+  .nav-fleet {
+    color: var(--text-dim) !important;
+    font-style: italic;
+  }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+
+  .nav-cta {
+    background: var(--amber);
+    color: var(--bg) !important;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s;
+  }
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
+  }
+  .nav-cta-mobile { display: none; }
+
+  /* --- Page header --- */
+  .page-header {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 80px 32px 40px;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    font-family: var(--font-d);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.08;
+    margin-bottom: 16px;
+  }
+
+  .page-header h1 em {
+    font-style: normal;
+    color: var(--amber);
+  }
+
+  .page-header p {
+    color: var(--text-mid);
+    font-size: 18px;
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* --- Support layout --- */
+  .support-section {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* --- Contact options sidebar --- */
+  .contact-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-option {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .contact-option-icon {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .contact-option h3 {
+    font-family: var(--font-d);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .contact-option p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .contact-option a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+  .contact-option a:hover { text-decoration: underline; }
+
+  /* --- Form --- */
+  .form-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+  }
+
+  .form-card h2 {
+    font-family: var(--font-d);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: -0.3px;
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-mid);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: var(--font-b);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--amber);
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: var(--text-dim);
+  }
+
+  .field textarea { min-height: 140px; }
+
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--amber);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-b);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s, opacity 0.2s;
+    margin-top: 4px;
+  }
+
+  .submit-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(212, 162, 76, 0.3);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .form-status {
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: none;
+  }
+
+  .form-status.success {
+    display: block;
+    background: var(--green-bg);
+    border: 1px solid rgba(106, 191, 105, 0.2);
+    color: var(--green);
+  }
+
+  .form-status.error {
+    display: block;
+    background: var(--red-bg);
+    border: 1px solid rgba(212, 91, 76, 0.2);
+    color: var(--red);
+  }
+
+  /* --- Footer --- */
+  footer {
+    border-top: 1px solid var(--border);
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    color: var(--text-dim);
+    max-width: 400px;
+    line-height: 1.7;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-mid); }
+
+  /* --- Responsive --- */
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--bg);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      z-index: 100;
+    }
+
+    .nav-links a { font-size: 18px; }
+
+    .nav-hamburger { display: block; }
+
+    .nav-cta-mobile {
+      display: inline-flex !important;
+      font-size: 13px;
+      padding: 6px 14px;
+      background: var(--amber);
+      color: var(--bg) !important;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      text-decoration: none;
+      margin-left: 12px;
+      transition: transform 0.2s var(--ease), box-shadow 0.2s;
+    }
+
+    .nav-cta-mobile:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25);
+    }
+
+    .page-header { padding: 48px 16px 24px; }
+
+    .support-section {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 32px 16px 64px;
+    }
+
+    .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+  }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/blog">Blog</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<div class="page-header">
+  <h1>How can we <em>help?</em></h1>
+  <p>Send us a message and we'll get back to you within 1-2 business days.</p>
+</div>
+
+<div class="support-section">
+
+  <div class="contact-options">
+    <div class="contact-option">
+      <div class="contact-option-icon">✉️</div>
+      <h3>Email</h3>
+      <p>Reach us directly at <a href="mailto:hello@leassh.com">hello@leassh.com</a></p>
+    </div>
+    <div class="contact-option">
+      <div class="contact-option-icon">📖</div>
+      <h3>Docs</h3>
+      <p>Installation guides, feature docs, and FAQs at <a href="/docs">leassh.com/docs</a></p>
+    </div>
+    <div class="contact-option">
+      <div class="contact-option-icon">🐛</div>
+      <h3>Bug reports</h3>
+      <p>Found a bug? Open an issue on <a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></p>
+    </div>
+    <div class="contact-option">
+      <div class="contact-option-icon">⚡</div>
+      <h3>Response time</h3>
+      <p>We aim to respond within 1–2 business days. Urgent issues usually faster.</p>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <h2>Send a message</h2>
+    <form id="support-form">
+      <div class="field">
+        <label for="name">Your name</label>
+        <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="jane@example.com" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Describe what you need help with..." required minlength="10"></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="submit-btn">Send message</button>
+      <div class="form-status" id="form-status"></div>
+    </form>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/support" class="active">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const form = document.getElementById('support-form');
+const btn = document.getElementById('submit-btn');
+const status = document.getElementById('form-status');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  status.className = 'form-status';
+  status.style.display = 'none';
+
+  const body = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    message: document.getElementById('message').value,
+  };
+
+  try {
+    const res = await fetch('/api/support/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      status.className = 'form-status success';
+      status.textContent = "Message sent! We'll get back to you within 1–2 business days.";
+      form.reset();
+    } else {
+      status.className = 'form-status error';
+      status.textContent = data.error || 'Something went wrong. Please try again.';
+    }
+  } catch {
+    status.className = 'form-status error';
+    status.textContent = 'Network error. Please try again or email hello@leassh.com directly.';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Send message';
+});
+</script>
+</body>
+</html>

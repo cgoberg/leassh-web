@@ -11,6 +11,7 @@
     { "source": "/api/account/upgrade", "destination": "/api/account/upgrade" },
     { "source": "/api/rendezvous/register", "destination": "/api/rendezvous/register" },
     { "source": "/api/rendezvous/lookup", "destination": "/api/rendezvous/lookup" },
+    { "source": "/api/support/contact", "destination": "/api/support/contact" },
     { "source": "/success", "destination": "/success.html" },
     { "source": "/use-cases", "destination": "/use-cases.html" },
     { "source": "/privacy-policy", "destination": "/privacy-policy.html" },
@@ -24,6 +25,7 @@
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/blog/understanding-vs-monitoring", "destination": "/blog-understanding-vs-monitoring.html" },
     { "source": "/blog/screen-time-management-2026", "destination": "/blog-screen-time-management.html" },
-    { "source": "/blog/gaming-addiction-children", "destination": "/blog-gaming-addiction.html" }
+    { "source": "/blog/gaming-addiction-children", "destination": "/blog-gaming-addiction.html" },
+    { "source": "/support", "destination": "/support.html" }
   ]
 }
