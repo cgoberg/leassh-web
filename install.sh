@@ -34,7 +34,7 @@ cat <<'LOGO'
 LOGO
 
 # ---------------------------------------------------------------------------
-# 1. Check root privileges
+# 1. Check root privileges (v0.1.3+)
 # ---------------------------------------------------------------------------
 if [ "$(id -u)" -ne 0 ]; then
     error "This installer must be run as root (use sudo)."
