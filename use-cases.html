@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Use Cases — leassh</title>
-<meta name="description" content="Deployable templates for leassh Pro: GPU fleet, Docker monitoring, CI/CD, game servers, NAS health, and 15+ more ready-to-use configs.">
+<meta name="description" content="Deployable templates for leassh Pro: GPU fleet, Docker monitoring, CI/CD, game servers, NAS health, and 30+ ready-to-use configs.">
 <meta property="og:title" content="Leassh Use Cases — Power user templates">
-<meta property="og:description" content="GPU fleets, Docker monitoring, CI/CD, game servers, NAS health. Deployable YAML templates.">
+<meta property="og:description" content="30+ deployable YAML templates: GPU fleets, Docker monitoring, CI/CD, game servers, NAS health, and more.">
 <meta property="og:url" content="https://leassh.com/use-cases">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Leassh Use Cases">
-<meta name="twitter:description" content="Power user templates. GPU fleets, Docker, CI/CD, game servers, NAS health, and more.">
+<meta name="twitter:description" content="30+ power user templates. GPU fleets, Docker, CI/CD, game servers, NAS health, and more.">
 <link rel="canonical" href="https://leassh.com/use-cases">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1206,6 +1206,572 @@ rules:
         <li>Render job completion alerts with webhooks</li>
         <li>GPU overheat protection</li>
         <li>Stalled render detection</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 18. VPN Server Health -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>VPN Server Health</h3>
+      <p>Monitor OpenVPN/WireGuard servers, connection counts, and bandwidth usage.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: vpn-server
+    host: 192.168.1.20
+    ssh: admin@192.168.1.20
+
+rules:
+  - name: vpn_service_check
+    when: "NOT process_running('openvpn')"
+    nodes: [vpn-server]
+    actions:
+      - ssh_command: "systemctl restart openvpn"
+      - notify: critical
+  - name: high_connection_count
+    when: "openvpn_connections > 80"
+    actions:
+      - notify: warning
+  - name: bandwidth_spike
+    when: "network_out_mbps > 100"
+    actions:
+      - notify: info</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>VPN service auto-restart on failure</li>
+        <li>Connection count monitoring and alerts</li>
+        <li>Bandwidth usage tracking</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 19. Backup Job Monitoring -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Backup Job Monitoring</h3>
+      <p>Track backup job completion, failures, and storage usage across multiple systems.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: backup-server
+    host: 192.168.1.30
+    ssh: backup@192.168.1.30
+  - name: nas-backup
+    host: 192.168.1.31
+    ssh: backup@192.168.1.31
+
+rules:
+  - name: backup_job_failed
+    when: "file_exists('/tmp/backup.failed')"
+    actions:
+      - notify: critical
+      - ssh_command: "rm /tmp/backup.failed"
+  - name: backup_storage_full
+    when: "disk_usage_percent > 90"
+    actions:
+      - notify: warning
+  - name: backup_job_stalled
+    when: "NOT file_modified('/var/log/backup.log', hours=25)"
+    actions:
+      - notify: warning</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Failed backup job notifications</li>
+        <li>Storage capacity alerts</li>
+        <li>Stalled backup detection</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 20. Temperature & Power Management -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>Temperature & Power Management</h3>
+      <p>Monitor system temperatures, power consumption, and fan speeds across your fleet.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: workstation-1
+    host: 192.168.1.40
+    ssh: user@192.168.1.40
+  - name: server-rack
+    host: 192.168.1.41
+    ssh: admin@192.168.1.41
+
+rules:
+  - name: cpu_overheat
+    when: "cpu_temp > 85"
+    actions:
+      - ssh_command: "cpufreq-set -g powersave"
+      - notify: critical
+  - name: fan_failure
+    when: "fan_rpm < 500"
+    actions:
+      - notify: critical
+  - name: power_spike
+    when: "power_draw_watts > 500"
+    actions:
+      - notify: warning</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>CPU thermal protection with auto-throttling</li>
+        <li>Fan failure detection</li>
+        <li>Power consumption monitoring</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 21. Security Camera System -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>Security Camera System</h3>
+      <p>Monitor camera feeds, storage usage, and recording health for surveillance systems.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: camera-nvr
+    host: 192.168.1.50
+    ssh: security@192.168.1.50
+
+rules:
+  - name: camera_offline
+    when: "NOT process_running('frigate')"
+    actions:
+      - ssh_command: "systemctl restart frigate"
+      - notify: critical
+  - name: storage_cleanup
+    when: "disk_usage_percent > 85"
+    actions:
+      - ssh_command: "find /recordings -mtime +30 -delete"
+      - notify: info
+  - name: recording_gap
+    when: "NOT file_modified('/recordings/latest.mp4', minutes=10)"
+    actions:
+      - notify: warning</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Camera system auto-restart on failure</li>
+        <li>Automatic old recording cleanup</li>
+        <li>Recording gap detection</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 22. IoT Device Fleet -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-advanced">Advanced</span>
+      </div>
+      <h3>IoT Device Fleet</h3>
+      <p>Monitor Raspberry Pi devices, sensors, and smart home controllers at scale.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: pi-sensor-1
+    host: 192.168.1.60
+    ssh: pi@192.168.1.60
+  - name: pi-sensor-2
+    host: 192.168.1.61
+    ssh: pi@192.168.1.61
+  - name: home-assistant
+    host: 192.168.1.62
+    ssh: hass@192.168.1.62
+
+rules:
+  - name: iot_device_offline
+    when: "ping_failed"
+    actions:
+      - notify: warning
+  - name: sensor_data_stale
+    when: "NOT file_modified('/tmp/sensor.json', minutes=15)"
+    actions:
+      - notify: warning
+  - name: low_storage_iot
+    when: "disk_usage_percent > 80"
+    actions:
+      - ssh_command: "journalctl --vacuum-time=7d"
+      - notify: info</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>IoT device connectivity monitoring</li>
+        <li>Sensor data freshness checks</li>
+        <li>Automatic log cleanup on Pi devices</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 23. Database Performance Monitoring -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-advanced">Advanced</span>
+      </div>
+      <h3>Database Performance Monitoring</h3>
+      <p>Track MySQL/PostgreSQL performance, connection counts, and query health.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: database-server
+    host: 192.168.1.70
+    ssh: db@192.168.1.70
+
+rules:
+  - name: database_down
+    when: "NOT process_running('mysqld')"
+    actions:
+      - ssh_command: "systemctl restart mysql"
+      - notify: critical
+  - name: too_many_connections
+    when: "mysql_connections > 150"
+    actions:
+      - notify: warning
+  - name: slow_queries
+    when: "mysql_slow_queries > 50"
+    actions:
+      - notify: info
+  - name: replication_lag
+    when: "mysql_slave_lag > 60"
+    actions:
+      - notify: critical</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Database service auto-restart</li>
+        <li>Connection pool monitoring</li>
+        <li>Slow query detection</li>
+        <li>Replication lag alerts</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 24. Web Server Load Balancing -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-advanced">Advanced</span>
+      </div>
+      <h3>Web Server Load Balancing</h3>
+      <p>Monitor multiple web servers, detect overload, and manage traffic distribution.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: web-server-1
+    host: 192.168.1.80
+    ssh: www@192.168.1.80
+  - name: web-server-2
+    host: 192.168.1.81
+    ssh: www@192.168.1.81
+  - name: load-balancer
+    host: 192.168.1.82
+    ssh: nginx@192.168.1.82
+
+rules:
+  - name: web_server_overload
+    when: "cpu_usage_percent > 90 AND duration_minutes > 5"
+    nodes: [web-server-1, web-server-2]
+    actions:
+      - notify: warning
+  - name: web_server_down
+    when: "NOT process_running('apache2')"
+    actions:
+      - ssh_command: "systemctl restart apache2"
+      - notify: critical
+  - name: load_balancer_config_update
+    when: "web_servers_available < 2"
+    nodes: [load-balancer]
+    actions:
+      - ssh_command: "nginx -s reload"
+      - notify: info</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Web server overload detection</li>
+        <li>Automatic service restart</li>
+        <li>Load balancer configuration updates</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 25. File Sync Service Monitoring -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>File Sync Service Monitoring</h3>
+      <p>Monitor Syncthing, Nextcloud, or custom file sync processes for health and conflicts.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: file-sync-server
+    host: 192.168.1.90
+    ssh: sync@192.168.1.90
+
+rules:
+  - name: syncthing_down
+    when: "NOT process_running('syncthing')"
+    actions:
+      - ssh_command: "systemctl restart syncthing"
+      - notify: warning
+  - name: sync_conflicts
+    when: "file_count('/sync/*.sync-conflict*') > 0"
+    actions:
+      - notify: info
+  - name: sync_stalled
+    when: "NOT file_modified('/sync/.stfolder', hours=2)"
+    actions:
+      - notify: warning</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>File sync service auto-restart</li>
+        <li>Sync conflict detection</li>
+        <li>Stalled sync monitoring</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 26. DNS Server Monitoring -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>DNS Server Monitoring</h3>
+      <p>Monitor Pi-hole, Unbound, or BIND DNS servers for performance and blocking.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: dns-server
+    host: 192.168.1.100
+    ssh: dns@192.168.1.100
+
+rules:
+  - name: dns_service_down
+    when: "NOT process_running('pihole-FTL')"
+    actions:
+      - ssh_command: "systemctl restart pihole-FTL"
+      - notify: critical
+  - name: dns_query_spike
+    when: "dns_queries_per_second > 1000"
+    actions:
+      - notify: warning
+  - name: blocklist_outdated
+    when: "NOT file_modified('/etc/pihole/gravity.db', days=7)"
+    actions:
+      - ssh_command: "pihole -g"
+      - notify: info</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>DNS service auto-restart</li>
+        <li>Query spike detection</li>
+        <li>Automatic blocklist updates</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 27. Cache Server Management -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>Cache Server Management</h3>
+      <p>Monitor Redis, Memcached, or Varnish cache servers for performance and memory usage.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: cache-server
+    host: 192.168.1.110
+    ssh: cache@192.168.1.110
+
+rules:
+  - name: redis_down
+    when: "NOT process_running('redis-server')"
+    actions:
+      - ssh_command: "systemctl restart redis"
+      - notify: critical
+  - name: cache_memory_full
+    when: "redis_memory_usage > 90"
+    actions:
+      - ssh_command: "redis-cli FLUSHDB"
+      - notify: warning
+  - name: cache_hit_rate_low
+    when: "redis_hit_rate < 80"
+    actions:
+      - notify: info</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Cache service auto-restart</li>
+        <li>Memory usage management</li>
+        <li>Cache hit rate monitoring</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 28. Email Server Monitoring -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-advanced">Advanced</span>
+      </div>
+      <h3>Email Server Monitoring</h3>
+      <p>Monitor Postfix, Dovecot mail servers for queue health and spam protection.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: mail-server
+    host: 192.168.1.120
+    ssh: mail@192.168.1.120
+
+rules:
+  - name: postfix_down
+    when: "NOT process_running('master')"
+    actions:
+      - ssh_command: "systemctl restart postfix"
+      - notify: critical
+  - name: mail_queue_backlog
+    when: "mail_queue_size > 100"
+    actions:
+      - notify: warning
+  - name: spam_detection_high
+    when: "spam_score_average > 8"
+    actions:
+      - notify: info</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Mail service auto-restart</li>
+        <li>Queue backlog monitoring</li>
+        <li>Spam detection tracking</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 29. Resource Usage Alerting -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-easy">Easy</span>
+      </div>
+      <h3>Resource Usage Alerting</h3>
+      <p>Monitor CPU, RAM, disk usage across your entire fleet with intelligent thresholds.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: all-servers
+    host: "192.168.1.*"
+    ssh: "admin@{host}"
+
+rules:
+  - name: high_cpu_sustained
+    when: "cpu_usage_percent > 90 AND duration_minutes > 10"
+    actions:
+      - notify: warning
+  - name: memory_exhaustion
+    when: "memory_usage_percent > 95"
+    actions:
+      - notify: critical
+  - name: disk_space_critical
+    when: "disk_usage_percent > 95"
+    actions:
+      - notify: critical
+  - name: load_average_high
+    when: "load_average_15min > cpu_cores * 2"
+    actions:
+      - notify: warning</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>Fleet-wide resource monitoring</li>
+        <li>Sustained high usage detection</li>
+        <li>Critical threshold alerting</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 30. VoIP/PBX Server Health -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-badges">
+        <span class="badge badge-power">Power Users</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <h3>VoIP/PBX Server Health</h3>
+      <p>Monitor Asterisk or FreePBX systems for call quality, registrations, and trunks.</p>
+    </div>
+    <button class="card-toggle">View Template <span class="arrow">&rarr;</span></button>
+    <div class="card-detail">
+      <h4>Sample Configuration</h4>
+      <pre><code>nodes:
+  - name: pbx-server
+    host: 192.168.1.130
+    ssh: asterisk@192.168.1.130
+
+rules:
+  - name: asterisk_down
+    when: "NOT process_running('asterisk')"
+    actions:
+      - ssh_command: "systemctl restart asterisk"
+      - notify: critical
+  - name: sip_registrations_low
+    when: "sip_registrations < 5"
+    actions:
+      - notify: warning
+  - name: trunk_offline
+    when: "trunk_status != 'OK'"
+    actions:
+      - notify: warning</code></pre>
+      <h4>What You Get</h4>
+      <ul class="notifications-list">
+        <li>PBX service auto-restart</li>
+        <li>SIP registration monitoring</li>
+        <li>Trunk health checking</li>
       </ul>
     </div>
   </div>
