@@ -42,6 +42,7 @@
     { "source": "/blog/understanding-vs-monitoring", "destination": "/blog-understanding-vs-monitoring.html" },
     { "source": "/blog/screen-time-management-2026", "destination": "/blog-screen-time-management.html" },
     { "source": "/blog/gaming-addiction-children", "destination": "/blog-gaming-addiction.html" },
+    { "source": "/blog/homelab-gpu", "destination": "/blog-homelab-gpu.html" },
     { "source": "/support", "destination": "/support.html" }
   ]
 }
