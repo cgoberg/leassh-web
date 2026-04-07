@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaming Addiction in Children: Real Signs, False Alarms, and Solutions — Leassh</title>
+<meta name="description" content="Gaming disorder is real, but many parents confuse passionate gaming with addiction. Here's how to tell the difference — and what to actually do about it.">
+<meta property="og:title" content="Gaming Addiction in Children: Real Signs, False Alarms, and Solutions">
+<meta property="og:description" content="A father panicked because his son played Minecraft 5 hours a weekend. Turns out the kid was teaching himself architecture and making tutorials. Here's how to tell the difference.">
+<meta property="og:url" content="https://leassh.com/blog/gaming-addiction-children">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-06">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/gaming-addiction-children">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --green-bg:   rgba(106, 191, 105, 0.08);
+    --red:        #d45b4c;
+    --red-bg:     rgba(212, 91, 76, 0.06);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav { display: flex; align-items: center; max-width: var(--max); margin: 0 auto; padding: 24px 32px; }
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  .article-header { max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px; }
+  .article-breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+  .article-header h1 { font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px; }
+  .article-byline { color: var(--text-dim); font-size: 14px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+  .article-byline strong { color: var(--text-mid); font-weight: 600; }
+
+  .article-body { max-width: var(--prose); margin: 0 auto; padding: 48px 32px 80px; }
+  .article-body p { margin-bottom: 24px; }
+  .article-body h2 { font-family: var(--font-d); font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -0.5px; line-height: 1.2; margin: 52px 0 20px; }
+  .article-body h3 { font-family: var(--font-d); font-size: clamp(18px, 2.5vw, 22px); font-weight: 700; margin: 36px 0 14px; }
+  .article-body ul, .article-body ol { padding-left: 24px; margin-bottom: 24px; }
+  .article-body li { margin-bottom: 10px; color: var(--text-mid); }
+  .article-body li strong { color: var(--text); }
+  .article-body strong { color: var(--text); font-weight: 600; }
+
+  .criteria-list { counter-reset: criteria; list-style: none; padding: 0; margin: 24px 0; }
+  .criteria-list li {
+    counter-increment: criteria;
+    display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start;
+  }
+  .criteria-list li::before {
+    content: counter(criteria);
+    flex-shrink: 0; width: 28px; height: 28px;
+    background: var(--amber-bg); border: 1px solid var(--amber);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: var(--amber);
+  }
+  .criteria-list li span { color: var(--text-mid); padding-top: 4px; }
+  .criteria-list li strong { color: var(--text); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+
+  .flag-box { border-radius: 12px; padding: 24px; }
+  .flag-box.red-flags { background: var(--red-bg); border: 1px solid rgba(212, 91, 76, 0.2); }
+  .flag-box.green-flags { background: var(--green-bg); border: 1px solid rgba(106, 191, 105, 0.2); }
+
+  .flag-box h4 {
+    font-family: var(--font-d); font-weight: 700; font-size: 16px;
+    margin-bottom: 16px;
+  }
+  .flag-box.red-flags h4 { color: var(--red); }
+  .flag-box.green-flags h4 { color: var(--green); }
+
+  .flag-box ul { padding-left: 16px; margin: 0; }
+  .flag-box ul li { color: var(--text-mid); font-size: 14px; margin-bottom: 8px; }
+
+  .false-alarm-cards { display: flex; flex-direction: column; gap: 20px; margin: 32px 0; }
+  .false-alarm-card { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .false-alarm-card .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--green); margin-bottom: 8px; }
+  .false-alarm-card h4 { font-family: var(--font-d); font-weight: 700; font-size: 17px; margin-bottom: 8px; }
+  .false-alarm-card .looks-like { font-size: 14px; color: var(--text-dim); margin-bottom: 4px; }
+  .false-alarm-card .why-healthy { font-size: 14px; color: var(--text-mid); }
+  .false-alarm-card strong { color: var(--text); }
+
+  .spectrum { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin: 32px 0; }
+  .spectrum h4 { font-family: var(--font-d); font-weight: 700; font-size: 18px; margin-bottom: 20px; }
+  .spectrum-level { display: flex; gap: 16px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .spectrum-level:last-child { margin: 0; padding: 0; border: 0; }
+  .spectrum-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+  .spectrum-dot.green { background: var(--green); }
+  .spectrum-dot.amber { background: var(--amber); }
+  .spectrum-dot.orange { background: #e07c3a; }
+  .spectrum-dot.red { background: var(--red); }
+  .spectrum-content strong { color: var(--text); font-size: 15px; }
+  .spectrum-content p { color: var(--text-mid); font-size: 14px; margin: 4px 0 0; }
+
+  .intervention-box { border-radius: 12px; padding: 24px 28px; margin: 20px 0; }
+  .intervention-box.healthy { background: var(--green-bg); border: 1px solid rgba(106, 191, 105, 0.2); }
+  .intervention-box.concerning { background: var(--amber-bg); border: 1px solid rgba(212, 162, 76, 0.2); }
+  .intervention-box.disorder { background: var(--red-bg); border: 1px solid rgba(212, 91, 76, 0.15); }
+  .intervention-box .int-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+  .intervention-box.healthy .int-label { color: var(--green); }
+  .intervention-box.concerning .int-label { color: var(--amber); }
+  .intervention-box.disorder .int-label { color: var(--red); }
+  .intervention-box h4 { font-family: var(--font-d); font-weight: 700; font-size: 17px; margin-bottom: 10px; }
+  .intervention-box ul { padding-left: 18px; margin: 0; }
+  .intervention-box ul li { color: var(--text-mid); font-size: 15px; margin-bottom: 8px; }
+
+  .article-author-bio { border-top: 1px solid var(--border); margin-top: 64px; padding-top: 32px; font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+
+  .post-cta { max-width: var(--prose); margin: 0 auto; padding: 0 32px 100px; }
+  .post-cta-inner { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: center; }
+  .post-cta-inner h2 { font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+  .post-cta-inner p { color: var(--text-mid); margin-bottom: 28px; font-size: 16px; }
+  .btn-primary { display: inline-block; background: var(--amber); color: var(--bg); padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  footer { border-top: 1px solid var(--border); max-width: var(--max); margin: 0 auto; padding: 40px 32px; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .footer-tagline { font-size: 13px; color: var(--text-dim); max-width: 400px; line-height: 1.7; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; list-style: none; }
+  .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text-mid); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links { display: none; flex-direction: column; width: 100%; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px; padding: 20px; gap: 16px; margin-top: 8px; }
+    .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: flex; flex-direction: column; justify-content: center; }
+    .nav-cta-mobile { display: block; background: var(--amber); color: var(--bg); padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 14px; text-decoration: none; margin-left: auto; margin-right: 8px; }
+    .article-header, .article-body, .post-cta { padding-left: 20px; padding-right: 20px; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<header class="article-header">
+  <div class="article-breadcrumb">
+    <a href="/blog">Blog</a>
+    <span>&rsaquo;</span>
+    Digital Parenting
+  </div>
+  <h1>Gaming Addiction in Children: Real Signs, False Alarms, and Solutions</h1>
+  <div class="article-byline">
+    <strong>Carl-Gustav &Ouml;berg</strong>
+    <span>April 6, 2026</span>
+    <span>10 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>Last month, I received an email from a panicked father: &ldquo;My 13-year-old son plays Minecraft for 4&ndash;5 hours on weekends. I think he&rsquo;s addicted. What should I do?&rdquo;</p>
+
+  <p>After some conversation, I learned that his son was building elaborate cities, teaching himself architectural concepts, and creating YouTube tutorials for other players. This wasn&rsquo;t gaming addiction &mdash; it was passion learning through gaming.</p>
+
+  <p>This confusion is common in 2026. Gaming disorder is real and affects about 8.5% of children, but many parents confuse intense interest with addiction. Understanding the difference can help you support your child&rsquo;s healthy relationship with gaming while recognizing when intervention is needed.</p>
+
+  <h2>Gaming Disorder: The Clinical Reality</h2>
+
+  <p>In 2018, the World Health Organization officially recognized Gaming Disorder in its International Classification of Diseases (ICD-11). The clinical definition requires <strong>three criteria over at least 12 months</strong>:</p>
+
+  <ul class="criteria-list">
+    <li><span><strong>Impaired control</strong> over gaming frequency, intensity, and duration</span></li>
+    <li><span><strong>Increasing priority</strong> given to gaming over other life interests and daily activities</span></li>
+    <li><span><strong>Continuation or escalation</strong> despite negative consequences</span></li>
+  </ul>
+
+  <p>This clinical framework helps distinguish between passionate gaming and problematic gaming.</p>
+
+  <h2>True Warning Signs of Gaming Disorder</h2>
+
+  <h3>Academic and Social Displacement</h3>
+  <ul>
+    <li>Grades dropping due to gaming displacing homework time</li>
+    <li>Avoiding social activities they previously enjoyed</li>
+    <li>Lying about homework completion to gain more gaming time</li>
+    <li>Consistently choosing gaming over spending time with friends</li>
+  </ul>
+
+  <h3>Emotional Dysregulation</h3>
+  <ul>
+    <li>Explosive anger when gaming time is limited or interrupted</li>
+    <li>Inability to discuss gaming limits calmly</li>
+    <li>Depression or anxiety that appears linked to gaming restrictions</li>
+    <li>Complete loss of interest in all non-gaming activities</li>
+  </ul>
+
+  <h3>Physical Health Impact</h3>
+  <ul>
+    <li>Sleep disruption due to gaming (staying up late, trouble waking up)</li>
+    <li>Significant changes in appetite related to gaming sessions</li>
+    <li>Physical complaints (headaches, eye strain) that persist</li>
+    <li>Declining personal hygiene due to extended gaming sessions</li>
+  </ul>
+
+  <h3>Loss of Perspective</h3>
+  <ul>
+    <li>Inability to articulate what they enjoy about the games they play</li>
+    <li>Gaming that seems compulsive rather than purposeful</li>
+    <li>No goals or achievements within games &mdash; just endless, repetitive play</li>
+    <li>Gaming that provides escape from problems rather than enjoyment</li>
+  </ul>
+
+  <h2>False Alarms: When Intensive Gaming Isn&rsquo;t Addiction</h2>
+
+  <p>Many behaviors that concern parents are actually signs of healthy passion learning:</p>
+
+  <div class="false-alarm-cards">
+    <div class="false-alarm-card">
+      <div class="label">False alarm</div>
+      <h4>Deep Interest Development</h4>
+      <p class="looks-like"><strong>What it looks like:</strong> 6-hour Saturday sessions with specific goals</p>
+      <p class="why-healthy"><strong>Why it&rsquo;s healthy:</strong> Passion learning requires sustained focus. Children developing expertise in any area &mdash; whether chess, music, or gaming &mdash; show intense engagement patterns.</p>
+    </div>
+    <div class="false-alarm-card">
+      <div class="label">False alarm</div>
+      <h4>Skill Building and Mastery</h4>
+      <p class="looks-like"><strong>What it looks like:</strong> Repeatedly playing the same game, watching tutorials, practicing techniques</p>
+      <p class="why-healthy"><strong>Why it&rsquo;s healthy:</strong> Mastery requires repetition and progressive challenge-seeking. This is how expertise develops.</p>
+    </div>
+    <div class="false-alarm-card">
+      <div class="label">False alarm</div>
+      <h4>Social Gaming and Community Building</h4>
+      <p class="looks-like"><strong>What it looks like:</strong> Coordinating schedules with friends, participating in online communities</p>
+      <p class="why-healthy"><strong>Why it&rsquo;s healthy:</strong> Modern gaming is often highly social. These are digital versions of pickup basketball games or band practice.</p>
+    </div>
+    <div class="false-alarm-card">
+      <div class="label">False alarm</div>
+      <h4>Creative Expression Through Gaming</h4>
+      <p class="looks-like"><strong>What it looks like:</strong> Building in Minecraft, creating mods, making game-related art or videos</p>
+      <p class="why-healthy"><strong>Why it&rsquo;s healthy:</strong> Gaming platforms have become creative mediums. This is digital art, architecture, and storytelling.</p>
+    </div>
+  </div>
+
+  <h2>Assessment Questions for Parents</h2>
+
+  <p>When concerned about your child&rsquo;s gaming, ask these diagnostic questions:</p>
+
+  <div class="two-col">
+    <div>
+      <h3>About Their Gaming</h3>
+      <ul>
+        <li>&ldquo;Can you teach me how to play this game?&rdquo;</li>
+        <li>&ldquo;What are you trying to accomplish?&rdquo;</li>
+        <li>&ldquo;What new skills are you developing?&rdquo;</li>
+        <li>&ldquo;Who do you play with and how did you meet them?&rdquo;</li>
+      </ul>
+    </div>
+    <div>
+      <h3>About Balance</h3>
+      <ul>
+        <li>&ldquo;What other hobbies do you have?&rdquo;</li>
+        <li>&ldquo;How does gaming fit with your other goals?&rdquo;</li>
+        <li>&ldquo;What would happen if you couldn&rsquo;t game for a week?&rdquo;</li>
+        <li>&ldquo;Are there problems you use gaming to avoid?&rdquo;</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>Children with healthy gaming relationships can answer these questions thoughtfully. Those with problematic relationships often cannot articulate their gaming purpose or become defensive when asked.</p>
+
+  <h2>The Gaming Spectrum</h2>
+
+  <div class="spectrum">
+    <h4>Where does your child fall?</h4>
+    <div class="spectrum-level">
+      <div class="spectrum-dot green"></div>
+      <div class="spectrum-content">
+        <strong>Casual Gaming</strong>
+        <p>Entertainment and social connection. 1&ndash;2 hours, easily interrupted, no goal pressure.</p>
+      </div>
+    </div>
+    <div class="spectrum-level">
+      <div class="spectrum-dot amber"></div>
+      <div class="spectrum-content">
+        <strong>Passion Learning</strong>
+        <p>Skill development and mastery-seeking. 3&ndash;6 hours on weekends, goal-oriented, shows progression.</p>
+      </div>
+    </div>
+    <div class="spectrum-level">
+      <div class="spectrum-dot orange"></div>
+      <div class="spectrum-content">
+        <strong>Concerning Pattern</strong>
+        <p>Compulsive gaming displacing other life areas. Daily extended sessions, defensive about limits, no progression.</p>
+      </div>
+    </div>
+    <div class="spectrum-level">
+      <div class="spectrum-dot red"></div>
+      <div class="spectrum-content">
+        <strong>Gaming Disorder</strong>
+        <p>Clinical impairment requiring professional intervention. Meets ICD-11 criteria for 12+ months.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Solutions and Interventions</h2>
+
+  <div class="intervention-box healthy">
+    <div class="int-label">For healthy gaming relationships</div>
+    <h4>Support and channel their passion</h4>
+    <ul>
+      <li>Encourage skill development: coding, game design, digital art, streaming</li>
+      <li>Connect gaming interests to career exploration</li>
+      <li>Facilitate offline applications of skills learned through gaming</li>
+      <li>Create opportunities to teach others what they&rsquo;ve learned</li>
+    </ul>
+  </div>
+
+  <div class="intervention-box concerning">
+    <div class="int-label">For concerning patterns</div>
+    <h4>Restore balance while preserving the positives</h4>
+    <ul>
+      <li>Establish &ldquo;gaming prep&rdquo; requirements: homework, chores, physical activity first</li>
+      <li>Create gaming-free zones: family meals, bedtime routines, morning preparations</li>
+      <li>Encourage reflection: daily check-ins about gaming goals and achievements</li>
+      <li>Seek professional help if patterns persist despite consistent boundaries</li>
+    </ul>
+  </div>
+
+  <div class="intervention-box disorder">
+    <div class="int-label">For gaming disorder</div>
+    <h4>Professional intervention + family support</h4>
+    <ul>
+      <li>Consult with pediatricians who understand gaming disorder</li>
+      <li>Consider family therapy focused on technology relationships</li>
+      <li>Address underlying mental health factors (anxiety, depression, ADHD)</li>
+      <li>Develop a comprehensive treatment plan with realistic goals</li>
+    </ul>
+  </div>
+
+  <h2>Prevention Strategies</h2>
+
+  <p>The best prevention for gaming disorder is fostering a healthy relationship with gaming from the beginning:</p>
+
+  <ul>
+    <li><strong>Establish gaming purpose:</strong> Help children articulate why they game and what they hope to accomplish. Purpose-driven gaming is less likely to become compulsive.</li>
+    <li><strong>Maintain life balance:</strong> Ensure gaming doesn&rsquo;t displace physical activity, social interaction, academic responsibilities, or sleep.</li>
+    <li><strong>Encourage gaming education:</strong> Support children in learning about game design, the gaming industry, or gaming technology. This metacognitive approach reduces passive consumption.</li>
+    <li><strong>Model healthy technology use:</strong> Children learn technology relationships from observing family patterns.</li>
+  </ul>
+
+  <h2>When to Seek Help</h2>
+
+  <p>Consider professional guidance when:</p>
+
+  <ul>
+    <li>Gaming patterns persist despite consistent family interventions</li>
+    <li>Your child shows signs of anxiety or depression related to gaming limits</li>
+    <li>Academic or social functioning significantly declines</li>
+    <li>Family relationships become dominated by gaming conflicts</li>
+    <li>You suspect underlying mental health factors</li>
+  </ul>
+
+  <h2>The Path Forward</h2>
+
+  <p>Gaming isn&rsquo;t going away, and for most children, it&rsquo;s a normal part of growing up in a digital world. The goal isn&rsquo;t to eliminate gaming but to ensure it serves their development positively.</p>
+
+  <p>By understanding the difference between passion and pathology, parents can support their children&rsquo;s healthy engagement with gaming while recognizing when intervention is needed.</p>
+
+  <p>Remember: the vast majority of children who game intensively are developing skills, building friendships, and exploring interests through digital environments. Your job is to ensure this exploration remains balanced, purposeful, and connected to their broader life goals.</p>
+
+  <div class="article-author-bio">
+    <strong>Carl-Gustav &Ouml;berg</strong> is the founder of Leassh, a platform that helps families understand children&rsquo;s digital activities in context. As a parent and technologist, he believes in supporting children&rsquo;s digital interests while maintaining healthy boundaries and life balance.
+  </div>
+
+</article>
+
+<div class="post-cta">
+  <div class="post-cta-inner">
+    <h2>Understand what your child is actually doing</h2>
+    <p>Leassh tells you the story behind the screen time &mdash; passion project or aimless scrolling. Make informed decisions, not arbitrary ones. 14-day free trial.</p>
+    <a class="btn-primary" href="/setup">Start Free Trial</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="mailto:hello@leassh.com">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

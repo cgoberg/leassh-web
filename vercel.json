@@ -20,6 +20,10 @@
     { "source": "/setup", "destination": "/setup.html" },
     { "source": "/features", "destination": "/features.html" },
     { "source": "/pricing", "destination": "/pricing.html" },
-    { "source": "/privacy", "destination": "/privacy.html" }
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/blog/understanding-vs-monitoring", "destination": "/blog-understanding-vs-monitoring.html" },
+    { "source": "/blog/screen-time-management-2026", "destination": "/blog-screen-time-management.html" },
+    { "source": "/blog/gaming-addiction-children", "destination": "/blog-gaming-addiction.html" }
   ]
 }

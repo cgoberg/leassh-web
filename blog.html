@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Leassh | Digital Parenting Insights</title>
+<meta name="description" content="Practical advice for parents navigating children's digital lives. Screen time, gaming, behavioral understanding, and modern parenting approaches.">
+<meta property="og:title" content="Blog — Leassh | Digital Parenting Insights">
+<meta property="og:description" content="Practical advice for parents navigating children's digital lives.">
+<meta property="og:url" content="https://leassh.com/blog">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  /* Blog index */
+  .blog-header {
+    max-width: 720px; margin: 0 auto; padding: 80px 32px 56px;
+  }
+
+  .blog-eyebrow {
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--amber); margin-bottom: 20px;
+  }
+
+  .blog-header h1 {
+    font-family: var(--font-d); font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 16px;
+  }
+
+  .blog-header p { color: var(--text-mid); font-size: 17px; }
+
+  .blog-grid {
+    max-width: 720px; margin: 0 auto; padding: 0 32px 100px;
+    display: flex; flex-direction: column; gap: 0;
+  }
+
+  .post-card {
+    border-top: 1px solid var(--border); padding: 36px 0;
+    text-decoration: none; display: block;
+    transition: background 0.2s;
+  }
+
+  .post-card:last-child { border-bottom: 1px solid var(--border); }
+
+  .post-meta {
+    font-size: 13px; color: var(--text-dim); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+  }
+
+  .post-card h2 {
+    font-family: var(--font-d); font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700; color: var(--text); letter-spacing: -0.5px;
+    line-height: 1.2; margin-bottom: 12px;
+    transition: color 0.2s;
+  }
+
+  .post-card:hover h2 { color: var(--amber); }
+
+  .post-card p { color: var(--text-mid); font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
+
+  .post-read-more {
+    font-size: 14px; font-weight: 600; color: var(--amber);
+  }
+
+  .post-read-more::after { content: ' →'; }
+
+  /* CTA */
+  .cta { max-width: var(--max); margin: 0 auto; padding: 0 32px 100px; text-align: center; }
+  .cta h2 { font-family: var(--font-d); font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+  .cta p { color: var(--text-mid); font-size: 17px; margin-bottom: 36px; }
+  .btn-primary { display: inline-block; background: var(--amber); color: var(--bg); padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); max-width: var(--max); margin: 0 auto; padding: 40px 32px; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .footer-tagline { font-size: 13px; color: var(--text-dim); max-width: 400px; line-height: 1.7; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; list-style: none; }
+  .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text-mid); }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links {
+      display: none; flex-direction: column; width: 100%;
+      background: var(--bg-raised); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; gap: 16px; margin-top: 8px;
+    }
+    .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: flex; flex-direction: column; justify-content: center; }
+    .nav-cta-mobile {
+      display: block; background: var(--amber); color: var(--bg); padding: 8px 18px;
+      border-radius: 6px; font-weight: 700; font-size: 14px; text-decoration: none; margin-left: auto; margin-right: 8px;
+    }
+    .blog-header { padding: 48px 20px 36px; }
+    .blog-grid { padding: 0 20px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<div class="blog-header reveal">
+  <div class="blog-eyebrow">Blog</div>
+  <h1>Digital Parenting, Explained</h1>
+  <p>Practical thinking for parents navigating kids and technology &mdash; written by a technologist and parent who built Leassh to solve these problems.</p>
+</div>
+
+<div class="blog-grid">
+  <a class="post-card reveal" href="/blog/understanding-vs-monitoring">
+    <div class="post-meta">April 6, 2026 &middot; Carl-Gustav &Ouml;berg</div>
+    <h2>Understanding Your Child's Digital Life: Why "Monitoring" Isn't Enough</h2>
+    <p>Most parental control dashboards tell you how long your child used the computer. But "4 hours on the computer" means nothing without context. Emma's 4 hours could be learning 3D modeling or mindlessly scrolling. Here's why the distinction matters.</p>
+    <span class="post-read-more">Read article</span>
+  </a>
+
+  <a class="post-card reveal" href="/blog/screen-time-management-2026">
+    <div class="post-meta">April 6, 2026 &middot; Carl-Gustav &Ouml;berg</div>
+    <h2>Screen Time Management for Families: Beyond Time Limits in 2026</h2>
+    <p>The standard advice &mdash; 2 hours max &mdash; treats 3 hours of coding and 1 hour of TikTok as identical. One is good, one isn't, and a timer can't tell the difference. A better framework for 2026.</p>
+    <span class="post-read-more">Read article</span>
+  </a>
+
+  <a class="post-card reveal" href="/blog/gaming-addiction-children">
+    <div class="post-meta">April 6, 2026 &middot; Carl-Gustav &Ouml;berg</div>
+    <h2>Gaming Addiction in Children: Real Signs, False Alarms, and Solutions</h2>
+    <p>A father panicked because his son played Minecraft 5 hours on weekends. Turned out he was building cities, teaching himself architecture, and making YouTube tutorials. Not addiction &mdash; passion. Here's how to tell the difference.</p>
+    <span class="post-read-more">Read article</span>
+  </a>
+</div>
+
+<section class="cta reveal">
+  <h2>See what your kids are actually doing</h2>
+  <p>Context, not just minutes. Start your free 14-day trial.</p>
+  <a class="btn-primary" href="/setup">Start Free Trial</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="mailto:hello@leassh.com">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.05 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
