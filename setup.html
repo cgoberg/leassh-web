@@ -677,7 +677,7 @@ docker run -d --name leassh-server \
         </div>
         <div class="code-block">
           <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
-          <code id="cmd-macos">curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=ABC123 sudo bash</code>
+          <code id="cmd-macos">curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=ABC123 bash</code>
         </div>
       </div>
 
@@ -686,7 +686,7 @@ docker run -d --name leassh-server \
         <p class="plat-desc">Run in terminal (Debian, Ubuntu, Fedora, Arch)</p>
         <div class="code-block">
           <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
-          <code id="cmd-linux">curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=ABC123 sudo bash</code>
+          <code id="cmd-linux">curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=ABC123 bash</code>
         </div>
       </div>
 
@@ -695,7 +695,7 @@ docker run -d --name leassh-server \
         <p class="plat-desc">Deploy the agent remotely without touching the machine</p>
         <div class="code-block">
           <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
-          <code id="cmd-ssh-deploy">ssh user@machine "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=ABC123 sudo bash"</code>
+          <code id="cmd-ssh-deploy">ssh user@machine "curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=ABC123 bash"</code>
         </div>
       </div>
 
@@ -782,11 +782,11 @@ function fillCommands(code, key) {
   document.getElementById('cmd-windows').textContent =
     "$env:LEASSH_CODE='" + code + "'; irm https://leassh.com/install.ps1 | iex";
   document.getElementById('cmd-macos').textContent =
-    "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=" + code + " sudo bash";
+    "curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=" + code + " bash";
   document.getElementById('cmd-linux').textContent =
-    "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=" + code + " sudo bash";
+    "curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=" + code + " bash";
   document.getElementById('cmd-ssh-deploy').textContent =
-    'ssh user@machine "curl -fsSL https://leassh.com/install.sh | LEASSH_CODE=' + code + ' sudo bash"';
+    'ssh user@machine "curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=' + code + ' bash"';
 }
 
 // --- Tabs ---

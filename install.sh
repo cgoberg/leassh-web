@@ -2,7 +2,7 @@
 # Leassh Agent Installer for Linux
 # Usage: curl -fsSL https://leassh.com/install.sh | sudo bash
 # Or with pairing code (from https://leassh.com/setup):
-#   LEASSH_CODE=your-code curl -fsSL https://leassh.com/install.sh | sudo bash
+#   curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=your-code bash
 
 set -euo pipefail
 
@@ -102,7 +102,7 @@ fi
 
 if [ -z "$CODE" ]; then
     error "A pairing code is required. Get one at https://leassh.com/setup"
-    echo "  Set it via: LEASSH_CODE=your-code curl -fsSL https://leassh.com/install.sh | sudo bash"
+    echo "  Set it via: curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=your-code bash"
     exit 1
 fi
 

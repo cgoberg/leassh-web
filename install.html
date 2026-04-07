@@ -516,7 +516,7 @@
 
     <div class="cmd-block">
       <span class="cmd-label">Quick install</span>
-      <code id="cmd-macos">LEASSH_TOKEN='<span class="token-placeholder">YOUR_TOKEN</span>' curl -fsSL https://leassh.com/install.sh | sudo bash</code>
+      <code id="cmd-macos">curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE='<span class="token-placeholder">YOUR_CODE</span>' bash</code>
       <button class="copy-btn" data-target="cmd-macos">Copy</button>
     </div>
 
@@ -550,7 +550,7 @@
 
     <div class="cmd-block">
       <span class="cmd-label">Quick install</span>
-      <code id="cmd-linux">LEASSH_TOKEN=&#x27;<span class="token-placeholder">YOUR_TOKEN</span>&#x27; curl -fsSL https://leassh.com/install.sh | sudo bash</code>
+      <code id="cmd-linux">curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=&#x27;<span class="token-placeholder">YOUR_CODE</span>&#x27; bash</code>
       <button class="copy-btn" data-target="cmd-linux">Copy</button>
     </div>
 
