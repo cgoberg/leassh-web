@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Monitor Your Child's Computer Without Installing Spyware — Leassh</title>
+<meta name="description" content="Most parental monitoring apps are, technically, spyware. There's a better way — one that doesn't erode trust, doesn't send your family's data to a cloud, and actually tells you something useful.">
+<meta property="og:title" content="How to Monitor Your Child's Computer Without Installing Spyware">
+<meta property="og:description" content="Most parental monitoring apps are, technically, spyware. Here's what actually works — and why the approach matters as much as the result.">
+<meta property="og:url" content="https://leassh.com/blog/monitor-child-without-spyware">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-07">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/monitor-child-without-spyware">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  /* Article header */
+  .article-header {
+    max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px;
+  }
+
+  .article-breadcrumb {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+  }
+
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+
+  .article-header h1 {
+    font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px;
+  }
+
+  .article-byline {
+    color: var(--text-dim); font-size: 14px;
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    padding-bottom: 32px; border-bottom: 1px solid var(--border);
+  }
+
+  .article-byline strong { color: var(--text-mid); font-weight: 600; }
+
+  /* Prose */
+  .article-body {
+    max-width: var(--prose); margin: 0 auto; padding: 48px 32px 80px;
+  }
+
+  .article-body p { margin-bottom: 24px; }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body h2 {
+    font-family: var(--font-d); font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700; letter-spacing: -0.5px; line-height: 1.2;
+    margin: 52px 0 20px; color: var(--text);
+  }
+
+  .article-body h3 {
+    font-family: var(--font-d); font-size: clamp(18px, 2.5vw, 22px);
+    font-weight: 700; margin: 36px 0 14px; color: var(--text);
+  }
+
+  .article-body ul, .article-body ol {
+    padding-left: 24px; margin-bottom: 24px;
+  }
+
+  .article-body li { margin-bottom: 10px; color: var(--text-mid); }
+  .article-body li strong { color: var(--text); }
+
+  .article-body strong { color: var(--text); font-weight: 600; }
+
+  .article-body em { font-style: italic; color: var(--text-mid); }
+
+  .article-body a { color: var(--amber); text-decoration: none; }
+  .article-body a:hover { text-decoration: underline; }
+
+  .article-body blockquote {
+    border-left: 3px solid var(--amber); padding: 12px 24px;
+    margin: 32px 0; background: var(--amber-bg); border-radius: 0 8px 8px 0;
+    font-style: italic; color: var(--text-mid);
+  }
+
+  .callout {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px 28px; margin: 36px 0;
+  }
+
+  .callout-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--amber); margin-bottom: 12px;
+  }
+
+  .callout p { color: var(--text-mid); margin: 0; font-size: 15px; }
+
+  .comparison-table {
+    width: 100%; border-collapse: collapse; margin: 36px 0; font-size: 15px;
+  }
+
+  .comparison-table th {
+    text-align: left; padding: 12px 16px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .comparison-table td {
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+    color: var(--text-mid); vertical-align: top;
+  }
+
+  .comparison-table td:first-child { color: var(--text); font-weight: 500; }
+
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 4px;
+  }
+
+  .tag-bad { background: rgba(212, 91, 76, 0.12); color: #d45b4c; }
+  .tag-ok { background: rgba(212, 162, 76, 0.12); color: var(--amber); }
+  .tag-good { background: rgba(106, 191, 105, 0.12); color: #6abf69; }
+
+  .article-author-bio {
+    border-top: 1px solid var(--border); margin-top: 64px; padding-top: 32px;
+    font-size: 14px; color: var(--text-dim); line-height: 1.7;
+  }
+
+  /* CTA */
+  .post-cta {
+    max-width: var(--prose); margin: 0 auto; padding: 0 32px 100px;
+  }
+
+  .post-cta-inner {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 16px; padding: 40px; text-align: center;
+  }
+
+  .post-cta-inner h2 {
+    font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px);
+    font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+
+  .post-cta-inner p { color: var(--text-mid); margin-bottom: 28px; font-size: 16px; }
+
+  .btn-primary { display: inline-block; background: var(--amber); color: var(--bg); padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); max-width: var(--max); margin: 0 auto; padding: 40px 32px; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .footer-tagline { font-size: 13px; color: var(--text-dim); max-width: 400px; line-height: 1.7; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; list-style: none; }
+  .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text-mid); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links {
+      display: none; flex-direction: column; width: 100%;
+      background: var(--bg-raised); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; gap: 16px; margin-top: 8px;
+    }
+    .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: flex; flex-direction: column; justify-content: center; }
+    .nav-cta-mobile {
+      display: block; background: var(--amber); color: var(--bg); padding: 8px 18px;
+      border-radius: 6px; font-weight: 700; font-size: 14px; text-decoration: none; margin-left: auto; margin-right: 8px;
+    }
+    .article-header, .article-body, .post-cta { padding-left: 20px; padding-right: 20px; }
+    .comparison-table { font-size: 13px; }
+    .comparison-table th, .comparison-table td { padding: 10px 10px; }
+  }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<header class="article-header">
+  <div class="article-breadcrumb">
+    <a href="/blog">Blog</a>
+    <span>&rsaquo;</span>
+    Digital Parenting
+  </div>
+  <h1>How to Monitor Your Child&rsquo;s Computer Without Installing Spyware</h1>
+  <div class="article-byline">
+    <strong>Carl-Gustav &Ouml;berg</strong>
+    <span>April 7, 2026</span>
+    <span>9 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>I want to start with a confession: many of the parental monitoring apps parents install on their kids&rsquo; computers are, technically, spyware. They run hidden processes, intercept keystrokes, capture screenshots every few minutes, and upload that data to a server you have no control over. The fact that you installed it doesn&rsquo;t change the underlying mechanism.</p>
+
+  <p>I&rsquo;m not saying this to be inflammatory. I&rsquo;m saying it because if we&rsquo;re going to have an honest conversation about how to actually monitor your child&rsquo;s computer use, we need to be clear about what we&rsquo;re avoiding and why &mdash; technically, relationally, and sometimes legally.</p>
+
+  <h2>What Makes Something &ldquo;Spyware&rdquo;</h2>
+
+  <p>Spyware has three defining characteristics:</p>
+
+  <ul>
+    <li><strong>Hidden operation</strong> &mdash; it runs without the user&rsquo;s awareness</li>
+    <li><strong>Exfiltration</strong> &mdash; it sends data about the user to a third party</li>
+    <li><strong>Surveillance scope</strong> &mdash; it captures more than necessary for the stated purpose</li>
+  </ul>
+
+  <p>A lot of popular parental monitoring tools check all three boxes. They run invisibly in the background. They upload screenshots, browsing history, and keystrokes to cloud servers operated by companies you&rsquo;ve never heard of. And they capture everything, indiscriminately, whether it&rsquo;s relevant to parenting or not.</p>
+
+  <p>Beyond the privacy concerns, there&rsquo;s a practical problem: <strong>teenagers figure it out.</strong> A 14-year-old who discovers a hidden monitoring process on their laptop doesn&rsquo;t learn to self-regulate &mdash; they learn to hide. They boot from a USB drive. They use their phone. They find a workaround. And the trust damage is hard to repair.</p>
+
+  <h2>What You Actually Want to Know</h2>
+
+  <p>Before choosing any monitoring approach, it&rsquo;s worth asking: what question am I actually trying to answer?</p>
+
+  <p>Most parents, when pressed, say they want to know things like:</p>
+
+  <ul>
+    <li>Is my child doing homework or gaming when they say they&rsquo;re doing homework?</li>
+    <li>Is gaming taking over &mdash; are they losing sleep, skipping meals?</li>
+    <li>Are they developing real skills or passively consuming content?</li>
+    <li>Is anything worrying happening that I should know about?</li>
+  </ul>
+
+  <p>Notably, none of these questions require reading your child&rsquo;s private messages, capturing a screenshot every 30 seconds, or logging every keystroke. They require <em>behavioral context</em> &mdash; what applications are running, how long, when, and with what pattern.</p>
+
+  <p>This is a much smaller dataset than what most monitoring apps collect, and it&rsquo;s one that can be gathered with significantly less invasiveness.</p>
+
+  <h2>The Approaches, Ranked by Invasiveness</h2>
+
+  <h3>1. Network-Level Filtering (Least Invasive)</h3>
+
+  <p>A DNS-based filter like Pi-hole or Cloudflare&rsquo;s family DNS blocks requests to known bad domains at the router level. No software on the child&rsquo;s device. No visibility into what they&rsquo;re doing &mdash; just a category-level block on malware, adult content, or whatever categories you configure.</p>
+
+  <p>This is a great first layer. It requires no trust because it&rsquo;s infrastructure, not surveillance. The downside: it tells you nothing about what your child is actually doing. It&rsquo;s a fence, not a window.</p>
+
+  <h3>2. OS-Native Screen Time Controls</h3>
+
+  <p>Windows Family Safety, macOS Screen Time, and Google Family Link all have built-in parental controls. They&rsquo;re transparent (the child knows they exist), they&rsquo;re built into the OS, and they give you per-app time limits and basic usage reports.</p>
+
+  <p>These are underrated. For younger children (under 12), they&rsquo;re often exactly enough. The main limitations: reports are shallow (total time per app, nothing about what specifically happened), and on Windows especially, a determined teenager can work around them.</p>
+
+  <h3>3. SSH-Based Behavioral Monitoring</h3>
+
+  <p>This is the approach I&rsquo;ve built into Leassh, and it&rsquo;s worth explaining because it&rsquo;s architecturally different from everything above.</p>
+
+  <p>SSH (Secure Shell) is the protocol that system administrators use to remotely manage servers. Every Mac ships with an SSH server. Every Linux box has one. Windows has had a native OpenSSH server since 2019.</p>
+
+  <p>If you enable SSH on your child&rsquo;s computer and configure your own monitoring system to connect, you can query the machine&rsquo;s running processes, resource usage, and logged-in users <em>without installing any persistent software on the target machine at all</em>. The monitoring happens from the outside, not from inside a hidden process.</p>
+
+  <div class="callout">
+    <div class="callout-label">How This Works in Practice</div>
+    <p>Your router runs the monitoring software. Every few minutes, it SSHes into your child&rsquo;s computer, asks &ldquo;what processes are running, how much GPU and CPU are in use, who&rsquo;s logged in?&rdquo;, then disconnects. No process left behind. The data stays on your home network. Nothing goes to any cloud.</p>
+  </div>
+
+  <p>From that process and resource data, you can infer a lot: Fortnite is running at 90% GPU for 4 hours while screen time should be off. Or: VS Code and a browser are active, consistent with coding. Or: the machine has been idle for 2 hours, they&rsquo;re probably at the neighbor&rsquo;s house.</p>
+
+  <h3>4. Transparent Agent-Based Monitoring</h3>
+
+  <p>For machines where SSH isn&rsquo;t practical, a small, open-source agent you install explicitly &mdash; one that your child knows about and can see running in Task Manager &mdash; is the next best thing.</p>
+
+  <p>This is different from spyware in a meaningful way: transparency. If your child knows the process is there, knows what it reports, and can see it listed in their system processes, it functions more like a contract than a covert operation. &ldquo;Here&rsquo;s what I can see. Here&rsquo;s what I can&rsquo;t see.&rdquo; That conversation is worth having.</p>
+
+  <p>What a well-designed agent should collect: running applications, active window time, session start/end. What it should never collect: keystrokes, clipboard contents, private messages, or anything that requires reading the content of what your child is doing rather than the metadata.</p>
+
+  <h2>Comparing the Options Honestly</h2>
+
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Approach</th>
+        <th>Invasiveness</th>
+        <th>Insight Quality</th>
+        <th>Circumventable?</th>
+        <th>Data Goes to Cloud?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>DNS filtering (Pi-hole etc.)</td>
+        <td><span class="tag tag-good">Low</span></td>
+        <td><span class="tag tag-bad">Minimal</span></td>
+        <td><span class="tag tag-bad">Easily (VPN)</span></td>
+        <td><span class="tag tag-good">No</span></td>
+      </tr>
+      <tr>
+        <td>OS-native controls (Screen Time, Family Safety)</td>
+        <td><span class="tag tag-good">Low</span></td>
+        <td><span class="tag tag-ok">Basic</span></td>
+        <td><span class="tag tag-ok">Partially</span></td>
+        <td><span class="tag tag-ok">Minimal</span></td>
+      </tr>
+      <tr>
+        <td>SSH-based monitoring (no agent)</td>
+        <td><span class="tag tag-good">Low</span></td>
+        <td><span class="tag tag-ok">Good</span></td>
+        <td><span class="tag tag-bad">SSH can be disabled</span></td>
+        <td><span class="tag tag-good">No (stays local)</span></td>
+      </tr>
+      <tr>
+        <td>Transparent open-source agent</td>
+        <td><span class="tag tag-ok">Medium</span></td>
+        <td><span class="tag tag-good">Good</span></td>
+        <td><span class="tag tag-bad">Agent can be stopped</span></td>
+        <td><span class="tag tag-good">No (stays local)</span></td>
+      </tr>
+      <tr>
+        <td>Hidden monitoring apps (Bark, mSpy, etc.)</td>
+        <td><span class="tag tag-bad">High</span></td>
+        <td><span class="tag tag-ok">Mixed</span></td>
+        <td><span class="tag tag-ok">Harder (but possible)</span></td>
+        <td><span class="tag tag-bad">Yes (vendor cloud)</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>One thing this table makes clear: the most invasive option isn&rsquo;t necessarily the hardest to circumvent. A determined teenager who finds a hidden monitoring app will find their way around it. A teenager who has agreed to transparent monitoring and understands what&rsquo;s being collected has fewer reasons to try.</p>
+
+  <h2>The Privacy Angle You Might Not Have Considered</h2>
+
+  <p>When you install a monitoring app that sends data to a vendor&rsquo;s cloud, you&rsquo;re not just trusting the software &mdash; you&rsquo;re trusting the vendor&rsquo;s security team, their data retention policies, their response to law enforcement requests, and their business model not to change in ways that affect your family&rsquo;s data.</p>
+
+  <p>If a monitoring vendor gets breached, screenshots of your child&rsquo;s computer activity, their browsing history, and potentially their private conversations are in that breach. This has happened. It will happen again.</p>
+
+  <p>Keeping monitoring data on your home network &mdash; processed locally, never uploaded &mdash; eliminates this risk entirely. There&rsquo;s no vendor breach to worry about because there&rsquo;s no vendor holding your data.</p>
+
+  <h2>The Conversation You Have to Have Anyway</h2>
+
+  <p>Here&rsquo;s the thing I&rsquo;ve learned building monitoring systems: the technology is a small part of the answer. The bigger part is the conversation.</p>
+
+  <p>Children who know their computer use is being monitored, understand what&rsquo;s being collected and why, and have agreed to it &mdash; even reluctantly &mdash; respond differently than children who discover covert surveillance. The former develops some understanding of accountability. The latter develops skills in evasion and a durable lesson that adults can&rsquo;t be trusted to be honest with them.</p>
+
+  <blockquote>&ldquo;Here&rsquo;s what I can see: which applications are running, for how long, and whether you&rsquo;re active. Here&rsquo;s what I can&rsquo;t see: what you&rsquo;re typing, your messages, or what&rsquo;s on your screen. My job is to understand your patterns, not to read over your shoulder.&rdquo;</blockquote>
+
+  <p>That&rsquo;s a conversation worth having. And a monitoring approach worth choosing &mdash; one that makes it possible to have honestly.</p>
+
+  <h2>What &ldquo;Monitoring Without Spyware&rdquo; Looks Like in Practice</h2>
+
+  <p>If I were setting this up for my own family today, this is what I&rsquo;d do:</p>
+
+  <ol>
+    <li><strong>Enable SSH on every computer</strong> (or install a transparent agent on machines where SSH isn&rsquo;t suitable &mdash; phones, tablets) and tell my kids it&rsquo;s there.</li>
+    <li><strong>Run monitoring software locally</strong> &mdash; on a home server or even a Raspberry Pi &mdash; that queries those machines and keeps data on-network. No cloud account, no vendor holding our data.</li>
+    <li><strong>Look at behavioral patterns, not content</strong> &mdash; what applications are running when, how much gaming versus other activity, are usage patterns changing week over week in ways that warrant a conversation?</li>
+    <li><strong>Use the data to start conversations, not to catch them</strong> &mdash; &ldquo;I noticed you were on until 1am three nights this week, what&rsquo;s going on?&rdquo; is a better conversation than &ldquo;I have a screenshot of exactly what you were doing.&rdquo;</li>
+  </ol>
+
+  <p>This is precisely the philosophy behind <a href="/features">Leassh</a> &mdash; behavioral understanding from the outside, data that stays in your home, weekly reports that tell you <em>what your child is doing</em> rather than flooding you with screenshots and keylog entries you don&rsquo;t know what to do with.</p>
+
+  <p>It&rsquo;s not perfect. A kid who really wants to evade any monitoring system can do so. But that&rsquo;s true of spyware too &mdash; and the covert approach costs you something that matters long after they leave home: trust.</p>
+
+  <p><strong>Related reading:</strong> For guidance on limits and frameworks, see <a href="/blog/screen-time-management-2026">Screen Time Management for Families: Beyond Time Limits in 2026</a>. For an honest look at the commercial alternatives, see <a href="/blog/parental-control-comparison-2026">Best Parental Control Software 2026: Bark vs Qustodio vs Net Nanny vs Leassh</a>.</p>
+
+  <div class="article-author-bio">
+    <strong>Carl-Gustav &Ouml;berg</strong> is the founder of Leassh, a family technology platform that helps parents understand their children&rsquo;s digital lives through behavioral insight rather than surveillance monitoring. He has over a decade of experience building monitoring and analytics systems for enterprises and families.
+  </div>
+
+</article>
+
+<div class="post-cta">
+  <div class="post-cta-inner">
+    <h2>Monitor behavior, not keystrokes</h2>
+    <p>Leassh shows you what your kids are doing &mdash; which apps, when, for how long &mdash; without screenshots, without keyloggers, without data leaving your home network. 14-day free trial.</p>
+    <a class="btn-primary" href="/setup">Start Free Trial</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
