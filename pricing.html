@@ -309,14 +309,26 @@
 
   .pricing-price {
     font-family: var(--font-d);
-    font-size: 36px;
+    font-size: 24px;
     font-weight: 800;
     letter-spacing: -1px;
     margin-bottom: 2px;
     transition: opacity 0.25s ease;
   }
 
-  .pricing-price span { font-size: 15px; font-weight: 500; color: var(--text-mid); letter-spacing: 0; }
+  .pricing-price .price-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -1px;
+  }
+
+  .pricing-price span:not(.price-value) {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-mid);
+    letter-spacing: 0;
+  }
   .pricing-price del { font-size: 20px; font-weight: 500; color: var(--text-dim); letter-spacing: 0; text-decoration: line-through; margin-right: 6px; }
 
   .pricing-billed {
