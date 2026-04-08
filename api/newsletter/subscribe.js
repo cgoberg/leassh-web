@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
     if (checkError && checkError.code !== 'PGRST116') {
       // PGRST116 is "row not found", which is what we want
       console.error('Database check error:', checkError);
-      return res.status(500).json({ error: 'Database error' });
+      return res.status(500).json({ error: 'Sorry, we\'re having trouble with our servers right now. Please try again in a few minutes.' });
     }
 
     if (existing) {
@@ -57,7 +57,7 @@ module.exports = async (req, res) => {
 
     if (insertError) {
       console.error('Insert error:', insertError);
-      return res.status(500).json({ error: 'Failed to save subscription' });
+      return res.status(500).json({ error: 'We couldn\'t complete your subscription right now. Please try again in a few minutes.' });
     }
 
     // Send welcome email
@@ -122,6 +122,6 @@ You can unsubscribe anytime by replying with "unsubscribe".`,
 
   } catch (error) {
     console.error('Newsletter subscription error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Something went wrong on our end. Please try again in a few minutes.' });
   }
 };
