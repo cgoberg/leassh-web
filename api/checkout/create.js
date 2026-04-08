@@ -16,7 +16,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { tier, billing } = req.body;
+    const tier = (req.body.tier || '').toLowerCase();
+    const billing = (req.body.billing || '').toLowerCase();
 
     const prices = {
       essential_monthly: {
