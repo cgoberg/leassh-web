@@ -36,6 +36,14 @@ module.exports = async (req, res) => {
 
     if (checkError && checkError.code !== 'PGRST116') {
       // PGRST116 is "row not found", which is what we want
+      // PGRST205 is "table not found" - handle this gracefully during table setup
+      if (checkError.code === 'PGRST205') {
+        console.error('Newsletter table not yet created - LEA-129 pending:', checkError);
+        return res.status(503).json({
+          error: 'Newsletter signup is temporarily unavailable while we set up our systems. Please check back in a few minutes or contact support at carl-gustav@forgenord.com.',
+          code: 'SETUP_IN_PROGRESS'
+        });
+      }
       console.error('Database check error:', checkError);
       return res.status(500).json({ error: 'Sorry, we\'re having trouble with our servers right now. Please try again in a few minutes.' });
     }
@@ -56,6 +64,14 @@ module.exports = async (req, res) => {
       });
 
     if (insertError) {
+      // Handle table not found error gracefully during setup
+      if (insertError.code === 'PGRST205') {
+        console.error('Newsletter table not yet created - LEA-129 pending:', insertError);
+        return res.status(503).json({
+          error: 'Newsletter signup is temporarily unavailable while we set up our systems. Please check back in a few minutes or contact support at carl-gustav@forgenord.com.',
+          code: 'SETUP_IN_PROGRESS'
+        });
+      }
       console.error('Insert error:', insertError);
       return res.status(500).json({ error: 'We couldn\'t complete your subscription right now. Please try again in a few minutes.' });
     }
