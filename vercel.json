@@ -41,6 +41,7 @@
     { "source": "/api/checkout/webhook", "destination": "/api/checkout/webhook" },
     { "source": "/api/account/register", "destination": "/api/account/register" },
     { "source": "/api/account/upgrade", "destination": "/api/account/upgrade" },
+    { "source": "/api/newsletter/subscribe", "destination": "/api/newsletter/subscribe" },
     { "source": "/api/rendezvous/register", "destination": "/api/rendezvous" },
     { "source": "/api/rendezvous/lookup", "destination": "/api/rendezvous" },
     { "source": "/api/contact", "destination": "/api/contact" },
