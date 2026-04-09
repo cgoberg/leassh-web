@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mac Parental Controls in 2026: Why Apple Screen Time Falls Short — Leassh</title>
+<meta name="description" content="Apple Screen Time for Mac has serious gaps: no third-party app monitoring, browser bypasses, no message content visibility. Learn what modern Mac parental controls actually need in 2026.">
+<meta property="og:title" content="Mac Parental Controls in 2026: Why Apple Screen Time Falls Short">
+<meta property="og:description" content="Apple Screen Time for Mac has serious gaps: no third-party app monitoring, browser bypasses, no message content visibility. Learn what modern Mac parental controls actually need in 2026.">
+<meta property="og:url" content="https://leassh.com/blog/parental-controls-mac">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-09">
+<meta property="article:author" content="Ingrid Svendsen">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/parental-controls-mac">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Mac Parental Controls in 2026: Why Apple Screen Time Falls Short",
+  "description": "Apple Screen Time for Mac has serious gaps: no third-party app monitoring, browser bypasses, no message content visibility. Learn what modern Mac parental controls actually need in 2026.",
+  "datePublished": "2026-04-09",
+  "dateModified": "2026-04-09",
+  "url": "https://leassh.com/blog/parental-controls-mac",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/parental-controls-mac" },
+  "author": { "@type": "Person", "name": "Ingrid Svendsen", "url": "https://forgenord.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  .article-header { max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px; }
+  .article-breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+  .article-header h1 { font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px; }
+  .article-meta { display: flex; align-items: center; gap: 20px; font-size: 14px; color: var(--text-mid); }
+  .article-meta .author { display: flex; align-items: center; gap: 10px; }
+  .article-meta .author img { width: 32px; height: 32px; border-radius: 50%; }
+  .article-meta .date { color: var(--text-dim); }
+
+  .article-content { max-width: var(--prose); margin: 0 auto; padding: 48px 32px 96px; }
+  .article-content h2 { font-family: var(--font-d); font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin: 48px 0 20px; color: var(--text); }
+  .article-content h3 { font-family: var(--font-d); font-size: 20px; font-weight: 600; letter-spacing: -0.3px; margin: 32px 0 16px; color: var(--text); }
+  .article-content p { margin-bottom: 20px; }
+  .article-content ul, .article-content ol { margin: 20px 0 20px 24px; }
+  .article-content li { margin-bottom: 10px; }
+  .article-content a { color: var(--amber); text-decoration: none; border-bottom: 1px solid rgba(212, 162, 76, 0.3); }
+  .article-content a:hover { color: var(--amber-soft); border-bottom-color: var(--amber); }
+  .article-content blockquote { border-left: 3px solid var(--amber); padding-left: 20px; margin: 32px 0; color: var(--text-mid); font-style: italic; }
+  .article-content .warning { background: var(--bg-warm); border: 1px solid var(--border); border-left: 3px solid #e85d5d; padding: 20px; border-radius: 8px; margin: 24px 0; }
+  .article-content .warning strong { color: #e85d5d; }
+  .article-content .highlight { background: var(--amber-bg); border-radius: 6px; padding: 4px 8px; }
+
+  .cta-section { max-width: var(--prose); margin: 64px auto; padding: 48px 32px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px; text-align: center; }
+  .cta-section h2 { font-size: 28px; margin-bottom: 16px; color: var(--text); }
+  .cta-section p { color: var(--text-mid); margin-bottom: 24px; font-size: 17px; }
+  .cta-button { display: inline-block; background: var(--amber); color: var(--bg) !important; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  footer { border-top: 1px solid var(--border); padding: 48px 32px; text-align: center; color: var(--text-dim); font-size: 14px; }
+  footer a { color: var(--amber); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-raised); flex-direction: column; padding: 24px; border-top: 1px solid var(--border); }
+    .nav-hamburger { display: block; }
+    .article-header { padding: 48px 24px 32px; }
+    .article-content { padding: 32px 24px 64px; }
+    .cta-section { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+  <nav>
+    <a href="/" class="nav-brand">Leassh</a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+    <label for="nav-toggle" class="nav-hamburger">
+      <span></span><span></span><span></span>
+    </label>
+    <ul class="nav-links">
+      <li><a href="/features.html">Features</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+      <li><a href="/install.html">Install</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="https://github.com/leassh" class="nav-fleet">Fleet: 25+</a></li>
+      <li><a href="/pricing.html" class="nav-cta">Get Leassh</a></li>
+    </ul>
+  </nav>
+
+  <header class="article-header">
+    <nav class="article-breadcrumb">
+      <a href="/blog.html">Blog</a><span>/</span>Mac Parental Controls
+    </nav>
+    <h1>Mac Parental Controls in 2026: Why Apple Screen Time Falls Short</h1>
+    <div class="article-meta">
+      <div class="author">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="16" fill="#d4a24c"/>
+          <text x="16" y="22" text-anchor="middle" fill="#0f0d0a" font-size="18" font-weight="700">I</text>
+        </svg>
+        <span>Ingrid Svendsen</span>
+      </div>
+      <span class="date">April 9, 2026</span>
+    </div>
+  </header>
+
+  <article class="article-content">
+    <p>You've got a Mac. Apple gives you Screen Time. It's free, built-in, and seems like a reasonable starting point for keeping tabs on your child's computer use. But here's the hard truth: <strong>Apple Screen Time for Mac in 2026 is fundamentally broken for actual parental control</strong>.</p>
+
+    <p>I've spent years building Leassh because I watched parents try to use Apple's built-in tools and fail. Their kids bypass restrictions before lunch. They have no idea what apps their children are actually using. And when something concerning happens online, there's <em>no visibility</em> into what went on.</p>
+
+    <p>Let me tell you exactly what's wrong with Mac parental controls today, and what you actually need.</p>
+
+    <h2>The Three Fatal Flaws of Apple Screen Time</h2>
+
+    <h3>1. It Doesn't See Inside Third-Party Apps</h3>
+
+    <p>This is the biggest gap. Apple Screen Time can tell you <em>"Chrome was used for 2 hours"</em>. But it cannot tell you <em>what your child did in Chrome</em>. Was it homework research? Gaming forums? Something else?</p>
+
+    <p>The same goes for Discord, Slack, Telegram, WhatsApp, and dozens of other apps your child might use. Screen Time treats them all as opaque black boxes. You get a time total, but zero visibility into actual usage.</p>
+
+    <div class="warning">
+      <strong>Real example:</strong> A parent sets Screen Time limits to block "Social Networking" during homework hours. Their child uses Discord (which Screen Time classifies as "Communication," not "Social Networking") to chat with friends all afternoon. The parent sees zero warnings because Discord isn't in the blocked category.
+    </div>
+
+    <h3>2. Browser Bypasses Are Trivial</h3>
+
+    <p>Even with web restrictions enabled, a tech-savvy kid can bypass them easily:</p>
+
+    <ul>
+      <li><strong>Third-party browsers:</strong> If you block Safari, they install Chrome or Firefox from the App Store. Suddenly your web restrictions don't apply.</li>
+      <li><strong>In-app browsers:</strong> Many apps have their own browsers. TikTok, Discord, and others can load web content outside your restrictions.</li>
+      <li><strong>Private browsing:</strong> Even with "Limit Adult Websites" enabled, iOS 26 allows private tabs unless you switch to "Only Approved Websites" — which most parents never do because it's hidden in settings.</li>
+    </ul>
+
+    <p>I've seen this repeatedly. Parents think they've blocked inappropriate content. Their child finds a workaround within hours. The restrictions exist on paper but not in practice.</p>
+
+    <h3>3. No Message Content Monitoring</h3>
+
+    <p>Communication Safety in iOS/macOS can flag explicit images before they're sent. But it cannot:</p>
+
+    <ul>
+      <li>Read message content for cyberbullying</li>
+      <li>Alert you to conversations with unknown adults</li>
+      <li>Show you what your child is actually typing or receiving</li>
+    </ul>
+
+    <p>Parents who want that level of communication safety need to look beyond Apple's built-in tools. And by the time they discover this gap, damage may already be done.</p>
+
+    <h2>What Makes Screen Time So Easy to Bypass?</h2>
+
+    <p>Children are good at finding loopholes. Screen Time has several:</p>
+
+    <ul>
+      <li><strong>Apple ID recovery:</strong> Reset the Screen Time passcode through account recovery. Done.</li>
+      <li><strong>Second device:</strong> If you have multiple Apple devices not all in Family Sharing, restrictions on one may not apply to another.</li>
+      <li><strong>Extension requests:</strong> Kids can ask for "5 more minutes" of app time repeatedly until you say yes. Or they learn to time their requests when you're busy and won't check.</li>
+      <li><strong>Settings flipping:</strong> Some parents report that "Block at Downtime" toggles itself off with no action from the child. Whether this is a bug or a workaround, it means restrictions aren't reliable.</li>
+    </ul>
+
+    <p>And here's the thing: even if you lock down Screen Time perfectly, you still don't get <em>what matters</em> — visibility into actual content and behavior.</p>
+
+    <h2>What Parents Actually Need</h2>
+
+    <p>When I talk to parents about what they're worried about, it's never "how many minutes on TikTok." It's:</p>
+
+    <ul>
+      <li><strong>"What is my child seeing online?"</strong></li>
+      <li><strong>"Who are they talking to?"</strong></li>
+      <li><strong>"Is something wrong that I should know about?"</strong></li>
+      <li><strong>"Are they wasting time or learning something?"</strong></li>
+    </ul>
+
+    <p>Screen Time doesn't answer any of these. It gives you time totals and category breakdowns, which treats 3 hours of coding Python and 3 hours of TikTok scrolling identically. They're not identical. One is building skills; the other is... well, you know.</p>
+
+    <h2>What Works Better: SSH-Based Fleet Monitoring</h2>
+
+    <p>Leassh takes a different approach. Instead of relying on Apple's limited APIs, we use SSH to connect to your child's Mac and collect actual telemetry data:</p>
+
+    <div class="highlight">
+      <strong>The difference:</strong> Screen Time tells you "App used: 2 hours." Leassh can tell you "App used: 2 hours. Active windows: Chrome (reddit.com), VS Code (learning-python course). Screen captures every 5 minutes showing actual activity."
+    </div>
+
+    <p>This works because:</p>
+
+    <ul>
+      <li><strong>SSH sees everything:</strong> Once connected via SSH, we can query running processes, active windows, screen activity, and more. No app can hide from SSH.</li>
+      <li><strong>Platform-agnostic:</strong> Mac, Windows, Linux — if it has SSH, we can monitor it. No Apple ecosystem lock-in.</li>
+      <li><strong>No subscription to Apple:</strong> Your data stays in your home. We don't send it to Apple, Google, or anyone else. The monitoring server runs on your network.</li>
+      <li><strong>Real content visibility:</strong> Not just time totals, but actual windows, tabs, and screenshots of what's happening.</li>
+    </ul>
+
+    <h2>The Self-Hosted Promise</h2>
+
+    <p>Here's what I want parents to understand: <strong>Leassh is self-hosted only</strong>. There is no cloud tier. This isn't a marketing tactic; it's a core principle.</p>
+
+    <p>Parents who care about their children's privacy won't trust a cloud product with that data. If you're worried about your child's digital safety, you shouldn't be creating another cloud service that stores their screenshots, screen time logs, and activity data. That's just moving the problem.</p>
+
+    <p>With Leassh:</p>
+
+    <ul>
+      <li>Your monitoring data lives on your network, not in someone else's cloud</li>
+      <li>You own the dashboard that shows your child's activity</li>
+      <li>There's no third party that could be hacked, subpoenaed, or sold</li>
+    </ul>
+
+    <h2>What About Apple's "Improvements"?</h2>
+
+    <p>Apple has been adding features to Screen Time over the years. iOS 26 (2026) introduced the ability to completely block apps by setting limits to zero, better Family Sharing integration, and easier account setup. These are nice-to-haves, but they don't fix the fundamental gaps:</p>
+
+    <ul>
+      <li><strong>Still no third-party app content visibility</strong></li>
+      <li><strong>Still vulnerable to browser bypasses</strong></li>
+      <li><strong>Still no message content monitoring</strong></li>
+    </ul>
+
+    <p>These aren't minor gaps. They're the exact things parents need to keep their kids safe.</p>
+
+    <h2>The Bottom Line</h2>
+
+    <p>Apple Screen Time is a starting point, not a solution. It's free, which is nice. But if you want actual parental controls on Mac — visibility into what your child is doing, not just how long they're doing it — you need something more.</p>
+
+    <p>Leassh gives you that visibility. It runs on your network. It works across Mac, Windows, and Linux. And most importantly, it actually answers the questions parents are asking: <em>"What is my child seeing? Who are they talking to? Is something wrong?"</em></p>
+
+    <p>Don't settle for time totals and broken restrictions. Give yourself the visibility you need to actually protect your kids.</p>
+
+    <div class="cta-section">
+      <h2>Ready for Real Mac Parental Controls?</h2>
+      <p>Leassh gives you full visibility across Mac, Windows, and Linux — self-hosted, no cloud, no subscription to Apple.</p>
+      <a href="/pricing.html" class="cta-button">View Pricing &rarr;</a>
+    </div>
+  </article>
+
+  <footer>
+    <p>&copy; 2026 Leassh. Built by <a href="https://forgenord.com">Forgenord</a>. Self-hosted parental monitoring for families who care about privacy.</p>
+  </footer>
+</div>
+</body>
+</html>
