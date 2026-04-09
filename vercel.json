@@ -57,6 +57,7 @@
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/blog/parental-control-comparison-2026", "destination": "/blog-parental-control-comparison-2026.html" },
+    { "source": "/blog/parental-controls-mac", "destination": "/blog-parental-controls-mac.html" },
     { "source": "/blog/understanding-vs-monitoring", "destination": "/blog-understanding-vs-monitoring.html" },
     { "source": "/blog/screen-time-management-2026", "destination": "/blog-screen-time-management.html" },
     { "source": "/blog/gaming-addiction-children", "destination": "/blog-gaming-addiction.html" },
