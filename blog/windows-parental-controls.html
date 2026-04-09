@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Windows Parental Controls in 2026: What Microsoft Family Safety Actually Monitors — Leassh</title>
+<meta name="description" content="Microsoft Family Safety for Windows has critical gaps: no screen time visibility, no screenshot capture, no real activity monitoring. Learn what Windows parental controls actually need in 2026.">
+<meta property="og:title" content="Windows Parental Controls in 2026: What Microsoft Family Safety Actually Monitors">
+<meta property="og:description" content="Microsoft Family Safety for Windows has critical gaps: no screen time visibility, no screenshot capture, no real activity monitoring. Learn what Windows parental controls actually need in 2026.">
+<meta property="og:url" content="https://leassh.com/blog/windows-parental-controls">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-09">
+<meta property="article:author" content="Ingrid Svendsen">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/windows-parental-controls">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Windows Parental Controls in 2026: What Microsoft Family Safety Actually Monitors",
+  "description": "Microsoft Family Safety for Windows has critical gaps: no screen time visibility, no screenshot capture, no real activity monitoring. Learn what Windows parental controls actually need in 2026.",
+  "datePublished": "2026-04-09",
+  "dateModified": "2026-04-09",
+  "url": "https://leassh.com/blog/windows-parental-controls",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/windows-parental-controls" },
+  "author": { "@type": "Person", "name": "Ingrid Svendsen", "url": "https://forgenord.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  .article-header { max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px; }
+  .article-breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+  .article-header h1 { font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px; }
+  .article-meta { display: flex; gap: 24px; align-items: center; font-size: 14px; color: var(--text-mid); }
+  .article-meta span { display: flex; align-items: center; gap: 6px; }
+
+  .article-content { max-width: var(--prose); margin: 0 auto; padding: 48px 32px 96px; }
+  .article-content > * { margin-bottom: 2em; }
+  .article-content h2 { font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px); font-weight: 700; letter-spacing: -0.5px; margin-top: 3em; margin-bottom: 1em; }
+  .article-content h3 { font-family: var(--font-d); font-size: 20px; font-weight: 600; letter-spacing: -0.3px; margin-top: 2em; margin-bottom: 0.75em; }
+  .article-content p { margin-bottom: 1.25em; }
+  .article-content ul, .article-content ol { margin-left: 1.5em; margin-bottom: 1.25em; }
+  .article-content li { margin-bottom: 0.5em; }
+  .article-content a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-soft); }
+  .article-content a:hover { border-bottom-color: var(--amber); }
+  .article-content strong { color: var(--text); }
+  .article-content em { color: var(--text-mid); }
+
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 3em 0; }
+  .feature-card { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .feature-card h4 { font-family: var(--font-d); font-size: 18px; font-weight: 600; margin-bottom: 0.75em; color: var(--amber); }
+
+  .comparison-table { width: 100%; border-collapse: collapse; margin: 2em 0; }
+  .comparison-table th, .comparison-table td { text-align: left; padding: 16px; border: 1px solid var(--border); }
+  .comparison-table th { background: var(--bg-warm); font-weight: 600; color: var(--text); }
+  .comparison-table td { color: var(--text-mid); }
+  .comparison-table tr:nth-child(even) { background: var(--bg-raised); }
+
+  .cta-section { background: var(--bg-warm); border: 1px solid var(--border); border-radius: 16px; padding: 48px 32px; text-align: center; margin: 3em 0; }
+  .cta-section h2 { font-size: clamp(24px, 4vw, 36px); margin-bottom: 16px; }
+  .cta-section p { font-size: 18px; color: var(--text-mid); max-width: 600px; margin: 0 auto 24px; }
+  .cta-button { display: inline-block; background: var(--amber); color: var(--bg) !important; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  .warning-box { background: rgba(212, 162, 76, 0.05); border: 1px solid var(--amber); border-radius: 8px; padding: 16px 20px; margin: 2em 0; }
+  .warning-box strong { color: var(--amber); }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg); flex-direction: column; padding: 24px; gap: 16px; border-top: 1px solid var(--border); }
+    .nav-toggle-input:checked ~ .nav-links { display: flex; }
+    .nav-hamburger { display: block; }
+    .article-header { padding: 48px 24px 32px; }
+    .article-content { padding: 32px 24px 64px; }
+    .feature-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+<nav>
+<a href="/" class="nav-brand">Leassh</a>
+<input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+<label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+<ul class="nav-links">
+<li><a href="/features.html">Features</a></li>
+<li><a href="/pricing.html">Pricing</a></li>
+<li><a href="/blog.html">Blog</a></li>
+<li><a href="/fleet.html" class="nav-fleet">Fleet</a></li>
+<li><a href="/pricing.html" class="nav-cta">Get Started</a></li>
+</ul>
+</nav>
+
+<header class="article-header">
+<div class="article-breadcrumb">
+<a href="/blog.html">Blog</a> <span>&rarr;</span> Windows Parental Controls
+</div>
+<h1>Windows Parental Controls in 2026: What Microsoft Family Safety Actually Monitors</h1>
+<div class="article-meta">
+<span>By <strong>Ingrid Svendsen</strong></span>
+<span>&bull;</span>
+<span>Updated April 2026</span>
+</div>
+</header>
+
+<article class="article-content">
+<p>If you're a parent with kids using Windows computers, you've probably run into Microsoft Family Safety. It's free, it's built into Windows, and on the surface, it looks like a complete solution.</p>
+
+<p>But here's what Microsoft doesn't tell you: <strong>Family Safety doesn't actually monitor what your kids do on their computers.</strong></p>
+
+<p>After setting up monitoring for three kids across Macs and Windows machines, I've tested every major parental control option out there. The Windows experience is particularly frustrating because it promises visibility but delivers almost nothing.</p>
+
+<h2>The Critical Gap: Screen Time That Isn't Time</h2>
+
+<p>Microsoft Family Safety's biggest selling point is screen time reporting. You can see "time spent" on apps and websites. But here's the catch: <strong>it only counts when the screen is on and the session is active.</strong></p>
+
+<p>What it <em>doesn't</em> tell you:</p>
+
+<ul>
+<li><strong>Which specific apps</strong> were used during that time (just "games" or "browsers" as categories)</li>
+<li><strong>What websites</strong> were actually visited (no URL history)</li>
+<li><strong>How much time</strong> was spent on each activity (no granular breakdown)</li>
+<li><strong>What your child was actually looking at</strong> (no screenshots, no content capture)</li>
+</ul>
+
+<p>I've sat through countless parent-teacher conferences where teachers ask "how much screen time is reasonable?" and I've watched parents try to answer that question with Family Safety reports that are more fiction than fact.</p>
+
+<h2>What Microsoft Family Safety Actually Does</h2>
+
+<p>Let's be clear about what Family Safety <em>does</em> provide:</p>
+
+<ol>
+<li><strong>Daily activity summaries</strong> — but only as broad categories, not specific apps or sites</li>
+<li><strong>Screen time limits</strong> — you can set schedules when the device is off-limits</li>
+<li><strong>Content filters</strong> — blocks certain websites in Edge browser</li>
+<li><strong>Location tracking</strong> — for mobile devices only, not desktops</li>
+</ol>
+
+<p>That's it.</p>
+
+<p>There's no way to see what's actually happening on the screen. No screenshots. No app-level monitoring. No message capture. No YouTube history. No gaming activity details beyond "X hours in games category."</p>
+
+<div class="warning-box">
+<strong>The bottom line:</strong> If your concern is "what is my child doing on their computer all day?", Microsoft Family Safety cannot answer that question.
+</div>
+
+<h2>The Comparison: What Parents Actually Need</h2>
+
+<table class="comparison-table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Microsoft Family Safety</th>
+<th>Leassh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Screen time visibility</strong></td>
+<td>Categories only (games, browser)</td>
+<td>Specific apps with exact minutes</td>
+</tr>
+<tr>
+<td><strong>Website history</strong></td>
+<td>Edge only, no URLs shown</td>
+<td>All browsers, full URL capture</td>
+</tr>
+<tr>
+<td><strong>Screenshot capture</strong></td>
+<td>None</td>
+<td>Periodic screenshots of active screen</td>
+</tr>
+<tr>
+<td><strong>Content monitoring</strong></td>
+<td>Basic URL filtering</td>
+<td>Message content, YouTube videos, chat</td>
+</tr>
+<tr>
+<td><strong>Multi-device fleet</strong></td>
+<td>Separate accounts per device</td>
+<td>Single dashboard for all devices</td>
+</tr>
+<tr>
+<td><strong>Privacy model</strong></td>
+<td>Microsoft cloud storage</td>
+<td>Self-hosted, your home, your data</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Free (but limited)</td>
+<td>One-time payment, no subscription</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Why Self-Hosted Matters for Parents</h2>
+
+<p>When you're monitoring your children, you're dealing with intimate data: what they're viewing, what they're saying, what they're creating. Where does that data go?</p>
+
+<p>With Microsoft Family Safety, it goes to Microsoft's cloud. With commercial parental controls like Net Nanny or Qustodio, it goes to their servers. With Leassh, <strong>it stays in your home</strong>.</p>
+
+<p>This isn't just a privacy preference — it's a security necessity. You're the one who needs to trust whoever holds your children's data. With self-hosted monitoring:</p>
+
+<ul>
+<li><strong>You control the infrastructure</strong> — runs on your network, your machines</li>
+<li><strong>No third-party data broker</strong> — your kids' activity isn't aggregated and analyzed</li>
+<li><strong>No subscription trap</strong> — pay once, own the license forever</li>
+<li><strong>No data retention policy</strong> — you decide how long to keep logs</li>
+</ul>
+
+<h2>How Leassh Monitors Windows Computers</h2>
+
+<p>Leassh uses SSH agent-based monitoring, which means it runs a lightweight agent on each computer that collects screen time data and sends it to your central dashboard. Here's what you get:</p>
+
+<h3>1. Specific App-Level Tracking</h3>
+
+<p>Instead of "2 hours in games," you see:</p>
+
+<ul>
+<li>Scratch: 47 minutes</li>
+<li>VS Code: 23 minutes</li>
+<li>Chrome (YouTube): 31 minutes</li>
+<li>Discord: 18 minutes</li>
+</ul>
+
+<h3>2. Screenshot Capture</h3>
+
+<p>Every 5 minutes, the agent takes a screenshot of the active window. You can review these in your dashboard to see exactly what your child was working on. This is how you catch:</p>
+
+<ul>
+<li>Inappropriate content</li>
+<li>Cyberbullying in chat apps</li>
+<li>Excessive gaming during homework time</li>
+<li>What they're actually researching</li>
+</ul>
+
+<h3>3. Cross-Platform Fleet Management</h3>
+
+<p>Most families have a mix: a Windows laptop for school, an iPad for entertainment, maybe a Chromebook for younger kids. Leassh monitors them all from a single dashboard.</p>
+
+<h2>Setting Up Windows Monitoring</h2>
+
+<p>If you're ready to move beyond Microsoft Family Safety, here's what the Leassh setup looks like for Windows:</p>
+
+<ol>
+<li><strong>Download the Windows agent</strong> — portable executable, no installation required</li>
+<li><strong>Run the agent</strong> — it connects to your Leassh dashboard via SSH</li>
+<li><strong>Configure capture frequency</strong> — screenshots every 5 minutes by default</li>
+<li><strong>Review in dashboard</strong> — see screen time breakdown, screenshots, activity logs</li>
+</ol>
+
+<p>The entire process takes about 10 minutes. No Microsoft account required. No cloud registration.</p>
+
+<h2>When to Upgrade from Free Tools</h2>
+
+<p>Microsoft Family Safety is fine for basic time limits. But if any of these describe your situation, you need more:</p>
+
+<ul>
+<li><strong>You've asked "what is my kid doing?" and couldn't get an answer</strong></li>
+<li><strong>You're worried about what they're viewing online</strong></li>
+<li><strong>You want to understand their digital habits, not just count minutes</strong></li>
+<li><strong>You're uncomfortable with their data sitting in a corporate cloud</strong></li>
+</ul>
+
+<p>That's when Leassh becomes necessary.</p>
+
+<h2>The Real Cost of "Free"</h2>
+
+<p>Microsoft Family Safety is free, but what are you paying for with your data? Every activity summary, every browsing pattern, every time stamp — it's all going somewhere.</p>
+
+<p>With Leassh, you pay once and own it. No monthly subscription. No tiered features. No "family plan" upsell.</p>
+
+<p>For parents who care about both their children's safety <em>and</em> privacy, that's not just reasonable — it's necessary.</p>
+
+<div class="cta-section">
+<h2>Take Control of Your Family's Digital Life</h2>
+<p>Stop guessing what your kids are doing on their computers. Start seeing it.</p>
+<a href="/pricing.html" class="cta-button">View Pricing — One-Time Payment</a>
+</div>
+
+<h2>What's Next</h2>
+
+<p>Microsoft Family Safety has its place — for basic screen time limits and content filtering in Edge. But for real visibility into what your children are doing on Windows computers, you need something more.</p>
+
+<p>Leassh gives you that visibility while keeping your family's data in your home.</p>
+
+<p><strong>Ready to see what's really happening?</strong> <a href="/pricing.html">Check out pricing and get started today</a>.</p>
+</article>
+
+<footer style="max-width: var(--prose); margin: 0 auto; padding: 48px 32px; text-align: center; color: var(--text-dim); font-size: 14px;">
+<p>&copy; 2026 Leassh. Self-hosted screen time monitoring for families who care about privacy.</p>
+</footer>
+</div>
+</body>
+</html>
