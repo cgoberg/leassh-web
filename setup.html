@@ -605,8 +605,7 @@
     <p>The server collects data from agents and serves the dashboard. Choose self-hosted or cloud.</p>
 
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('self-hosted')">Self-Hosted</button>
-      <button class="tab" onclick="switchTab('cloud')">Cloud</button>
+      <button class="tab active">Self-Hosted</button>
     </div>
 
     <div class="tab-panel active" id="panel-self-hosted">
@@ -615,18 +614,18 @@
       <div class="code-block">
         <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
         <code><span class="comment"># fleet.yaml</span>
-<span class="key">cloud</span>:
+<span class="key">rendezvous</span>:
   <span class="key">pairing_code</span>: <span class="string" id="yaml-code">ABC123</span>
   <span class="key">api_key</span>: <span class="string" id="yaml-key">your-api-key</span>
-  <span class="key">rendezvous_url</span>: <span class="string">https://leassh.com/api/rendezvous</span></code>
+  <span class="key">url</span>: <span class="string">https://leassh.com/api/rendezvous</span></code>
       </div>
 
-      <p style="margin-top:16px;">Then start the server. Download the binary from <a href="https://github.com/leassh/leassh/releases/latest" target="_blank" rel="noopener" style="color:var(--amber);font-weight:600;">GitHub Releases</a>:</p>
+      <p style="margin-top:16px;">Then start the server. Download the binary from <a href="https://github.com/leassh/releases" target="_blank" rel="noopener" style="color:var(--amber);font-weight:600;">GitHub Releases</a>:</p>
 
       <div class="code-block">
         <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
         <code><span class="comment"># Linux x64</span>
-curl -L https://github.com/leassh/leassh/releases/latest/download/leassh-server-linux-x64.tar.gz | tar xz
+curl -L https://github.com/leassh/releases/latest/download/leassh-server-linux-x64.tar.gz | tar xz
 ./leassh fleet.yaml</code>
       </div>
 
@@ -640,15 +639,8 @@ curl -L https://github.com/leassh/leassh/releases/latest/download/leassh-server-
 docker run -d --name leassh-server \
   -p 8383:8383 \
   -v ./fleet.yaml:/app/fleet.yaml \
-  ghcr.io/leassh/leassh:latest</code>
+  ghcr.io/leassh/leassh-server:latest</code>
         </div>
-      </div>
-    </div>
-
-    <div class="tab-panel" id="panel-cloud">
-      <div style="padding:24px;background:var(--green-bg);border:1px solid rgba(106,191,105,0.2);border-radius:10px;">
-        <h4 style="font-family:var(--font-d);font-size:16px;font-weight:700;margin-bottom:6px;color:var(--green);">Cloud hosting — coming soon</h4>
-        <p style="color:var(--text-mid);font-size:14px;margin:0;">Fully-managed cloud hosting is on the roadmap. For now, use the <strong style="color:var(--text);">Self-Hosted</strong> option above — it takes about 2 minutes with Docker.</p>
       </div>
     </div>
   </div>
@@ -792,12 +784,7 @@ function fillCommands(code, key) {
 }
 
 // --- Tabs ---
-function switchTab(panel) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  document.getElementById('panel-' + panel).classList.add('active');
-}
+// No tab switching needed — only self-hosted option exists
 
 // --- Copy helpers ---
 function copyText(id, btn) {
