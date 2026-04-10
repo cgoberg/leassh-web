@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy — leassh</title>
-<meta name="description" content="How leassh handles your data. Local mode, cloud mode, what we collect, what we don't. Your data, your rules.">
+<meta name="description" content="How leassh handles your data. Local-first architecture — everything stays in your network. See exactly what we collect and what we don't. Your data, your rules.">
 <meta property="og:title" content="Leassh Privacy — Your data, your rules">
-<meta property="og:description" content="Choose local or cloud mode. See exactly what we collect and what we don't. Verifiable privacy.">
+<meta property="og:description" content="Local-first family monitoring. Everything stays in your network. See exactly what we collect and what we don't. Verifiable privacy.">
 <meta property="og:url" content="https://leassh.com/privacy">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Leassh Privacy">
-<meta name="twitter:description" content="Your data, your rules. Local or cloud mode. Verifiable privacy.">
+<meta name="twitter:description" content="Local-first family monitoring. Everything stays in your network. Verifiable privacy.">
 <link rel="canonical" href="https://leassh.com/privacy">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -558,26 +558,14 @@
   <div class="flow-grid">
     <div class="flow-card local">
       <div class="flow-icon">&#128274;</div>
-      <h3>Local Mode</h3>
-      <p>Run a vision AI like Qwen on your own hardware. Screenshots are captured, analyzed, and summarized entirely on your network. <strong style="color:var(--green)">No data ever leaves your home.</strong> This is the gold standard of privacy.</p>
+      <h3>Local-First Architecture</h3>
+      <p>Leassh runs entirely in your network. Agents connect via SSH to your local dashboard. Screenshots are captured, analyzed by AI running on <strong>your hardware</strong>, and results stay local. <strong style="color:var(--green)">No data ever leaves your home.</strong> This is the gold standard of privacy.</p>
       <div class="flow-diagram">
         <span class="flow-node">Screenshot</span>
         <span class="flow-arrow">&rarr;</span>
         <span class="flow-node highlight-green">Your AI (local)</span>
         <span class="flow-arrow">&rarr;</span>
         <span class="flow-node highlight-green">Results stay local</span>
-      </div>
-    </div>
-    <div class="flow-card cloud">
-      <div class="flow-icon">&#9729;&#65039;</div>
-      <h3>Cloud Mode</h3>
-      <p>Don't want to run infrastructure? Use our cloud. Screenshots are encrypted in transit, analyzed by our AI, and <strong style="color:var(--amber)">immediately deleted</strong> &mdash; never stored in a database, never sold, never used for training.</p>
-      <div class="flow-diagram">
-        <span class="flow-node">Screenshot</span>
-        <span class="flow-arrow">&rarr;</span>
-        <span class="flow-node highlight-amber">Our AI (analyze)</span>
-        <span class="flow-arrow">&rarr;</span>
-        <span class="flow-node deleted">Deleted instantly</span>
       </div>
     </div>
   </div>
@@ -589,7 +577,7 @@
     <div class="collect-card yes">
       <h3>What we collect</h3>
       <ul class="collect-list">
-        <li><span class="collect-icon">&#9679;</span> Periodic screenshots (analyzed and immediately deleted in cloud mode, never sent in local mode)</li>
+        <li><span class="collect-icon">&#9679;</span> Periodic screenshots (analyzed locally, never sent to our servers)</li>
         <li><span class="collect-icon">&#9679;</span> CPU, memory, and disk usage metrics</li>
         <li><span class="collect-icon">&#9679;</span> Running application names and window titles</li>
         <li><span class="collect-icon">&#9679;</span> Keyboard and mouse idle time (is someone using the computer?)</li>
@@ -602,7 +590,7 @@
         <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No keystrokes.</strong> We never record what anyone types.</li>
         <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No browsing history.</strong> We don't monitor URLs or search queries.</li>
         <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No file contents.</strong> We never read documents, emails, or messages.</li>
-        <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No stored screenshots.</strong> In cloud mode, they're analyzed and gone. Permanently.</li>
+        <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No stored screenshots.</strong> Screenshots are analyzed locally and never stored on our servers.</li>
         <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No data selling.</strong> Your data is never sold, shared, or used for AI training.</li>
         <li><span class="collect-icon">&#10005;</span> <strong style="color:var(--text)">No third-party trackers.</strong> No Google Analytics, no Facebook pixel, no ad trackers. We use privacy-first Vercel Analytics (cookie-free, anonymized page views only) to understand traffic.</li>
       </ul>
@@ -618,10 +606,10 @@
       We believe parents should be able to understand their children's digital lives <strong>without surrendering their family's privacy</strong> to yet another company.
     </p>
     <p>
-      That's why Local Mode exists. Run the AI on your own hardware &mdash; a laptop, a NAS, even a Raspberry Pi with a GPU. <strong>Your screenshots never touch our servers. Your data never leaves your home.</strong>
+      That's why Leassh is local-first. The AI runs on <strong>your hardware</strong> — a laptop, a NAS, even a Raspberry Pi with a GPU. <strong>Your screenshots never touch our servers. Your data never leaves your home.</strong>
     </p>
     <p>
-      If you choose Cloud Mode for convenience, we designed it with one principle: <strong>analyze and delete</strong>. Screenshots are encrypted in transit, processed by our AI in RAM, and destroyed. No database. No retention. No audit trail we could be subpoenaed for.
+      We designed Leassh with one principle: <strong>local processing, no retention</strong>. Screenshots are analyzed by AI running on your hardware and never stored on our servers. No database. No retention. No audit trail we could be subpoenaed for.
     </p>
     <p>
       We can't sell what we don't have. We can't be breached if there's nothing to breach. We can't be compelled to hand over data that doesn't exist.
@@ -663,9 +651,9 @@
           <td style="color:var(--green)">Never. Zero exceptions.</td>
         </tr>
         <tr>
-          <td>Self-hosted option</td>
+          <td>Local-first architecture</td>
           <td style="color:var(--text-dim)">Rare</td>
-          <td style="color:var(--green)">Full local mode, on your hardware</td>
+          <td style="color:var(--green)">Full local mode, AI runs on your hardware</td>
         </tr>
         <tr>
           <td>Open source components</td>
