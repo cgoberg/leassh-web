@@ -606,10 +606,10 @@
     <p>Run everything on your own hardware. Zero data leaves your network.</p>
 
     <h3>Option A: Binary (recommended)</h3>
-    <p>Download the server binary from <a href="https://github.com/leassh/leassh/releases">GitHub Releases</a> and run it directly:</p>
+    <p>Download the server binary from <a href="https://github.com/leassh/releases">GitHub Releases</a> and run it directly:</p>
     <div class="cmd-block">
       <span class="cmd-label">Linux x64</span>
-      <code id="cmd-binary">curl -L https://github.com/leassh/leassh/releases/latest/download/leassh-server-linux-x64.tar.gz | tar xz
+      <code id="cmd-binary">curl -L https://github.com/leassh/releases/latest/download/leassh-server-linux-x64.tar.gz | tar xz
 ./leassh fleet.yaml</code>
       <button class="copy-btn" data-target="cmd-binary">Copy</button>
     </div>
@@ -623,7 +623,7 @@
 version: "3.8"
 services:
   leassh-server:
-    image: ghcr.io/leassh/server:latest
+    image: ghcr.io/leassh/leassh-server:latest
     ports:
       - "8383:8383"
     volumes:
