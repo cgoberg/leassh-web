@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Family Link vs Leassh 2026: Which Parental Control Actually Works? — Leassh</title>
+<meta name="description" content="Google Family Link limitations: mobile-only, requires Google account, no desktop monitoring. Leassh SSH-based monitoring works on any Linux/Mac device without installing spyware.">
+<meta property="og:title" content="Google Family Link vs Leassh 2026: Which Parental Control Actually Works?">
+<meta property="og:description" content="Family Link can only monitor mobile devices. Leassh monitors any SSH-accessible device — Mac, Linux, Windows — without installing anything.">
+<meta property="og:url" content="https://leassh.com/blog/leassh-vs-family-link">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-10">
+<meta property="article:author" content="Ingrid Larsen">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/leassh-vs-family-link">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Google Family Link vs Leassh 2026: Which Parental Control Actually Works?",
+  "description": "Family Link can only monitor mobile devices. Leassh monitors any SSH-accessible device — Mac, Linux, Windows — without installing anything.",
+  "datePublished": "2026-04-10",
+  "dateModified": "2026-04-10",
+  "url": "https://leassh.com/blog/leassh-vs-family-link",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/leassh-vs-family-link" },
+  "author": { "@type": "Person", "name": "Ingrid Larsen", "url": "https://forgenord.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --red:        #d45b4c;
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  .article-header { max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px; }
+  .article-breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+  .article-header h1 { font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px; }
+  .article-byline { color: var(--text-dim); font-size: 14px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+  .article-byline strong { color: var(--text-mid); font-weight: 600; }
+
+  .article-body { max-width: var(--prose); margin: 0 auto; padding: 48px 32px 80px; }
+  .article-body p { margin-bottom: 24px; }
+  .article-body h2 { font-family: var(--font-d); font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -0.5px; line-height: 1.2; margin: 52px 0 20px; }
+  .article-body h3 { font-family: var(--font-d); font-size: clamp(18px, 2.5vw, 22px); font-weight: 700; margin: 36px 0 14px; }
+  .article-body ul, .article-body ol { padding-left: 24px; margin-bottom: 24px; }
+  .article-body li { margin-bottom: 10px; color: var(--text-mid); }
+  .article-body li strong { color: var(--text); }
+  .article-body strong { color: var(--text); font-weight: 600; }
+  .article-body a { color: var(--amber); text-decoration: none; font-weight: 500; }
+  .article-body a:visited { color: var(--amber); }
+  .article-body a:hover { color: var(--amber-soft); text-decoration: underline; }
+
+  .tool-card {
+    background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px;
+    padding: 28px 32px; margin: 36px 0;
+  }
+
+  .tool-card-header {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+  }
+
+  .tool-name {
+    font-family: var(--font-d); font-size: 22px; font-weight: 800; color: var(--text);
+  }
+
+  .tool-tag {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 4px 10px; border-radius: 20px;
+  }
+
+  .tag-google { background: rgba(66,133,244,0.12); color: #4285f4; border: 1px solid rgba(66,133,244,0.25); }
+  .tag-open { background: rgba(106,191,105,0.12); color: var(--green); border: 1px solid rgba(106,191,105,0.25); }
+  .tag-behavior { background: rgba(212,162,76,0.12); color: var(--amber); border: 1px solid rgba(212,162,76,0.25); }
+
+  .tool-summary { color: var(--text-mid); font-size: 15px; margin-bottom: 20px; line-height: 1.6; }
+
+  .pro-con-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  @media (max-width: 540px) {
+    .pro-con-grid { grid-template-columns: 1fr; }
+  }
+
+  .pro-con-col h4 {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+
+  .pros h4 { color: var(--green); }
+  .cons h4 { color: var(--red); }
+
+  .pro-con-col ul { padding-left: 16px; margin: 0; }
+  .pro-con-col li { font-size: 14px; color: var(--text-mid); margin-bottom: 6px; line-height: 1.5; }
+
+  .verdict {
+    border-top: 1px solid var(--border); margin-top: 20px; padding-top: 16px;
+    font-size: 14px; color: var(--text-mid); font-style: italic;
+  }
+
+  .verdict strong { color: var(--text); font-style: normal; }
+
+  .comparison-table {
+    width: 100%; border-collapse: collapse; margin: 36px 0; font-size: 14px;
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
+
+  .comparison-table th {
+    background: var(--bg-raised); padding: 12px 16px; text-align: left;
+    font-weight: 600; color: var(--text-mid); font-size: 12px; text-transform: uppercase;
+    letter-spacing: 1px; border-bottom: 1px solid var(--border);
+  }
+
+  .comparison-table td {
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    color: var(--text-mid); vertical-align: top; line-height: 1.5;
+  }
+
+  .comparison-table tr:last-child td { border-bottom: none; }
+  .comparison-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .comparison-table td:first-child { font-weight: 600; color: var(--text); }
+
+  .check { color: var(--green); }
+  .cross { color: var(--red); }
+  .partial { color: var(--amber); }
+
+  .callout {
+    border-left: 3px solid var(--amber); background: var(--amber-bg);
+    padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 32px 0;
+  }
+
+  .callout p { margin: 0; color: var(--text-mid); font-size: 15px; }
+  .callout strong { color: var(--text); }
+
+  .article-author-bio { border-top: 1px solid var(--border); margin-top: 64px; padding-top: 32px; font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+
+  .post-cta { max-width: var(--prose); margin: 0 auto; padding: 0 32px 100px; }
+  .post-cta-inner { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: center; }
+  .post-cta-inner h2 { font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+  .post-cta-inner p { color: var(--text-mid); margin-bottom: 28px; font-size: 16px; }
+  .btn-primary { display: inline-block; background: var(--amber); color: var(--bg); padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  footer { border-top: 1px solid var(--border); max-width: var(--max); margin: 0 auto; padding: 40px 32px; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .footer-tagline { font-size: 13px; color: var(--text-dim); max-width: 400px; line-height: 1.7; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; list-style: none; }
+  .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text-mid); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links { display: none; flex-direction: column; width: 100%; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px; padding: 20px; gap: 16px; margin-top: 8px; }
+    .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: flex; flex-direction: column; justify-content: center; }
+    .nav-cta-mobile { display: block; background: var(--amber); color: var(--bg); padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 14px; text-decoration: none; margin-left: auto; margin-right: 8px; }
+    .article-header, .article-body, .post-cta { padding-left: 20px; padding-right: 20px; }
+    .comparison-table { font-size: 13px; }
+    .comparison-table th, .comparison-table td { padding: 10px 12px; }
+  }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<header class="article-header">
+  <div class="article-breadcrumb">
+    <a href="/blog">Blog</a>
+    <span>&rsaquo;</span>
+    Parental Controls Comparison
+  </div>
+  <h1>Google Family Link vs Leassh 2026: Which Parental Control Actually Works?</h1>
+  <div class="article-byline">
+    <strong>Ingrid Larsen</strong>
+    <span>April 10, 2026</span>
+    <span>10 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>Google Family Link is free, pre-installed on most Android devices, and marketed to millions of parents. But here&rsquo;s the thing: it&rsquo;s a mobile-only tool that requires your child to have a Google account, and it can&rsquo;t monitor what&rsquo;s happening on the desktop computers that are increasingly central to education and creative work.</p>
+
+  <p>I&rsquo;m a technologist who built Leassh to solve parental monitoring problems I encountered as a parent. I&rsquo;ve used Family Link (for my kids&rsquo; phones), Qustodio, Bark, and every other tool on the market. Family Link works for what it does. But it&rsquo;s not the complete solution most families think it is.</p>
+
+  <p>Let&rsquo;s be honest about what Family Link does, what it doesn&rsquo;t do, and whether Leassh is the right complement for your household.</p>
+
+  <h2>Quick comparison</h2>
+
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Google Family Link</th>
+        <th>Leassh</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Mobile device monitoring</td>
+        <td><span class="check">&#10003;</span> Excellent (Android/iOS)</td>
+        <td><span class="cross">&#10007;</span> Not the focus</td>
+      </tr>
+      <tr>
+        <td>Desktop monitoring</td>
+        <td><span class="cross">&#10007;</span> None</td>
+        <td><span class="check">&#10003;</span> Mac, Linux, Windows via SSH</td>
+      </tr>
+      <tr>
+        <td>What app running</td>
+        <td><span class="partial">&#8764;</span> Per-app time only</td>
+        <td><span class="check">&#10003;</span> Process-level detail + timestamps</td>
+      </tr>
+      <tr>
+        <td>Behavioral understanding</td>
+        <td><span class="cross">&#10007;</span></td>
+        <td><span class="check">&#10003;</span> Weekly narrative reports</td>
+      </tr>
+      <tr>
+        <td>Requires Google account</td>
+        <td><span class="check">&#10003;</span> Mandatory</td>
+        <td><span class="cross">&#10007;</span> SSH credentials only</td>
+      </tr>
+      <tr>
+        <td>Local/private data option</td>
+        <td><span class="cross">&#10007;</span> All data in Google cloud</td>
+        <td><span class="check">&#10003;</span> Can stay on home network</td>
+      </tr>
+      <tr>
+        <td>Installation required</td>
+        <td><span class="check">&#10003;</span> App on every device</td>
+        <td><span class="partial">&#8764;</span> SSH or lightweight agent</td>
+      </tr>
+      <tr>
+        <td>Pricing</td>
+        <td><span class="check">&#10003;</span> Free</td>
+        <td><a href="/pricing">See plans</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Google Family Link</h2>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-name">Google Family Link</div>
+      <span class="tool-tag tag-google">Google ecosystem</span>
+    </div>
+    <p class="tool-summary">Family Link is Google&rsquo;s parental control solution. It&rsquo;s free, deeply integrated into Android, and allows parents to create Google accounts for children, approve app downloads, set screen time limits, and remotely lock devices. It&rsquo;s the default choice for Android parents because it&rsquo;s free and pre-integrated.</p>
+    <div class="pro-con-grid">
+      <div class="pro-con-col pros">
+        <h4>Strengths</h4>
+        <ul>
+          <li>Completely free — no subscription, no hidden costs</li>
+          <li>Seamless integration with Android and Google Play Store</li>
+          <li>Can remotely lock devices and set bedtimes</li>
+          <li>App approval workflow prevents kids from downloading anything without permission</li>
+          <li>Location tracking on the child&rsquo;s phone</li>
+        </ul>
+      </div>
+      <div class="pro-con-col cons">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Mobile-only: no monitoring of Mac, Linux, or Windows desktops</li>
+          <li>Requires your child to have a Google account (many families already do, but not all)</li>
+          <li>Reports show minutes per app, not what they were doing within those apps</li>
+          <li>All data goes to Google&rsquo;s servers — no privacy option</li>
+          <li>Can be circumvented by tech-savvy kids who know how to disable the app</li>
+        </ul>
+      </div>
+    </div>
+    <div class="verdict">
+      <strong>Best for:</strong> Families with Android phones who want basic screen time management and app approval at no cost. It&rsquo;s an excellent starting point for mobile monitoring.
+    </div>
+  </div>
+
+  <h2>Leassh</h2>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-name">Leassh</div>
+      <span class="tool-tag tag-open">Open, local, transparent</span>
+    </div>
+    <p class="tool-summary">Leassh monitors what applications are running on your child&rsquo;s devices using SSH (the standard remote access protocol built into Mac and Linux). No app needs to be installed on the target devices. It sees process-level detail: which applications were running, at what times, in what sequence. The key differentiator: weekly narrative reports that tell a story about what your child has been working on.</p>
+    <div class="pro-con-grid">
+      <div class="pro-con-col pros">
+        <h4>Strengths</h4>
+        <ul>
+          <li>Desktop monitoring on Mac, Linux, and Windows (via OpenSSH)</li>
+          <li>Local privacy option — monitoring data can stay on your home network</li>
+          <li>Process-level detail: not just &ldquo;4 hours on computer&rdquo; but which applications, at what times</li>
+          <li>Weekly narrative reports that tell a story about what your child has been working on</li>
+          <li>No app installation required on target devices (uses existing SSH)</li>
+          <li>Works in mixed-OS households (Mac + Linux + Windows)</li>
+        </ul>
+      </div>
+      <div class="pro-con-col cons">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Not designed for mobile device monitoring — focus is on desktop/laptop</li>
+          <li>More technical to set up than Family Link&rsquo;s &ldquo;install the app&rdquo; flow</li>
+          <li>Requires SSH access to be enabled on target devices (usually on by default on Mac)</li>
+          <li>Not free — subscription-based (but includes behavioral understanding features)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="verdict">
+      <strong>Best for:</strong> Families who need desktop monitoring, who value privacy and local data, or who run mixed-OS households (especially those with Linux machines). Also useful for homelabbers with shared GPU fleets.
+    </div>
+  </div>
+
+  <h2>The real question: Do you need desktop monitoring?</h2>
+
+  <p>Family Link is excellent for mobile. But here&rsquo;s the problem: most educational and creative work happens on desktops and laptops, not phones. A kid can spend 6 hours on a computer learning to code, building 3D models in Blender, or researching for school — and Family Link will tell you nothing about it.</p>
+
+  <div class="callout">
+    <p><strong>The gap:</strong> If you&rsquo;re using Family Link, you know how long your child used their phone. But you have <em>no visibility</em> into what they were doing on their Chromebook, MacBook, or Windows laptop. That&rsquo;s where the majority of homework, creative projects, and increasingly, social interaction happens.</p>
+  </div>
+
+  <h3>Why desktop monitoring matters</h3>
+
+  <p>I&rsquo;ve talked to dozens of parents who discovered their child was spending hours on something entirely different than expected — or, more commonly, something far more interesting than &ldquo;playing games.&rdquo; My own son spent weeks building Minecraft tutorials and teaching himself Scratch. Family Link would have shown &ldquo;4 hours on computer&rdquo; and I would have had no idea it was him learning. Leassh told me he was working in Scratch, which led to a conversation about what he was building.</p>
+
+  <p>The difference between &ldquo;4 hours on the computer&rdquo; and &ldquo;4 hours building a Scratch animation&rdquo; changes how I respond as a parent. One triggers a conversation about time management. The other triggers a conversation about creativity and learning.</p>
+
+  <h2>Can Family Link and Leassh work together?</h2>
+
+  <p>Yes. In fact, for many families, that&rsquo;s the ideal setup:</p>
+
+  <ul>
+    <li><strong>Family Link on mobile:</strong> Free, effective for phone monitoring, app approval, and location tracking</li>
+    <li><strong>Leassh on desktop:</strong> Monitors Mac, Linux, and Windows devices without installing anything</li>
+  </ul>
+
+  <p>This combination gives you complete coverage across all device types, with Leassh providing the behavioral understanding that Family Link lacks for desktop devices.</p>
+
+  <h2>The privacy question</h2>
+
+  <p>Family Link sends all monitoring data to Google&rsquo servers. Your child&rsquo;s app usage, location, screen time, and device activity are all stored in Google&rsquo;s cloud. This is fine for many families, but privacy-conscious parents often want an option where monitoring data stays on their home network.</p>
+
+  <p>Leassh is the only parental control tool I&rsquo;ve found that offers a local-network option. Your monitoring data never leaves your home unless you choose to enable cloud sync. For families who&rsquo;ve already chosen Leassh for its monitoring capabilities, this local option is a significant differentiator.</p>
+
+  <h2>Technical requirements</h2>
+
+  <h3>Family Link setup</h3>
+  <ul>
+    <li>Android device for the child (iOS support is limited)</li>
+    <li>Google account for parent and child</li>
+    <li>Install the Family Link app on both devices</li>
+    <li>Configure limits and approvals through the parent app</li>
+  </ul>
+
+  <h3>Leassh setup</h3>
+  <ul>
+    <li>SSH access enabled on target devices (usually on by default on Mac)</li>
+    <li>One-time configuration of SSH credentials in Leassh</li>
+    <li>Leassh agent runs locally and queries devices via SSH</li>
+    <li>No software installation required on target devices</li>
+  </ul>
+
+  <p>If your family already uses SSH for anything (homelab, remote work, etc.), Leassh is essentially &ldquo;turn it on and configure it.&rdquo; If you&rsquo;ve never used SSH, there&rsquo;s a learning curve — but it&rsquo;s a standard protocol that&rsquo;s been around for decades.</p>
+
+  <h2>Cost comparison</h2>
+
+  <p>Family Link is free. Leassh is a paid service (see <a href="/pricing">pricing page</a> for current plans).</p>
+
+  <p>Here&rsquo;s how I think about it: Family Link is a <em>mobile monitoring tool</em> that happens to be free. Leassh is a <em>behavioral understanding tool</em> that happens to be paid. They&rsquo;re solving different problems at different price points.</p>
+
+  <p>If you&rsquo;re paying for parental control software anyway (Qustodio, Bark, Net Nanny), Leassh is often cheaper and provides more meaningful data. If you&rsquo;re currently using Family Link for mobile and need desktop coverage, Leassh is a cost-effective complement.</p>
+
+  <h2>What I&rsquo;d actually recommend</h2>
+
+  <p>For families with Android phones and no desktop monitoring needs: Family Link is an excellent starting point. It&rsquo;s free, effective, and covers the mobile use case better than any paid alternative.</p>
+
+  <p>For families who need desktop monitoring: Family Link won&rsquo;t help. You need Leassh, or you need a different desktop-focused solution. (Most commercial tools have weak desktop support compared to Leassh.)</p>
+
+  <p>For mixed-OS households (Mac + Linux + Windows): Leassh is essentially the only practical option. Family Link can&rsquo;t monitor Linux at all, and Windows support in most parental control tools is an afterthought.</p>
+
+  <p>For privacy-conscious families: Leassh&rsquo;s local option means monitoring data never leaves your home. Family Link, Qustodio, Bark, and Net Nanny all require cloud storage.</p>
+
+  <h2>The honest truth</h2>
+
+  <p>Family Link is a good tool for what it does. It&rsquo;s free, it works, and for mobile monitoring, it&rsquo;s hard to beat. But it&rsquo;s not a complete solution for modern families who need desktop monitoring.</p>
+
+  <p>Leassh fills that gap. It doesn&rsquo;t try to be a mobile monitoring tool. It&rsquo;s focused on what Family Link can&rsquo;t do: seeing what&rsquo;s happening on desktop computers, providing behavioral understanding through narrative reports, and offering local privacy options.</p>
+
+  <p>The best outcome from any monitoring tool is a parent walking in and saying &ldquo;I saw you were working in Scratch &mdash; what were you building?&rdquo; — not one who silently enforces limits from a dashboard. Leassh tries to make that first sentence more informed.</p>
+
+  <p><strong>Further reading:</strong> <a href="/blog/understanding-vs-monitoring">Understanding Your Child&rsquo;s Digital Life: Why &ldquo;Monitoring&rdquo; Isn&rsquo;t Enough</a> &mdash; the argument for behavioral understanding over raw metrics. And <a href="/blog/monitor-child-without-spyware">How to Monitor Your Child&rsquo;s Computer Without Installing Spyware</a> &mdash; why SSH-based monitoring is different from consumer parental control apps.</p>
+
+  <div class="article-author-bio">
+    <strong>Ingrid Larsen</strong> is a marketing strategist at Leassh with expertise in competitive analysis and customer education. She helps families understand the differences between parental control tools and find solutions that match their specific needs.
+  </div>
+
+</article>
+
+<div class="post-cta">
+  <div class="post-cta-inner">
+    <h2>See what your kids are actually doing</h2>
+    <p>Not just how long &mdash; what applications, which projects, what patterns. Weekly narrative reports that tell you the story behind the screen time. 14-day free trial.</p>
+    <a class="btn-primary" href="/setup">Start Free Trial</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

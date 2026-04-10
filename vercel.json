@@ -67,6 +67,7 @@
     { "source": "/blog/monitor-child-without-spyware", "destination": "/blog-monitor-child-without-spyware.html" },
     { "source": "/blog/what-is-my-child-doing-on-the-computer", "destination": "/blog-what-is-my-child-doing.html" },
     { "source": "/blog/homelab-fleet-monitoring", "destination": "/blog-homelab-fleet-monitoring.html" },
+    { "source": "/blog/leassh-vs-family-link", "destination": "/blog-leassh-vs-family-link.html" },
     { "source": "/blog/sitemap.xml", "destination": "/blog-sitemap.xml" },
     { "source": "/support", "destination": "/support.html" }
   ]
