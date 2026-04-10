@@ -18,8 +18,9 @@ module.exports = async (req, res) => {
   try {
     // Accept tier parameter that is already the full price ID (e.g., "family_annual")
     // OR accept separate tier and billing fields from the pricing page
+    // Note: API accepts both 'billing' and 'billing_period' for frontend compatibility
     let priceId = (req.body.tier || '').toLowerCase();
-    const billing = req.body.billing;
+    const billing = req.body.billing || req.body.billing_period;
 
     // If tier looks like a simple tier name (no underscore) and billing is provided, combine them
     // This handles both:
