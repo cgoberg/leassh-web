@@ -73,6 +73,8 @@
     { "source": "/blog/homelab-fleet-monitoring", "destination": "/blog-homelab-fleet-monitoring.html" },
     { "source": "/blog/leassh-vs-family-link", "destination": "/blog-leassh-vs-family-link.html" },
     { "source": "/blog/linux-screen-time", "destination": "/blog-linux-screen-time.html" },
+    { "source": "/blog/ssh-monitoring-vs-consumer-apps", "destination": "/blog-ssh-monitoring-vs-consumer-apps.html" },
+    { "source": "/blog/net-nanny-vs-leassh-android", "destination": "/blog-net-nanny-vs-leassh-android.html" },
     { "source": "/blog/sitemap.xml", "destination": "/blog-sitemap.xml" },
     { "source": "/support", "destination": "/support.html" }
   ]
