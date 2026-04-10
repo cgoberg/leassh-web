@@ -109,8 +109,16 @@
   .article-body li { margin-bottom: 10px; color: var(--text-mid); }
   .article-body li strong { color: var(--text); }
   .article-body strong { color: var(--text); font-weight: 600; }
-  .article-body a { color: var(--amber); text-decoration: none; }
-  .article-body a:hover { text-decoration: underline; }
+  .article-body a {
+    color: var(--amber);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .article-body a:visited { color: var(--amber); }
+  .article-body a:hover {
+    color: var(--amber-soft);
+    text-decoration: underline;
+  }
 
   .criteria-list { counter-reset: criteria; list-style: none; padding: 0; margin: 24px 0; }
   .criteria-list li {

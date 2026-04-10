@@ -1011,6 +1011,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 function startCheckout(tier) {
   var isAnnual = !document.getElementById('billing-toggle').checked;
   var billing = isAnnual ? 'annual' : 'monthly';
+  // Send tier and billing separately to match checkout API expectations
   fetch('/api/checkout/create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

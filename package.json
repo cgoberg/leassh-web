@@ -2,7 +2,8 @@
   "name": "leassh-web",
   "private": true,
   "dependencies": {
-    "stripe": "^17",
-    "@supabase/supabase-js": "^2"
+    "@supabase/supabase-js": "^2",
+    "pg": "^8.20.0",
+    "stripe": "^17"
   }
 }
