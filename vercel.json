@@ -75,6 +75,7 @@
     { "source": "/blog/linux-screen-time", "destination": "/blog-linux-screen-time.html" },
     { "source": "/blog/ssh-monitoring-vs-consumer-apps", "destination": "/blog-ssh-monitoring-vs-consumer-apps.html" },
     { "source": "/blog/net-nanny-vs-leassh-android", "destination": "/blog-net-nanny-vs-leassh-android.html" },
+    { "source": "/blog/parental-controls-android-2026", "destination": "/blog-parental-controls-android-2026.html" },
     { "source": "/blog/sitemap.xml", "destination": "/blog-sitemap.xml" },
     { "source": "/support", "destination": "/support.html" }
   ]
