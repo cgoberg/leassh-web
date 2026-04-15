@@ -33,6 +33,18 @@
       ]
     }
   ],
+  "redirects": [
+    { "source": "/blog/", "destination": "/blog", "permanent": true },
+    { "source": "/setup/", "destination": "/setup", "permanent": true },
+    { "source": "/features/", "destination": "/features", "permanent": true },
+    { "source": "/pricing/", "destination": "/pricing", "permanent": true },
+    { "source": "/fleet/", "destination": "/fleet", "permanent": true },
+    { "source": "/docs/", "destination": "/docs", "permanent": true },
+    { "source": "/support/", "destination": "/support", "permanent": true },
+    { "source": "/use-cases/", "destination": "/use-cases", "permanent": true },
+    { "source": "/privacy/", "destination": "/privacy", "permanent": true },
+    { "source": "/privacy-policy/", "destination": "/privacy-policy", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/api/license/validate", "destination": "/api/license/validate" },
     { "source": "/api/license/create", "destination": "/api/license/create" },
