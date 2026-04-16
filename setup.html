@@ -620,12 +620,12 @@
   <span class="key">url</span>: <span class="string">https://leassh.com/api/rendezvous</span></code>
       </div>
 
-      <p style="margin-top:16px;">Then start the server. Download the binary from <a href="https://github.com/leassh/releases" target="_blank" rel="noopener" style="color:var(--amber);font-weight:600;">GitHub Releases</a>:</p>
+      <p style="margin-top:16px;">Then start the server. Download the binary from <a href="https://github.com/cgoberg/releases" target="_blank" rel="noopener" style="color:var(--amber);font-weight:600;">GitHub Releases</a>:</p>
 
       <div class="code-block">
         <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
         <code><span class="comment"># Linux x64</span>
-curl -L https://github.com/leassh/releases/latest/download/leassh-server-linux-x64.tar.gz | tar xz
+curl -L https://github.com/cgoberg/releases/latest/download/leassh-server-linux-x64.tar.gz | tar xz
 ./leassh fleet.yaml</code>
       </div>
 
@@ -639,7 +639,7 @@ curl -L https://github.com/leassh/releases/latest/download/leassh-server-linux-x
 docker run -d --name leassh-server \
   -p 8383:8383 \
   -v ./fleet.yaml:/app/fleet.yaml \
-  ghcr.io/leassh/leassh-server:latest</code>
+  ghcr.io/cgoberg/leassh-server:latest</code>
         </div>
       </div>
     </div>
