@@ -77,7 +77,7 @@ if (-not (Test-Path $InstallDir)) {
 # ---------------------------------------------------------------------------
 # 4. Download the agent binary
 # ---------------------------------------------------------------------------
-$BinaryUrl = "https://github.com/leassh/leassh/releases/latest/download/leassh-windows-x64.tar.gz"
+$BinaryUrl = "https://github.com/cgoberg/releases/releases/latest/download/leassh-agent-windows-x64.tar.gz"
 $TempDir   = Join-Path $env:TEMP "leassh-install"
 $TarPath   = Join-Path $TempDir "leassh-windows-x64.tar.gz"
 $BinaryPath = Join-Path $InstallDir "leassh-agent.exe"
