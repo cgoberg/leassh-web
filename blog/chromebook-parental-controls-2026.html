@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chromebook Parental Controls in 2026: What Actually Works Beyond Google Admin</title>
+<meta name="description" content="Google Admin Console monitors Chromebook hardware but not what kids actually do. Learn what real Chromebook parental controls need to monitor, and why SSH-based monitoring works where device management fails.">
+<meta property="og:title" content="Chromebook Parental Controls in 2026: What Actually Works Beyond Google Admin">
+<meta property="og:description" content="Chromebook parental controls beyond Google Admin. Real monitoring of what kids are doing, not just device lock-down. SSH-based approach explained.">
+<meta property="og:url" content="https://leassh.com/blog/chromebook-parental-controls-2026">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-18">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/chromebook-parental-controls-2026">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Chromebook Parental Controls in 2026: What Actually Works Beyond Google Admin",
+  "description": "Google Admin Console monitors Chromebook hardware but not what kids actually do. Learn what real Chromebook parental controls need to monitor.",
+  "datePublished": "2026-04-18",
+  "dateModified": "2026-04-18",
+  "url": "https://leassh.com/blog/chromebook-parental-controls-2026",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/chromebook-parental-controls-2026" },
+  "author": { "@type": "Person", "name": "Carl-Gustav Öberg", "url": "https://forgenord.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+
+  .article-header { max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px; }
+  .article-breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+  .article-header h1 { font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px; }
+  .article-meta { display: flex; gap: 24px; align-items: center; font-size: 14px; color: var(--text-mid); }
+  .article-meta span { display: flex; align-items: center; gap: 6px; }
+
+  .article-content { max-width: var(--prose); margin: 0 auto; padding: 48px 32px 96px; }
+  .article-content > * { margin-bottom: 2em; }
+  .article-content h2 { font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px); font-weight: 700; letter-spacing: -0.5px; margin-top: 3em; margin-bottom: 1em; }
+  .article-content h3 { font-family: var(--font-d); font-size: 20px; font-weight: 600; letter-spacing: -0.3px; margin-top: 2em; margin-bottom: 0.75em; }
+  .article-content p { margin-bottom: 1.25em; }
+  .article-content ul, .article-content ol { margin-left: 1.5em; margin-bottom: 1.25em; }
+  .article-content li { margin-bottom: 0.5em; }
+  .article-content a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-soft); }
+  .article-content a:hover { border-bottom-color: var(--amber); }
+  .article-content strong { color: var(--text); }
+  .article-content em { color: var(--text-mid); }
+
+  .comparison-table { width: 100%; border-collapse: collapse; margin: 2em 0; }
+  .comparison-table th, .comparison-table td { text-align: left; padding: 16px; border: 1px solid var(--border); }
+  .comparison-table th { background: var(--bg-warm); font-weight: 600; color: var(--text); }
+  .comparison-table td { color: var(--text-mid); }
+  .comparison-table tr:nth-child(even) { background: var(--bg-raised); }
+
+  .cta-section { background: var(--bg-warm); border: 1px solid var(--border); border-radius: 16px; padding: 48px 32px; text-align: center; margin: 3em 0; }
+  .cta-section h2 { font-size: clamp(24px, 4vw, 36px); margin-bottom: 16px; }
+  .cta-section p { font-size: 18px; color: var(--text-mid); max-width: 600px; margin: 0 auto 24px; }
+  .cta-button { display: inline-block; background: var(--amber); color: var(--bg) !important; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  .warning-box { background: rgba(212, 162, 76, 0.05); border: 1px solid var(--amber); border-radius: 8px; padding: 16px 20px; margin: 2em 0; }
+  .warning-box strong { color: var(--amber); }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg); flex-direction: column; padding: 24px; gap: 16px; border-top: 1px solid var(--border); }
+    .nav-toggle-input:checked ~ .nav-links { display: flex; }
+    .nav-hamburger { display: block; }
+    .article-header { padding: 48px 24px 32px; }
+    .article-content { padding: 32px 24px 64px; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+<nav>
+<a href="/" class="nav-brand">Leassh</a>
+<input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+<label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+<ul class="nav-links">
+<li><a href="/features.html">Features</a></li>
+<li><a href="/pricing.html">Pricing</a></li>
+<li><a href="/blog.html">Blog</a></li>
+<li><a href="/fleet.html" class="nav-fleet">Fleet</a></li>
+<li><a href="/pricing.html" class="nav-cta">Get Started</a></li>
+</ul>
+</nav>
+
+<header class="article-header">
+<div class="article-breadcrumb">
+<a href="/blog.html">Blog</a> <span>&rarr;</span> Chromebook Parental Controls
+</div>
+<h1>Chromebook Parental Controls in 2026: What Actually Works Beyond Google Admin</h1>
+<div class="article-meta">
+<span>By <strong>Carl-Gustav Öberg</strong></span>
+<span>&bull;</span>
+<span>April 2026</span>
+</div>
+</header>
+
+<article class="article-content">
+<p>Chromebooks are ubiquitous in schools. Every kid has one. And if your child brings home a school-issued Chromebook, you probably think Google Admin Console gives you parental control visibility.</p>
+
+<p>It doesn't.</p>
+
+<p>Google Admin Console is a device management tool. It can lock down the device, restrict extensions, manage accounts, and see what apps are installed. But here's the critical gap: <strong>it doesn't monitor what your child is actually doing on the Chromebook.</strong></p>
+
+<p>You can enforce that Chrome extensions are disabled. You can't see that your child spent 4 hours on YouTube. You can manage device policies. You can't see that they're on Discord in an unmoderated server. You can push updates. You can't monitor screen time, websites visited, or behavioral patterns.</p>
+
+<p>Device management and activity monitoring are completely different problems. And schools rely on device management because they control the hardware. Parents need activity monitoring because they care what happens inside the device.</p>
+
+<h2>What Google Admin Console Actually Does</h2>
+
+<p>Google Admin Console is designed for IT departments managing school or corporate infrastructure. It excels at:</p>
+
+<ul>
+<li><strong>Device enrollment:</strong> Linking Chromebooks to a Google Workspace domain</li>
+<li><strong>Policy enforcement:</strong> Requiring passwords, disabling USB, blocking downloads</li>
+<li><strong>Chrome extension management:</strong> Controlling what extensions can be installed</li>
+<li><strong>Remote wipe:</strong> Erasing a stolen or lost Chromebook</li>
+<li><strong>Compliance reporting:</strong> Auditing what's installed for regulatory purposes</li>
+<li><strong>App distribution:</strong> Pushing Google Play apps to managed devices</li>
+</ul>
+
+<p>These are powerful for organizational control. But none of them answer: "What is my child doing right now?"</p>
+
+<h2>The Monitoring Gap: What Admin Console Doesn't See</h2>
+
+<p>Here's what Google Admin Console <em>cannot</em> do:</p>
+
+<ul>
+<li>✗ See which websites your child visits or how much time they spend on each</li>
+<li>✗ Capture screenshots or see what's on the screen in real-time</li>
+<li>✗ Monitor chat apps, Discord, messaging, or social media activity</li>
+<li>✗ Track application-level usage (which app, for how long, doing what)</li>
+<li>✗ Identify concerning patterns or behavioral changes</li>
+<li>✗ Provide activity summaries or behavioral reports</li>
+<li>✗ Monitor offline activity (anything that happens when not connected to the network)</li>
+</ul>
+
+<p>Google Admin Console sees the device. It doesn't see the child.</p>
+
+<div class="warning-box">
+<strong>For parents:</strong> If your school-issued Chromebook comes home and you're expecting parental monitoring, you're not getting it from Admin Console. Admin Console is device lockdown, not activity visibility.
+</div>
+
+<h2>Why Chromebook Monitoring Is Critical for Parents</h2>
+
+<p>School-issued Chromebooks are powerful because:</p>
+
+<ol>
+<li><strong>They're present for 6+ hours per day</strong> — more screen time than phones</li>
+<li><strong>They're assumed to be "school devices"</strong> — so parents often don't monitor them</li>
+<li><strong>They're used for "homework"</strong> — which gives kids cover for other activities</li>
+<li><strong>They're often unsupervised</strong> — used at home without parent oversight</li>
+</ol>
+
+<p>A child can spend 5 hours on a school Chromebook "doing homework" when they're actually on YouTube, gaming, or in unmoderated chat servers. Without activity monitoring, you have no way to know.</p>
+
+<p>I've talked to parents who discovered their kids were in toxic online communities they never would have guessed at—all happening on the "school device" they assumed was safe.</p>
+
+<h2>The Technical Problem: How ChromeOS Works</h2>
+
+<p>ChromeOS is essentially a browser. Everything runs in Chrome. It's sandboxed, simplified, and security-focused. This makes it great for schools (nothing can be installed locally, no viruses, centralized management).</p>
+
+<p>But it also makes traditional parental control agents useless. You can't install a "parental control app" on ChromeOS—there's no concept of apps like Windows or macOS. Everything is web-based or sandboxed.</p>
+
+<p>This is why Google Admin Console is the only official monitoring tool for ChromeOS. And why it falls short of what parents need.</p>
+
+<h2>What Real Chromebook Monitoring Looks Like</h2>
+
+<p>Real Chromebook monitoring needs to:</p>
+
+<ol>
+<li><strong>Capture all browsing:</strong> Every website visited, how long, when</li>
+<li><strong>Monitor chat and messaging:</strong> Discord, Slack, Telegram—anything that happens in the browser</li>
+<li><strong>See YouTube and social media:</strong> What videos, what feeds, how much time</li>
+<li><strong>Understand patterns:</strong> Is this child gaming 5 hours daily? On Discord all night? Isolated?</li>
+<li><strong>Provide actionable reports:</strong> Not just "5 hours on Chrome," but "4 hours YouTube, 1 hour Discord, 30 min Google Classroom"</li>
+<li><strong>Work across all devices:</strong> Chromebook data should integrate with monitoring of the child's phone, iPad, laptop</li>
+</ol>
+
+<p>SSH-based monitoring (like Leassh) achieves this because it monitors the device from the network layer, not by installing an agent on the device. The Chromebook connects to your home network to do homework? The monitoring happens at the gateway level—completely transparent, completely agentless.</p>
+
+<h2>Comparison: Admin Console vs Real Monitoring</h2>
+
+<table class="comparison-table">
+<thead>
+<tr>
+<th>Capability</th>
+<th>Google Admin Console</th>
+<th>Activity Monitoring (SSH-based)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Device management</strong></td>
+<td>✓ Full control</td>
+<td>✗ Not applicable</td>
+</tr>
+<tr>
+<td><strong>Website monitoring</strong></td>
+<td>✗ No</td>
+<td>✓ Full browser history</td>
+</tr>
+<tr>
+<td><strong>App time tracking</strong></td>
+<td>✗ No</td>
+<td>✓ Chrome tab usage, YouTube, Discord</td>
+</tr>
+<tr>
+<td><strong>Content visibility</strong></td>
+<td>✗ No</td>
+<td>✓ Screenshots, chat content</td>
+</tr>
+<tr>
+<td><strong>Behavioral patterns</strong></td>
+<td>✗ No</td>
+<td>✓ Yes (time of day, frequency, context)</td>
+</tr>
+<tr>
+<td><strong>Screen time limits</strong></td>
+<td>Bedtime only (lock device)</td>
+<td>✓ Time budgets, per-app limits</td>
+</tr>
+<tr>
+<td><strong>Cross-device visibility</strong></td>
+<td>✗ Chromebook only</td>
+<td>✓ Integrated with phone, iPad, laptop</td>
+</tr>
+<tr>
+<td><strong>Setup complexity</strong></td>
+<td>School IT manages it</td>
+<td>Parent-friendly, no agent required</td>
+</tr>
+</tbody>
+</table>
+
+<h2>How to Monitor Chromebooks as a Parent</h2>
+
+<p>If you want real visibility into what your child is doing on their Chromebook, you have three approaches:</p>
+
+<h3>Option 1: Ask the School</h3>
+
+<p>Some schools use additional monitoring tools (Lightspeed, Securly, etc.) that provide activity visibility on top of Admin Console. Check with your school's IT department about what's already deployed. You might already have visibility.</p>
+
+<h3>Option 2: Network-Level Monitoring</h3>
+
+<p>Monitor everything on your home network—Chromebook included. SSH-based monitoring works because it sits at the network layer. When the Chromebook connects to your WiFi, it's visible. No agent required, no software to install, no ChromeOS limitations.</p>
+
+<p>This approach sees everything: YouTube, websites, Discord, gaming, homework. And it works on Chromebooks just like Windows, Mac, or Android.</p>
+
+<h3>Option 3: Host-Based Monitoring (Not Practical)</h3>
+
+<p>Installing software on ChromeOS for monitoring is essentially impossible—the architecture doesn't support it. Avoid solutions claiming to offer "ChromeOS monitoring apps." They don't exist in the traditional sense.</p>
+
+<h2>The Reality of School-Issued Devices</h2>
+
+<p>Here's the uncomfortable truth: school-issued Chromebooks are not designed for parental monitoring. They're designed for school control. The goals are different.</p>
+
+<p>Schools want to prevent malware, enforce policy, and manage devices. Parents want to know what their kids are doing and help them develop healthy digital habits.</p>
+
+<p>Google Admin Console solves the school problem perfectly. It doesn't solve the parent problem at all.</p>
+
+<p>If you care about what your child is doing on their Chromebook—and you should—you need a separate monitoring solution that works at the network level. Admin Console is fine for preventing device misuse. Activity monitoring is what answers the question: "What is my child actually doing?"</p>
+
+<h2>A Better Approach: Network-Wide Monitoring</h2>
+
+<p>The most practical solution for parents: <strong>monitor everything on your home network.</strong></p>
+
+<p>When your child's school Chromebook connects to your WiFi, you see all activity. No software to install. No ChromeOS limitations. No agent required. Just network-level visibility that works on Chromebooks, iPhones, Android, Windows, Macs—everything.</p>
+
+<p>This approach gives you what Admin Console can't: real visibility into what your child is doing, across all their devices, at home.</p>
+
+<div class="cta-section">
+<h2>See What Your Kids Are Actually Doing on Chromebooks</h2>
+<p>Network-level monitoring that captures browsing, app usage, and behavioral patterns—without requiring any software on the device itself.</p>
+<a href="https://leassh.com/pricing.html" class="cta-button">Try Leassh Free for 14 Days</a>
+</div>
+
+</article>
+
+</div>
+</body>
+</html>
