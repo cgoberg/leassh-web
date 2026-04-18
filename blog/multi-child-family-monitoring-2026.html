@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Managing Screen Time for Multiple Kids: A Practical Guide</title>
+<meta name="description" content="A parent's guide to monitoring 2-4 children across different ages and devices. Set up individual profiles, differentiate rules by age, and use a unified dashboard to see everything at once.">
+<meta property="og:title" content="Managing Screen Time for Multiple Kids: A Practical Guide">
+<meta property="og:description" content="How to monitor multiple kids with different ages and needs on shared devices and their own—without losing your mind.">
+<meta property="og:url" content="https://leassh.com/blog/multi-child-family-monitoring-2026">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-18">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/multi-child-family-monitoring-2026">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Managing Screen Time for Multiple Kids: A Practical Guide",
+  "description": "How to monitor multiple kids with different ages and needs on shared devices and their own.",
+  "datePublished": "2026-04-18",
+  "dateModified": "2026-04-18",
+  "url": "https://leassh.com/blog/multi-child-family-monitoring-2026",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/multi-child-family-monitoring-2026" },
+  "author": { "@type": "Person", "name": "Carl-Gustav Öberg", "url": "https://forgenord.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+
+  .article-header { max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px; }
+  .article-breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+  .article-header h1 { font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px; }
+  .article-meta { display: flex; gap: 24px; align-items: center; font-size: 14px; color: var(--text-mid); }
+  .article-meta span { display: flex; align-items: center; gap: 6px; }
+
+  .article-content { max-width: var(--prose); margin: 0 auto; padding: 48px 32px 96px; }
+  .article-content > * { margin-bottom: 2em; }
+  .article-content h2 { font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px); font-weight: 700; letter-spacing: -0.5px; margin-top: 3em; margin-bottom: 1em; }
+  .article-content h3 { font-family: var(--font-d); font-size: 20px; font-weight: 600; letter-spacing: -0.3px; margin-top: 2em; margin-bottom: 0.75em; }
+  .article-content p { margin-bottom: 1.25em; }
+  .article-content ul, .article-content ol { margin-left: 1.5em; margin-bottom: 1.25em; }
+  .article-content li { margin-bottom: 0.5em; }
+  .article-content a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-soft); }
+  .article-content a:hover { border-bottom-color: var(--amber); }
+  .article-content strong { color: var(--text); }
+  .article-content em { color: var(--text-mid); }
+
+  .case-study { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 2em 0; }
+  .case-study h4 { font-family: var(--font-d); font-size: 18px; font-weight: 600; margin-bottom: 0.75em; color: var(--amber); }
+
+  .cta-section { background: var(--bg-warm); border: 1px solid var(--border); border-radius: 16px; padding: 48px 32px; text-align: center; margin: 3em 0; }
+  .cta-section h2 { font-size: clamp(24px, 4vw, 36px); margin-bottom: 16px; }
+  .cta-section p { font-size: 18px; color: var(--text-mid); max-width: 600px; margin: 0 auto 24px; }
+  .cta-button { display: inline-block; background: var(--amber); color: var(--bg) !important; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  .warning-box { background: rgba(212, 162, 76, 0.05); border: 1px solid var(--amber); border-radius: 8px; padding: 16px 20px; margin: 2em 0; }
+  .warning-box strong { color: var(--amber); }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg); flex-direction: column; padding: 24px; gap: 16px; border-top: 1px solid var(--border); }
+    .nav-toggle-input:checked ~ .nav-links { display: flex; }
+    .nav-hamburger { display: block; }
+    .article-header { padding: 48px 24px 32px; }
+    .article-content { padding: 32px 24px 64px; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+<nav>
+<a href="/" class="nav-brand">Leassh</a>
+<input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+<label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+<ul class="nav-links">
+<li><a href="/features.html">Features</a></li>
+<li><a href="/pricing.html">Pricing</a></li>
+<li><a href="/blog.html">Blog</a></li>
+<li><a href="/fleet.html" class="nav-fleet">Fleet</a></li>
+<li><a href="/pricing.html" class="nav-cta">Get Started</a></li>
+</ul>
+</nav>
+
+<header class="article-header">
+<div class="article-breadcrumb">
+<a href="/blog.html">Blog</a> <span>&rarr;</span> Multi-Child Monitoring
+</div>
+<h1>Managing Screen Time for Multiple Kids: A Practical Guide</h1>
+<div class="article-meta">
+<span>By <strong>Carl-Gustav Öberg</strong></span>
+<span>&bull;</span>
+<span>April 2026</span>
+</div>
+</header>
+
+<article class="article-content">
+<p>Parenting two, three, or four children means managing multiple digital lives simultaneously. And they're all different.</p>
+
+<p>Your 10-year-old needs bedtime lockouts and app restrictions. Your 14-year-old wants autonomy but needs boundaries. Your 16-year-old should be trusted, but you still want to understand what's happening.</p>
+
+<p>The challenge isn't whether you should monitor them—it's how to monitor them <em>differently</em> based on their age, maturity, and the different devices they use.</p>
+
+<p>This guide walks through setting up Leassh for a multi-child household and creating a sustainable routine that doesn't consume all your parenting energy.</p>
+
+<h2>The Multi-Child Challenge</h2>
+
+<p>Most families with multiple kids face this problem:</p>
+
+<ul>
+<li>Your kids have <strong>different needs</strong>: a 9-year-old using a shared iPad and an older teenager with their own phone need completely different rules</li>
+<li>They use <strong>different devices</strong>: school Chromebook, Windows laptop, iPad, Android phone, gaming console</li>
+<li>You need <strong>different monitoring approaches</strong>: strict enforcement for younger kids, trust-based check-ins for older ones</li>
+<li>Traditional tools handle one device at a time, forcing you to check multiple dashboards across different platforms</li>
+</ul>
+
+<p>What you really need is one unified view where you can see each child's digital life—across all their devices—and apply different rules to each of them based on their age and maturity level.</p>
+
+<h2>Setting Up Leassh for Multiple Children</h2>
+
+<p>Here's how to organize Leassh for a household with 3 kids:</p>
+
+<h3>Step 1: Create Individual Profiles</h3>
+
+<p>In Leassh, create a separate account for each child:</p>
+
+<ul>
+<li><strong>Emma (age 10):</strong> iPad + school Chromebook</li>
+<li><strong>Oscar (age 14):</strong> Android phone + Windows laptop</li>
+<li><strong>Sofia (age 16):</strong> iPhone + MacBook</li>
+</ul>
+
+<p>Each profile appears in the unified dashboard, so you see all three kids in one place. No switching between apps or dashboards.</p>
+
+<h3>Step 2: Assign Devices to Each Child</h3>
+
+<p>When you set up monitoring on each device, assign it to the correct child's profile. Leassh will aggregate their activity—so you can see "Emma used 2 hours today across her iPad and Chromebook" rather than checking each device separately.</p>
+
+<h3>Step 3: Create Age-Appropriate Profiles</h3>
+
+<p>Leassh lets you define monitoring profiles by age:</p>
+
+<ul>
+<li><strong>Enforced (under 12):</strong> Bedtime lockouts, app restrictions, screenshot capture enabled</li>
+<li><strong>Supervised (12-15):</strong> Screen time budgets, activity visibility, message monitoring</li>
+<li><strong>Trust-Based (16+):</strong> No restrictions, narrative reports only</li>
+</ul>
+
+<p>Each child gets different rules without requiring separate dashboards.</p>
+
+<h2>Example: Three Ages, Three Approaches</h2>
+
+<h3>Emma (Age 10)</h3>
+
+<p><strong>Setup:</strong> iPad (shared family device) + school Chromebook</p>
+
+<p><strong>Rules:</strong></p>
+
+<ul>
+<li>Bedtime lockout at 8:30 PM (enforced on both devices)</li>
+<li>Daily screen time limit: 2 hours on iPad (homework + recreation)</li>
+<li>Chromebook is school-only—monitored but no app restrictions</li>
+<li>Screenshot capture: Every 30 minutes to understand what she's watching</li>
+</ul>
+
+<p><strong>Your weekly check:</strong> 5 minutes. Look at the narrative report: "Emma spent 4 hours on YouTube learning animation this week. 45 minutes on Roblox. 20 minutes on messaging friends." No need to dig deeper—you trust her judgment for homework.</p>
+
+<h3>Oscar (Age 14)</h3>
+
+<p><strong>Setup:</strong> Android phone + Windows gaming laptop</p>
+
+<p><strong>Rules:</strong></p>
+
+<ul>
+<li>No app restrictions (he's old enough to make his own choices)</li>
+<li>Screen time budget: 1 hour daily on recreational apps during school week, 3 hours on weekends</li>
+<li>Screenshots disabled (respecting his privacy)</li>
+<li>Narrative alerts only: You get a summary each week of what he's spent time on</li>
+<li>One check-in: "Hey, I noticed you spent 4 hours on Discord this week. What's the conversation about?"</li>
+</ul>
+
+<p><strong>Your weekly check:</strong> 10 minutes. Read the summary, notice any patterns that surprise you, ask follow-up questions. The goal isn't surveillance—it's staying connected to what he's interested in.</p>
+
+<h3>Sofia (Age 16)</h3>
+
+<p><strong>Setup:</strong> iPhone + MacBook</p>
+
+<p><strong>Rules:</strong></p>
+
+<ul>
+<li>No monitoring, no restrictions, no screenshots</li>
+<li>Narrative reports only—what did she spend time on this week?</li>
+<li>Trust-based: You're monitoring to stay aware, not to enforce</li>
+</ul>
+
+<p><strong>Your weekly check:</strong> 2 minutes. Glance at the report. If something stands out as unusual (like a sudden shift in app usage), bring it up in conversation—not as an interrogation, but as genuine interest.</p>
+
+<h2>The Unified Dashboard: Seeing Everything at Once</h2>
+
+<p>Here's what your weekly screen time summary looks like:</p>
+
+<blockquote>
+<p><strong>Emma (age 10)</strong>: 6h 22m this week<br>
+— iPad: 4h 15m (YouTube 2h 30m, Roblox 45m, homework apps 1h)<br>
+— Chromebook: 2h 7m (Google Classroom, Sheets)<br>
+<strong>Pattern:</strong> Spending more time on YouTube than usual—animation binge this week<br><br>
+
+<strong>Oscar (age 14)</strong>: 12h 45m this week<br>
+— Phone: 8h 20m (Discord 4h 15m, TikTok 2h, YouTube 1h)<br>
+— Windows laptop: 4h 25m (gaming, Discord)<br>
+<strong>Pattern:</strong> Discord activity up significantly—new friend group?<br><br>
+
+<strong>Sofia (age 16)</strong>: 9h 30m this week<br>
+— iPhone: 5h 15m (Instagram, iMessage, Notes)<br>
+— MacBook: 4h 15m (homework, browsing)<br>
+<strong>Pattern:</strong> Normal patterns, no changes</p>
+</blockquote>
+
+<p>One dashboard. Three kids. Different ages. Different devices. Different rules. One routine.</p>
+
+<h2>Creating a Sustainable Review Routine</h2>
+
+<p>Without a routine, you'll never look at the data. With a routine, you stay connected without obsessing.</p>
+
+<p><strong>Weekly 15-minute review:</strong></p>
+
+<ol>
+<li>Check the unified dashboard summary (2 min)</li>
+<li>Skim each child's narrative report—look for patterns that surprise you (8 min)</li>
+<li>Ask one follow-up question per child if something stands out (5 min)</li>
+</ol>
+
+<p>That's it. You're not investigating. You're staying aware and staying connected.</p>
+
+<p><strong>Monthly conversation (once a month):</strong></p>
+
+<p>Talk about screen time trends with each child:</p>
+
+<ul>
+<li>"You spent a lot of time on Discord this month. Tell me about that."</li>
+<li>"Noticed you're using the Chromebook a lot for gaming—how's school going?"</li>
+<li>"Screen time was way up this week. Anything going on?"</li>
+</ul>
+
+<p>These are conversations, not interrogations. The data is just the starting point.</p>
+
+<h2>Handling Fairness Conflicts</h2>
+
+<p>Multi-child families inevitably hit this: "Why does Sofia get to use her phone until 11 PM but I have to stop at 8:30?"</p>
+
+<p><strong>The answer is straightforward:</strong> Different ages, different rules.</p>
+
+<p>"You're 10. Your brain is still developing. You need sleep more than Sofia does. When you're 16, you can negotiate your own bedtime."</p>
+
+<p>Leassh makes this transparent because each child sees their own rules (and younger kids understand they're age-appropriate, not punitive).</p>
+
+<h2>Watching Patterns Change Over Time</h2>
+
+<p>One underrated benefit of monitoring multiple kids: you see how digital habits change as they grow.</p>
+
+<p>At 10, Emma loved Roblox. At 12, she discovered YouTube and animation. At 14, she's into digital art creation. The monitoring isn't just about enforcement—it's a window into who they're becoming.</p>
+
+<p>Track major shifts. When Oscar went from "games and YouTube" to "Discord and gaming," his social world shifted. That's worth noticing and asking about.</p>
+
+<h2>What You'll Learn</h2>
+
+<p>After a month of regular monitoring, you'll know:</p>
+
+<ul>
+<li><strong>Who is learning:</strong> Coding, animation, music production, languages</li>
+<li><strong>Who is struggling:</strong> Grades dropping? Hours on gaming increased? New anxiety patterns?</li>
+<li><strong>Who is social:</strong> Deep in Discord communities, messaging lots of friends, collaborating on projects</li>
+<li><strong>Who is isolated:</strong> Only gaming alone, no real social connections, withdrawing from family</li>
+</ul>
+
+<p>The data becomes a conversation starter. "I noticed you're not hanging out with the gaming group anymore—what happened?" Or: "You've discovered a whole new hobby! Tell me about it."</p>
+
+<h2>Privacy and Trust as They Get Older</h2>
+
+<p>The monitoring approach should evolve:</p>
+
+<ul>
+<li><strong>Age 8-12:</strong> Full visibility. Kids this age need guardrails.</li>
+<li><strong>Age 12-14:</strong> Moderate visibility. You're aware, but giving space.</li>
+<li><strong>Age 14-16:</strong> Limited visibility. Monitoring for safety, not control.</li>
+<li><strong>Age 16+:</strong> Trust-based. You're aware of patterns, but no active surveillance.</li>
+</ul>
+
+<p>Leassh lets you adjust rules as they mature. Sofia's profile started with full monitoring at age 12. By 14, screenshots were disabled. By 16, she got complete autonomy.</p>
+
+<p>This isn't permissiveness—it's parenting. You're building toward independence, not maintaining control forever.</p>
+
+<h2>The Real Benefit</h2>
+
+<p>The real benefit of multi-device family monitoring isn't catching your kids doing something wrong. It's understanding what they're <em>actually doing</em> with the hours they spend online.</p>
+
+<p>Most parenting fails not because kids are bad, but because parents don't know what's happening. "You were on the computer for 4 hours" tells you nothing. "You spent 2 hours on YouTube learning 3D modeling, 1.5 hours on Discord with your team, and 30 minutes messaging friends" tells you everything.</p>
+
+<p>That's the difference between monitoring and understanding. And with multiple kids, a unified dashboard is the only way to stay aware without losing your mind.</p>
+
+<div class="cta-section">
+<h2>Manage Multiple Kids, Multiple Devices, One Dashboard</h2>
+<p>See what all your kids are actually doing across Windows, Mac, Linux, iOS, Android, and Chromebooks—with age-appropriate rules for each child.</p>
+<a href="https://leassh.com/pricing.html" class="cta-button">Try Leassh Free for 14 Days</a>
+</div>
+
+</article>
+
+</div>
+</body>
+</html>
