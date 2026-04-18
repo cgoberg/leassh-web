@@ -262,6 +262,14 @@
       "destination": "/blog-homelab-fleet-monitoring.html"
     },
     {
+      "source": "/blog/leassh-vs-apple-screen-time-2026",
+      "destination": "/blog-leassh-vs-apple-screen-time-2026.html"
+    },
+    {
+      "source": "/blog/leassh-vs-family-link-2026",
+      "destination": "/blog-leassh-vs-family-link-2026.html"
+    },
+    {
       "source": "/blog/leassh-vs-family-link",
       "destination": "/blog-leassh-vs-family-link.html"
     },
