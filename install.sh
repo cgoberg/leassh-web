@@ -128,7 +128,7 @@ done
 # ---------------------------------------------------------------------------
 # 5. Download the agent binary
 # ---------------------------------------------------------------------------
-DOWNLOAD_URL="https://github.com/cgoberg/releases/releases/latest/download/leassh-agent-${PLATFORM}-${ARCH_SUFFIX}"
+DOWNLOAD_URL="https://github.com/cgoberg/releases/releases/latest/download/leassh-agent-${PLATFORM}-${ARCH_SUFFIX}.tar.gz"
 BINARY_PATH="${INSTALL_DIR}/leassh-agent"
 TMP_DIR="$(mktemp -d)"
 
