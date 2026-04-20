@@ -473,12 +473,12 @@
 
   /* Error */
   .error-msg {
-    display: none;
     color: var(--red);
     font-size: 14px;
     margin-top: 8px;
   }
 
+  .error-msg[hidden] { display: none; }
   .error-msg.visible { display: block; }
 
   /* Footer */
@@ -582,7 +582,7 @@
         <input type="email" id="email-input" placeholder="you@example.com" required autocomplete="email">
         <button type="submit" class="btn btn-primary" id="register-btn">Create Account</button>
       </div>
-      <div class="error-msg" id="register-error"></div>
+      <div class="error-msg" id="register-error" hidden></div>
     </form>
 
     <div class="code-display" id="code-display">
@@ -725,6 +725,7 @@ form.addEventListener('submit', async () => {
 
   registerBtn.disabled = true;
   registerBtn.textContent = 'Creating...';
+  errorEl.hidden = true;
   errorEl.classList.remove('visible');
 
   try {
@@ -764,6 +765,7 @@ form.addEventListener('submit', async () => {
 
   } catch (err) {
     errorEl.textContent = err.message;
+    errorEl.hidden = false;
     errorEl.classList.add('visible');
     registerBtn.disabled = false;
     registerBtn.textContent = 'Create Account';
