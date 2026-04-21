@@ -316,6 +316,10 @@
     {
       "source": "/blog/open-source-parental-controls-2026",
       "destination": "/blog-open-source-parental-controls.html"
+    },
+    {
+      "source": "/blog/monitor-kids-computer",
+      "destination": "/monitor-kids-computer.html"
     }
   ]
 }
