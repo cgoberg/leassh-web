@@ -190,6 +190,10 @@
       "destination": "/privacy.html"
     },
     {
+      "source": "/newsletter",
+      "destination": "/newsletter.html"
+    },
+    {
       "source": "/blog",
       "destination": "/blog.html"
     },
