@@ -320,6 +320,10 @@
     {
       "source": "/blog/monitor-kids-computer",
       "destination": "/monitor-kids-computer.html"
+    },
+    {
+      "source": "/blog/leassh-vs-microsoft-family-safety-2026",
+      "destination": "/blog-leassh-vs-microsoft-family-safety-2026.html"
     }
   ]
 }
