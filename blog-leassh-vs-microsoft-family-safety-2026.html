@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leassh vs Microsoft Family Safety (2026): A Better Alternative for Families?</title>
+<meta name="description" content="Microsoft Family Safety is free but limited. Leassh offers deeper monitoring across all platforms with SSH-based transparency, no ecosystem lock-in, and real visibility into what your kids are actually doing online.">
+<meta property="og:title" content="Leassh vs Microsoft Family Safety (2026): A Better Alternative for Families?">
+<meta property="og:description" content="Microsoft Family Safety is free but limited. Leassh offers deeper monitoring across all platforms with SSH-based transparency, no ecosystem lock-in, and real visibility into what your kids are actually doing online.">
+<meta property="og:url" content="https://leassh.com/blog/leassh-vs-microsoft-family-safety-2026">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-04-22">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/leassh-vs-microsoft-family-safety-2026">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Leassh vs Microsoft Family Safety (2026): A Better Alternative for Families?",
+  "description": "Microsoft Family Safety is free but limited. Leassh offers deeper monitoring across all platforms with SSH-based transparency, no ecosystem lock-in, and real visibility into what your kids are actually doing online.",
+  "datePublished": "2026-04-22",
+  "dateModified": "2026-04-22",
+  "url": "https://leassh.com/blog/leassh-vs-microsoft-family-safety-2026",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/leassh-vs-microsoft-family-safety-2026" },
+  "author": { "@type": "Person", "name": "Carl-Gustav Öberg", "url": "https://forgenord.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --success:    #4ade80;
+    --error:      #f87171;
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 720px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  /* Blog post */
+  .post-header {
+    max-width: var(--prose); margin: 0 auto; padding: 80px 32px 40px;
+  }
+
+  .post-eyebrow {
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--amber); margin-bottom: 20px;
+  }
+
+  .post-header h1 {
+    font-family: var(--font-d); font-size: clamp(28px, 5vw, 42px);
+    font-weight: 800; line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 16px;
+  }
+
+  .post-meta {
+    color: var(--text-mid); font-size: 14px; display: flex; gap: 16px; align-items: center;
+  }
+
+  .post-meta a { color: var(--text-mid); text-decoration: none; transition: color 0.2s; }
+  .post-meta a:hover { color: var(--text); }
+
+  .post-content {
+    max-width: var(--prose); margin: 0 auto; padding: 0 32px 100px;
+  }
+
+  .post-body {
+    font-size: 17px;
+  }
+
+  .post-body h2 {
+    font-family: var(--font-d); font-size: 24px; font-weight: 700;
+    margin-top: 48px; margin-bottom: 16px; letter-spacing: -0.3px;
+  }
+
+  .post-body h3 {
+    font-family: var(--font-d); font-size: 20px; font-weight: 700;
+    margin-top: 36px; margin-bottom: 12px; letter-spacing: -0.3px;
+  }
+
+  .post-body p {
+    margin-bottom: 20px;
+  }
+
+  .post-body ul {
+    margin-bottom: 20px; padding-left: 24px;
+  }
+
+  .post-body li {
+    margin-bottom: 8px;
+  }
+
+  .post-body strong {
+    color: var(--text);
+  }
+
+  .post-body code {
+    background: var(--bg-warm); border: 1px solid var(--border);
+    padding: 2px 6px; border-radius: 4px; font-family: var(--font-b);
+    font-size: 0.9em;
+  }
+
+  .post-body table {
+    width: 100%; margin: 24px 0; border-collapse: collapse;
+  }
+
+  .post-body table th, .post-body table td {
+    padding: 12px 16px; text-align: left; border: 1px solid var(--border);
+  }
+
+  .post-body table th {
+    background: var(--bg-warm); font-weight: 600;
+  }
+
+  .post-body table td input[type="checkbox"] {
+    margin-right: 8px; accent-color: var(--amber);
+  }
+
+  .post-body blockquote {
+    border-left: 3px solid var(--amber); padding-left: 16px; margin: 24px 0;
+    color: var(--text-mid); font-style: italic;
+  }
+
+  .post-footer {
+    max-width: var(--prose); margin: 0 auto; padding: 0 32px 100px;
+  }
+
+  .post-divider {
+    border: 0; height: 1px; background: var(--border); margin: 40px 0;
+  }
+
+  .post-author {
+    background: var(--bg-warm); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px; margin-top: 24px;
+  }
+
+  .post-author strong {
+    color: var(--text); font-size: 16px;
+  }
+
+  .post-author a {
+    color: var(--amber); text-decoration: none; font-weight: 500;
+  }
+
+  .post-author a:hover {
+    color: var(--amber-soft);
+  }
+
+  /* Footer */
+  footer {
+    max-width: var(--max); margin: 0 auto; padding: 40px 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-content {
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--text-dim); font-size: 13px;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: block; }
+    .post-header, .post-content, .post-footer { padding-left: 24px; padding-right: 24px; }
+    .post-header { padding-top: 48px; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+<nav>
+<a href="/" class="nav-brand">Leassh</a>
+<input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+<label for="nav-toggle" class="nav-hamburger">
+<span></span><span></span><span></span>
+</label>
+<ul class="nav-links">
+<li><a href="/features">Features</a></li>
+<li><a href="/pricing">Pricing</a></li>
+<li><a href="/docs">Docs</a></li>
+<li><a href="/blog">Blog</a></li>
+<li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+<li><a href="/install" class="nav-cta">Get Started</a></li>
+</ul>
+</nav>
+
+<header class="post-header">
+<span class="post-eyebrow">Blog</span>
+<h1>Leassh vs Microsoft Family Safety (2026): A Better Alternative for Families?</h1>
+<div class="post-meta">
+<span>Published April 22, 2026</span>
+<span>•</span>
+<span>By <a href="https://forgenord.com">Carl-Gustav Öberg</a></span>
+</div>
+</header>
+
+<article class="post-content">
+<div class="post-body">
+<p># Leassh vs Microsoft Family Safety (2026): A Better Alternative for Families?</p>
+<p>*Published April 22, 2026 | By Carl-Gustav Öberg*</p>
+<p>Microsoft Family Safety is free. Everyone knows this. But here's what they don't tell you: free comes with hidden costs, and those costs might be more than you're willing to pay.</p>
+<p>As a technical founder who's spent years building monitoring systems for families and enterprises, I've seen parents discover too late that "free" parental controls often mean:</p>
+<ul>
+<li>Your data goes to a company that monetizes information</li>
+<li>Monitoring only works within their ecosystem (Windows, Xbox, Edge)</li>
+<li>You can't verify what the software is actually doing</li>
+<li>Features get locked behind paywalls or removed entirely</li>
+</ul>
+<p>Let me be clear: Microsoft Family Safety has its place. But for parents who want real visibility into their children's digital lives—especially those with mixed devices, strong privacy concerns, or just a desire to understand rather than surveil—there are better options.</p>
+<p>I built Leassh because I was tired of choosing between "free but compromised" and "private but expensive." What if you could have both?</p>
+
+<h2>Quick Comparison: What You Need to Know</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Microsoft Family Safety</th>
+<th>Leassh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Price</strong></td>
+<td>Free</td>
+<td>Starting at $5/month</td>
+</tr>
+<tr>
+<td><strong>Platform Support</strong></td>
+<td>Windows, Xbox, iOS, Android (Microsoft accounts only)</td>
+<td>Windows, Mac, Linux, iOS, Android (any device)</td>
+</tr>
+<tr>
+<td><strong>Monitoring Depth</strong></td>
+<td>Screen time, web filtering, app usage basics</td>
+<td>Screenshot capture, app usage, file access, SSH-based transparency</td>
+</tr>
+<tr>
+<td><strong>Data Privacy</strong></td>
+<td>Stored on Microsoft servers</td>
+<td>Stays in your home, self-hosted</td>
+</tr>
+<tr>
+<td><strong>Ecosystem Lock-in</strong></td>
+<td>Requires Microsoft accounts</td>
+<td>No lock-in, works with any devices</td>
+</tr>
+<tr>
+<td><strong>Transparency</strong></td>
+<td>Black box—can't verify operation</td>
+<td>SSH-based, you control everything</td>
+</tr>
+<tr>
+<td><strong>Cross-Platform</strong></td>
+<td>Weak outside Windows ecosystem</td>
+<td>First-class support for all platforms</td>
+</tr>
+<tr>
+<td><strong>Installation</strong></td>
+<td>Integrated into Windows (hard to bypass)</td>
+<td>Manual agent installation (you choose what to monitor)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>The Microsoft Family Safety Story</h2>
+<p>Microsoft Family Safety launched as a way to give parents basic tools to manage their children's digital lives. It's integrated into Windows 10/11, Xbox, and the Microsoft ecosystem. For families deeply invested in Microsoft products, it's convenient—almost frictionless.</p>
+<p>But convenience comes with trade-offs:</p>
+<h3>1. The Ecosystem Trap</h3>
+<p>Microsoft Family Safety works best when everyone in your family uses Microsoft accounts. But what if your teenager prefers an Android phone? What if you have a Mac at home? What if your child uses a Linux machine at school?</p>
+<p>The answer is: you're largely out of luck. Microsoft's monitoring is strongest on Windows and Xbox, moderate on iOS/Android (with significant limitations), and essentially non-existent outside their ecosystem.</p>
+<h3>2. The Privacy Question</h3>
+<p>When you use Microsoft Family Safety, your family's data goes to Microsoft. Screenshots, browsing history, app usage patterns—all stored on their servers. They decide how long to keep it. They decide what to do with it.</p>
+<p>I've spoken with parents who are fine with this. They trust Microsoft. But I've also spoken with parents who are uncomfortable with the idea of a tech giant storing intimate details of their children's digital lives.</p>
+<p>Here's the thing: Microsoft is a company. Companies monetize data. Even if Microsoft doesn't currently sell your family's data, the architecture of their system makes it possible. And once data is collected, it's hard to guarantee what happens to it years from now.</p>
+<h3>3. The Transparency Problem</h3>
+<p>Microsoft Family Safety is a black box. You can see what it reports, but you can't see how it works. You can't inspect the code. You can't verify that it's only collecting what you authorized.</p>
+<p>For parents who want to understand rather than surveil, this is a problem. How can you trust a monitoring tool if you can't verify what it's doing?</p>
+
+<h2>Enter Leassh: The Alternative</h2>
+<p>I built Leassh with a different philosophy. What if parental controls could be:</p>
+<ul>
+<li><strong>Private by default</strong>—your data stays in your home</li>
+<li><strong>Transparent by design</strong>—you can verify what the software does</li>
+<li><strong>Platform-agnostic</strong>—works with any device, not just Microsoft products</li>
+<li><strong>Deep but respectful</strong>—gives you visibility without turning into spyware</li>
+</ul>
+<p>Leassh uses SSH (Secure Shell) for remote monitoring. This isn't just a technical detail—it's a philosophical choice. SSH is:</p>
+<ul>
+<li><strong>Open standard</strong>—anyone can audit the protocol</li>
+<li><strong>Transparent</strong>—you can see exactly what commands are being executed</li>
+<li><strong>Secure</strong>—end-to-end encryption for all communication</li>
+<li><strong>Controllable</strong>—you decide when and how monitoring happens</li>
+</ul>
+
+<h2>Feature-by-Feature Comparison</h2>
+
+<h3>Platform Support</h3>
+<p><strong>Microsoft Family Safety:</strong> Best on Windows and Xbox. iOS/Android support exists but is limited (requires Microsoft family accounts, can't monitor non-Microsoft apps effectively).</p>
+<p><strong>Leassh:</strong> First-class support for Windows, Mac, Linux, iOS, and Android. The agent runs on any platform, and you can monitor your entire family's devices regardless of what they use.</p>
+<p>This matters for mixed households. My own family uses MacBooks, a Windows PC, and Android phones. With Microsoft Family Safety, I'd only get partial visibility. With Leassh, I get complete visibility.</p>
+
+<h3>Monitoring Depth</h3>
+<p><strong>Microsoft Family Safety:</strong> Basic screen time reporting, web filtering, app usage categories. You can see how long your child spends on "games" or "social media," but the categorization is often wrong and you can't see the actual content.</p>
+<p><strong>Leassh:</strong> Screenshots at configurable intervals, detailed app usage, file access monitoring, and the ability to see what your child is actually doing—not just what category it falls into.</p>
+<p>Example: Microsoft might categorize "Minecraft" as "gaming" and report "2 hours of gaming." Leassh can show you screenshots of what your child was actually building, helping you understand their creativity rather than just tallying screen time.</p>
+
+<h3>Data Privacy</h3>
+<p><strong>Microsoft Family Safety:</strong> Data stored on Microsoft servers. Part of Microsoft's broader data collection infrastructure.</p>
+<p><strong>Leassh:</strong> Self-hosted. All monitoring data stays on your local network. You can access it from anywhere (via secure tunneling), but it's never stored on someone else's servers.</p>
+<p>I know some parents who say, "I don't care about privacy—I just want to monitor my kids." That's fine. But I also know parents who realize too late that they don't want a tech giant knowing when their child stays up late playing games or what websites they're visiting.</p>
+
+<h3>Ecosystem Lock-in</h3>
+<p><strong>Microsoft Family Safety:</strong> Requires Microsoft accounts for all family members. If your teenager refuses to use a Microsoft account, you can't monitor them.</p>
+<p><strong>Leassh:</strong> No account requirements. Install the agent, configure monitoring, done. Works with any device, any account type.</p>
+<p>This is a real friction point for families. I've talked to parents whose teenagers refuse to give up their Google account for a Microsoft one. With Microsoft Family Safety, they're stuck. With Leassh, they can monitor regardless.</p>
+
+<h3>Transparency and Trust</h3>
+<p><strong>Microsoft Family Safety:</strong> Black box. You can't verify operation.</p>
+<p><strong>Leassh:</strong> SSH-based architecture means you can inspect the protocol, verify the commands, and understand exactly what's happening. The agent is open-source (on GitHub), so you can review the code if you want.</p>
+<p>For parents who want to model healthy technology use for their children, transparency matters. You can tell your child, "I'm using this monitoring tool because I care about your safety, and here's exactly what it does." That conversation is harder when you're using a black box.</p>
+
+<h2>The Real Question: Why Pay for Monitoring?</h2>
+<p>Microsoft Family Safety is free. Leassh costs money. So why pay?</p>
+<h3>Because "free" often costs more than you think</h3>
+<p>When you use a free product, you're the product. Microsoft Family Safety's "free" model depends on data collection, ecosystem lock-in, and upselling to paid Microsoft services. The cost isn't monetary—it's privacy and control.</p>
+<h3>Because better monitoring actually works</h3>
+<p>I've heard from parents who tried Microsoft Family Safety and then switched to Leassh. Their feedback: "I finally saw what my kid was actually doing online." The depth of monitoring in Leassh isn't just "nice to have"—it's what makes monitoring useful.</p>
+<h3>Because you own your data</h3>
+<p>With Leassh, you control the data. You decide how long to keep it. You decide who can access it. You can delete it anytime. With Microsoft, you're at the mercy of their retention policies and terms of service.</p>
+
+<h2>Who Should Use Microsoft Family Safety?</h2>
+<p>Microsoft Family Safety makes sense if:</p>
+<ul>
+<li><strong>You're all-in on Microsoft:</strong> Windows PCs, Xbox, Microsoft accounts for everyone</li>
+<li><strong>Basic monitoring is enough:</strong> You just want to see screen time and block inappropriate sites</li>
+<li><strong>Zero budget:</strong> You genuinely can't afford any paid solution</li>
+<li><strong>You trust Microsoft:</strong> You're comfortable with Microsoft storing your family's data</li>
+</ul>
+<p>If all these apply, Microsoft Family Safety is a reasonable choice.</p>
+
+<h2>Who Should Use Leassh?</h2>
+<p>Leassh makes sense if:</p>
+<ul>
+<li><strong>You have mixed devices:</strong> Mac, Windows, Linux, iOS, Android</li>
+<li><strong>Privacy matters:</strong> You want your family's data to stay in your home</li>
+<li><strong>You want depth:</strong> You want to see actual content, not just categories</li>
+<li><strong>You value transparency:</strong> You want to know what the monitoring tool is doing</li>
+<li><strong>You don't want lock-in:</strong> You want to monitor regardless of account types</li>
+<li><strong>You're willing to pay for quality:</strong> $5-15/month for better monitoring</li>
+</ul>
+<p>If several of these apply, Leassh is probably your better choice.</p>
+
+<h2>The Bottom Line</h2>
+<p>Microsoft Family Safety is a decent free option for families deeply invested in the Microsoft ecosystem. But "free" comes with hidden costs: privacy trade-offs, ecosystem lock-in, and limited monitoring depth.</p>
+<p>Leassh offers a different path. It's self-hosted, transparent, platform-agnostic, and deeply monitoring. It costs money—but for families who value privacy, want real visibility, and don't want to be locked into one ecosystem, it's worth it.</p>
+<p>The best parental control is the one you actually use. If Microsoft Family Safety meets your needs, great. If it doesn't—if you want more depth, more privacy, more transparency—Leassh is here as an alternative.</p>
+<p>I built Leassh because I wanted a monitoring tool that aligned with my values: privacy, transparency, and respect for families. If you share those values, I'd love for you to try it.</p>
+
+<h2>What Should You Do Next?</h2>
+<p>1. <strong>Assess your needs:</strong> What devices does your family use? What depth of monitoring do you actually need?</p>
+<p>2. <strong>Try Microsoft Family Safety:</strong> If you're all-in on Microsoft, it's worth testing first since it's free.</p>
+<p>3. <strong>Consider Leassh:</strong> If Microsoft Family Safety doesn't meet your needs, or if privacy is a concern, Leassh is available at leassh.com/install.</p>
+<p>4. <strong>Talk to your kids:</strong> Whatever you choose, be transparent with your children about why you're monitoring and what you're monitoring.</p>
+
+<p>---</p>
+<h2>Related Posts</h2>
+<ul>
+<li><a href="/blog/leassh-vs-apple-screen-time-2026">Leassh vs Apple Screen Time (2026)</a></li>
+<li><a href="/blog/leassh-vs-family-link-2026">Leassh vs Google Family Link (2026)</a></li>
+<li><a href="/blog/open-source-parental-controls">Open Source Parental Controls: The Truth About Privacy and Control in 2026</a></li>
+<li><a href="/pricing">Leassh Pricing</a></li>
+</ul>
+</div>
+</article>
+
+<footer class="post-footer">
+<hr class="post-divider">
+<div class="post-author">
+<strong>Carl-Gustav Öberg</strong> is the founder of Leassh, a family technology platform that helps parents understand their children's digital lives through local-first monitoring. He has over a decade of experience building monitoring and analytics systems for enterprises and families.
+</div>
+</footer>
+</div>
+
+<footer>
+<div class="footer-content">
+<span>© 2026 Leassh. All rights reserved.</span>
+<div>
+<a href="/privacy" style="color: var(--text-dim); text-decoration: none; margin-left: 16px;">Privacy</a>
+<a href="/docs" style="color: var(--text-dim); text-decoration: none; margin-left: 16px;">Docs</a>
+</div>
+</div>
+</footer>
+
+<script>
+// Mobile nav toggle
+document.getElementById('nav-toggle').addEventListener('change', function() {
+  this.checked ? this.parentElement.classList.add('open') : this.parentElement.classList.remove('open');
+});
+</script>
+</body>
+</html>
