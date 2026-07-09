@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Screen Time Rules That Don't Ruin Family Dinner — Leassh</title>
+<meta name="description" content="How to set screen time limits your kids won't fight — the automation approach that removed 80% of our daily arguments about computers, gaming, and bedtime.">
+<meta property="og:title" content="Screen Time Rules That Don't Ruin Family Dinner">
+<meta property="og:description" content="How to set screen time limits your kids won't fight — the automation approach that removed 80% of our daily arguments about computers, gaming, and bedtime.">
+<meta property="og:url" content="https://leassh.com/blog/screen-time-rules-family-dinner">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-07-09">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/screen-time-rules-family-dinner">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Screen Time Rules That Don't Ruin Family Dinner",
+  "description": "How to set screen time limits your kids won't fight — the automation approach that removed 80% of our daily arguments about computers, gaming, and bedtime.",
+  "datePublished": "2026-07-09",
+  "dateModified": "2026-07-09",
+  "url": "https://leassh.com/blog/screen-time-rules-family-dinner",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/screen-time-rules-family-dinner" },
+  "author": { "@type": "Person", "name": "Carl-Gustav Öberg", "url": "https://leassh.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  .article-header { max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px; }
+  .article-breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+  .article-header h1 { font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px; }
+  .article-meta { display: flex; gap: 24px; align-items: center; font-size: 14px; color: var(--text-mid); }
+  .article-meta span { display: flex; align-items: center; gap: 6px; }
+
+  .article-content { max-width: var(--prose); margin: 0 auto; padding: 48px 32px 96px; }
+  .article-content > * { margin-bottom: 2em; }
+  .article-content h2 { font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px); font-weight: 700; letter-spacing: -0.5px; margin-top: 3em; margin-bottom: 1em; }
+  .article-content h3 { font-family: var(--font-d); font-size: 20px; font-weight: 600; letter-spacing: -0.3px; margin-top: 2em; margin-bottom: 0.75em; }
+  .article-content p { margin-bottom: 1.25em; }
+  .article-content ul, .article-content ol { margin-left: 1.5em; margin-bottom: 1.25em; }
+  .article-content li { margin-bottom: 0.5em; }
+  .article-content a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-soft); }
+  .article-content a:hover { border-bottom-color: var(--amber); }
+  .article-content strong { color: var(--text); }
+  .article-content em { color: var(--text-mid); }
+
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 3em 0; }
+  .feature-card { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .feature-card h4 { font-family: var(--font-d); font-size: 18px; font-weight: 600; margin-bottom: 0.75em; color: var(--amber); }
+
+  .cta-section { background: var(--bg-warm); border: 1px solid var(--border); border-radius: 16px; padding: 48px 32px; text-align: center; margin: 3em 0; }
+  .cta-section h2 { font-size: clamp(24px, 4vw, 36px); margin-bottom: 16px; }
+  .cta-section p { font-size: 18px; color: var(--text-mid); max-width: 600px; margin: 0 auto 24px; }
+  .cta-button { display: inline-block; background: var(--amber); color: var(--bg) !important; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  .pull-quote { background: var(--amber-bg); border-left: 3px solid var(--amber); padding: 16px 24px; margin: 2em 0; font-family: var(--font-d); font-size: 20px; line-height: 1.5; color: var(--text); }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg); flex-direction: column; padding: 24px; gap: 16px; border-top: 1px solid var(--border); }
+    .nav-toggle-input:checked ~ .nav-links { display: flex; }
+    .nav-hamburger { display: block; }
+    .article-header { padding: 48px 24px 32px; }
+    .article-content { padding: 32px 24px 64px; }
+    .feature-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+<nav>
+<a href="/" class="nav-brand">Leassh</a>
+<input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+<label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+<ul class="nav-links">
+<li><a href="/features.html">Features</a></li>
+<li><a href="/pricing.html">Pricing</a></li>
+<li><a href="/blog.html">Blog</a></li>
+<li><a href="/fleet.html" class="nav-fleet">Fleet</a></li>
+<li><a href="/pricing.html" class="nav-cta">Get Started</a></li>
+</ul>
+</nav>
+
+<header class="article-header">
+<div class="article-breadcrumb">
+<a href="/blog.html">Blog</a> <span>&rarr;</span> Screen Time Rules
+</div>
+<h1>Screen Time Rules That Don't Ruin Family Dinner</h1>
+<div class="article-meta">
+<span>By <strong>Carl-Gustav Öberg</strong></span>
+<span>&bull;</span>
+<span>July 2026</span>
+</div>
+</header>
+
+<article class="article-content">
+<p>I used to be the screen-time police. Every evening, the same script: "How much longer?" "Five more minutes." Three arguments later, someone is crying, someone is yelling, and dinner is cold.</p>
+
+<p>It's a familiar pattern for most parents. You set a rule, your kid tests the boundary, you enforce it with your own two hands, and the whole thing turns into a power struggle. The rule itself isn't the problem — <strong>you</strong> being the enforcer is.</p>
+
+<p>What changed for us was automation. Not the kind that replaces parenting, but the kind that removes you from the equation so you can focus on the conversation instead of the enforcement.</p>
+
+<h2>The "Five More Minutes" Loop</h2>
+
+<p>Every parent has experienced it. You say "computer time is over," and what follows is a negotiation that would shame a hostage negotiator. The tactics are sophisticated: guilt ("but I was just getting to a good part"), compromise ("just five more minutes"), and the classic distraction ("hey, did you see this?").</p>
+
+<p>The problem isn't that kids are stubborn. It's that <strong>human enforcers are inconsistent</strong>. You're tired at 9pm on a school night. You cave more often than you'd admit. And your kids know it — they've been A/B testing your resolve since they were toddlers.</p>
+
+<p>When the computer itself is the enforcer, none of that goes away. The kid still doesn't want to stop. But the argument shifts from "why do <em>you</em> get to decide?" to "that's just how the system works."</p>
+
+<div class="pull-quote">
+"The goal of good screen time rules is not to control your child. It's to make the rule invisible so it never becomes a fight."
+</div>
+
+<h2>The Three Rules That Actually Work</h2>
+
+<p>After running Leassh in our own house for a while, we settled on three rules. They're not revolutionary — they're just clear, consistent, and enforced without us.</p>
+
+<h3>1. Per-Category Limits, Not a Global Clock</h3>
+
+<p>The mistake most parents make is setting a single daily limit: "two hours on the computer." The problem is that two hours of homework looks the same as two hours of Fortnite when you measure it by the clock. The kid has a valid complaint.</p>
+
+<p>What works better: different limits for different categories. Gaming gets a cap. Social media gets a cap. Homework, creative work, and browsing don't. This way, when the computer says "gaming time is up," the kid knows exactly which activity is done — and can switch to something else if they want to.</p>
+
+<p>Leassh handles this at the process level. It sees that Chrome is open on YouTube for 40 minutes, counts that against the "media" limit, and when the limit is hit, the app closes automatically. There's a warning at 80% so the kid isn't blindsided.</p>
+
+<h3>2. Bedtime Mode That Doesn't Negotiate</h3>
+
+<p>The bedtime battle is the hardest one because it happens when everyone is tired. The computer set to a schedule — 10pm on school nights, midnight on weekends — removes the need for you to be the one who says "that's it for tonight."</p>
+
+<p>With Leassh, the bedtime mode warns 10 minutes before the session ends, then logs off automatically. It's not dramatic. The screen goes blank, the session saves, and the computer waits for morning. The kid learns that the rule is as immutable as the school bell — and you avoid the midnight negotiation entirely.</p>
+
+<h3>3. What You See Matters More Than What You Count</h3>
+
+<p>This is the one that takes the most convincing. Screen time numbers are useful, but they're not enough. "Two hours on the computer" doesn't tell you if those two hours were homework, creative coding, or a 40-minute TikTok scroll followed by an hour of nothing.</p>
+
+<p>Leassh takes periodic screenshots of the active screen. Every few minutes, it captures what's on display and sends it to your local dashboard. This isn't about spying — it's about context. When you look at the dashboard at the end of the day, you can see that your child was actually working on a Scratch project, reading a Wikipedia article about dinosaurs, or watching a Minecraft tutorial. The numbers are the skeleton; the screenshots are the story.</p>
+
+<p>All of this stays in your home. Leassh is self-hosted — the screenshots, the activity logs, the time limit configuration — none of it goes to a cloud server. You can verify this yourself because you run the infrastructure.</p>
+
+<h2>The Psychology of Automated Boundaries</h2>
+
+<p>Why does automation work better than you saying the same thing? It comes down to three psychological factors:</p>
+
+<ul>
+<li><strong>Removal of intent.</strong> When you tell your kid to stop, they feel like you're <em>choosing</em> to interrupt their fun. When the computer does it, it feels like an environmental constraint — like a game server going offline or a class period ending.</li>
+<li><strong>Predictability breeds compliance.</strong> Kids adapt to consistent rules faster than they fight them. If the computer always stops at 10pm, after a week they start wrapping up at 9:50 on their own. The rule becomes habit.</li>
+<li><strong>It frees you to be the parent, not the warden.</strong> When you're not the one enforcing limits every 45 minutes, you have mental bandwidth to notice the real patterns: "when is she most productive?", "what does he get lost in?", "where are the actual problem areas?"</li>
+</ul>
+
+<h2>What Automation Won't Solve</h2>
+
+<p>Let's be clear: automated screen time limits are a tool, not a philosophy. They won't solve every parenting problem around technology. Here's what they don't handle:</p>
+
+<ul>
+<li><strong>The "why" behind the habits.</strong> If your child is spending 4 hours on Roblox every day, the limit will close the app. It won't tell you <em>why</em> they want to play for 4 hours. That conversation is still on you.</li>
+<li><strong>Modeling behavior.</strong> Nothing undermines screen time rules like the parent staring at their phone at dinner. Automation helps, but it doesn't replace leading by example.</li>
+<li><strong>Age-appropriate calibration.</strong> A 7-year-old needs different limits than a 14-year-old. Automation enforces; you decide what to enforce.</li>
+</ul>
+
+<p>The automation is the scaffolding. The parenting is still the foundation.</p>
+
+<h2>How We Set This Up at Home</h2>
+
+<p>Our setup is simple. We run a small server at home — it could be a Raspberry Pi, a NAS, or even an old laptop. Leassh's dashboard runs there, and each family computer has a lightweight agent installed. That's the entire infrastructure.</p>
+
+<p>We configured:</p>
+
+<ul>
+<li><strong>Gaming:</strong> 2 hours on school days, 3 hours on weekends. Warns at 80%.</li>
+<li><strong>Social media:</strong> 1 hour daily. No exceptions.</li>
+<li><strong>Homework and creative work:</strong> No limit.</li>
+<li><strong>Bedtime mode:</strong> 10pm on school nights, midnight on weekends.</li>
+</ul>
+
+<p>We sat down with the kids, showed them the dashboard, and explained the rules. We were clear that the computer enforces them, not us. The first few days there was testing — the classic "does this actually happen?" — but after a week it became normal.</p>
+
+<p>The biggest change wasn't the kids adapting. It was us. The evening arguments just... stopped. Dinner conversations went from "did you do your homework yet" to the actual things we wanted to talk about.</p>
+
+<h2>The Tradeoff: Visibility vs. Privacy</h2>
+
+<p>Every parental control involves a tradeoff. You gain visibility into your child's digital life, and they lose some privacy. The key is where that visibility lives.</p>
+
+<p>With cloud-based parental controls — Microsoft Family Safety, Bark, Qustodio — the data goes to their servers. Your child's browsing history, their screenshots, their activity patterns — all stored on infrastructure you don't control. That's a tradeoff many parents don't think about because it's invisible.</p>
+
+<p>With self-hosted tools like Leassh, the data stays in your home. You can literally look at the machine holding your family's data. If you want to wipe it, you do. There's no corporate data retention policy, no terms-of-service update that changes what they collect.</p>
+
+<p>This matters because screen time monitoring is intimate data. It's not just "how long" — it's "what were they doing, what were they looking at, who were they talking to." Keeping that in your home, on your hardware, is the difference between monitoring and surveillance.</p>
+
+<h2>The Bottom Line</h2>
+
+<p>Screen time rules don't need to be a daily negotiation. The secret isn't the rules themselves — it's removing yourself from the enforcement loop. When the computer is the one that says "time's up," the rule becomes part of the environment, not a parent-child power struggle.</p>
+
+<p>You set the boundaries once. The system enforces them consistently. And you get to be the parent who talks, not the warden who watches the clock.</p>
+
+<p>That's what changed for us. Family dinner is no longer the battleground for screen time. It's just dinner again.</p>
+
+<div class="cta-section">
+<h2>Try Automated Screen Time</h2>
+<p>Set the rules once. Let the system enforce them. Start your 14-day free trial — no credit card needed.</p>
+<a href="/pricing.html" class="cta-button">View Pricing</a>
+</div>
+</article>
+
+<footer style="max-width: var(--prose); margin: 0 auto; padding: 48px 32px; text-align: center; color: var(--text-dim); font-size: 14px;">
+<p>&copy; 2026 Leassh. Self-hosted screen time monitoring for families who care about privacy.</p>
+</footer>
+</div>
+</body>
+</html>
