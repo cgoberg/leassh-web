@@ -2,8 +2,8 @@
 // Full command registry for paid binary (includes probes + actions)
 
 module.exports = {
-  "version": 1,
-  "updated_at": "2026-04-07T00:00:00Z",
+  "version": 2,
+  "updated_at": "2026-07-16T00:00:00Z",
   "signature": null,
   "entries": [
     {
@@ -287,241 +287,6 @@ module.exports = {
       ],
       "timeout_secs": 10,
       "description": "Windows free disk space in GB from WMI"
-    },
-    {
-      "id": "disk_linux_df_total",
-      "category": "probe",
-      "os": "linux",
-      "priority": 1,
-      "command": "df -BG / | tail -1",
-      "parser": {
-        "type": "split",
-        "delimiter": " ",
-        "index": 1,
-        "transform": null
-      },
-      "requires": [],
-      "tags": ["disk_total"],
-      "timeout_secs": 5,
-      "description": "Linux total disk space in GB from df"
-    },
-    {
-      "id": "disk_linux_df_pct",
-      "category": "probe",
-      "os": "linux",
-      "priority": 1,
-      "command": "df -BG / | tail -1",
-      "parser": {
-        "type": "split",
-        "delimiter": " ",
-        "index": 4,
-        "transform": null
-      },
-      "requires": [],
-      "tags": ["disk_usage"],
-      "timeout_secs": 5,
-      "description": "Linux disk usage percentage from df"
-    },
-    {
-      "id": "disk_macos_df_total",
-      "category": "probe",
-      "os": "macos",
-      "priority": 1,
-      "command": "df -g / | tail -1",
-      "parser": {
-        "type": "split",
-        "delimiter": " ",
-        "index": 1,
-        "transform": null
-      },
-      "requires": [],
-      "tags": ["disk_total"],
-      "timeout_secs": 5,
-      "description": "macOS total disk space in GB from df"
-    },
-    {
-      "id": "disk_macos_df_pct",
-      "category": "probe",
-      "os": "macos",
-      "priority": 1,
-      "command": "df -g / | tail -1",
-      "parser": {
-        "type": "split",
-        "delimiter": " ",
-        "index": 4,
-        "transform": null
-      },
-      "requires": [],
-      "tags": ["disk_usage"],
-      "timeout_secs": 5,
-      "description": "macOS disk usage percentage from df"
-    },
-    {
-      "id": "disk_windows_cim_total_gb",
-      "category": "probe",
-      "os": "windows",
-      "priority": 1,
-      "command": "powershell -NoProfile -Command \"Get-CimInstance Win32_LogicalDisk -Filter \\\"DeviceID='C:'\\\" | ForEach-Object { [math]::Round($_.Size/1GB) }\"",
-      "parser": {
-        "type": "identity",
-        "transform": null
-      },
-      "requires": [],
-      "tags": ["disk_total"],
-      "timeout_secs": 10,
-      "description": "Windows total disk space in GB from WMI"
-    },
-    {
-      "id": "disk_windows_cim_pct",
-      "category": "probe",
-      "os": "windows",
-      "priority": 1,
-      "command": "powershell -NoProfile -Command \"Get-CimInstance Win32_LogicalDisk -Filter \\\"DeviceID='C:'\\\" | ForEach-Object { \\\"$($_.Size) $($_.FreeSpace)\\\" }\"",
-      "parser": {
-        "type": "lua",
-        "script": "local parts = {} for w in output:gmatch('%S+') do parts[#parts+1] = tonumber(w) end if #parts < 2 or parts[1] == 0 then return 0 end return (parts[1] - parts[2]) / parts[1] * 100"
-      },
-      "requires": [],
-      "tags": ["disk_usage"],
-      "timeout_secs": 10,
-      "description": "Windows disk usage percentage from WMI"
-    },
-    {
-      "id": "uptime_linux_proc",
-      "category": "probe",
-      "os": "linux",
-      "priority": 1,
-      "command": "cat /proc/uptime",
-      "parser": {
-        "type": "split",
-        "delimiter": " ",
-        "index": 0,
-        "transform": null
-      },
-      "requires": ["/proc/uptime"],
-      "tags": ["uptime"],
-      "timeout_secs": 5,
-      "description": "Linux system uptime in seconds from /proc/uptime"
-    },
-    {
-      "id": "uptime_macos_sysctl",
-      "category": "probe",
-      "os": "macos",
-      "priority": 1,
-      "command": "sysctl -n kern.boottime",
-      "parser": {
-        "type": "lua",
-        "script": "local sec = tonumber(output:match('sec = (%d+)')) if sec then return os.time() - sec else return 0 end"
-      },
-      "requires": [],
-      "tags": ["uptime"],
-      "timeout_secs": 5,
-      "description": "macOS system uptime in seconds from kern.boottime"
-    },
-    {
-      "id": "uptime_windows_cim",
-      "category": "probe",
-      "os": "windows",
-      "priority": 1,
-      "command": "powershell -NoProfile -Command \"[math]::Round((New-TimeSpan -Start (Get-CimInstance Win32_OperatingSystem).LastBootUpTime).TotalSeconds)\"",
-      "parser": {
-        "type": "identity",
-        "transform": null
-      },
-      "requires": [],
-      "tags": ["uptime"],
-      "timeout_secs": 10,
-      "description": "Windows system uptime in seconds from WMI"
-    },
-    {
-      "id": "net_linux_rx_bytes",
-      "category": "probe",
-      "os": "linux",
-      "priority": 1,
-      "command": "cat /proc/net/dev",
-      "parser": {
-        "type": "lua",
-        "script": "local total = 0 for line in output:gmatch('[^\\n]+') do local iface, bytes = line:match('^%s*(%S+):%s+(%d+)') if iface and bytes and iface ~= 'lo' then total = total + tonumber(bytes) end end return total"
-      },
-      "requires": ["/proc/net/dev"],
-      "tags": ["net_rx_bytes"],
-      "timeout_secs": 5,
-      "description": "Linux total received bytes across all non-loopback interfaces"
-    },
-    {
-      "id": "net_linux_tx_bytes",
-      "category": "probe",
-      "os": "linux",
-      "priority": 1,
-      "command": "cat /proc/net/dev",
-      "parser": {
-        "type": "lua",
-        "script": "local total = 0 for line in output:gmatch('[^\\n]+') do local iface = line:match('^%s*(%S+):') if iface and iface ~= 'lo' then local fields = {} for n in line:gsub('^[^:]+:', ''):gmatch('%d+') do fields[#fields+1] = tonumber(n) end if #fields >= 9 then total = total + fields[9] end end end return total"
-      },
-      "requires": ["/proc/net/dev"],
-      "tags": ["net_tx_bytes"],
-      "timeout_secs": 5,
-      "description": "Linux total transmitted bytes across all non-loopback interfaces"
-    },
-    {
-      "id": "net_macos_rx_bytes",
-      "category": "probe",
-      "os": "macos",
-      "priority": 1,
-      "command": "netstat -ibn",
-      "parser": {
-        "type": "lua",
-        "script": "local total = 0 local first = true for line in output:gmatch('[^\\n]+') do if first then first = false else local parts = {} for w in line:gmatch('%S+') do parts[#parts+1] = w end if #parts >= 7 and parts[1] ~= 'lo0' and parts[3] and parts[3]:match('<Link') then local rb = tonumber(parts[7]) if rb then total = total + rb end end end end return total"
-      },
-      "requires": [],
-      "tags": ["net_rx_bytes"],
-      "timeout_secs": 5,
-      "description": "macOS total received bytes from netstat -ibn (Link-layer rows only)"
-    },
-    {
-      "id": "net_macos_tx_bytes",
-      "category": "probe",
-      "os": "macos",
-      "priority": 1,
-      "command": "netstat -ibn",
-      "parser": {
-        "type": "lua",
-        "script": "local total = 0 local first = true for line in output:gmatch('[^\\n]+') do if first then first = false else local parts = {} for w in line:gmatch('%S+') do parts[#parts+1] = w end if #parts >= 10 and parts[1] ~= 'lo0' and parts[3] and parts[3]:match('<Link') then local tb = tonumber(parts[10]) if tb then total = total + tb end end end end return total"
-      },
-      "requires": [],
-      "tags": ["net_tx_bytes"],
-      "timeout_secs": 5,
-      "description": "macOS total transmitted bytes from netstat -ibn (Link-layer rows only)"
-    },
-    {
-      "id": "net_windows_rx_bytes",
-      "category": "probe",
-      "os": "windows",
-      "priority": 1,
-      "command": "powershell -NoProfile -Command \"Get-NetAdapterStatistics | Where-Object {(Get-NetAdapter -Name $_.Name -ErrorAction SilentlyContinue).Status -eq 'Up'} | Measure-Object -Property ReceivedBytes -Sum | Select-Object -ExpandProperty Sum\"",
-      "parser": {
-        "type": "identity",
-        "transform": null
-      },
-      "requires": [],
-      "tags": ["net_rx_bytes"],
-      "timeout_secs": 15,
-      "description": "Windows total received bytes across active adapters"
-    },
-    {
-      "id": "net_windows_tx_bytes",
-      "category": "probe",
-      "os": "windows",
-      "priority": 1,
-      "command": "powershell -NoProfile -Command \"Get-NetAdapterStatistics | Where-Object {(Get-NetAdapter -Name $_.Name -ErrorAction SilentlyContinue).Status -eq 'Up'} | Measure-Object -Property SentBytes -Sum | Select-Object -ExpandProperty Sum\"",
-      "parser": {
-        "type": "identity",
-        "transform": null
-      },
-      "requires": [],
-      "tags": ["net_tx_bytes"],
-      "timeout_secs": 15,
-      "description": "Windows total transmitted bytes across active adapters"
     },
     {
       "id": "gpu_util_nvidia",
@@ -831,7 +596,7 @@ module.exports = {
       "os": "macos",
       "os_version_min": "15.0",
       "priority": 1,
-      "command": "open ~/Library/Application\\ Support/Leassh/LeasshCapture.app --args /tmp/leassh_screenshot.png && sleep 2 && base64 /tmp/leassh_screenshot.png && rm -f /tmp/leassh_screenshot.png",
+      "command": "mkdir -p $HOME/.leassh && chmod 700 $HOME/.leassh && open ~/Library/Application\\ Support/Leassh/LeasshCapture.app --args $HOME/.leassh/capture.png && sleep 2 && base64 $HOME/.leassh/capture.png && rm -f $HOME/.leassh/capture.png",
       "parser": {
         "type": "identity",
         "transform": null
@@ -848,7 +613,7 @@ module.exports = {
       "category": "action",
       "os": "macos",
       "priority": 2,
-      "command": "screencapture -x /tmp/leassh_screenshot.png && base64 /tmp/leassh_screenshot.png && rm -f /tmp/leassh_screenshot.png",
+      "command": "mkdir -p $HOME/.leassh && chmod 700 $HOME/.leassh && screencapture -x $HOME/.leassh/capture.png && chmod 600 $HOME/.leassh/capture.png && base64 $HOME/.leassh/capture.png && rm -f $HOME/.leassh/capture.png",
       "parser": {
         "type": "identity",
         "transform": null
@@ -865,7 +630,7 @@ module.exports = {
       "category": "action",
       "os": "linux",
       "priority": 1,
-      "command": "DISPLAY=:0 scrot /tmp/leassh_screenshot.png && base64 /tmp/leassh_screenshot.png && rm -f /tmp/leassh_screenshot.png",
+      "command": "mkdir -p $HOME/.leassh && chmod 700 $HOME/.leassh && DISPLAY=:0 scrot $HOME/.leassh/capture.png && chmod 600 $HOME/.leassh/capture.png && base64 $HOME/.leassh/capture.png && rm -f $HOME/.leassh/capture.png",
       "parser": {
         "type": "identity",
         "transform": null
@@ -884,7 +649,7 @@ module.exports = {
       "category": "action",
       "os": "linux",
       "priority": 2,
-      "command": "DISPLAY=:0 import -window root /tmp/leassh_screenshot.png && base64 /tmp/leassh_screenshot.png && rm -f /tmp/leassh_screenshot.png",
+      "command": "mkdir -p $HOME/.leassh && chmod 700 $HOME/.leassh && DISPLAY=:0 import -window root $HOME/.leassh/capture.png && chmod 600 $HOME/.leassh/capture.png && base64 $HOME/.leassh/capture.png && rm -f $HOME/.leassh/capture.png",
       "parser": {
         "type": "identity",
         "transform": null
@@ -903,7 +668,7 @@ module.exports = {
       "category": "action",
       "os": "linux",
       "priority": 3,
-      "command": "grim /tmp/leassh_screenshot.png && base64 /tmp/leassh_screenshot.png && rm -f /tmp/leassh_screenshot.png",
+      "command": "mkdir -p $HOME/.leassh && chmod 700 $HOME/.leassh && grim $HOME/.leassh/capture.png && chmod 600 $HOME/.leassh/capture.png && base64 $HOME/.leassh/capture.png && rm -f $HOME/.leassh/capture.png",
       "parser": {
         "type": "identity",
         "transform": null
@@ -939,7 +704,7 @@ module.exports = {
       "category": "action",
       "os": "windows",
       "priority": 2,
-      "command": "powershell -NoProfile -Command \"$script = 'Add-Type -AssemblyName System.Windows.Forms,System.Drawing; $s=[System.Windows.Forms.Screen]::PrimaryScreen.Bounds; $b=New-Object Drawing.Bitmap($s.Width,$s.Height); $g=[Drawing.Graphics]::FromImage($b); $g.CopyFromScreen($s.Location,[Drawing.Point]::Empty,$s.Size); $b.Save(\\\"C:\\Windows\\Temp\\leassh_cap.png\\\")'; Set-Content C:\\Windows\\Temp\\leassh_cap.ps1 $script; schtasks /Create /TN LeasshCap /TR 'powershell -ExecutionPolicy Bypass -File C:\\Windows\\Temp\\leassh_cap.ps1' /SC ONCE /ST 00:00 /F /RL HIGHEST; schtasks /Run /TN LeasshCap; Start-Sleep 3; schtasks /Delete /TN LeasshCap /F; [Convert]::ToBase64String([IO.File]::ReadAllBytes('C:\\Windows\\Temp\\leassh_cap.png')); Remove-Item C:\\Windows\\Temp\\leassh_cap.png -Force\"",
+      "command": "powershell -NoProfile -Command \"$d=\\\"$env:LOCALAPPDATA\\Leassh\\\"; if(!(Test-Path $d)){New-Item -ItemType Directory $d -Force|Out-Null}; $script = 'Add-Type -AssemblyName System.Windows.Forms,System.Drawing; $d=\\\"$env:LOCALAPPDATA\\Leassh\\\"; if(!(Test-Path $d)){New-Item -ItemType Directory $d -Force|Out-Null}; $s=[System.Windows.Forms.Screen]::PrimaryScreen.Bounds; $b=New-Object Drawing.Bitmap($s.Width,$s.Height); $g=[Drawing.Graphics]::FromImage($b); $g.CopyFromScreen($s.Location,[Drawing.Point]::Empty,$s.Size); $b.Save(\\\"$d\\capture.png\\\")'; Set-Content \\\"$d\\leassh_capture.ps1\\\" $script; schtasks /Create /TN LeasshCap /TR 'powershell -ExecutionPolicy Bypass -File \\\"$env:LOCALAPPDATA\\Leassh\\leassh_capture.ps1\\\"' /SC ONCE /ST 00:00 /F /RL HIGHEST; schtasks /Run /TN LeasshCap; Start-Sleep 3; schtasks /Delete /TN LeasshCap /F; [Convert]::ToBase64String([IO.File]::ReadAllBytes(\\\"$d\\capture.png\\\")); Remove-Item \\\"$d\\capture.png\\\",\\\"$d\\leassh_capture.ps1\\\" -Force\"",
       "parser": {
         "type": "identity",
         "transform": null
@@ -950,6 +715,466 @@ module.exports = {
       ],
       "timeout_secs": 30,
       "description": "Windows screenshot via scheduled task fallback (session 0)"
+    },
+    {
+      "id": "disk_linux_df_total",
+      "category": "probe",
+      "os": "linux",
+      "priority": 1,
+      "command": "df -BG / | tail -1",
+      "parser": {
+        "type": "split",
+        "delimiter": " ",
+        "index": 1,
+        "transform": "value.replace('G', '')"
+      },
+      "requires": [],
+      "tags": [
+        "disk_total"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux total disk space in GB from df"
+    },
+    {
+      "id": "disk_macos_df_total",
+      "category": "probe",
+      "os": "macos",
+      "priority": 1,
+      "command": "df -g / | tail -1",
+      "parser": {
+        "type": "split",
+        "delimiter": " ",
+        "index": 1,
+        "transform": null
+      },
+      "requires": [],
+      "tags": [
+        "disk_total"
+      ],
+      "timeout_secs": 5,
+      "description": "macOS total disk space in GB from df"
+    },
+    {
+      "id": "disk_windows_cim_total",
+      "category": "probe",
+      "os": "windows",
+      "priority": 1,
+      "command": "powershell -NoProfile -Command \"Get-CimInstance Win32_LogicalDisk -Filter \\\"DeviceID='C:'\\\" | ForEach-Object { [math]::Round($_.Size/1GB) }\"",
+      "parser": {
+        "type": "identity",
+        "transform": null
+      },
+      "requires": [],
+      "tags": [
+        "disk_total"
+      ],
+      "timeout_secs": 10,
+      "description": "Windows total disk space in GB from WMI"
+    },
+    {
+      "id": "disk_linux_df_pct",
+      "category": "probe",
+      "os": "linux",
+      "priority": 1,
+      "command": "df / | tail -1",
+      "parser": {
+        "type": "split",
+        "delimiter": " ",
+        "index": 4,
+        "transform": "value.replace('%', '')"
+      },
+      "requires": [],
+      "tags": [
+        "disk_usage"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux disk usage percentage from df"
+    },
+    {
+      "id": "disk_macos_df_pct",
+      "category": "probe",
+      "os": "macos",
+      "priority": 1,
+      "command": "df / | tail -1",
+      "parser": {
+        "type": "split",
+        "delimiter": " ",
+        "index": 4,
+        "transform": "value.replace('%', '')"
+      },
+      "requires": [],
+      "tags": [
+        "disk_usage"
+      ],
+      "timeout_secs": 5,
+      "description": "macOS disk usage percentage from df"
+    },
+    {
+      "id": "disk_windows_cim_pct",
+      "category": "probe",
+      "os": "windows",
+      "priority": 1,
+      "command": "powershell -NoProfile -Command \"$disk=Get-CimInstance Win32_LogicalDisk -Filter \\\"DeviceID='C:'\\\"; [math]::Round((($disk.Size - $disk.FreeSpace) / $disk.Size) * 100)\"",
+      "parser": {
+        "type": "identity",
+        "transform": null
+      },
+      "requires": [],
+      "tags": [
+        "disk_usage"
+      ],
+      "timeout_secs": 10,
+      "description": "Windows disk usage percentage from WMI"
+    },
+    {
+      "id": "uptime_linux_proc",
+      "category": "probe",
+      "os": "linux",
+      "priority": 1,
+      "command": "cat /proc/uptime",
+      "parser": {
+        "type": "split",
+        "delimiter": " ",
+        "index": 0,
+        "transform": null
+      },
+      "requires": [
+        "/proc/uptime"
+      ],
+      "tags": [
+        "uptime"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux system uptime in seconds from /proc/uptime"
+    },
+    {
+      "id": "uptime_macos_sysctl",
+      "category": "probe",
+      "os": "macos",
+      "priority": 1,
+      "command": "sysctl kern.boottime",
+      "parser": {
+        "type": "lua",
+        "script": "local boottime = output:match('sec = (%d+)') if boottime then return os.time() - tonumber(boottime) else return 0 end"
+      },
+      "requires": [],
+      "tags": [
+        "uptime"
+      ],
+      "timeout_secs": 5,
+      "description": "macOS system uptime in seconds from kern.boottime"
+    },
+    {
+      "id": "uptime_windows_cim",
+      "category": "probe",
+      "os": "windows",
+      "priority": 1,
+      "command": "powershell -NoProfile -Command \"$os=Get-CimInstance Win32_OperatingSystem; [math]::Round(((Get-Date) - $os.LastBootUpTime).TotalSeconds)\"",
+      "parser": {
+        "type": "identity",
+        "transform": null
+      },
+      "requires": [],
+      "tags": [
+        "uptime"
+      ],
+      "timeout_secs": 10,
+      "description": "Windows system uptime in seconds from WMI"
+    },
+    {
+      "id": "net_linux_rx_bytes",
+      "category": "probe",
+      "os": "linux",
+      "priority": 1,
+      "command": "cat /proc/net/dev",
+      "parser": {
+        "type": "lua",
+        "script": "local total = 0 for line in output:gmatch('[^\\n]+') do local iface, rx = line:match('^%s*([^:]+):%s*(%d+)') if iface and not iface:match('lo') then total = total + tonumber(rx) end end return total"
+      },
+      "requires": [
+        "/proc/net/dev"
+      ],
+      "tags": [
+        "net_rx_bytes"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux total network RX bytes from /proc/net/dev"
+    },
+    {
+      "id": "net_linux_tx_bytes",
+      "category": "probe",
+      "os": "linux",
+      "priority": 1,
+      "command": "cat /proc/net/dev",
+      "parser": {
+        "type": "lua",
+        "script": "local total = 0 for line in output:gmatch('[^\\n]+') do local parts = {} for w in line:gmatch('%S+') do parts[#parts+1] = w end if #parts >= 10 and not parts[1]:match('lo:') then total = total + (tonumber(parts[10]) or 0) end end return total"
+      },
+      "requires": [
+        "/proc/net/dev"
+      ],
+      "tags": [
+        "net_tx_bytes"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux total network TX bytes from /proc/net/dev"
+    },
+    {
+      "id": "net_macos_netstat",
+      "category": "probe",
+      "os": "macos",
+      "priority": 1,
+      "command": "netstat -ibn | grep -v lo0",
+      "parser": {
+        "type": "lua",
+        "script": "local total_rx, total_tx = 0, 0 for line in output:gmatch('[^\\n]+') do local parts = {} for w in line:gmatch('%S+') do parts[#parts+1] = w end if #parts >= 8 and parts[1]:match('^[a-z]') then total_rx = total_rx + (tonumber(parts[7]) or 0) total_tx = total_tx + (tonumber(parts[10]) or 0) end end return total_rx"
+      },
+      "requires": [],
+      "tags": [
+        "net_rx_bytes"
+      ],
+      "timeout_secs": 5,
+      "description": "macOS total network RX bytes from netstat"
+    },
+    {
+      "id": "net_macos_netstat_tx",
+      "category": "probe",
+      "os": "macos",
+      "priority": 1,
+      "command": "netstat -ibn | grep -v lo0",
+      "parser": {
+        "type": "lua",
+        "script": "local total_rx, total_tx = 0, 0 for line in output:gmatch('[^\\n]+') do local parts = {} for w in line:gmatch('%S+') do parts[#parts+1] = w end if #parts >= 8 and parts[1]:match('^[a-z]') then total_rx = total_rx + (tonumber(parts[7]) or 0) total_tx = total_tx + (tonumber(parts[10]) or 0) end end return total_tx"
+      },
+      "requires": [],
+      "tags": [
+        "net_tx_bytes"
+      ],
+      "timeout_secs": 5,
+      "description": "macOS total network TX bytes from netstat"
+    },
+    {
+      "id": "net_windows_netadapter",
+      "category": "probe",
+      "os": "windows",
+      "priority": 1,
+      "command": "powershell -NoProfile -Command \"Get-NetAdapterStatistics | Where-Object Name -NotMatch 'Loopback' | Measure-Object ReceivedBytes -Sum | Select-Object -ExpandProperty Sum\"",
+      "parser": {
+        "type": "identity",
+        "transform": null
+      },
+      "requires": [],
+      "tags": [
+        "net_rx_bytes"
+      ],
+      "timeout_secs": 10,
+      "description": "Windows total network RX bytes from NetAdapter"
+    },
+    {
+      "id": "net_windows_netadapter_tx",
+      "category": "probe",
+      "os": "windows",
+      "priority": 1,
+      "command": "powershell -NoProfile -Command \"Get-NetAdapterStatistics | Where-Object Name -NotMatch 'Loopback' | Measure-Object SentBytes -Sum | Select-Object -ExpandProperty Sum\"",
+      "parser": {
+        "type": "identity",
+        "transform": null
+      },
+      "requires": [],
+      "tags": [
+        "net_tx_bytes"
+      ],
+      "timeout_secs": 10,
+      "description": "Windows total network TX bytes from NetAdapter"
+    },
+    {
+      "id": "load_linux_proc",
+      "category": "probe",
+      "os": "linux",
+      "priority": 1,
+      "command": "cat /proc/loadavg",
+      "parser": {
+        "type": "split",
+        "delimiter": " ",
+        "index": 0,
+        "transform": null
+      },
+      "requires": [
+        "/proc/loadavg"
+      ],
+      "tags": [
+        "load_average"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux 1-minute load average from /proc/loadavg"
+    },
+    {
+      "id": "load_linux_proc_15min",
+      "category": "probe",
+      "os": "linux",
+      "priority": 2,
+      "command": "cat /proc/loadavg",
+      "parser": {
+        "type": "split",
+        "delimiter": " ",
+        "index": 2,
+        "transform": null
+      },
+      "requires": [
+        "/proc/loadavg"
+      ],
+      "tags": [
+        "load_average"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux 15-minute load average from /proc/loadavg"
+    },
+    {
+      "id": "load_macos_sysctl",
+      "category": "probe",
+      "os": "macos",
+      "priority": 1,
+      "command": "sysctl -n vm.loadavg",
+      "parser": {
+        "type": "split",
+        "delimiter": " ",
+        "index": 0,
+        "transform": "value / 65536.0"
+      },
+      "requires": [],
+      "tags": [
+        "load_average"
+      ],
+      "timeout_secs": 5,
+      "description": "macOS load average from sysctl (need to divide by 65536)"
+    },
+    {
+      "id": "battery_linux_acpi",
+      "category": "probe",
+      "os": "linux",
+      "priority": 1,
+      "command": "acpi -b 2>/dev/null | head -1",
+      "parser": {
+        "type": "lua",
+        "script": "local status, pct = output:match('(%a+).*?([0-9]+)%') if status then status = status:lower() end pct = tonumber(pct) or 0 if status == 'charging' then pct = pct + 100 end return pct"
+      },
+      "requires": [
+        "acpi"
+      ],
+      "tags": [
+        "battery"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux battery percentage from acpi (values >100 mean charging + percentage)"
+    },
+    {
+      "id": "battery_linux_sysfs",
+      "category": "probe",
+      "os": "linux",
+      "priority": 2,
+      "command": "cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -1",
+      "parser": {
+        "type": "identity",
+        "transform": null
+      },
+      "requires": [
+        "/sys/class/power_supply/BAT*/capacity"
+      ],
+      "tags": [
+        "battery"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux battery percentage from sysfs (fallback when acpi not installed)"
+    },
+    {
+      "id": "battery_macos_iosctl",
+      "category": "probe",
+      "os": "macos",
+      "priority": 1,
+      "command": "system_profiler SPPowerDataType 2>/dev/null | grep -E 'Critical Level|Charge Level|State'",
+      "parser": {
+        "type": "lua",
+        "script": "local pct = tonumber(output:match('Charge Level:%s*(%d+)%%')) or 0 local state = output:match('State:%s*(%w+)') return pct .. (state and ':' .. state or ':unknown')"
+      },
+      "requires": [],
+      "tags": [
+        "battery"
+      ],
+      "timeout_secs": 10,
+      "description": "macOS battery percentage and state from system_profiler"
+    },
+    {
+      "id": "battery_windows_cim",
+      "category": "probe",
+      "os": "windows",
+      "priority": 1,
+      "command": "powershell -NoProfile -Command \"$b=Get-CimInstance Win32_Battery; \\\"$($b.EstimatedCharge) $($b.BatteryStatus)\\\"\"",
+      "parser": {
+        "type": "split",
+        "delimiter": " ",
+        "index": 0,
+        "transform": null
+      },
+      "requires": [],
+      "tags": [
+        "battery"
+      ],
+      "timeout_secs": 10,
+      "description": "Windows battery charge percentage from WMI"
+    },
+    {
+      "id": "window_title_linux_xprop",
+      "category": "probe",
+      "os": "linux",
+      "priority": 1,
+      "command": "DISPLAY=:0 xprop -root _NET_ACTIVE_WINDOW 2>/dev/null | awk -F'# ' '{print $NF}'",
+      "parser": {
+        "type": "lua",
+        "script": "local winid = output:match('(%x+)') if not winid then return 'unknown' end return winid"
+      },
+      "requires": [
+        "xprop"
+      ],
+      "tags": [
+        "active_window"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux active window ID from X11 _NET_ACTIVE_WINDOW"
+    },
+    {
+      "id": "window_title_macos_osascript",
+      "category": "probe",
+      "os": "macos",
+      "priority": 1,
+      "command": "osascript -e 'tell application \"System Events\" to get name of first application process whose frontmost is true'",
+      "parser": {
+        "type": "identity",
+        "transform": null
+      },
+      "requires": [],
+      "tags": [
+        "active_window"
+      ],
+      "timeout_secs": 5,
+      "description": "macOS active application name from AppleScript"
+    },
+    {
+      "id": "window_title_windows_powershell",
+      "category": "probe",
+      "os": "windows",
+      "priority": 1,
+      "command": "powershell -NoProfile -Command \"Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.Form]::ActiveForm.Text\"",
+      "parser": {
+        "type": "identity",
+        "transform": null
+      },
+      "requires": [],
+      "tags": [
+        "active_window"
+      ],
+      "timeout_secs": 10,
+      "description": "Windows active window title (from PowerShell, requires desktop session)"
     }
   ]
-};
+}
+;
