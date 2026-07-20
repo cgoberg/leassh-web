@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parental Controls for Linux in 2026: The Complete Guide — Leassh</title>
+<meta name="description" content="Comprehensive parental controls for Linux in 2026. Leassh provides SSH-based screen time monitoring on Ubuntu, Fedora, Debian — no spyware, no cloud dependency, full local privacy.">
+<meta property="og:title" content="Parental Controls for Linux in 2026: The Complete Guide">
+<meta property="og:description" content="Comprehensive parental controls for Linux. Leassh provides SSH-based screen time monitoring on Ubuntu, Fedora, Debian — no spyware, no cloud dependency.">
+<meta property="og:url" content="https://leassh.com/blog/parental-controls-linux">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-07-20">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/parental-controls-linux">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Parental Controls for Linux in 2026: The Complete Guide",
+  "description": "Comprehensive parental controls for Linux. Leassh provides SSH-based screen time monitoring on Ubuntu, Fedora, Debian — no spyware, no cloud dependency.",
+  "datePublished": "2026-07-20",
+  "dateModified": "2026-07-20",
+  "url": "https://leassh.com/blog/parental-controls-linux",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/parental-controls-linux" },
+  "author": { "@type": "Person", "name": "Carl-Gustav Öberg", "url": "https://leassh.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --red:        #d45b4c;
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  .article-header { max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px; }
+  .article-breadcrumb { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+  .article-header h1 { font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px; }
+  .article-byline { color: var(--text-dim); font-size: 14px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+  .article-byline strong { color: var(--text-mid); font-weight: 600; }
+
+  .article-body { max-width: var(--prose); margin: 0 auto; padding: 48px 32px 80px; }
+  .article-body p { margin-bottom: 24px; }
+  .article-body h2 { font-family: var(--font-d); font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -0.5px; line-height: 1.2; margin: 52px 0 20px; }
+  .article-body h3 { font-family: var(--font-d); font-size: clamp(18px, 2.5vw, 22px); font-weight: 700; margin: 36px 0 14px; }
+  .article-body ul, .article-body ol { padding-left: 24px; margin-bottom: 24px; }
+  .article-body li { margin-bottom: 10px; color: var(--text-mid); }
+  .article-body li strong { color: var(--text); }
+  .article-body strong { color: var(--text); font-weight: 600; }
+  .article-body a { color: var(--amber); text-decoration: none; font-weight: 500; }
+  .article-body a:visited { color: var(--amber); }
+  .article-body a:hover { color: var(--amber-soft); text-decoration: underline; }
+
+  .tool-card {
+    background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px;
+    padding: 28px 32px; margin: 36px 0;
+  }
+
+  .tool-card-header {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+  }
+
+  .tool-name {
+    font-family: var(--font-d); font-size: 22px; font-weight: 800; color: var(--text);
+  }
+
+  .tool-tag {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 4px 10px; border-radius: 20px;
+  }
+
+  .tag-linux { background: rgba(80,160,220,0.13); color: #5aacdc; border: 1px solid rgba(80,160,220,0.25); }
+  .tag-open { background: rgba(106,191,105,0.12); color: var(--green); border: 1px solid rgba(106,191,105,0.25); }
+
+  .pro-con-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  @media (max-width: 540px) {
+    .pro-con-grid { grid-template-columns: 1fr; }
+  }
+
+  .pro-con-col h4 {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+
+  .pros h4 { color: var(--green); }
+  .cons h4 { color: var(--red); }
+
+  .pro-con-col ul { padding-left: 16px; margin: 0; }
+  .pro-con-col li { font-size: 14px; color: var(--text-mid); margin-bottom: 6px; line-height: 1.5; }
+
+  .verdict {
+    border-top: 1px solid var(--border); margin-top: 20px; padding-top: 16px;
+    font-size: 14px; color: var(--text-mid); font-style: italic;
+  }
+
+  .verdict strong { color: var(--text); font-style: normal; }
+
+  .comparison-table {
+    width: 100%; border-collapse: collapse; margin: 36px 0; font-size: 14px;
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
+
+  .comparison-table th {
+    background: var(--bg-raised); padding: 12px 16px; text-align: left;
+    font-weight: 600; color: var(--text-mid); font-size: 12px; text-transform: uppercase;
+    letter-spacing: 1px; border-bottom: 1px solid var(--border);
+  }
+
+  .comparison-table td {
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    color: var(--text-mid); vertical-align: top; line-height: 1.5;
+  }
+
+  .comparison-table tr:last-child td { border-bottom: none; }
+  .comparison-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .comparison-table td:first-child { font-weight: 600; color: var(--text); }
+
+  .check { color: var(--green); }
+  .cross { color: var(--red); }
+  .partial { color: var(--amber); }
+
+  .code-block {
+    background: var(--bg-warm); border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 20px; margin: 28px 0; overflow-x: auto;
+  }
+
+  .code-block pre {
+    margin: 0; font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 13px; line-height: 1.6; color: #d4d4d4;
+  }
+
+  .callout {
+    border-left: 3px solid var(--amber); background: var(--amber-bg);
+    padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 32px 0;
+  }
+
+  .callout p { margin: 0; color: var(--text-mid); font-size: 15px; }
+  .callout strong { color: var(--text); }
+
+  .article-author-bio { border-top: 1px solid var(--border); margin-top: 64px; padding-top: 32px; font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+
+  .post-cta { max-width: var(--prose); margin: 0 auto; padding: 0 32px 100px; }
+  .post-cta-inner { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: center; }
+  .post-cta-inner h2 { font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+  .post-cta-inner p { color: var(--text-mid); margin-bottom: 28px; font-size: 16px; }
+  .btn-primary { display: inline-block; background: var(--amber); color: var(--bg); padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  footer { border-top: 1px solid var(--border); max-width: var(--max); margin: 0 auto; padding: 40px 32px; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .footer-tagline { font-size: 13px; color: var(--text-dim); max-width: 400px; line-height: 1.7; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; list-style: none; }
+  .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text-mid); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links { display: none; flex-direction: column; width: 100%; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 12px; padding: 20px; gap: 16px; margin-top: 8px; }
+    .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: flex; flex-direction: column; justify-content: center; }
+    .nav-cta-mobile { display: block; background: var(--amber); color: var(--bg); padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 14px; text-decoration: none; margin-left: auto; margin-right: 8px; }
+    .article-header, .article-body, .post-cta { padding-left: 20px; padding-right: 20px; }
+    .comparison-table { font-size: 13px; }
+    .comparison-table th, .comparison-table td { padding: 10px 12px; }
+  }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<header class="article-header">
+  <div class="article-breadcrumb">
+    <a href="/blog">Blog</a>
+    <span>&rsaquo;</span>
+    Parental Controls for Linux
+  </div>
+  <h1>Parental Controls for Linux in 2026: The Complete Guide</h1>
+  <div class="article-byline">
+    <strong>Carl-Gustav Öberg</strong>
+    <span>July 20, 2026</span>
+    <span>12 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>If you're a parent running Linux at home, you've probably discovered that parental control options are surprisingly thin. The mainstream tools — Bark, Qustodio, Net Nanny — barely touch Linux. The open-source alternatives are often abandoned projects, poorly documented, or easily disabled by a tech-savvy child who knows how to use <code>sudo</code>.</p>
+
+  <p>I've been there. My daughter runs Ubuntu on her machine, and I wanted to understand what she was doing without turning her desktop into a surveillance state. After testing every Linux-compatible parental control solution I could find, I settled on an approach most parents haven't considered: SSH-based monitoring.</p>
+
+  <p>Here's everything you need to know about parental controls for Linux in 2026 — what works, what doesn't, and why SSH beats the alternatives for most families.</p>
+
+  <h2>The Linux parental control landscape</h2>
+
+  <p>Linux desktop market share is still relatively small — around 3-4% of home desktops. That's why the commercial parental control companies treat Linux as an afterthought, if they treat it at all. Here's the current landscape:</p>
+
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Tool</th>
+        <th>Linux Support</th>
+        <th>Screen Time</th>
+        <th>App Monitoring</th>
+        <th>Privacy Model</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Leassh</td>
+        <td class="check">Native</td>
+        <td class="check">Yes</td>
+        <td class="check">Yes</td>
+        <td><span class="check">Local-first</span></td>
+      </tr>
+      <tr>
+        <td>Bark</td>
+        <td class="cross">No</td>
+        <td class="cross">—</td>
+        <td class="cross">—</td>
+        <td><span class="cross">Cloud</span></td>
+      </tr>
+      <tr>
+        <td>Qustodio</td>
+        <td class="partial">Browser extension only</td>
+        <td class="partial">Partial</td>
+        <td class="partial">Partial</td>
+        <td><span class="cross">Cloud</span></td>
+      </tr>
+      <tr>
+        <td>Net Nanny</td>
+        <td class="cross">No</td>
+        <td class="cross">—</td>
+        <td class="cross">—</td>
+        <td><span class="cross">Cloud</span></td>
+      </tr>
+      <tr>
+        <td>Timekpr2</td>
+        <td class="check">Native</td>
+        <td class="check">Limits only</td>
+        <td class="cross">No</td>
+        <td><span class="check">Local</span></td>
+      </tr>
+      <tr>
+        <td>Plankton</td>
+        <td class="check">Native</td>
+        <td class="check">Limits only</td>
+        <td class="cross">No</td>
+        <td><span class="check">Local</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The gap is obvious. Most tools are either non-existent on Linux or they only enforce time limits without telling you what your child was doing during that time.</p>
+
+  <div class="callout">
+    <p><strong>The core problem:</strong> Linux parents are choosing between no monitoring at all, or installing persistent agents that require root access and can be circumvented by children who know the terminal. Neither option is ideal.</p>
+  </div>
+
+  <h2>Why commercial parental controls don't support Linux well</h2>
+
+  <p>The reasons are straightforward but frustrating for parents:</p>
+
+  <ol>
+    <li><strong>Market size:</strong> With 3-4% desktop market share, Linux doesn't move the needle for companies whose business model depends on volume subscriptions.</li>
+    <li><strong>Installation friction:</strong> Commercial tools rely on installing persistent agents with root privileges. On Linux, these agents are visible in process lists, easily <code>systemctl stop</code>ed, and require the kind of package management that parents often find intimidating.</li>
+    <li><strong>Distribution fragmentation:</strong> A solution built for Ubuntu's <code>apt</code> doesn't translate to Fedora's <code>dnf</code>, Arch's <code>pacman</code>, or openSUSE's <code>zypper</code>. Desktop environments (GNOME, KDE, XFCE, i3) add another layer of variation.</li>
+    <li><strong>User model differences:</strong> Linux users tend to be more technically literate. The "install and forget" model that works for Windows parents doesn't fit the Linux philosophy of transparency and control.</li>
+  </ol>
+
+  <h2>What actually works for Linux parental controls in 2026</h2>
+
+  <h3>1. SSH-based process monitoring (Leassh's approach)</h3>
+
+  <p>Here's the insight that changed everything for me: Linux already has a built-in, encrypted, standard protocol for remote system access — SSH. Every major Linux distribution ships with SSH server support, and most have it enabled by default.</p>
+
+  <div class="code-block">
+<pre># Enable SSH on Ubuntu/Debian
+sudo apt install openssh-server
+sudo systemctl enable --now ssh
+
+# Enable SSH on Fedora
+sudo dnf install openssh-server
+sudo systemctl enable --now sshd</pre>
+  </div>
+
+  <p>Once SSH is running, you can query the system's process table remotely. The <code>ps</code> command, the <code>/proc</code> filesystem, and the audit subsystem all expose real-time and historical information about what applications are running, when they started, and how long they've been active.</p>
+
+  <p>Leassh uses this approach. It connects to your child's machine via SSH, queries process history, and builds a timeline of activity. The result is not just "your child was on the computer for 3 hours" — it's "your child spent 2 hours in VS Code working on a Python project, 30 minutes in Firefox browsing documentation, and 15 minutes in Discord."</p>
+
+  <p>This matters because it shifts the conversation from <em>how long</em> to <em>what for</em>. The goal of parental controls isn't to count minutes — it's to understand whether your child is learning, creating, or just consuming.</p>
+
+  <h3>2. Time-limit tools (Timekpr2, Plankton)</h3>
+
+  <p>These are the most mature open-source parental control options for Linux. Both work well for their intended purpose:</p>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <span class="tool-name">Timekpr2</span>
+      <span class="tool-tag tag-linux">Linux native</span>
+      <span class="tool-tag tag-open">Open source</span>
+    </div>
+    <div class="pro-con-grid">
+      <div class="pro-con-col pros">
+        <h4>Strengths</h4>
+        <ul>
+          <li>Schedule daily/weekly time limits per user account</li>
+          <li>Ubuntu/Debian native integration</li>
+          <li>Runs locally with no cloud dependency</li>
+        </ul>
+      </div>
+      <div class="pro-con-col cons">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Only enforces time limits — no visibility into what was done</li>
+          <li>Does not report application usage or patterns</li>
+          <li>Requires root access to install and manage</li>
+        </ul>
+      </div>
+    </div>
+    <div class="verdict"><strong>Verdict:</strong> Useful as a complementary tool for enforcing schedules. Does not replace the need for activity understanding.</div>
+  </div>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <span class="tool-name">Plankton</span>
+      <span class="tool-tag tag-linux">Linux native</span>
+      <span class="tool-tag tag-open">Open source</span>
+    </div>
+    <div class="pro-con-grid">
+      <div class="pro-con-col pros">
+        <h4>Strengths</h4>
+        <ul>
+          <li>App-level time limits (limit Discord to 30 min/day)</li>
+          <li>Cross-desktop support (GNOME, KDE, XFCE)</li>
+          <li>Runs locally with no cloud dependency</li>
+        </ul>
+      </div>
+      <div class="pro-con-col cons">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Only enforces limits — no activity reports or insights</li>
+          <li>Requires installing an agent on the monitored machine</li>
+          <li>Actively maintained but small community</li>
+        </ul>
+      </div>
+    </div>
+    <div class="verdict"><strong>Verdict:</strong> Better than Timekpr2 for app-level granularity. Still a time-limit tool, not an understanding tool.</div>
+  </div>
+
+  <h3>3. DIY with auditd and shell scripting</h3>
+
+  <p>For the technically inclined, Linux's audit framework (<code>auditd</code>) can log every process execution system-wide. Combined with shell scripts and log analysis, you can build a comprehensive monitoring pipeline:</p>
+
+  <div class="code-block">
+<pre># Log all process executions
+sudo auditctl -a exit,always -F arch=b64 -S execve
+
+# Search for specific command history
+sudo ausearch -c firefox --start recent
+
+# View today's audit log
+sudo ausearch -ts today | grep -i "thunderbird\|firefox\|code"</pre>
+  </div>
+
+  <p>This approach is powerful but has significant overhead. You need to configure the audit rules, set up log rotation, write parsing scripts, and build a way to surface the data as actionable insights. For most parents, this is more engineering than parenting.</p>
+
+  <h2>Why SSH-based monitoring beats the alternatives</h2>
+
+  <p>After running both agent-based and SSH-based approaches in my own household, here's why SSH won for us:</p>
+
+  <h3>No installation on the target machine</h3>
+
+  <p>The biggest advantage: your child doesn't need to install anything. There's no agent process to discover, no service to disable, no tray icon to close. The monitoring happens from outside the machine via SSH, querying the operating system's own process tracking.</p>
+
+  <p>This changes the psychological dynamic. Agent-based monitoring creates an adversarial relationship — the child's goal becomes "how do I disable this thing?" SSH monitoring is transparent and can be discussed openly.</p>
+
+  <h3>Encrypted, standard protocol</h3>
+
+  <p>SSH has been battle-tested for decades. It's encrypted by default, supports key-based authentication, and is available on virtually every Linux distribution. You're not introducing a new attack surface — you're using a protocol your system already runs.</p>
+
+  <h3>Works across distributions</h3>
+
+  <p>Whether your child is on Ubuntu, Fedora, Debian, Linux Mint, Pop!_OS, or Arch — if SSH is available, the monitoring works. The process table is a Unix standard, not a distribution-specific feature.</p>
+
+  <h3>Local-first privacy</h3>
+
+  <p>All monitoring data stays on your home network. You can run Leassh entirely locally with no cloud sync. There's no third party collecting screenshots, building behavior profiles, or monetizing your family's digital life.</p>
+
+  <h2>Setting up parental controls for Linux with Leassh</h2>
+
+  <h3>Step 1: Enable SSH on the child's machine</h3>
+
+  <div class="code-block">
+<pre># Ubuntu/Debian
+sudo apt install openssh-server
+sudo systemctl enable --now ssh
+
+# Fedora
+sudo dnf install openssh-server
+sudo systemctl enable --now sshd
+
+# Verify SSH is running
+systemctl status ssh</pre>
+  </div>
+
+  <h3>Step 2: Create a dedicated monitoring user</h3>
+
+  <p>For security, create a dedicated user account for monitoring. This account needs read access to process information but doesn't need the child's full user privileges.</p>
+
+  <div class="code-block">
+<pre>sudo adduser leassh-monitor
+sudo usermod -aG sudo leassh-monitor</pre>
+  </div>
+
+  <h3>Step 3: Configure Leassh</h3>
+
+  <p>Add the SSH connection details to your Leassh fleet configuration. Leassh connects via SSH, queries process history, and aggregates the data into your dashboard.</p>
+
+  <div class="code-block">
+<pre># Example fleet.yaml entry
+machines:
+  - name: "Daughter's Desktop"
+    host: 192.168.1.50
+    user: leassh-monitor
+    ssh_key: ~/.ssh/leassh_monitor</pre>
+  </div>
+
+  <h3>What you'll see</h3>
+
+  <ul>
+    <li><strong>Process timeline:</strong> Which applications ran, when, and for how long</li>
+    <li><strong>Weekly narrative reports:</strong> Pattern analysis — "Emma spent 12 hours this week learning Python"</li>
+    <li><strong>Fleet overview:</strong> A unified dashboard showing all monitored machines</li>
+    <li><strong>Local storage:</strong> All data stays on your home network</li>
+  </ul>
+
+  <h2>Common concerns addressed</h2>
+
+  <h3>"What if my child disables SSH?"</h3>
+
+  <p>SSH requires root privileges to stop or remove. If your child doesn't have sudo access (and most children shouldn't), they can't disable the SSH server. Even if they manage to stop it, Leassh detects the connection failure and alerts you immediately.</p>
+
+  <h3>"Doesn't this require my child to be online?"</h3>
+
+  <p>Only the monitored machine needs to be on your local network. The Leassh agent can run on any device — a Raspberry Pi, a homelab server, or even your laptop when it's home.</p>
+
+  <h3>"Is SSH monitoring invasive?"</h3>
+
+  <p>SSH-based monitoring reads process information — application names, start times, and durations. It does not capture keystrokes, read document contents, or take screenshots (unless you explicitly configure screenshot collection). It's comparable to what a system administrator sees when checking on a server, applied to your child's desktop.</p>
+
+  <h3>"Does this work with Wayland?"</h3>
+
+  <p>Yes. SSH monitoring operates at the OS process level, which is independent of the display server. Whether your child is using Wayland, X11, or a tiling window manager, the process table reports the same information.</p>
+
+  <h2>Distributions tested and confirmed</h2>
+
+  <p>Leassh has been tested on the following Linux distributions:</p>
+
+  <ul>
+    <li>Ubuntu 22.04 LTS, 24.04 LTS</li>
+    <li>Fedora 39, 40, 41</li>
+    <li>Debian 11, 12</li>
+    <li>Linux Mint 21, 22</li>
+    <li>Pop!_OS 22.04, 24.04</li>
+    <li>Arch Linux (manual SSH setup required)</li>
+    <li>openSUSE Leap 15.5, Tumbleweed</li>
+  </ul>
+
+  <p>If your distribution ships with OpenSSH server, Leassh will work. The process table interface is a POSIX standard, so distribution-specific quirks are rare.</p>
+
+  <h2>The homelab bonus</h2>
+
+  <p>Many Linux parents run homelab servers. Leassh's SSH-based approach means the same technology that monitors your child's desktop also monitors your Proxmox host, your Pi-hole instance, and your Plex server. One fleet configuration, one dashboard, unified visibility.</p>
+
+  <p>This dual-purpose design is why Leassh started as a fleet monitoring tool. The SSH approach that makes sense for 50 production servers makes equal sense for 5 family machines.</p>
+
+  <h2>Combining approaches for comprehensive Linux parental controls</h2>
+
+  <p>The most effective setup combines Leassh with a time-limit tool:</p>
+
+  <ul>
+    <li><strong>Leassh</strong> for understanding what your child is doing — application-level monitoring and behavioral reports</li>
+    <li><strong>Timekpr2 or Plankton</strong> for enforcing screen time limits on weekdays</li>
+  </ul>
+
+  <p>This combination gives you both insight and enforcement. Leassh tells you the story behind the screen time, and Timekpr2 ensures the limits are respected.</p>
+
+  <h2>Linux screen time: What numbers look like</h2>
+
+  <p>From our own experience monitoring a teenage child on Linux:</p>
+
+  <ul>
+    <li><strong>School days:</strong> 2-3 hours of active screen time, mostly educational (coding tutorials, documentation, project work)</li>
+    <li><strong>Weekends:</strong> 4-6 hours, mix of creative work and social (Discord, YouTube, game development)</li>
+    <li><strong>Application breakdown:</strong> ~40% development tools (VS Code, terminal), ~30% web browsing, ~20% communication (Discord), ~10% media</li>
+  </ul>
+
+  <p>These numbers are less useful than the patterns they reveal. The key insight from our experience is that the SSH-based approach lets us see <em>quality</em> of screen time, not just quantity. An hour spent building a Python project is not the same as an hour of aimless browsing, and Leassh makes that distinction visible.</p>
+
+  <h2>Monitoring kids' computers on Linux: The honest verdict</h2>
+
+  <div class="callout">
+    <p><strong>The bottom line:</strong> If you're a Linux parent who wants to understand what your child is doing on their computer, SSH-based monitoring is the most practical, private, and technically sound approach available in 2026. The alternatives — time-limit tools, abandoned open-source projects, or commercial tools with no Linux support — don't come close.</p>
+  </div>
+
+  <p>Parental controls on Linux shouldn't mean installing a persistent agent that your child will spend their first afternoon reverse-engineering. They shouldn't require cloud accounts from companies that don't care about Linux. And they shouldn't just count minutes — they should help you understand your child's relationship with technology.</p>
+
+  <p>SSH-based monitoring, done right, achieves all of that. It's transparent, encrypted, local-first, and built on a protocol that's been part of Linux since the early 1990s. The technology has been there all along — it just needed a user-friendly interface.</p>
+
+  <p><strong>Further reading:</strong> <a href="/blog/monitor-child-without-spyware">How to Monitor Your Child's Computer Without Installing Spyware</a> — the case for SSH-based monitoring. <a href="/blog/linux-screen-time">Linux Screen Time Monitoring: A Technical Parent's Guide</a> — the deeper technical breakdown. <a href="/blog/open-source-parental-controls">Open Source Parental Controls: The Truth About Privacy and Control in 2026</a> — the broader landscape.</p>
+
+  <div class="article-author-bio">
+    <strong>Carl-Gustav Öberg</strong> is the founder of Leassh, a family technology platform that helps parents understand their children's digital lives through local-first, SSH-based monitoring. He has over a decade of experience building monitoring and analytics systems for both enterprises and families.
+  </div>
+
+</article>
+
+<div class="post-cta">
+  <div class="post-cta-inner">
+    <h2>See what your kids are actually doing on Linux</h2>
+    <p>Not just how long — what applications, which projects, what patterns. Weekly narrative reports that tell you the story behind the screen time. 14-day free trial.</p>
+    <a class="btn-primary" href="/setup">Start Free Trial</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">leassh — understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

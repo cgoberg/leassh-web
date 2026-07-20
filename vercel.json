@@ -340,6 +340,10 @@
     {
       "source": "/blog/leassh-vs-microsoft-family-safety-2026",
       "destination": "/blog-leassh-vs-microsoft-family-safety-2026.html"
+    },
+    {
+      "source": "/blog/parental-controls-linux",
+      "destination": "/blog-parental-controls-linux.html"
     }
   ]
 }
