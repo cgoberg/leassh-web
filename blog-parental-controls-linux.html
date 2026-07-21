@@ -356,7 +356,7 @@
 
   <h3>1. SSH-based process monitoring (Leassh's approach)</h3>
 
-  <p>Here's the insight that changed everything for me: Linux already has a built-in, encrypted, standard protocol for remote system access — SSH. Every major Linux distribution ships with SSH server support, and most have it enabled by default.</p>
+  <p>Here's the insight that changed everything for me: Linux already has a built-in, encrypted, standard protocol for remote system access — SSH. Every major Linux distribution ships with OpenSSH packages, and most can enable the SSH server with a single command.</p>
 
   <div class="code-block">
 <pre># Enable SSH on Ubuntu/Debian
@@ -453,9 +453,9 @@ sudo ausearch -ts today | grep -i "thunderbird\|firefox\|code"</pre>
 
   <p>After running both agent-based and SSH-based approaches in my own household, here's why SSH won for us:</p>
 
-  <h3>No installation on the target machine</h3>
+  <h3>No proprietary monitoring agent on the target machine</h3>
 
-  <p>The biggest advantage: your child doesn't need to install anything. There's no agent process to discover, no service to disable, no tray icon to close. The monitoring happens from outside the machine via SSH, querying the operating system's own process tracking.</p>
+  <p>The biggest advantage: your child doesn't need to install any proprietary software. There's no agent process to discover, no service to disable, no tray icon to close. The only prerequisite is an SSH server — standard Linux infrastructure, not a monitoring tool. Leassh queries the operating system's own process tracking remotely via SSH.</p>
 
   <p>This changes the psychological dynamic. Agent-based monitoring creates an adversarial relationship — the child's goal becomes "how do I disable this thing?" SSH monitoring is transparent and can be discussed openly.</p>
 
@@ -514,7 +514,7 @@ machines:
 
   <ul>
     <li><strong>Process timeline:</strong> Which applications ran, when, and for how long</li>
-    <li><strong>Weekly narrative reports:</strong> Pattern analysis — "Emma spent 12 hours this week learning Python"</li>
+    <li><strong>Activity summaries:</strong> Pattern analysis — "Emma spent 12 hours this week learning Python"</li>
     <li><strong>Fleet overview:</strong> A unified dashboard showing all monitored machines</li>
     <li><strong>Local storage:</strong> All data stays on your home network</li>
   </ul>
