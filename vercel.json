@@ -344,6 +344,10 @@
     {
       "source": "/blog/parental-controls-linux",
       "destination": "/blog-parental-controls-linux.html"
+    },
+    {
+      "source": "/blog/homelab-monitoring-leassh",
+      "destination": "/blog-homelab-monitoring-leassh.html"
     }
   ]
 }
