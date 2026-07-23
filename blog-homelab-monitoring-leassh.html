@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homelab Monitoring with Leassh: One Tool for Your Servers and Your Family — Leassh</title>
+<meta name="description" content="Leassh monitors your homelab servers via SSH — no agents to install, no cloud dependency. The same tool that tracks your Proxmox node also keeps an eye on your family's screen time.">
+<meta property="og:title" content="Homelab Monitoring with Leassh: One Tool for Your Servers and Your Family">
+<meta property="og:description" content="A single SSH-based monitoring tool for your homelab infrastructure and family safety. Self-hosted, no agents, no cloud dependency.">
+<meta property="og:url" content="https://leassh.com/blog/homelab-monitoring-leassh">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-07-23">
+<meta property="article:author" content="Carl-Gustav Öberg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://leassh.com/blog/homelab-monitoring-leassh">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Homelab Monitoring with Leassh: One Tool for Your Servers and Your Family",
+  "description": "A single SSH-based monitoring tool for homelab infrastructure and family safety. Self-hosted, no agents, no cloud dependency.",
+  "datePublished": "2026-07-23",
+  "dateModified": "2026-07-23",
+  "url": "https://leassh.com/blog/homelab-monitoring-leassh",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leassh.com/blog/homelab-monitoring-leassh" },
+  "author": { "@type": "Person", "name": "Carl-Gustav Öberg", "url": "https://leassh.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leassh",
+    "url": "https://leassh.com"
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f0d0a;
+    --bg-raised:  #1a1714;
+    --bg-warm:    #211e19;
+    --border:     #302b23;
+    --text:       #ece4d6;
+    --text-mid:   #b8ad9b;
+    --text-dim:   #7a6f5e;
+    --amber:      #d4a24c;
+    --amber-soft: #c4913f;
+    --amber-bg:   rgba(212, 162, 76, 0.08);
+    --green:      #6abf69;
+    --green-bg:   rgba(106, 191, 105, 0.08);
+    --red:        #d45b4c;
+    --blue:       #5b9fd4;
+    --font-d: 'Bricolage Grotesque', Georgia, serif;
+    --font-b: 'Instrument Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --max: 1080px;
+    --prose: 700px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-b); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .atmo {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 30% 0%, rgba(212,162,76,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 100%, rgba(106,191,105,0.03), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  nav {
+    display: flex; align-items: center;
+    max-width: var(--max); margin: 0 auto; padding: 24px 32px;
+  }
+
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--amber); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-toggle-input { display: none; }
+  .nav-hamburger { display: none; cursor: pointer; padding: 8px; z-index: 101; margin-left: auto; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s var(--ease), opacity 0.2s; border-radius: 1px; }
+  .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(2) { opacity: 0; }
+  .nav-toggle-input:checked ~ .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { margin-left: auto; display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+  .nav-fleet { color: var(--text-dim) !important; font-style: italic; }
+  .nav-fleet:hover { color: var(--text-mid) !important; }
+  .nav-cta { background: var(--amber); color: var(--bg) !important; padding: 8px 20px; border-radius: 6px; font-weight: 600 !important; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212, 162, 76, 0.25); }
+  .nav-cta-mobile { display: none; }
+
+  /* Article header */
+  .article-header {
+    max-width: var(--prose); margin: 0 auto; padding: 72px 32px 48px;
+  }
+
+  .article-breadcrumb {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 24px;
+  }
+
+  .article-breadcrumb a { color: var(--amber); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { margin: 0 8px; }
+
+  .article-header h1 {
+    font-family: var(--font-d); font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 24px;
+  }
+
+  .article-byline {
+    color: var(--text-dim); font-size: 14px;
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    padding-bottom: 32px; border-bottom: 1px solid var(--border);
+  }
+
+  .article-byline strong { color: var(--text-mid); font-weight: 600; }
+
+  /* Prose */
+  .article-body {
+    max-width: var(--prose); margin: 0 auto; padding: 48px 32px 80px;
+  }
+
+  .article-body p { margin-bottom: 24px; }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body h2 {
+    font-family: var(--font-d); font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700; letter-spacing: -0.5px; line-height: 1.2;
+    margin: 52px 0 20px; color: var(--text);
+  }
+
+  .article-body h3 {
+    font-family: var(--font-d); font-size: clamp(18px, 2.5vw, 22px);
+    font-weight: 700; margin: 36px 0 14px; color: var(--text);
+  }
+
+  .article-body ul, .article-body ol {
+    padding-left: 24px; margin-bottom: 24px;
+  }
+
+  .article-body li { margin-bottom: 10px; color: var(--text-mid); }
+  .article-body li strong { color: var(--text); }
+
+  .article-body strong { color: var(--text); font-weight: 600; }
+  .article-body em { font-style: italic; color: var(--text-mid); }
+  .article-body a { color: var(--amber); text-decoration: none; font-weight: 500; }
+  .article-body a:visited { color: var(--amber); }
+  .article-body a:hover { color: var(--amber-soft); text-decoration: underline; }
+
+  .article-body blockquote {
+    border-left: 3px solid var(--amber); padding: 12px 24px;
+    margin: 32px 0; background: var(--amber-bg); border-radius: 0 8px 8px 0;
+    font-style: italic; color: var(--text-mid);
+  }
+
+  .callout {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px 28px; margin: 36px 0;
+  }
+
+  .callout-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--amber); margin-bottom: 12px;
+  }
+
+  .callout p { color: var(--text-mid); margin: 0; font-size: 15px; }
+
+  /* Terminal block */
+  .terminal {
+    background: #0a0908; border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px 24px; margin: 32px 0; overflow-x: auto;
+    font-family: 'Menlo', 'Consolas', 'SF Mono', monospace; font-size: 14px;
+    line-height: 1.6; color: var(--text-mid);
+  }
+
+  .terminal .prompt { color: var(--text-dim); user-select: none; }
+  .terminal .cmd { color: var(--text); }
+  .terminal .out { color: var(--text-mid); }
+  .terminal .out-good { color: var(--green); }
+  .terminal .out-warn { color: var(--amber); }
+  .terminal .out-dim { color: var(--text-dim); }
+  .terminal .comment { color: #5a5040; font-style: italic; }
+
+  .code-block {
+    background: #0a0908; border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px 24px; margin: 32px 0; overflow-x: auto;
+    font-family: 'Menlo', 'Consolas', 'SF Mono', monospace; font-size: 14px;
+    line-height: 1.6; color: var(--text-mid);
+    white-space: pre;
+  }
+
+  .platform-table {
+    width: 100%; border-collapse: collapse; margin: 36px 0; font-size: 14px;
+  }
+
+  .platform-table th {
+    text-align: left; padding: 10px 14px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .platform-table td {
+    padding: 12px 14px; border-bottom: 1px solid var(--border);
+    color: var(--text-dim); vertical-align: top; font-family: 'Menlo', 'Consolas', monospace; font-size: 13px;
+  }
+
+  .platform-table td:first-child { color: var(--text-mid); font-family: var(--font-b); font-size: 14px; font-weight: 500; }
+
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 4px;
+  }
+
+  .tag-good { background: rgba(106, 191, 105, 0.12); color: var(--green); }
+  .tag-ok { background: rgba(212, 162, 76, 0.12); color: var(--amber); }
+  .tag-na { background: rgba(122,111,94,0.1); color: var(--text-dim); }
+
+  .article-author-bio {
+    border-top: 1px solid var(--border); margin-top: 64px; padding-top: 32px;
+    font-size: 14px; color: var(--text-dim); line-height: 1.7;
+  }
+
+  /* CTA */
+  .post-cta {
+    max-width: var(--prose); margin: 0 auto; padding: 0 32px 100px;
+  }
+
+  .post-cta-inner {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 16px; padding: 40px; text-align: center;
+  }
+
+  .post-cta-inner h2 {
+    font-family: var(--font-d); font-size: clamp(22px, 4vw, 32px);
+    font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+
+  .post-cta-inner p { color: var(--text-mid); margin-bottom: 28px; font-size: 16px; }
+
+  .btn-primary { display: inline-block; background: var(--amber); color: var(--bg); padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 162, 76, 0.3); }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); max-width: var(--max); margin: 0 auto; padding: 40px 32px; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .footer-tagline { font-size: 13px; color: var(--text-dim); max-width: 400px; line-height: 1.7; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; list-style: none; }
+  .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text-mid); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px; flex-wrap: wrap; }
+    .nav-links {
+      display: none; flex-direction: column; width: 100%;
+      background: var(--bg-raised); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; gap: 16px; margin-top: 8px;
+    }
+    .nav-links a { font-size: 18px; }
+    .nav-hamburger { display: flex; flex-direction: column; justify-content: center; }
+    .nav-cta-mobile {
+      display: block; background: var(--amber); color: var(--bg); padding: 8px 18px;
+      border-radius: 6px; font-weight: 700; font-size: 14px; text-decoration: none; margin-left: auto; margin-right: 8px;
+    }
+    .article-header, .article-body, .post-cta { padding-left: 20px; padding-right: 20px; }
+    .platform-table { font-size: 12px; }
+    .platform-table th, .platform-table td { padding: 8px 10px; }
+    .terminal, .code-block { font-size: 12px; padding: 16px; }
+  }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="wrap">
+
+<nav>
+  <a class="nav-brand" href="/">Leassh</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+  <label for="nav-toggle" class="nav-hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/use-cases">Use Cases</a></li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/docs">Docs</a></li>
+    <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
+    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+</nav>
+
+<header class="article-header">
+  <div class="article-breadcrumb">
+    <a href="/blog">Blog</a>
+    <span>&rsaquo;</span>
+    Homelab
+  </div>
+  <h1>Homelab Monitoring with Leassh: One Tool for Your Servers and Your Family</h1>
+  <div class="article-byline">
+    <strong>Carl-Gustav Öberg</strong>
+    <span>July 23, 2026</span>
+    <span>6 min read</span>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>I built Leassh because I had a homelab problem that I couldn't solve with the right tool. Not because the tools were bad, but because every tool I tried solved only half my problem.</p>
+
+  <p>I had a handful of machines at home &mdash; a Proxmox node, a NAS, a couple of gaming PCs my kids use &mdash; and I wanted to know what was happening on them without spending a weekend building dashboards. I also wanted to know who was logged in and what they were doing, because they're my kids and it's my job as a parent to care.</p>
+
+  <p>The monitoring tools out there handled the infrastructure side. The parental control tools handled the family side. None of them did both, and most of them shipped data to the cloud &mdash; which felt wrong for something running in my own home.</p>
+
+  <p>So I built Leassh around three principles: SSH-first, self-hosted, and dual-purpose.</p>
+
+  <h2>SSH-First Monitoring</h2>
+
+  <p>The core of Leassh is simple: it SSHs into your machines, runs commands, and parses the output. That's it. No agents to install on the monitored machines, no extra ports to open, no sidecar containers. Every Linux, macOS, and Windows machine on your network that already answers SSH can be monitored.</p>
+
+  <p>This is the opposite of the traditional monitoring model where every machine runs an agent that phones home to a central server. The agent model works, but it introduces failure modes I didn't want in my homelab: agent crashes, stale data after a reboot, firewall rules for the agent port, and the cognitive overhead of keeping agents updated across a fleet of machines running different OS versions.</p>
+
+  <p>With SSH-first, the intelligence lives on the monitoring side. The monitored machines don't know they're being monitored &mdash; they're just answering commands over a connection that already exists.</p>
+
+  <div class="callout">
+    <div class="callout-label">Why SSH for Homelab Monitoring</div>
+    <p>SSH is already available on every Linux and macOS machine by default, and on Windows since 2019. It's authenticated, encrypted, and you already manage the keys. Using SSH for monitoring means you get security and reachability without adding a single new service.</p>
+  </div>
+
+  <p>Leassh maintains persistent SSH sessions to each node in your fleet. Every minute or so, it runs a set of OS-appropriate commands to collect CPU load, memory pressure, disk usage, GPU utilization, active users, idle time, and running processes. The results are correlated across probes, so the system can detect trends like disk usage growing faster than expected or a process suddenly consuming more resources than usual.</p>
+
+  <h2>Self-Hosted by Design</h2>
+
+  <p>The monitoring data stays in your home. Leassh doesn't ship screenshots, process lists, or user activity to any cloud service. The only external communication is the license validation &mdash; a single check against our Supabase instance to verify your key is active.</p>
+
+  <p>This is a board-level decision, not a feature we might add later. The core promise of Leassh is that the people running it own their data. For homelab users, this means no unexpected telemetry. For parents, it means their child's screenshots and screen time logs live on their own hardware, not on a third-party server.</p>
+
+  <p>The architecture reflects this:</p>
+
+  <ul>
+    <li><strong>Leassh server</strong> runs on your own machine (the .127 in my case) via <code>standalone.js</code>, a Node.js HTTP server that serves the dashboard and bridges to the Rust binary through JSON-RPC IPC</li>
+    <li><strong>Dashboard</strong> is a local web interface served on port 8383 &mdash; accessible from your LAN, not exposed to the internet unless you configure port forwarding</li>
+    <li><strong>Database</strong> for license keys is Supabase (external), but monitoring data is held in memory and optional local logs &mdash; nothing in Supabase contains your fleet metrics</li>
+  </ul>
+
+  <p>If you've been following the homelab space, you know the trend is toward self-hosted alternatives for everything &mdash; Pi-hole instead of cloud DNS, Gitea instead of GitHub, Nextcloud instead of Google Drive. Leassh fits into this philosophy: a monitoring tool that respects the boundary between your network and the rest of the internet.</p>
+
+  <h2>Dual-Purpose: Infrastructure and Family</h2>
+
+  <p>The part of Leassh that surprises people is the family side. It's not a bolt-on or a marketing angle &mdash; it grew out of the same problem that started the project.</p>
+
+  <p>I was already SSH-ing into my kids' gaming PCs to check what they were doing &mdash; what process was hogging the GPU, whether they were actually "doing homework" or just staring at Steam. Leassh automates that SSH session and adds structure to it.</p>
+
+  <h3>Screen Time Tracking</h3>
+
+  <p>Leassh tracks active window time per user on each machine. The system knows when a user is idle (no mouse or keyboard input for the configured threshold), when they're actively using an application, and which processes are consuming resources. This feeds into the screen time engine, which enforces rules you configure.</p>
+
+  <p>The rules are simple: you define allowed hours, maximum daily screen time, and application-specific limits. When a limit is reached, Leassh can send a notification, lock the session, or even shut down the machine &mdash; all configurable per user and per machine.</p>
+
+  <h3>Screenshots</h3>
+
+  <p>Leassh captures periodic screenshots over SSH, using platform-appropriate tools: <code>scrot</code> or <code>grim</code> on Linux, <code>screencapture</code> on macOS, and a PowerShell-based approach on Windows (which handles the Session 0 desktop issue automatically). Screenshots are stored locally and viewable in the dashboard.</p>
+
+  <p>For homelab users who care about security, the screenshot data never leaves the local machine. For parents, it provides a visual record of what their kids are doing on the computer.</p>
+
+  <h3>Process Monitoring</h3>
+
+  <p>Every probe cycle, Leassh collects the running process list from each machine. The system builds a baseline of "normal" processes and flags new or unusual ones. This is useful for homelab ops &mdash; catching a runaway process or an unexpected service &mdash; but it's also useful for parents who want to know if a supposedly "educational" window is actually Discord in a browser tab.</p>
+
+  <h2>The Dashboard Experience</h2>
+
+  <p>The Leassh dashboard is a local web interface served by <code>standalone.js</code>. It shows all nodes at a glance with status indicators, CPU/RAM/GPU usage bars, active users, idle timers, and last-seen timestamps. The fleet view is a single page; the family view drills into per-user activity on specific machines.</p>
+
+  <p>The dashboard auto-refreshes, so you can leave it open on a second monitor or a tablet and see your homelab status update in real time. It's not a Grafana-level visualization &mdash; it's simpler by design. The goal is to give you the information you need in under ten seconds, not to build custom panels for every metric.</p>
+
+  <div class="terminal">
+    <div><span class="prompt">$ </span><span class="cmd">curl -s http://localhost:8383/fleet | head -5</span></div>
+    <div>&nbsp;</div>
+    <div><span class="out-good">proxmox</span><span class="out">    ONLINE  CPU 31%  RAM 28GB/64GB  4 VMs active</span></div>
+    <div><span class="out-good">nas</span><span class="out">        ONLINE  CPU 3%   disk 812GB free</span></div>
+    <div><span class="out-warn">gaming-3</span><span class="out">   ONLINE  user: felix, GPU </span><span class="out-warn">91%</span><span class="out"> (Fortnite)</span></div>
+    <div><span class="out-dim">gaming-1</span><span class="out-dim">     IDLE (no users, 47min)</span></div>
+  </div>
+
+  <h2>Rules and Automation</h2>
+
+  <p>Beyond visibility, Leassh lets you automate actions based on conditions you define. The rules engine supports:</p>
+
+  <ul>
+    <li><strong>"Kill process X on machine Y when GPU usage exceeds Z%"</strong> &mdash; useful for reclaiming a gaming PC's GPU for inference work</li>
+    <li><strong>"Lock user session after N hours of screen time"</strong> &mdash; the core parental control feature</li>
+    <li><strong>"Notify me when disk usage crosses 85%"</strong> &mdash; basic infrastructure alerting</li>
+    <li><strong>"Send a shutdown signal to all gaming PCs at 10 PM on weekdays"</strong> &mdash; bedtime enforcement</li>
+  </ul>
+
+  <p>Rules are defined in the same <code>fleet.yaml</code> that lists your machines. There's no separate alerting configuration, no webhook URLs to wire up. The rules are evaluated locally by the Leassh server, and the actions are executed over the SSH connection.</p>
+
+  <h2>Platform Support</h2>
+
+  <p>Leassh monitors machines across three major desktop platforms:</p>
+
+  <table class="platform-table">
+    <thead>
+      <tr>
+        <th>Platform</th>
+        <th>Metric Coverage</th>
+        <th>Screenshots</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Linux (x86_64)</td>
+        <td><span class="tag tag-good">Full</span></td>
+        <td><span class="tag tag-good">Yes</span></td>
+        <td>Native SSH, scrot/grim for screenshots</td>
+      </tr>
+      <tr>
+        <td>macOS (Apple Silicon)</td>
+        <td><span class="tag tag-good">Full</span></td>
+        <td><span class="tag tag-good">Yes</span></td>
+        <td>Native SSH, screencapture</td>
+      </tr>
+      <tr>
+        <td>Windows (x86_64)</td>
+        <td><span class="tag tag-ok">Partial</span></td>
+        <td><span class="tag tag-ok">Yes*</span></td>
+        <td>OpenSSH Server, PowerShell screenshots*</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:14px; color: var(--text-dim); margin-top: -20px;">* Windows screenshots require a scheduled task in the interactive user session. Leassh creates this automatically on first connect.</p>
+
+  <p>The command registry &mdash; a JSON file that maps metric names to OS-specific shell commands &mdash; is extensible. If you have a machine running a niche Linux distribution or a custom build, you can add command variants to the registry without recompiling the Leassh binary.</p>
+
+  <h2>What Leassh Is Not</h2>
+
+  <p>Leassh is not a replacement for Prometheus or Grafana if you have 50+ nodes and need sub-second metric resolution. It's designed for the homelab sweet spot: 3&ndash;15 machines where you want a quick overview without the overhead of a full monitoring stack.</p>
+
+  <p>It's not a SaaS product. There's no cloud-hosted dashboard, no multi-tenant data plane. You run the Leassh server yourself, on hardware you own.</p>
+
+  <p>And it's not a general-purpose remote desktop tool. The screenshots are periodic snapshots for monitoring purposes, not a way to take control of your kids' machine in real time.</p>
+
+  <h2>Getting Started</h2>
+
+  <p>Setting up Leassh for homelab monitoring takes about ten minutes:</p>
+
+  <ol>
+    <li><strong>Install the binary</strong> &mdash; download the Leassh server for your platform from our releases page and place it on a machine that has SSH access to your fleet</li>
+    <li><strong>Write <code>fleet.yaml</code></strong> &mdash; list your machines with their SSH details, OS type, and probe intervals</li>
+    <li><strong>Run the server</strong> &mdash; start <code>standalone.js</code>, which serves the dashboard and bridges to the Rust binary via IPC</li>
+    <li><strong>Open the dashboard</strong> &mdash; point your browser to <code>http://localhost:8383/fleet</code> and start seeing your machines come online</li>
+  </ol>
+
+  <p>The free tier covers unlimited nodes with fleet monitoring. Screen time enforcement and rules automation are available with a paid license.</p>
+
+  <p><strong>Related reading:</strong> For a deep dive into the SSH monitoring architecture and how it compares to Prometheus, see <a href="/blog/homelab-fleet-monitoring">SSH Fleet Monitoring for Your Homelab: No Prometheus, No Grafana, No YAML Hell</a>. For the family side of things, check out <a href="/blog/parental-controls-linux">Parental Controls on Linux: What Actually Works in 2026</a>.</p>
+
+  <div class="article-author-bio">
+    <strong>Carl-Gustav Öberg</strong> is the founder of Leassh. He built the product to solve his own homelab monitoring problem, and discovered along the way that the same architecture works beautifully for family safety.
+  </div>
+
+</article>
+
+<div class="post-cta">
+  <div class="post-cta-inner">
+    <h2>Start monitoring your homelab today</h2>
+    <p>Self-hosted, SSH-first, no cloud dependency. Free for fleet monitoring, paid for screen time and rules.</p>
+    <a class="btn-primary" href="/setup">Get Leassh</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-tagline">Leassh &mdash; understand digital life.</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/use-cases">Use Cases</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/fleet">Fleet</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/privacy-policy#terms">Terms</a></li>
+      <li><a href="https://github.com/leassh/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
