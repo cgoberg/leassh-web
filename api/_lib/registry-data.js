@@ -3,7 +3,7 @@
 
 module.exports = {
   "version": 2,
-  "updated_at": "2026-07-16T00:00:00Z",
+  "updated_at": "2026-08-10T00:00:00Z",
   "signature": null,
   "entries": [
     {
@@ -1056,7 +1056,7 @@ module.exports = {
       "command": "acpi -b 2>/dev/null | head -1",
       "parser": {
         "type": "lua",
-        "script": "local status, pct = output:match('(%a+).*?([0-9]+)%') if status then status = status:lower() end pct = tonumber(pct) or 0 if status == 'charging' then pct = pct + 100 end return pct"
+        "script": "local status, pct = output:match('%a+%s+%d+:%s+(%a+),%s+([0-9]+)%%') if status then status = status:lower() end pct = tonumber(pct) or 0 if status == 'charging' then pct = pct + 100 end return pct"
       },
       "requires": [
         "acpi"
@@ -1094,14 +1094,14 @@ module.exports = {
       "command": "system_profiler SPPowerDataType 2>/dev/null | grep -E 'Critical Level|Charge Level|State'",
       "parser": {
         "type": "lua",
-        "script": "local pct = tonumber(output:match('Charge Level:%s*(%d+)%%')) or 0 local state = output:match('State:%s*(%w+)') return pct .. (state and ':' .. state or ':unknown')"
+        "script": "local pct = tonumber(output:match('Charge Level:%s*(%d+)%%')) or 0 local state = output:match('State:%s*(%w+)') if state then state = state:lower() end if state == 'charging' then pct = pct + 100 end return pct"
       },
       "requires": [],
       "tags": [
         "battery"
       ],
       "timeout_secs": 10,
-      "description": "macOS battery percentage and state from system_profiler"
+      "description": "macOS battery percentage from system_profiler (values >100 mean charging + percentage)"
     },
     {
       "id": "battery_windows_cim",
@@ -1123,14 +1123,33 @@ module.exports = {
       "description": "Windows battery charge percentage from WMI"
     },
     {
-      "id": "window_title_linux_xprop",
+      "id": "window_title_linux_xdotool",
       "category": "probe",
       "os": "linux",
       "priority": 1,
-      "command": "DISPLAY=:0 xprop -root _NET_ACTIVE_WINDOW 2>/dev/null | awk -F'# ' '{print $NF}'",
+      "command": "DISPLAY=:0 xdotool getactivewindow getwindowname 2>/dev/null",
+      "parser": {
+        "type": "identity",
+        "transform": null
+      },
+      "requires": [
+        "xdotool"
+      ],
+      "tags": [
+        "active_window"
+      ],
+      "timeout_secs": 5,
+      "description": "Linux active window title via xdotool (X11)"
+    },
+    {
+      "id": "window_title_linux_xprop",
+      "category": "probe",
+      "os": "linux",
+      "priority": 2,
+      "command": "DISPLAY=:0 xprop -root _NET_ACTIVE_WINDOW 2>/dev/null | awk -F'# ' '{print $NF}' | xargs -I{} DISPLAY=:0 xprop -id {} _NET_WM_NAME 2>/dev/null | sed 's/^_NET_WM_NAME_utf8 = \"//;s/\"$',",
       "parser": {
         "type": "lua",
-        "script": "local winid = output:match('(%x+)') if not winid then return 'unknown' end return winid"
+        "script": "local title = output:match('^%s*(.+)%s*$') if not title or title:match('^%x+$') then return 'unknown' end return title"
       },
       "requires": [
         "xprop"
@@ -1139,7 +1158,7 @@ module.exports = {
         "active_window"
       ],
       "timeout_secs": 5,
-      "description": "Linux active window ID from X11 _NET_ACTIVE_WINDOW"
+      "description": "Linux active window title from X11 _NET_ACTIVE_WINDOW (fallback, uses xprop -id)"
     },
     {
       "id": "window_title_macos_osascript",
@@ -1163,7 +1182,7 @@ module.exports = {
       "category": "probe",
       "os": "windows",
       "priority": 1,
-      "command": "powershell -NoProfile -Command \"Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.Form]::ActiveForm.Text\"",
+      "command": "powershell -NoProfile -Command \"Add-Type -TypeDefinition '[DllImport(\\\"user32.dll\\\")] public static extern IntPtr GetForegroundWindow();' -Name Win32 -Namespace Win; Add-Type -TypeDefinition '[DllImport(\\\"user32.dll\\\")] public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count); [DllImport(\\\"user32.dll\\\")] public static extern bool IsIconic(IntPtr hWnd);' -Name Win32_2 -Namespace Win; $h = [Win.Win32]::GetForegroundWindow(); $sb = New-Object System.Text.StringBuilder(256); [Win.Win32_2]::GetWindowText($h, $sb, $sb.Capacity) | Out-Null; $title = $sb.ToString(); if ([Win.Win32_2]::IsIconic($h) -and [string]::IsNullOrEmpty($title)) { $title = '(minimized)' } $title\"",
       "parser": {
         "type": "identity",
         "transform": null
@@ -1173,7 +1192,7 @@ module.exports = {
         "active_window"
       ],
       "timeout_secs": 10,
-      "description": "Windows active window title (from PowerShell, requires desktop session)"
+      "description": "Windows active window title via GetForegroundWindow P/Invoke (requires desktop session)"
     }
   ]
 }
