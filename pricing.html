@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pricing — Leassh</title>
-<meta name="description" content="Simple, honest pricing for Leassh. Essential, Family, and Pro plans. 14-day free trial on Family and Pro.">
+<meta name="description" content="Leassh is in free alpha. See the verified product status and planned paid range before requesting access.">
 <meta property="og:title" content="Leassh Pricing — Simple, honest plans">
-<meta property="og:description" content="Essential from $4.99/mo, Family from $9.99/mo, Pro from $19.99/mo. 14-day free trial.">
+<meta property="og:description" content="Free alpha access, a verified capability status, and a planned paid range after alpha.">
 <meta property="og:url" content="https://leassh.com/pricing">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Leassh Pricing">
-<meta name="twitter:description" content="Simple, honest pricing. 14-day free trial on Family and Pro plans.">
+<meta name="twitter:description" content="Leassh is in free alpha. See what works now and what is still being validated.">
 <link rel="canonical" href="https://leassh.com/pricing">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='4' y='26' font-size='28' font-weight='700' fill='%23d4a24c'>L</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -178,6 +178,60 @@
     margin: 0 auto;
     line-height: 1.7;
   }
+
+  .alpha-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    padding: 9px 14px;
+    border: 1px solid color-mix(in srgb, var(--amber) 42%, var(--border));
+    border-radius: 999px;
+    background: var(--amber-bg);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .alpha-icon {
+    color: var(--amber);
+    font-family: var(--font-d);
+    font-size: 17px;
+    line-height: 1;
+  }
+
+  .plan-state {
+    display: inline-flex;
+    margin-bottom: 12px;
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .planned-range {
+    max-width: 680px;
+    margin: 28px auto 0;
+    color: var(--text-dim);
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .status-label {
+    display: inline-flex;
+    align-items: center;
+    min-width: 112px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .status-available { background: var(--green-bg); color: var(--green); }
+  .status-blocked { background: var(--red-bg); color: #df8174; }
+  .status-planned { background: var(--amber-bg); color: var(--amber); }
 
   /* --- Billing toggle --- */
   .billing-toggle {
@@ -730,124 +784,85 @@
     <li><a href="/privacy">Privacy</a></li>
     <li><a href="/docs">Docs</a></li>
     <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
-    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+    <li><a href="mailto:hello@leassh.com?subject=Leassh%20alpha%20access" class="nav-cta">Request Alpha Access</a></li>
   </ul>
-  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+  <a href="mailto:hello@leassh.com?subject=Leassh%20alpha%20access" class="nav-cta-mobile">Join Alpha</a>
 </nav>
 
 <section class="page-header">
   <div class="alpha-banner" role="alert">
-    <span class="alpha-icon">α</span> Leassh is in free alpha — register now, pay later
+    <span class="alpha-icon">α</span> Free alpha — registration is temporarily paused
   </div>
   <h1>Simple, <em>honest</em> pricing</h1>
-  <p>These are the plans we'll launch with. During alpha, all plans are free — register to lock your founder's rate.</p>
+  <p>There is nothing to buy today. See what is available, what is blocked, and the plan shapes we are validating before paid access opens.</p>
 </section>
 
 <section class="pricing reveal">
-  <div class="billing-toggle">
-    <span class="toggle-label active" id="toggle-annual">Annual <span class="save-badge">Save 33%</span></span>
-    <label class="toggle-switch">
-      <input type="checkbox" id="billing-toggle">
-      <span class="toggle-slider"></span>
-    </label>
-    <span class="toggle-label" id="toggle-monthly">Monthly</span>
-  </div>
-
   <div class="pricing-grid">
 
     <!-- Essential -->
     <div class="pricing-card">
+      <div class="plan-state">Planned after alpha</div>
       <div class="pricing-name">Essential</div>
-      <div class="pricing-price" data-annual="4.99" data-monthly="7.99">
-        <del class="monthly-crossed" style="display:inline">$7.99</del> $<span class="price-value">4.99</span><span>/mo</span>
-      </div>
-      <div class="pricing-billed" data-annual-text="billed annually at $59.88" data-monthly-text="">billed annually at $59.88</div>
-      <div class="pricing-desc">Getting started</div>
+      <div class="pricing-desc">The basic family-monitoring scope under validation</div>
       <ul class="pricing-features">
-        <li><span class="check">+</span> 3 computers</li>
-        <li><span class="check">+</span> Process-based tracking</li>
-        <li><span class="check">+</span> Daily summaries</li>
-        <li><span class="check">+</span> Per-category limits</li>
+        <li><span class="check">+</span> Process-based visibility</li>
+        <li><span class="check">+</span> Summary and limit workflows</li>
+        <li><span class="check">+</span> Final device count set after alpha</li>
       </ul>
-      <button class="btn btn-primary" onclick="startCheckout('essential')">Get Started</button>
+      <a class="btn btn-ghost" href="mailto:hello@leassh.com?subject=Leassh%20Essential%20alpha">Request alpha access</a>
     </div>
 
     <!-- Family (Recommended) -->
     <div class="pricing-card featured">
-      <div class="pricing-badge">For Most Families</div>
+      <div class="pricing-badge">Under validation</div>
+      <div class="plan-state">Planned after alpha</div>
       <div class="pricing-name">Family</div>
-      <div class="pricing-price" data-annual="9.99" data-monthly="14.99">
-        <del class="monthly-crossed" style="display:inline">$14.99</del> $<span class="price-value">9.99</span><span>/mo</span>
-      </div>
-      <div class="pricing-billed" data-annual-text="billed annually at $119.88" data-monthly-text="">billed annually at $119.88</div>
-      <div class="pricing-desc">AI-powered insights for involved parents — AI runs on your hardware</div>
+      <div class="pricing-desc">The broader family workflow we want alpha users to shape</div>
       <ul class="pricing-features">
-        <li><span class="check">+</span> 10 computers</li>
-        <li><span class="check">+</span> AI screenshot analysis (runs locally)</li>
-        <li><span class="check">+</span> Daily + weekly behavioral reports</li>
-        <li><span class="check">+</span> Time limits + enforcement</li>
-        <li><span class="check">+</span> Content safety alerts</li>
-        <li><span class="check">+</span> Telegram notifications</li>
+        <li><span class="check">+</span> Local analysis concepts</li>
+        <li><span class="check">+</span> Reports, limits, and alerts</li>
+        <li><span class="check">+</span> Exact capability set not yet promised</li>
       </ul>
-      <button class="btn btn-primary" onclick="startCheckout('family')">Start 14-Day Free Trial</button>
-      <div class="founder-note">&#128274; Founder's price: limited spots</div>
+      <a class="btn btn-primary" href="mailto:hello@leassh.com?subject=Leassh%20Family%20alpha">Join the alpha list</a>
+      <div class="founder-note">No card, checkout, or paid commitment</div>
     </div>
 
     <!-- Pro -->
     <div class="pricing-card">
+      <div class="plan-state">Planned after alpha</div>
       <div class="pricing-name">Pro</div>
-      <div class="pricing-price" data-annual="19.99" data-monthly="29.99">
-        <del class="monthly-crossed" style="display:inline">$29.99</del> $<span class="price-value">19.99</span><span>/mo</span>
-      </div>
-      <div class="pricing-billed" data-annual-text="billed annually at $239.88" data-monthly-text="">billed annually at $239.88</div>
-      <div class="pricing-desc">Full control for technical parents &amp; power users</div>
+      <div class="pricing-desc">A future control surface for technical households</div>
       <ul class="pricing-features">
-        <li><span class="check">+</span> Unlimited computers</li>
-        <li><span class="check">+</span> Everything in Family</li>
-        <li><span class="check">+</span> Advanced rules engine</li>
-        <li><span class="check">+</span> Webhooks + MQTT + SSH actuation</li>
-        <li><span class="check">+</span> Fleet dashboard</li>
-        <li><span class="check">+</span> Full REST API</li>
+        <li><span class="check">+</span> Rules and integration concepts</li>
+        <li><span class="check">+</span> Local fleet tooling</li>
+        <li><span class="check">+</span> Exact capability set not yet promised</li>
       </ul>
-      <button class="btn btn-primary" onclick="startCheckout('pro')">Start 14-Day Free Trial</button>
+      <a class="btn btn-ghost" href="mailto:hello@leassh.com?subject=Leassh%20Pro%20alpha">Request alpha access</a>
     </div>
 
   </div>
+  <p class="planned-range">Planned paid range after alpha: $4.99–$19.99 per user/month. The final plan boundaries and billing terms will be set from working-product evidence and alpha feedback.</p>
 </section>
 
-<!-- Full feature comparison (expanded by default) -->
+<!-- Current product status -->
 <section class="feature-comparison reveal">
-  <h2 class="comparison-heading">Full feature comparison</h2>
+  <h2 class="comparison-heading">Current alpha status</h2>
   <div class="comparison-table">
     <table>
       <thead>
         <tr>
-          <th>Feature</th>
-          <th>Essential</th>
-          <th>Family</th>
-          <th>Pro</th>
+          <th>Customer step</th>
+          <th>Status today</th>
+          <th>What that means</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Computers</td><td>3</td><td>10</td><td>Unlimited</td></tr>
-        <tr><td>Process tracking</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Daily summaries</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Per-category time limits</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>AI screenshot analysis (runs locally)</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Weekly behavioral reports</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Time limits + enforcement</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Bedtime mode</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Content safety alerts</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Telegram notifications</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Activity timeline</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Advanced rules engine (YAML)</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Webhooks + MQTT</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>SSH actuation</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Fleet dashboard</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>OpenClaw AI agent plugin</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Self-hosted (all data stays local)</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>Full REST API</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-        <tr><td>14-day free trial</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
+        <tr><td>Registration</td><td><span class="status-label status-blocked">Paused</span></td><td>The account service is under maintenance; email us for an alpha invitation.</td></tr>
+        <tr><td>Windows and Linux agents</td><td><span class="status-label status-available">Available</span></td><td>Current release packages exist for Windows x64 and Linux x64/ARM64.</td></tr>
+        <tr><td>macOS agent</td><td><span class="status-label status-blocked">Not available</span></td><td>The current release has no Apple Silicon or Intel Mac package.</td></tr>
+        <tr><td>Dashboard</td><td><span class="status-label status-planned">Local alpha</span></td><td>The dashboard runs locally; there is no hosted customer dashboard today.</td></tr>
+        <tr><td>Paid plans and checkout</td><td><span class="status-label status-planned">Not open</span></td><td>No paid tier, trial conversion, or recurring billing is offered today.</td></tr>
       </tbody>
     </table>
   </div>
@@ -855,27 +870,27 @@
 
 <!-- Not sure which plan? -->
 <section class="plan-helper reveal">
-  <h2>Not sure which plan?</h2>
+  <h2>What we need from alpha</h2>
   <div class="helper-cards">
     <div class="helper-card">
-      <h4>I'm a parent</h4>
-      <p>You want to understand your child's computer habits, set time limits, and get weekly reports. No technical setup.</p>
-      <div class="recommendation">&#8594; Family plan</div>
+      <h4>Real household use</h4>
+      <p>Use the working local product and tell us where setup, visibility, or limits fail in practice.</p>
+      <div class="recommendation">&#8594; Evidence before promises</div>
     </div>
     <div class="helper-card">
-      <h4>I run a homelab</h4>
-      <p>You have servers, NAS boxes, or GPU rigs. You want monitoring, auto-recovery, and SSH actuation across your fleet.</p>
-      <div class="recommendation">&#8594; Pro plan</div>
+      <h4>Platform coverage</h4>
+      <p>Windows and Linux are the current paths. macOS access stays closed until release packages exist.</p>
+      <div class="recommendation">&#8594; No hidden dead ends</div>
     </div>
     <div class="helper-card">
-      <h4>Just basic monitoring</h4>
-      <p>You want to see what apps are running and set simple time limits. No AI analysis needed.</p>
-      <div class="recommendation">&#8594; Essential plan</div>
+      <h4>Feature boundaries</h4>
+      <p>Alpha feedback will decide which workflows belong in Essential, Family, and Pro.</p>
+      <div class="recommendation">&#8594; Plans remain provisional</div>
     </div>
     <div class="helper-card">
-      <h4>Both family + infrastructure</h4>
-      <p>You're a technical parent who wants family features AND fleet monitoring. One plan covers everything.</p>
-      <div class="recommendation">&#8594; Pro plan</div>
+      <h4>Paid intent</h4>
+      <p>Tell us what would earn a monthly subscription after the free alpha has produced reliable evidence.</p>
+      <div class="recommendation">&#8594; Payment comes later</div>
     </div>
   </div>
 </section>
@@ -888,51 +903,30 @@
   <div class="faq-list">
     <div class="faq-item">
       <input type="checkbox" id="faq-1" class="faq-toggle">
-      <label for="faq-1" class="faq-q">What happens when my free trial ends?</label>
+      <label for="faq-1" class="faq-q">Can I pay for Leassh today?</label>
       <div class="faq-a">
-        <p>Your trial converts to a paid subscription unless you cancel. You'll get an email reminder 3 days before the trial ends. If you cancel, your agents keep running but stop reporting &mdash; no data is deleted.</p>
+        <p>No. Checkout and paid plans are not open. Alpha participation creates no paid commitment and does not require a card.</p>
       </div>
     </div>
     <div class="faq-item">
       <input type="checkbox" id="faq-2" class="faq-toggle">
-      <label for="faq-2" class="faq-q">Can I switch between plans?</label>
+      <label for="faq-2" class="faq-q">How do I request alpha access?</label>
       <div class="faq-a">
-        <p>Yes, anytime. Upgrading is instant. Downgrading takes effect at the end of your current billing period. Prorated credits are applied automatically.</p>
+        <p>Email <a href="mailto:hello@leassh.com?subject=Leassh%20alpha%20access">hello@leassh.com</a>. Registration is temporarily paused, so we will respond when the customer path is ready.</p>
       </div>
     </div>
     <div class="faq-item">
       <input type="checkbox" id="faq-3" class="faq-toggle">
-      <label for="faq-3" class="faq-q">What's your refund policy?</label>
+      <label for="faq-3" class="faq-q">Which computers can use the current release?</label>
       <div class="faq-a">
-        <p>Full refund within 30 days of any payment, no questions asked. Email hello@leassh.com and we'll process it same day.</p>
+        <p>Release packages exist for Windows x64 and Linux x64/ARM64. macOS packages are not available in the current release.</p>
       </div>
     </div>
     <div class="faq-item">
       <input type="checkbox" id="faq-4" class="faq-toggle">
-      <label for="faq-4" class="faq-q">Can I pay annually and switch to monthly later?</label>
+      <label for="faq-4" class="faq-q">Are the three plan names final?</label>
       <div class="faq-a">
-        <p>Yes. Switch anytime in your account settings. If switching from annual to monthly mid-cycle, we'll credit the remaining balance on your annual plan.</p>
-      </div>
-    </div>
-    <div class="faq-item">
-      <input type="checkbox" id="faq-5" class="faq-toggle">
-      <label for="faq-5" class="faq-q">Is the founder's pricing permanent?</label>
-      <div class="faq-a">
-        <p>Yes. If you sign up during the founder's pricing period, your rate is locked for life. Even if we raise prices later, you keep the price you signed up at.</p>
-      </div>
-    </div>
-    <div class="faq-item">
-      <input type="checkbox" id="faq-6" class="faq-toggle">
-      <label for="faq-6" class="faq-q">Do I need a credit card for the free trial?</label>
-      <div class="faq-a">
-        <p>Yes, a card is required to start the trial. You won't be charged until the trial ends. Cancel anytime before then with zero charges.</p>
-      </div>
-    </div>
-    <div class="faq-item">
-      <input type="checkbox" id="faq-7" class="faq-toggle">
-      <label for="faq-7" class="faq-q">What payment methods do you accept?</label>
-      <div class="faq-a">
-        <p>All major credit and debit cards via Stripe. We also support Apple Pay and Google Pay where available.</p>
+        <p>No. Essential, Family, and Pro are working plan shapes. Their exact capabilities and billing terms will be set from alpha evidence.</p>
       </div>
     </div>
   </div>
@@ -972,67 +966,6 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   });
 });
 
-// Billing toggle
-(function() {
-  var toggle = document.getElementById('billing-toggle');
-  var labelAnnual = document.getElementById('toggle-annual');
-  var labelMonthly = document.getElementById('toggle-monthly');
-
-  function updatePrices() {
-    var isMonthly = toggle.checked;
-    labelAnnual.classList.toggle('active', !isMonthly);
-    labelMonthly.classList.toggle('active', isMonthly);
-
-    document.querySelectorAll('.pricing-price[data-annual]').forEach(function(el) {
-      var priceVal = el.querySelector('.price-value');
-      var crossed = el.querySelector('.monthly-crossed');
-      if (isMonthly) {
-        priceVal.textContent = el.getAttribute('data-monthly');
-        if (crossed) crossed.style.display = 'none';
-      } else {
-        priceVal.textContent = el.getAttribute('data-annual');
-        if (crossed) crossed.style.display = 'inline';
-      }
-      el.style.opacity = '0.6';
-      setTimeout(function() { el.style.opacity = '1'; }, 50);
-    });
-
-    document.querySelectorAll('.pricing-billed').forEach(function(el) {
-      if (isMonthly) {
-        el.textContent = el.getAttribute('data-monthly-text');
-      } else {
-        el.textContent = el.getAttribute('data-annual-text');
-      }
-      el.style.opacity = '0.6';
-      setTimeout(function() { el.style.opacity = '1'; }, 50);
-    });
-  }
-
-  toggle.addEventListener('change', updatePrices);
-})();
-
-// Stripe checkout
-function startCheckout(tier) {
-  var isAnnual = !document.getElementById('billing-toggle').checked;
-  var billing = isAnnual ? 'annual' : 'monthly';
-  // Send tier and billing separately to match checkout API expectations
-  fetch('/api/checkout/create', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tier: tier, billing: billing }),
-  })
-    .then(function (r) { return r.json(); })
-    .then(function (d) {
-      if (d.url) {
-        window.location = d.url;
-      } else {
-        alert('Something went wrong. Please try again.');
-      }
-    })
-    .catch(function () {
-      alert('Network error. Please try again.');
-    });
-}
 </script>
 </body>
 </html>
