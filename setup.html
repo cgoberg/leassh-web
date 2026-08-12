@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leassh Setup — Create Your Account</title>
-<meta name="description" content="Set up your Leassh account, get your pairing code, and install agents on your machines.">
-<meta property="og:title" content="Leassh Setup — Get Started">
-<meta property="og:description" content="Create your Leassh account in seconds. Get a pairing code and connect your machines.">
+<title>Leassh Setup — Alpha Access</title>
+<meta name="description" content="Leassh free alpha setup. Registration is temporarily paused; request an invitation, then configure your server and agents.">
+<meta property="og:title" content="Leassh Setup — Alpha Access">
+<meta property="og:description" content="Registration is temporarily paused. Request alpha access, then configure your self-hosted server and agents.">
 <meta property="og:url" content="https://leassh.com/setup">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://leassh.com/setup">
@@ -562,47 +562,31 @@
     <li><a href="/privacy">Privacy</a></li>
     <li><a href="/docs">Docs</a></li>
     <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
-    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+    <li><a href="mailto:hello@leassh.com?subject=Leassh%20alpha%20access" class="nav-cta">Request Alpha Access</a></li>
   </ul>
-  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+  <a href="mailto:hello@leassh.com?subject=Leassh%20alpha%20access" class="nav-cta-mobile">Join Alpha</a>
 </nav>
 
 <div class="setup">
   <h1>Set up <em>Leassh</em></h1>
-  <p class="setup-sub">Create an account, configure your server, and install agents on the machines you want to monitor. Takes about three minutes.</p>
+  <p class="setup-sub">Free alpha is open in principle, but self-serve registration is temporarily paused while the account service is under maintenance. Request access, then use the install path below once you have a pairing code.</p>
 
-  <!-- Step 1: Create Account -->
+  <!-- Step 1: Account access (paused) -->
   <div class="step" id="step1">
     <div class="step-num" id="step1-num">1</div>
-    <h2>Create your account</h2>
-    <p>Enter your email to get a pairing code. This code links your server and agents together.</p>
-
-    <form id="register-form" onsubmit="return false;">
-      <div class="form-row">
-        <input type="email" id="email-input" placeholder="you@example.com" required autocomplete="email">
-        <button type="submit" class="btn btn-primary" id="register-btn">Create Account</button>
-      </div>
-      <div class="error-msg" id="register-error" hidden></div>
-    </form>
-
-    <div class="code-display" id="code-display">
-      <div class="code-label">Your Pairing Code</div>
-      <div class="code-value" id="pairing-code"></div>
-      <div class="code-hint">Write this down. You will need it to connect agents to your server.</div>
-
-      <div class="api-key-row">
-        <span class="api-key-label">API Key</span>
-        <span class="api-key-value" id="api-key"></span>
-        <button class="copy-btn" onclick="copyText('api-key', this)">Copy</button>
-      </div>
-    </div>
+    <h2>Registration is paused</h2>
+    <p>The account service does not accept new self-serve signups right now. Email us for an alpha invitation; we will send a pairing code when the customer path is ready.</p>
+    <p style="margin-top:14px;">
+      <a class="btn btn-primary" href="mailto:hello@leassh.com?subject=Leassh%20alpha%20access">Request Alpha Access</a>
+    </p>
+    <p style="margin-top:14px;color:var(--text-dim);font-size:14px;">Windows and Linux agents are the current install paths. macOS packages are not available in the current release. Paid plans and checkout are not open.</p>
   </div>
 
   <!-- Step 2: Set up server -->
-  <div class="step locked" id="step2">
+  <div class="step" id="step2">
     <div class="step-num">2</div>
     <h2>Set up your server</h2>
-    <p>The server collects data from agents and serves the dashboard. Self-hosted only.</p>
+    <p>For invited alpha users with a pairing code. The server collects data from agents and serves the local dashboard. Self-hosted only.</p>
 
     <div class="tabs">
       <button class="tab active">Self-Hosted</button>
@@ -646,16 +630,16 @@ docker run -d --name leassh-server \
   </div>
 
   <!-- Step 3: Install agents -->
-  <div class="step locked" id="step3">
+  <div class="step" id="step3">
     <div class="step-num">3</div>
     <h2>Install agents</h2>
-    <p>Install the agent on each computer you want to monitor. It connects to your server using the pairing code.</p>
+    <p>For invited alpha users. Install the agent on each computer you want to monitor. It connects to your server using the pairing code from your invitation.</p>
 
     <div class="platform-cards">
 
       <div class="platform-card">
         <h4><span class="plat-icon">&#xf17a;</span> Windows</h4>
-        <p class="plat-desc">Run in PowerShell as Administrator</p>
+        <p class="plat-desc">Run in PowerShell as Administrator. Replace ABC123 with your pairing code.</p>
         <div class="code-block">
           <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
           <code id="cmd-windows">$env:LEASSH_CODE='ABC123'; irm https://leassh.com/install.ps1 | iex</code>
@@ -664,20 +648,16 @@ docker run -d --name leassh-server \
 
       <div class="platform-card">
         <h4><span class="plat-icon">&#xf179;</span> macOS</h4>
-        <p class="plat-desc">Run in Terminal</p>
+        <p class="plat-desc">Not available in the current release</p>
         <div style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;background:rgba(212,162,76,0.08);border:1px solid rgba(212,162,76,0.25);border-radius:6px;margin-bottom:14px;font-size:13px;line-height:1.5;">
           <span style="color:var(--amber);flex-shrink:0;font-size:15px;">&#9888;</span>
-          <span style="color:var(--amber);font-weight:600;">Apple Silicon only&nbsp;</span><span style="color:var(--text-mid);">Requires an M1, M2, or M3 Mac. Intel Mac support is coming soon.</span>
-        </div>
-        <div class="code-block">
-          <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
-          <code id="cmd-macos">curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=ABC123 bash</code>
+          <span style="color:var(--text-mid);">No Apple Silicon or Intel Mac agent package ships today. Use Windows or Linux until macOS packages exist.</span>
         </div>
       </div>
 
       <div class="platform-card">
         <h4><span class="plat-icon">&#xf17c;</span> Linux</h4>
-        <p class="plat-desc">Run in terminal (Debian, Ubuntu, Fedora, Arch)</p>
+        <p class="plat-desc">Run in terminal (Debian, Ubuntu, Fedora, Arch). Replace ABC123 with your pairing code.</p>
         <div class="code-block">
           <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
           <code id="cmd-linux">curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=ABC123 bash</code>
@@ -686,7 +666,7 @@ docker run -d --name leassh-server \
 
       <div class="platform-card" style="background: var(--amber-bg); border-color: rgba(212, 162, 76, 0.15);">
         <h4>Have SSH access already?</h4>
-        <p class="plat-desc">Deploy the agent remotely without touching the machine</p>
+        <p class="plat-desc">Deploy a Windows/Linux agent remotely without touching the machine</p>
         <div class="code-block">
           <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
           <code id="cmd-ssh-deploy">ssh user@machine "curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=ABC123 bash"</code>
@@ -726,93 +706,8 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     document.getElementById('nav-toggle').checked = false;
   });
 });
-// --- Registration ---
-const form = document.getElementById('register-form');
-const emailInput = document.getElementById('email-input');
-const registerBtn = document.getElementById('register-btn');
-const errorEl = document.getElementById('register-error');
-const codeDisplay = document.getElementById('code-display');
-
-let accountData = null;
-
-form.addEventListener('submit', async () => {
-  const email = emailInput.value.trim();
-  if (!email) return;
-
-  registerBtn.disabled = true;
-  registerBtn.textContent = 'Creating...';
-  errorEl.hidden = true;
-  errorEl.classList.remove('visible');
-
-  try {
-    const resp = await fetch('/api/account/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    });
-
-    const data = await resp.json();
-
-    if (!resp.ok) {
-      throw new Error(data.error || 'Registration failed');
-    }
-
-    accountData = data;
-
-    // Show pairing code
-    document.getElementById('pairing-code').textContent = data.pairing_code;
-    document.getElementById('api-key').textContent = data.api_key;
-    codeDisplay.classList.add('visible');
-
-    // Mark step 1 done
-    document.getElementById('step1-num').textContent = '\u2713';
-    document.getElementById('step1-num').classList.add('done');
-
-    // Unlock steps 2 and 3
-    document.getElementById('step2').classList.remove('locked');
-    document.getElementById('step3').classList.remove('locked');
-
-    // Fill in code in all command templates
-    fillCommands(data.pairing_code, data.api_key);
-
-    // Disable form
-    emailInput.disabled = true;
-    registerBtn.textContent = 'Account Created';
-
-  } catch (err) {
-    errorEl.textContent = err.message;
-    errorEl.hidden = false;
-    errorEl.classList.add('visible');
-    registerBtn.disabled = false;
-    registerBtn.textContent = 'Create Account';
-  }
-});
-
-function fillCommands(code, key) {
-  document.getElementById('yaml-code').textContent = code;
-  document.getElementById('yaml-key').textContent = key;
-  document.getElementById('cmd-windows').textContent =
-    "$env:LEASSH_CODE='" + code + "'; irm https://leassh.com/install.ps1 | iex";
-  document.getElementById('cmd-macos').textContent =
-    "curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=" + code + " bash";
-  document.getElementById('cmd-linux').textContent =
-    "curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=" + code + " bash";
-  document.getElementById('cmd-ssh-deploy').textContent =
-    'ssh user@machine "curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE=' + code + ' bash"';
-}
-
-// --- Tabs ---
-// No tab switching needed — only self-hosted option exists
-
-// --- Copy helpers ---
-function copyText(id, btn) {
-  const text = document.getElementById(id).textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.classList.add('copied');
-    btn.textContent = 'Copied';
-    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'Copy'; }, 2000);
-  });
-}
+// Self-serve registration is paused (2026-08-12). Invited users paste their
+// pairing code into the install commands below.
 
 function copyBlock(btn) {
   const code = btn.parentElement.querySelector('code');
