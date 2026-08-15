@@ -4,13 +4,13 @@ title: 'Frontend: align leassh-web homepage and install copy with verified alpha
 project: leassh
 repository: leassh-web
 bet: leassh
-owner: unassigned
+owner: venture-builder
 labels:
 - frontend
 - customer-journey
 - trust
 - customer-harm
-status: ready
+status: in-progress
 priority: high
 created: '2026-08-15'
 depends_on: []
@@ -113,6 +113,12 @@ kill_condition: Copy cannot be made truthful without inventing a macOS binary or
   hosted dashboard.
 rollback: Revert the isolated Builder branch. Do not discard dirty files in /opt/leassh-web
   or /opt/leassh.
+executor_id: venture-builder
+builder_run_id: vb-leassh-e68ad5da86dc4af7
+task_contract_hash: cd1eb24e80bc53bb643cf794c0c008c5172d21da2fec6b72f24914031b56cec6
+claim_receipt_hash: 8d680ad6c435d5fee524c2eebd5f1ffb48fb266ff2e230df5389969ba1cbe36b
+claim_receipt: tasks/receipts/claims/VX-LEA-FRONTEND-PUBLIC-SITE-TRUTH-GATE-20260815-cd1eb24e80bc-464d5e78745f.claim.json
+execution_contract: tasks/contracts/VX-LEA-FRONTEND-PUBLIC-SITE-TRUTH-GATE-20260815-cd1eb24e80bc-464d5e78745f.yaml
 ---
 ## Acceptance Criteria
 - [ ] Homepage source no longer claims current macOS support with 'Works on Windows, Mac, and Linux' or schema.org operatingSystem 'Windows, macOS, Linux'.
