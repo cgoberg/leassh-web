@@ -10,7 +10,7 @@ labels:
 - customer-journey
 - trust
 - customer-harm
-status: in-progress
+status: done
 priority: high
 created: '2026-08-15'
 depends_on: []
@@ -119,12 +119,17 @@ task_contract_hash: cd1eb24e80bc53bb643cf794c0c008c5172d21da2fec6b72f24914031b56
 claim_receipt_hash: 8d680ad6c435d5fee524c2eebd5f1ffb48fb266ff2e230df5389969ba1cbe36b
 claim_receipt: tasks/receipts/claims/VX-LEA-FRONTEND-PUBLIC-SITE-TRUTH-GATE-20260815-cd1eb24e80bc-464d5e78745f.claim.json
 execution_contract: tasks/contracts/VX-LEA-FRONTEND-PUBLIC-SITE-TRUTH-GATE-20260815-cd1eb24e80bc-464d5e78745f.yaml
+updated: '2026-08-16T19:56:01Z'
+completed_at: '2026-08-16T19:56:01Z'
+artifact_commit: 945d8979100dc422d6e9bbc081d2f94767758c72
+verification_receipt: tasks/receipts/verifications/VX-LEA-FRONTEND-PUBLIC-SITE-TRUTH-GATE-20260815-cd1eb24e80bc-945d8979100d.verification.json
+builder_result_receipt: tasks/receipts/results/vb-leassh-e68ad5da86dc4af7-fea2172c808a.result.json
 ---
 ## Acceptance Criteria
-- [ ] Homepage source no longer claims current macOS support with 'Works on Windows, Mac, and Linux' or schema.org operatingSystem 'Windows, macOS, Linux'.
-- [ ] Homepage source no longer says 'Works on Windows, macOS, and Linux' as current platform support.
-- [ ] Install page source does not present macOS as an available install path: no 'Install on macOS (Apple Silicon)' heading and no id="cmd-macos" curl installer.
-- [ ] Install page source does not say 'no visible app'.
+- [x] Homepage source no longer claims current macOS support with 'Works on Windows, Mac, and Linux' or schema.org operatingSystem 'Windows, macOS, Linux'.
+- [x] Homepage source no longer says 'Works on Windows, macOS, and Linux' as current platform support.
+- [x] Install page source does not present macOS as an available install path: no 'Install on macOS (Apple Silicon)' heading and no id="cmd-macos" curl installer.
+- [x] Install page source does not say 'no visible app'.
 
 ## Context
 Live `https://leassh.com` is served from `cgoberg/leassh-web` via Vercel (`/opt/leassh-web`), not `/opt/leassh/web/site`.
@@ -134,4 +139,4 @@ Do not edit the dirty live checkout. Work only in the isolated Builder checkout.
 A live-URL confirmation task is blocked until this artifact reaches `origin/main` and Vercel.
 
 ## Evidence
-- Pending
+- verified artifact 945d8979100dc422d6e9bbc081d2f94767758c72; receipt tasks/receipts/verifications/VX-LEA-FRONTEND-PUBLIC-SITE-TRUTH-GATE-20260815-cd1eb24e80bc-945d8979100d.verification.json

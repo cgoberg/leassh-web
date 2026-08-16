@@ -1,0 +1,26 @@
+{
+  "artifact_branch": "venture-builder/vb-leassh-e68ad5da86dc4af7",
+  "artifact_commit_sha": "945d8979100dc422d6e9bbc081d2f94767758c72",
+  "base_revision": "bd8573873362fae51a858c3952489eda82c84076",
+  "builder_run_id": "vb-leassh-e68ad5da86dc4af7",
+  "changed_paths": [
+    "index.html",
+    "install.html"
+  ],
+  "checkout": "/opt/forge/var/venture-execution/worktrees/vb-leassh-e68ad5da86dc4af7/repo",
+  "claim_receipt_hash": "8d680ad6c435d5fee524c2eebd5f1ffb48fb266ff2e230df5389969ba1cbe36b",
+  "contract_id": "VX-LEA-FRONTEND-PUBLIC-SITE-TRUTH-GATE-20260815-cd1eb24e80bc",
+  "execution_contract_hash": "464d5e78745f0f12810d98f863223656ad9ad05aa113384f248d7cbedd0f7e0a",
+  "executor_id": "venture-builder",
+  "native_session_id": "01a00c21-dc2a-7122-b385-cd7bedec12da",
+  "observed_at": "2026-08-16T19:56:00Z",
+  "output_path": "/opt/forge/var/venture-execution/runs/vb-leassh-e68ad5da86dc4af7/output.txt",
+  "project": "leassh",
+  "receipt_hash": "fea2172c808adf0841324ff81c6d059bf2ba836b0013dcbbec1d92c3bc5eb0c5",
+  "receipt_type": "builder_result",
+  "routing_receipt": "/opt/forge/var/cli_routing/runs/2026-08-16T19-52-09Z-venture-builder-grok_primary-bf10b8b5-a1/result.json",
+  "routing_run_id": "bf10b8b5-2d44-4a90-878e-2d69988d4651",
+  "session_coverage_state": "complete",
+  "task_contract_hash": "cd1eb24e80bc53bb643cf794c0c008c5172d21da2fec6b72f24914031b56cec6",
+  "task_id": "LEA-FRONTEND-PUBLIC-SITE-TRUTH-GATE-20260815"
+}
