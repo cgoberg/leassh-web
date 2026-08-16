@@ -445,7 +445,7 @@
 
 <section class="header">
   <h1>Install the <em>agent</em></h1>
-  <p>The Leassh agent is the easiest way to connect machines. One command, three minutes, full monitoring with no visible app.</p>
+  <p>The Leassh agent is the easiest way to connect machines. One command, three minutes, full monitoring.</p>
   <p style="margin-top: 12px; font-size: 14px; color: var(--text-dim);">If you prefer SSH-based monitoring (no software installed on targets), see the <a href="/docs#self-hosting" style="color: var(--amber); text-decoration: none;">Self-Hosting docs</a>.</p>
 </section>
 
@@ -509,37 +509,13 @@
     </div>
   </div>
 
-  <!-- macOS panel -->
+  <!-- macOS panel: no current install path -->
   <div class="tab-panel" id="tab-macos">
-    <h3>Install on macOS (Apple Silicon)</h3>
-    <p>Open Terminal and paste the command below. Requires macOS 12+ on Apple Silicon (M1/M2/M3).</p>
-
-    <div class="cmd-block">
-      <span class="cmd-label">Quick install</span>
-      <code id="cmd-macos">curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE='<span class="token-placeholder">YOUR_CODE</span>' bash</code>
-      <button class="copy-btn" data-target="cmd-macos">Copy</button>
-    </div>
-
-    <div class="cmd-block">
-      <span class="cmd-label">Or download directly</span>
-      <code id="cmd-macos-dl">https://github.com/cgoberg/releases/releases/latest/download/leassh-agent-darwin-arm64.tar.gz</code>
-      <button class="copy-btn" data-target="cmd-macos-dl">Copy</button>
-    </div>
-
-    <div class="install-steps">
-      <div class="install-step">
-        <p><strong>Open Terminal</strong> (Applications &rarr; Utilities &rarr; Terminal).</p>
-      </div>
-      <div class="install-step">
-        <p><strong>Paste the command above</strong> and press Enter. Enter your password when prompted. The installer downloads the agent, configures it with your token, and registers it as a launchd service.</p>
-      </div>
-      <div class="install-step">
-        <p><strong>Verify in your dashboard.</strong> Open your Leassh dashboard (OpenClaw plugin or standalone runner at <code>http://localhost:8080</code>) — your device will appear within a minute of installation.</p>
-      </div>
-    </div>
+    <h3>macOS is not available</h3>
+    <p>The current release has no Apple Silicon or Intel Mac package. Windows and Linux are the current install paths. macOS access stays closed until release packages exist.</p>
 
     <div class="req-note">
-      <strong>Requirements:</strong> macOS 12 Monterey or later on Apple Silicon (M1/M2/M3). Intel Mac support coming soon.
+      <strong>Status:</strong> There is no macOS installer or download in this release. Use the Windows or Linux tabs if those are your machines.
     </div>
   </div>
 
