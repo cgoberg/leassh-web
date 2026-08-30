@@ -556,8 +556,7 @@ function slugify(text) {
 const args = process.argv.slice(2);
 
 if (args.length === 0) {
-  console.log('Usage: node convert-md-to-html.js [markdown-file.md]');
-  console.log('Or run without arguments to process all markdown files in /opt/leassh/blog/');
+  console.log('Usage: node convert-md-to-html.js <markdown-file.md> [output-directory]');
   process.exit(1);
 }
 
@@ -573,7 +572,8 @@ const { title, author, published, slug } = extractFrontmatter(mdContent, mdPath)
 const blocks = parseMarkdown(mdContent);
 const html = generateHTML(title, author, published, blocks);
 
-const outPath = `/opt/leassh-web/blog-${slug}.html`;
+const outDir = args[1] ? path.resolve(args[1]) : process.cwd();
+const outPath = path.join(outDir, `blog-${slug}.html`);
 
 fs.writeFileSync(outPath, html, 'utf8');
 console.log(`Generated: ${outPath}`);

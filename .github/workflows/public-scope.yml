@@ -1,0 +1,30 @@
+name: Public scope
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reject internal operational material
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          forbidden_paths='^(\.vscode/|tasks/|competitive-positioning-|messaging-updates-)'
+          if git ls-files | grep -E "$forbidden_paths"; then
+            echo "Internal operational or commercial material is tracked."
+            exit 1
+          fi
+
+          internal_markers='(/opt/(forge|forgenord|leassh)|/home/carlgustavoberg|tasks/(receipts|contracts|in-progress)|claim_receipt|verification_receipt)'
+          if git grep -n -I -E "$internal_markers" -- ':!*.lock' ':!.github/workflows/public-scope.yml'; then
+            echo "Internal path or task-control material found in public content."
+            exit 1
+          fi

@@ -2,3 +2,10 @@
 node_modules/
 .env
 .env.local
+.vscode/
+tasks/
+
+# Internal product and commercial working material does not belong in the
+# public application repository.
+competitive-positioning-*.md
+messaging-updates-*.md
