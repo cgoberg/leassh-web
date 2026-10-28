@@ -1024,6 +1024,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     document.querySelectorAll('.pricing-price[data-annual]').forEach(function(el) {
       var priceVal = el.querySelector('.price-value');
       var crossed = el.querySelector('.monthly-crossed');
+      if (!priceVal) return;
       if (isMonthly) {
         priceVal.textContent = el.getAttribute('data-monthly');
         if (crossed) crossed.style.display = 'none';
