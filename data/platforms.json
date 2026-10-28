@@ -1,0 +1,83 @@
+{
+  "version": "2026-10-28",
+  "last_verified": "2026-10-28",
+  "product": "Leassh",
+  "summary": "Leassh runs on Windows, Apple Silicon macOS, and Linux computers. It does not run on phones or tablets.",
+  "platforms": [
+    {
+      "id": "windows",
+      "name": "Windows",
+      "status": "supported",
+      "versions": "Windows 10 and 11 (x64)",
+      "architectures": ["x64"],
+      "install": "/install.ps1",
+      "notes": "Run PowerShell as Administrator. The agent and local server are supported."
+    },
+    {
+      "id": "macos",
+      "name": "macOS",
+      "status": "supported",
+      "versions": "macOS 12 or newer",
+      "architectures": ["Apple Silicon (arm64)"],
+      "install": "/install.sh",
+      "notes": "Apple Silicon only. Intel Mac support is not available yet."
+    },
+    {
+      "id": "linux",
+      "name": "Linux",
+      "status": "supported",
+      "versions": "Modern x64 and ARM64 distributions",
+      "architectures": ["x64", "ARM64"],
+      "install": "/install.sh",
+      "notes": "Debian, Ubuntu, Fedora, Arch, and similar distributions."
+    },
+    {
+      "id": "android",
+      "name": "Android",
+      "status": "not_supported",
+      "versions": null,
+      "architectures": [],
+      "install": null,
+      "notes": "Leassh does not run on Android. Use Google Family Link for Android phones and tablets."
+    },
+    {
+      "id": "ios",
+      "name": "iOS and iPadOS",
+      "status": "not_supported",
+      "versions": null,
+      "architectures": [],
+      "install": null,
+      "notes": "Leassh does not run on iPhone or iPad. Use Apple Screen Time for those devices."
+    },
+    {
+      "id": "chromeos",
+      "name": "ChromeOS",
+      "status": "not_supported",
+      "versions": null,
+      "architectures": [],
+      "install": null,
+      "notes": "Leassh does not run on Chromebooks. Use Google Family Link for ChromeOS supervision."
+    }
+  ],
+  "dashboard": {
+    "local_only": true,
+    "hosted": false,
+    "note": "The dashboard is served by your own Leassh server. There is no hosted dashboard."
+  },
+  "companions": [
+    {
+      "id": "google-family-link",
+      "name": "Google Family Link",
+      "covers": ["Android", "ChromeOS"],
+      "href": "https://families.google.com/familylink/",
+      "note": "Use Family Link for phones, tablets, and Chromebooks."
+    },
+    {
+      "id": "apple-screen-time",
+      "name": "Apple Screen Time",
+      "covers": ["iOS", "iPadOS"],
+      "href": "https://support.apple.com/guide/iphone/use-screen-time-iphone-iphbf10f0b7b/ios",
+      "note": "Use Screen Time for iPhone and iPad limits and reports."
+    }
+  ]
+}

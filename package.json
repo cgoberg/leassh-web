@@ -1,6 +1,11 @@
 {
   "name": "leassh-web",
   "private": true,
+  "scripts": {
+    "test": "node --test scripts/*.test.js",
+    "check:plans": "node scripts/check-plan-schema.js && node scripts/check-plan-parity.js",
+    "check:coverage": "node scripts/check-coverage-claims.js"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2",
     "pg": "^8.20.0",

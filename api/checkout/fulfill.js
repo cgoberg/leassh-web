@@ -1,4 +1,5 @@
 const supabase = require('../_lib/supabase');
+const { getPlan } = require('../_lib/plans');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,14 +16,31 @@ module.exports = async (req, res) => {
 
   const { data, error } = await supabase
     .from('licenses')
-    .select('license_key, tier, features, billing, email')
+    .select('*')
     .eq('stripe_session_id', session_id)
-    .single();
+    .maybeSingle();
 
   if (error || !data) {
     // Webhook may not have processed yet — return 202 so the client can retry
     return res.status(202).json({ pending: true });
   }
 
-  res.json(data);
+  const planId = data.plan_id || data.tier;
+  const plan = getPlan(planId);
+
+  res.json({
+    license_key: data.license_key,
+    plan_id: planId,
+    plan_name: plan?.name || planId,
+    tier: planId,
+    legacy_tier: data.tier !== planId ? data.tier : null,
+    max_nodes: data.max_nodes,
+    devices: plan?.devices ?? null,
+    trial_days: plan?.trial_days ?? 0,
+    features: data.features,
+    billing: data.billing,
+    email: data.email,
+    status: data.status || 'active',
+    expires_at: data.expires_at || null,
+  });
 };
