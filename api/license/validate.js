@@ -16,6 +16,21 @@ async function refreshPaidExpiry(license) {
     const subs = await stripe.subscriptions.list({ customer: customer.id, status: 'all', limit: 10 });
     const subscription = (subs.data || []).find((s) => ['active', 'trialing', 'past_due'].includes(s.status))
       || (subs.data || [])[0];
+
+    // A refund can arrive without a webhook. The latest charge is the
+    // authority: a full refund revokes immediately; partial refunds do not.
+    try {
+      const charges = await stripe.charges.list({ customer: customer.id, limit: 1 });
+      const latest = charges.data?.[0];
+      if (latest && (latest.refunded || (latest.amount_refunded || 0) >= latest.amount)) {
+        const now = new Date().toISOString();
+        await supabase.from('licenses').update({ expires_at: now }).eq('license_key', license.license_key);
+        return { ...license, expires_at: now, status: 'revoked' };
+      }
+    } catch (err) {
+      console.error('refund check failed:', err.message);
+    }
+
     if (!subscription?.current_period_end) return license;
     const periodEnd = new Date(subscription.current_period_end * 1000).toISOString();
     if (!license.expires_at || new Date(periodEnd) > new Date(license.expires_at)) {
