@@ -11,6 +11,22 @@ const {
 
 const GRACE_DAYS = 7;
 
+// Warm-instance idempotency. The durable stripe_events table is preferred;
+// this keeps duplicate deliveries from doing work twice when the table is
+// absent (legacy schema) or the function is warm.
+const processedEvents = new Map();
+const PROCESSED_TTL_MS = 24 * 60 * 60 * 1000;
+
+function alreadyProcessed(eventId) {
+  const now = Date.now();
+  for (const [id, at] of processedEvents) {
+    if (now - at > PROCESSED_TTL_MS) processedEvents.delete(id);
+  }
+  if (processedEvents.has(eventId)) return true;
+  processedEvents.set(eventId, now);
+  return false;
+}
+
 function generateLicenseKey() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const segments = [];
@@ -70,6 +86,12 @@ function periodEndIso(subscription, fallbackDays = 35) {
 }
 
 async function recordEvent(event) {
+  console.log('STRIPE_EVENT', JSON.stringify({
+    event_id: event.id,
+    type: event.type,
+    object_id: event.data?.object?.id || null,
+    at: new Date().toISOString(),
+  }));
   const { error } = await supabase.from('stripe_events').insert({
     event_id: event.id,
     type: event.type,
@@ -94,6 +116,13 @@ async function recordEvent(event) {
 
 async function audit(licenseKey, action, detail = {}) {
   if (!licenseKey) return;
+  const masked = `${String(licenseKey).slice(0, 8)}…${String(licenseKey).slice(-4)}`;
+  console.log('LICENSE_EVENT', JSON.stringify({
+    license_key: masked,
+    action,
+    detail,
+    at: new Date().toISOString(),
+  }));
   const { error } = await supabase.from('license_events').insert({
     license_key: licenseKey,
     action,
@@ -596,6 +625,10 @@ module.exports = async (req, res) => {
   }
 
   try {
+    if (alreadyProcessed(event.id)) {
+      console.log('Webhook: duplicate event ignored in warm instance', event.id);
+      return res.json({ received: true, duplicate: true });
+    }
     const fresh = await recordEvent(event);
     if (!fresh) {
       console.log('Webhook: duplicate event ignored', event.id);
