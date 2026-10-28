@@ -78,7 +78,7 @@ module.exports = async (req, res) => {
     if (licenseError) {
       console.error('Supabase free license insert error:', licenseError.message);
       await alert('license_issuance_failure', { stage: 'free_registration', error: licenseError.message });
-      return res.status(500).json({ error: 'Registration failed' });
+      return res.status(500).json({ error: 'Registration failed', debug_code: licenseError.code, debug_detail: licenseError.message.slice(0, 160) });
     }
 
     // Store in Supabase
@@ -88,7 +88,7 @@ module.exports = async (req, res) => {
 
     if (error) {
       console.error('Supabase insert error:', error.message);
-      return res.status(500).json({ error: 'Registration failed' });
+      return res.status(500).json({ error: 'Registration failed', debug_code: error.code, debug_detail: error.message.slice(0, 160) });
     }
 
     // Audit trail in Vercel function logs
