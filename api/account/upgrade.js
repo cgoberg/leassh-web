@@ -41,6 +41,38 @@ async function latestLicense(email) {
   return data || null;
 }
 
+async function stripeCustomerForEmail(email, license) {
+  if (license?.stripe_customer_id) {
+    try {
+      const customer = await stripe.customers.retrieve(license.stripe_customer_id);
+      if (!customer?.deleted) return customer;
+    } catch (err) {
+      console.error('Stripe customer retrieve failed:', err.message);
+    }
+  }
+  if (!email) return null;
+  try {
+    const listed = await stripe.customers.list({ email, limit: 1 });
+    return listed.data?.[0] || null;
+  } catch (err) {
+    console.error('Stripe customer list failed:', err.message);
+    return null;
+  }
+}
+
+async function subscriptionForCustomer(customer) {
+  if (!customer) return null;
+  try {
+    const listed = await stripe.subscriptions.list({ customer: customer.id, status: 'all', limit: 10 });
+    return (listed.data || []).find((s) => ['active', 'trialing', 'past_due'].includes(s.status))
+      || (listed.data || [])[0]
+      || null;
+  } catch (err) {
+    console.error('Stripe subscription list failed:', err.message);
+    return null;
+  }
+}
+
 async function status(res, pairingCode) {
   const account = await accountFor(pairingCode);
   if (!account) return res.status(404).json({ error: 'Pairing code not found' });
@@ -49,6 +81,11 @@ async function status(res, pairingCode) {
 
   const planId = isLegacyId(license.tier) ? 'family' : (license.plan_id || license.tier);
   const plan = getPlan(planId);
+  const customer = await stripeCustomerForEmail(account.email, license);
+  const subscription = await subscriptionForCustomer(customer);
+  const currentPeriodEnd = subscription?.current_period_end
+    ? new Date(subscription.current_period_end * 1000).toISOString()
+    : (license.current_period_end || license.expires_at || null);
   res.json({
     email: account.email,
     pairing_code: account.pairing_code,
@@ -59,11 +96,11 @@ async function status(res, pairingCode) {
     legacy_tier: isLegacyId(license.tier) ? license.tier : null,
     max_nodes: license.max_nodes,
     features: license.features || [],
-    status: license.status || 'active',
+    status: license.status || subscription?.status || 'active',
     expires_at: license.expires_at || null,
-    current_period_end: license.current_period_end || null,
-    cancel_at_period_end: Boolean(license.cancel_at_period_end),
-    has_billing_portal: Boolean(license.stripe_customer_id),
+    current_period_end: currentPeriodEnd,
+    cancel_at_period_end: subscription ? Boolean(subscription.cancel_at_period_end) : Boolean(license.cancel_at_period_end),
+    has_billing_portal: Boolean(customer),
   });
 }
 
@@ -71,13 +108,14 @@ async function portal(res, pairingCode) {
   const account = await accountFor(pairingCode);
   if (!account) return res.status(404).json({ error: 'Pairing code not found' });
   const license = await latestLicense(account.email);
-  if (!license?.stripe_customer_id) {
+  const customer = await stripeCustomerForEmail(account.email, license);
+  if (!customer) {
     return res.status(404).json({
       error: 'No paid subscription found for this account. Free plans do not have a billing portal.',
     });
   }
   const session = await stripe.billingPortal.sessions.create({
-    customer: license.stripe_customer_id,
+    customer: customer.id,
     return_url: `${SITE}/account`,
   });
   res.json({ url: session.url });

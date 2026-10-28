@@ -1,5 +1,7 @@
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const supabase = require('../_lib/supabase');
 const { getPlan } = require('../_lib/plans');
+const { createLicenseFromSession } = require('./webhook');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -14,11 +16,35 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Missing session_id' });
   }
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from('licenses')
     .select('*')
     .eq('stripe_session_id', session_id)
     .maybeSingle();
+
+  if (error || !data) {
+    // Webhook may be missing, delayed, or not configured. The success page
+    // must still finish: verify the session with Stripe and issue the
+    // license itself when the session is paid or has a subscription (trial).
+    try {
+      const session = await stripe.checkout.sessions.retrieve(session_id, {
+        expand: ['line_items.data.price.product', 'subscription'],
+      });
+      const paid = session.payment_status === 'paid'
+        || session.payment_status === 'no_payment_required'
+        || Boolean(session.subscription);
+      if (paid) {
+        await createLicenseFromSession(session);
+        ({ data, error } = await supabase
+          .from('licenses')
+          .select('*')
+          .eq('stripe_session_id', session_id)
+          .maybeSingle());
+      }
+    } catch (err) {
+      console.error('Fulfill self-heal failed:', err.message);
+    }
+  }
 
   if (error || !data) {
     // Webhook may not have processed yet — return 202 so the client can retry

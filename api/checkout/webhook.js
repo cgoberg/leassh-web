@@ -116,24 +116,91 @@ async function existingLicenseBySession(sessionId) {
 
 async function existingLicenseBySubscription(subscriptionId) {
   if (!subscriptionId) return null;
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('licenses')
     .select('*')
     .eq('stripe_subscription_id', subscriptionId)
     .maybeSingle();
+  if (error) {
+    // Legacy schema has no stripe_subscription_id column.
+    if (!isMissingColumnError(error)) console.error('subscription lookup failed:', error.message);
+    return null;
+  }
   return data || null;
 }
 
 async function existingLicenseByCustomer(customerId) {
   if (!customerId) return null;
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('licenses')
     .select('*')
     .eq('stripe_customer_id', customerId)
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle();
+  if (error) {
+    if (!isMissingColumnError(error)) console.error('customer lookup failed:', error.message);
+    return null;
+  }
   return data || null;
+}
+
+function isMissingColumnError(error) {
+  return Boolean(error && /column .* does not exist|schema cache|Could not find the '.*' column/i.test(error.message || ''));
+}
+
+async function customerEmail(customer) {
+  if (!customer) return null;
+  if (typeof customer === 'object') return customer.email || null;
+  try {
+    const retrieved = await stripe.customers.retrieve(String(customer));
+    return retrieved?.deleted ? null : (retrieved?.email || null);
+  } catch (err) {
+    console.error('customer email lookup failed:', err.message);
+    return null;
+  }
+}
+
+async function findPaidLicenseByEmail(email) {
+  if (!email) return null;
+  const { data, error } = await supabase
+    .from('licenses')
+    .select('*')
+    .eq('email', email)
+    .order('created_at', { ascending: false })
+    .limit(5);
+  if (error) return null;
+  return (data || []).find((row) =>
+    Boolean(row.stripe_session_id) || (row.tier && row.tier !== 'free')
+  ) || null;
+}
+
+async function resolveSubscriptionLicense(subscription) {
+  if (!subscription) return null;
+  const byId = await existingLicenseBySubscription(subscription.id);
+  if (byId) return byId;
+  const email = await customerEmail(subscription.customer);
+  return findPaidLicenseByEmail(email);
+}
+
+async function updateLicenseByKey(licenseKey, patch) {
+  let { error } = await supabase
+    .from('licenses')
+    .update(patch)
+    .eq('license_key', licenseKey);
+  if (!error) return null;
+  if (!isMissingColumnError(error)) return error;
+
+  // Legacy schema fallback: only the columns that have always existed.
+  const legacy = {};
+  for (const key of ['tier', 'features', 'max_nodes', 'expires_at']) {
+    if (key in patch) legacy[key] = patch[key];
+  }
+  ({ error } = await supabase
+    .from('licenses')
+    .update(legacy)
+    .eq('license_key', licenseKey));
+  return error || null;
 }
 
 function isMissingColumn(error) {
@@ -171,7 +238,7 @@ async function createLicenseFromSession(session) {
   }
 
   const subscription = session.subscription || null;
-  const email = session.customer_email || session.customer_details?.email || null;
+  const email = session.customer_email || session.customer_details?.email || await customerEmail(session.customer);
   const licenseKey = generateLicenseKey();
   const periodEnd = periodEndIso(subscription);
   const now = new Date().toISOString();
@@ -267,13 +334,10 @@ function licensePatchForSubscription(subscription, extra = {}) {
   return patch;
 }
 
-async function updateBySubscription(subscriptionId, patch, action, detail = {}) {
-  const existing = await existingLicenseBySubscription(subscriptionId);
+async function updateBySubscription(subscription, patch, action, detail = {}) {
+  const existing = await resolveSubscriptionLicense(subscription);
   if (!existing) return null;
-  const { error } = await supabase
-    .from('licenses')
-    .update(patch)
-    .eq('license_key', existing.license_key);
+  const error = await updateLicenseByKey(existing.license_key, patch);
   if (error) throw new Error('License update failed: ' + error.message);
   await audit(existing.license_key, action, detail);
   return { ...existing, ...patch };
@@ -304,7 +368,7 @@ async function handleInvoicePaid(invoice) {
     grace_until: null,
     expires_at: periodEndIso(subscription),
   });
-  const updated = await updateBySubscription(subscriptionId, patch, 'renewed', {
+  const updated = await updateBySubscription(subscription, patch, 'renewed', {
     invoice_id: invoice.id,
     period_end: patch.current_period_end,
   });
@@ -325,10 +389,14 @@ async function handleInvoiceFailed(invoice) {
     invoice.parent?.subscription_details?.subscription ||
     null;
   if (!subscriptionId) return;
-  const graceUntil = new Date(Date.now() + GRACE_DAYS * 86400_000).toISOString();
-  const updated = await updateBySubscription(String(subscriptionId), {
+  const subscription = await stripe.subscriptions.retrieve(String(subscriptionId));
+  const existing = await resolveSubscriptionLicense(subscription);
+  const currentExpiry = existing?.expires_at ? new Date(existing.expires_at) : new Date(0);
+  const graceUntil = new Date(Math.max(Date.now() + GRACE_DAYS * 86400_000, currentExpiry.getTime())).toISOString();
+  const updated = await updateBySubscription(subscription, {
     status: 'grace',
     grace_until: graceUntil,
+    expires_at: graceUntil,
     updated_at: new Date().toISOString(),
   }, 'payment_failed', { invoice_id: invoice.id, grace_until: graceUntil });
 
@@ -360,17 +428,17 @@ async function handleSubscriptionUpdated(subscription) {
         : subscription.status,
     expires_at: periodEndIso(subscription),
   });
-  await updateBySubscription(subscription.id, patch, 'subscription_updated', {
+  await updateBySubscription(subscription, patch, 'subscription_updated', {
     status: subscription.status,
     cancel_at_period_end: subscription.cancel_at_period_end,
   });
 }
 
 async function handleSubscriptionDeleted(subscription) {
-  const existing = await existingLicenseBySubscription(subscription.id);
+  const existing = await resolveSubscriptionLicense(subscription);
   if (!existing) return;
   const periodEnd = periodEndIso(subscription);
-  await updateBySubscription(subscription.id, {
+  await updateBySubscription(subscription, {
     status: 'canceled',
     cancel_at_period_end: true,
     current_period_end: periodEnd,
@@ -401,13 +469,16 @@ async function handleChargeRefunded(charge) {
   const customerId = typeof charge.customer === 'string'
     ? charge.customer
     : charge.customer?.id;
-  const existing = await existingLicenseByCustomer(customerId);
+  let existing = await existingLicenseByCustomer(customerId);
+  if (!existing) {
+    const email = charge.billing_details?.email || await customerEmail(charge.customer);
+    existing = await findPaidLicenseByEmail(email);
+  }
   if (!existing) return;
   const now = new Date().toISOString();
-  const { error } = await supabase
-    .from('licenses')
-    .update({ status: 'revoked', expires_at: now, updated_at: now })
-    .eq('license_key', existing.license_key);
+  const error = await updateLicenseByKey(existing.license_key, {
+    status: 'revoked', expires_at: now, updated_at: now,
+  });
   if (error) throw new Error('Refund revocation failed: ' + error.message);
   await audit(existing.license_key, 'refunded', {
     charge_id: charge.id,
