@@ -2,6 +2,14 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const crypto = require('crypto');
 const supabase = require('../_lib/supabase');
 const { sendEmail } = require('../_lib/email');
+const { alert } = require('../_lib/alerts');
+const {
+  resolvePlan,
+  featuresFor,
+  maxNodesFor,
+} = require('../_lib/plans');
+
+const GRACE_DAYS = 7;
 
 function generateLicenseKey() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -17,30 +25,453 @@ function generateLicenseKey() {
   return 'LSH-' + segments.join('-');
 }
 
-const tierMap = {
-  'Leassh Essential':          { tier: 'essential', features: ['monitoring', 'daily_summaries', 'category_limits'] },
-  'Leassh Essential (Annual)': { tier: 'essential', features: ['monitoring', 'daily_summaries', 'category_limits'] },
-  'Leassh Family':             { tier: 'family',    features: ['monitoring', 'vision', 'enforcement', 'notifications', 'screen_time', 'daily_summaries', 'weekly_reports', 'content_safety'] },
-  'Leassh Family (Annual)':    { tier: 'family',    features: ['monitoring', 'vision', 'enforcement', 'notifications', 'screen_time', 'daily_summaries', 'weekly_reports', 'content_safety'] },
-  'Leassh Pro':                { tier: 'pro',       features: ['monitoring', 'vision', 'enforcement', 'notifications', 'screen_time', 'daily_summaries', 'weekly_reports', 'content_safety', 'rules', 'actuation', 'fleet', 'webhooks', 'mqtt', 'ssh', 'api', 'self_hosting', 'openclaw'] },
-  'Leassh Pro (Annual)':       { tier: 'pro',       features: ['monitoring', 'vision', 'enforcement', 'notifications', 'screen_time', 'daily_summaries', 'weekly_reports', 'content_safety', 'rules', 'actuation', 'fleet', 'webhooks', 'mqtt', 'ssh', 'api', 'self_hosting', 'openclaw'] },
-};
+function unixToIso(seconds) {
+  if (!seconds) return null;
+  return new Date(Number(seconds) * 1000).toISOString();
+}
 
-const maxNodesMap = {
-  essential: 3,
-  family: 10,
-  pro: 0, // unlimited
-};
+// legacy product-name fallback: old Stripe products still resolve to a plan.
+function planFromName(productName) {
+  return resolvePlan(productName || '');
+}
 
-function identifyTier(productName) {
-  if (tierMap[productName]) return tierMap[productName];
+function planFromSession(session) {
+  const metaPlan = session?.metadata?.plan_id;
+  if (metaPlan) {
+    const plan = resolvePlan(metaPlan);
+    if (plan) return plan;
+  }
+  if (session?.subscription?.metadata?.plan_id) {
+    const plan = resolvePlan(session.subscription.metadata.plan_id);
+    if (plan) return plan;
+  }
+  const lineItem = session?.line_items?.data?.[0];
+  const productName =
+    lineItem?.price?.product?.name || lineItem?.description || '';
+  return planFromName(productName);
+}
 
-  const lower = (productName || '').toLowerCase();
-  if (lower.includes('pro'))       return tierMap['Leassh Pro'];
-  if (lower.includes('family'))    return tierMap['Leassh Family'];
-  if (lower.includes('essential')) return tierMap['Leassh Essential'];
+function planFromSubscription(subscription) {
+  const metaPlan = subscription?.metadata?.plan_id;
+  if (metaPlan) {
+    const plan = resolvePlan(metaPlan);
+    if (plan) return plan;
+  }
+  const item = subscription?.items?.data?.[0];
+  const productName = item?.price?.product?.name || '';
+  return planFromName(productName);
+}
 
-  return { tier: 'unknown', features: [] };
+function periodEndIso(subscription, fallbackDays = 35) {
+  if (subscription?.current_period_end) {
+    return unixToIso(subscription.current_period_end);
+  }
+  return new Date(Date.now() + fallbackDays * 86400_000).toISOString();
+}
+
+async function recordEvent(event) {
+  const { error } = await supabase.from('stripe_events').insert({
+    event_id: event.id,
+    type: event.type,
+    created_at: new Date().toISOString(),
+    payload: {
+      id: event.id,
+      type: event.type,
+      object_id: event.data?.object?.id || null,
+    },
+  });
+  if (!error) return true;
+  // Duplicate event id: already processed.
+  if (error.code === '23505') return false;
+  // Missing table (pre-migration): keep processing, loudly.
+  if (error.code === '42P01') {
+    console.warn('stripe_events table missing; idempotency is degraded');
+    return true;
+  }
+  console.error('stripe_events insert failed:', error.message);
+  return true;
+}
+
+async function audit(licenseKey, action, detail = {}) {
+  if (!licenseKey) return;
+  const { error } = await supabase.from('license_events').insert({
+    license_key: licenseKey,
+    action,
+    detail,
+    created_at: new Date().toISOString(),
+  });
+  if (error && error.code !== '42P01') {
+    console.error('license_events insert failed:', error.message);
+  }
+}
+
+async function existingLicenseBySession(sessionId) {
+  const { data } = await supabase
+    .from('licenses')
+    .select('*')
+    .eq('stripe_session_id', sessionId)
+    .maybeSingle();
+  return data || null;
+}
+
+async function existingLicenseBySubscription(subscriptionId) {
+  if (!subscriptionId) return null;
+  const { data } = await supabase
+    .from('licenses')
+    .select('*')
+    .eq('stripe_subscription_id', subscriptionId)
+    .maybeSingle();
+  return data || null;
+}
+
+async function existingLicenseByCustomer(customerId) {
+  if (!customerId) return null;
+  const { data } = await supabase
+    .from('licenses')
+    .select('*')
+    .eq('stripe_customer_id', customerId)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  return data || null;
+}
+
+function isMissingColumn(error) {
+  return Boolean(error && /column .* does not exist|schema cache|Could not find the '.*' column/i.test(error.message || ''));
+}
+
+async function insertLicenseRow(row) {
+  const first = await supabase.from('licenses').insert(row).select().single();
+  if (!first.error) return { data: first.data, error: null };
+  if (!isMissingColumn(first.error)) return first;
+
+  // Pre-migration fallback: keep Free/paid checkout working with the legacy
+  // schema. The lifecycle columns arrive with the 2026-10-28 migration.
+  const legacyRow = {
+    license_key: row.license_key,
+    stripe_session_id: row.stripe_session_id,
+    tier: row.tier,
+    features: row.features,
+    email: row.email,
+    max_nodes: row.max_nodes,
+    billing: row.billing,
+    expires_at: row.expires_at,
+    created_at: row.created_at,
+  };
+  console.warn('licenses lifecycle columns missing; inserting legacy row');
+  return supabase.from('licenses').insert(legacyRow).select().single();
+}
+
+async function createLicenseFromSession(session) {
+  const existing = await existingLicenseBySession(session.id);
+  if (existing) return existing;
+
+  const plan = planFromSession(session);
+  if (!plan) {
+    throw new Error('Could not resolve plan from checkout session metadata/product');
+  }
+
+  const subscription = session.subscription || null;
+  const email = session.customer_email || session.customer_details?.email || null;
+  const licenseKey = generateLicenseKey();
+  const periodEnd = periodEndIso(subscription);
+  const now = new Date().toISOString();
+
+  const row = {
+    license_key: licenseKey,
+    stripe_session_id: session.id,
+    stripe_customer_id: session.customer || null,
+    stripe_subscription_id: subscription?.id || null,
+    tier: plan.id,
+    plan_id: plan.id,
+    features: featuresFor(plan.id),
+    email,
+    max_nodes: maxNodesFor(plan.id),
+    billing: subscription?.items?.data?.[0]?.price?.recurring?.interval === 'year' ? 'annual' : 'monthly',
+    status: 'active',
+    current_period_end: periodEnd,
+    cancel_at_period_end: Boolean(subscription?.cancel_at_period_end),
+    expires_at: periodEnd,
+    created_at: now,
+    updated_at: now,
+  };
+
+  const { data, error } = await insertLicenseRow(row);
+
+  if (error) throw new Error('Failed to persist license: ' + error.message);
+
+  await audit(licenseKey, 'issued', { plan_id: plan.id, session_id: session.id });
+  console.log('LICENSE_CREATED', JSON.stringify({
+    license_key: licenseKey,
+    plan_id: plan.id,
+    email,
+    session_id: session.id,
+  }));
+
+  if (email) {
+    await sendEmail({
+      to: email,
+      subject: 'Your Leassh license key',
+      text: [
+        `Thank you for subscribing to Leassh ${plan.name}!`,
+        '',
+        'Your license key is:',
+        licenseKey,
+        '',
+        'Add it to your fleet.yaml:',
+        '',
+        '  license_key: ' + licenseKey,
+        '',
+        `Plan: Leassh ${plan.name}`,
+        `Included: ${plan.devices === 0 ? 'unlimited' : plan.devices} computers`,
+        '',
+        'Manage your subscription: https://leassh.com/account',
+        'Documentation: https://leassh.com/docs',
+        '',
+        '— The Leassh team',
+        'https://leassh.com',
+      ].join('\n'),
+      html: `<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head>
+<body style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 16px;color:#1a1a1a">
+  <h1 style="font-size:24px;margin-bottom:8px">Your Leassh license key</h1>
+  <p>Thank you for subscribing to <strong>Leassh ${plan.name}</strong>.</p>
+  <p style="font-size:18px;font-weight:700;letter-spacing:2px;font-family:monospace;background:#f5f5f5;padding:16px 24px;border-radius:8px;display:inline-block">${licenseKey}</p>
+  <p>Add it to your <code>fleet.yaml</code>:</p>
+  <pre style="background:#f5f5f5;padding:12px 16px;border-radius:6px;font-size:14px">license_key: ${licenseKey}</pre>
+  <p><a href="https://leassh.com/account" style="color:#d4a24c">Manage subscription</a> · <a href="https://leassh.com/docs" style="color:#d4a24c">Documentation</a></p>
+  <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
+  <p style="color:#999;font-size:12px">Leassh — <a href="https://leassh.com" style="color:#999">leassh.com</a></p>
+</body></html>`,
+    });
+  }
+
+  return data;
+}
+
+function licensePatchForSubscription(subscription, extra = {}) {
+  const plan = planFromSubscription(subscription);
+  const patch = {
+    ...extra,
+    stripe_customer_id: subscription.customer || extra.stripe_customer_id || null,
+    stripe_subscription_id: subscription.id,
+    current_period_end: periodEndIso(subscription),
+    cancel_at_period_end: Boolean(subscription.cancel_at_period_end),
+    updated_at: new Date().toISOString(),
+  };
+  if (plan) {
+    patch.tier = plan.id;
+    patch.plan_id = plan.id;
+    patch.features = featuresFor(plan.id);
+    patch.max_nodes = maxNodesFor(plan.id);
+  }
+  return patch;
+}
+
+async function updateBySubscription(subscriptionId, patch, action, detail = {}) {
+  const existing = await existingLicenseBySubscription(subscriptionId);
+  if (!existing) return null;
+  const { error } = await supabase
+    .from('licenses')
+    .update(patch)
+    .eq('license_key', existing.license_key);
+  if (error) throw new Error('License update failed: ' + error.message);
+  await audit(existing.license_key, action, detail);
+  return { ...existing, ...patch };
+}
+
+async function handleCheckoutCompleted(session) {
+  if (session.payment_status !== 'paid' && !session.subscription) {
+    console.log('Webhook: session not paid, skipping:', session.id);
+    return;
+  }
+  await createLicenseFromSession(session);
+}
+
+async function handleInvoicePaid(invoice) {
+  const subscriptionId =
+    invoice.subscription ||
+    invoice.parent?.subscription_details?.subscription ||
+    null;
+  if (!subscriptionId) return;
+  const subscription = await stripe.subscriptions.retrieve(String(subscriptionId));
+  const plan = planFromSubscription(subscription);
+  if (!plan) {
+    console.warn('invoice.paid: subscription has no resolvable plan', subscriptionId);
+    return;
+  }
+  const patch = licensePatchForSubscription(subscription, {
+    status: 'active',
+    grace_until: null,
+    expires_at: periodEndIso(subscription),
+  });
+  const updated = await updateBySubscription(subscriptionId, patch, 'renewed', {
+    invoice_id: invoice.id,
+    period_end: patch.current_period_end,
+  });
+  if (!updated) {
+    // The checkout webhook may still be in flight. Create from subscription
+    // metadata so a renewal never leaves a paying customer without a key.
+    const existing = await existingLicenseBySession(`sub_${subscriptionId}`);
+    if (!existing) {
+      console.warn('invoice.paid: no license row yet for', subscriptionId);
+      await alert('renewal_without_license', { subscription_id: subscriptionId, invoice_id: invoice.id });
+    }
+  }
+}
+
+async function handleInvoiceFailed(invoice) {
+  const subscriptionId =
+    invoice.subscription ||
+    invoice.parent?.subscription_details?.subscription ||
+    null;
+  if (!subscriptionId) return;
+  const graceUntil = new Date(Date.now() + GRACE_DAYS * 86400_000).toISOString();
+  const updated = await updateBySubscription(String(subscriptionId), {
+    status: 'grace',
+    grace_until: graceUntil,
+    updated_at: new Date().toISOString(),
+  }, 'payment_failed', { invoice_id: invoice.id, grace_until: graceUntil });
+
+  const email = invoice.customer_email || updated?.email;
+  if (email) {
+    await sendEmail({
+      to: email,
+      subject: 'Leassh payment failed — 7-day grace period',
+      text: [
+        'We could not charge your payment method for Leassh.',
+        '',
+        `Your license stays active until ${graceUntil} while you update the card.`,
+        'Update your payment method: https://leassh.com/account',
+        '',
+        'If the payment is not fixed, the license will stop validating after the grace period.',
+        '',
+        '— The Leassh team',
+      ].join('\n'),
+    });
+  }
+}
+
+async function handleSubscriptionUpdated(subscription) {
+  const patch = licensePatchForSubscription(subscription, {
+    status: subscription.status === 'active' || subscription.status === 'trialing'
+      ? 'active'
+      : subscription.status === 'past_due'
+        ? 'grace'
+        : subscription.status,
+    expires_at: periodEndIso(subscription),
+  });
+  await updateBySubscription(subscription.id, patch, 'subscription_updated', {
+    status: subscription.status,
+    cancel_at_period_end: subscription.cancel_at_period_end,
+  });
+}
+
+async function handleSubscriptionDeleted(subscription) {
+  const existing = await existingLicenseBySubscription(subscription.id);
+  if (!existing) return;
+  const periodEnd = periodEndIso(subscription);
+  await updateBySubscription(subscription.id, {
+    status: 'canceled',
+    cancel_at_period_end: true,
+    current_period_end: periodEnd,
+    expires_at: periodEnd,
+    updated_at: new Date().toISOString(),
+  }, 'canceled', { period_end: periodEnd });
+
+  if (existing.email) {
+    await sendEmail({
+      to: existing.email,
+      subject: 'Your Leassh subscription is canceled',
+      text: [
+        'Your Leassh subscription has been canceled.',
+        '',
+        `Your license remains valid until ${periodEnd}.`,
+        'You can restart at https://leassh.com/pricing.',
+        '',
+        '— The Leassh team',
+      ].join('\n'),
+    });
+  }
+}
+
+async function handleChargeRefunded(charge) {
+  if (!charge.refunded || charge.amount_refunded < charge.amount) {
+    return; // Partial refunds are handled commercially, not by revoking access.
+  }
+  const customerId = typeof charge.customer === 'string'
+    ? charge.customer
+    : charge.customer?.id;
+  const existing = await existingLicenseByCustomer(customerId);
+  if (!existing) return;
+  const now = new Date().toISOString();
+  const { error } = await supabase
+    .from('licenses')
+    .update({ status: 'revoked', expires_at: now, updated_at: now })
+    .eq('license_key', existing.license_key);
+  if (error) throw new Error('Refund revocation failed: ' + error.message);
+  await audit(existing.license_key, 'refunded', {
+    charge_id: charge.id,
+    amount_refunded: charge.amount_refunded,
+  });
+  if (existing.email) {
+    await sendEmail({
+      to: existing.email,
+      subject: 'Your Leassh license was refunded',
+      text: [
+        'Your Leassh charge was refunded in full and the license has been revoked.',
+        '',
+        'If this was a mistake, contact hello@leassh.com.',
+        '',
+        '— The Leassh team',
+      ].join('\n'),
+    });
+  }
+}
+
+async function handleRefundUpdated(refund) {
+  if (refund.status !== 'succeeded') return;
+  let charge = refund.charge;
+  if (typeof charge === 'string') {
+    charge = await stripe.charges.retrieve(charge);
+  }
+  if (charge) await handleChargeRefunded(charge);
+}
+
+async function processEvent(event) {
+  switch (event.type) {
+    case 'checkout.session.completed':
+    case 'checkout.session.async_payment_succeeded': {
+      const session = await stripe.checkout.sessions.retrieve(event.data.object.id, {
+        expand: [
+          'line_items.data.price.product',
+          'subscription',
+        ],
+      });
+      await handleCheckoutCompleted(session);
+      break;
+    }
+    case 'invoice.paid':
+      await handleInvoicePaid(event.data.object);
+      break;
+    case 'invoice.payment_failed':
+      await handleInvoiceFailed(event.data.object);
+      break;
+    case 'customer.subscription.updated':
+      await handleSubscriptionUpdated(event.data.object);
+      break;
+    case 'customer.subscription.deleted':
+      await handleSubscriptionDeleted(event.data.object);
+      break;
+    case 'charge.refunded':
+      await handleChargeRefunded(event.data.object);
+      break;
+    case 'refund.updated':
+      await handleRefundUpdated(event.data.object);
+      break;
+    default:
+      console.log('Webhook: unhandled event type', event.type);
+  }
 }
 
 function getRawBody(req) {
@@ -50,91 +481,6 @@ function getRawBody(req) {
     req.on('end', () => resolve(Buffer.concat(chunks)));
     req.on('error', reject);
   });
-}
-
-async function createLicense(session) {
-  const lineItem = session.line_items?.data?.[0];
-  const productName = lineItem?.price?.product?.name
-    || lineItem?.description
-    || '';
-
-  const { tier, features } = identifyTier(productName);
-  const license_key = generateLicenseKey();
-  const email = session.customer_email || session.customer_details?.email || null;
-  const isAnnual = lineItem?.price?.recurring?.interval === 'year';
-  const max_nodes = maxNodesMap[tier] ?? 5;
-
-  const now = new Date();
-  const expires_at = new Date(now.getTime() + (isAnnual ? 365 : 35) * 24 * 60 * 60 * 1000).toISOString();
-
-  const { error } = await supabase
-    .from('licenses')
-    .upsert(
-      {
-        license_key,
-        stripe_session_id: session.id,
-        tier,
-        features,
-        email,
-        max_nodes,
-        billing: isAnnual ? 'annual' : 'monthly',
-        expires_at,
-        created_at: now.toISOString(),
-      },
-      { onConflict: 'stripe_session_id', ignoreDuplicates: true }
-    );
-
-  if (error) {
-    console.error('Supabase license upsert error:', error.message);
-    throw new Error('Failed to persist license: ' + error.message);
-  }
-
-  console.log('LICENSE_CREATED: ' + license_key + ' | ' + tier + ' | ' + (isAnnual ? 'annual' : 'monthly') + ' | ' + email + ' | session: ' + session.id);
-
-  if (email) {
-    const tierLabel = tier.charAt(0).toUpperCase() + tier.slice(1);
-    const billingLabel = isAnnual ? 'annual' : 'monthly';
-    sendEmail({
-      to: email,
-      subject: 'Your Leassh license key',
-      text: [
-        'Thank you for subscribing to Leassh ' + tierLabel + '!',
-        '',
-        'Your license key is:',
-        license_key,
-        '',
-        'To activate, add this to your fleet.yaml:',
-        '',
-        '  license_key: ' + license_key,
-        '',
-        'Documentation: https://leassh.com/docs',
-        'Manage your subscription: https://leassh.com/account',
-        '',
-        'Plan: Leassh ' + tierLabel + ' (' + billingLabel + ')',
-        '',
-        '— The Leassh team',
-        'https://leassh.com',
-      ].join('\n'),
-      html: `<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"></head>
-<body style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 16px;color:#1a1a1a">
-  <h1 style="font-size:24px;margin-bottom:8px">Your Leassh license key</h1>
-  <p>Thank you for subscribing to <strong>Leassh ${tierLabel}</strong> (${billingLabel})!</p>
-  <p>Your license key is:</p>
-  <p style="font-size:18px;font-weight:700;letter-spacing:2px;font-family:monospace;background:#f5f5f5;padding:16px 24px;border-radius:8px;display:inline-block">${license_key}</p>
-  <p>Add it to your <code>fleet.yaml</code> to activate:</p>
-  <pre style="background:#f5f5f5;padding:12px 16px;border-radius:6px;font-size:14px">license_key: ${license_key}</pre>
-  <p>
-    <a href="https://leassh.com/docs" style="color:#d4a24c">Documentation</a> &nbsp;·&nbsp;
-    <a href="https://leassh.com/account" style="color:#d4a24c">Manage subscription</a>
-  </p>
-  <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
-  <p style="color:#999;font-size:12px">Leassh — <a href="https://leassh.com" style="color:#999">leassh.com</a></p>
-</body>
-</html>`,
-    }).catch(() => {});
-  }
 }
 
 module.exports = async (req, res) => {
@@ -157,24 +503,28 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Webhook signature verification failed' });
   }
 
-  if (event.type === 'checkout.session.completed') {
-    try {
-      const session = await stripe.checkout.sessions.retrieve(event.data.object.id, {
-        expand: ['line_items.data.price.product'],
-      });
-
-      if (session.payment_status !== 'paid' && !session.subscription) {
-        // Subscriptions with trials may not be "paid" immediately — allow them through
-        console.log('Webhook: session not paid, skipping:', session.id);
-        return res.json({ received: true });
-      }
-
-      await createLicense(session);
-    } catch (err) {
-      console.error('Webhook license creation failed:', err.message);
-      return res.status(500).json({ error: 'License creation failed' });
+  try {
+    const fresh = await recordEvent(event);
+    if (!fresh) {
+      console.log('Webhook: duplicate event ignored', event.id);
+      return res.json({ received: true, duplicate: true });
     }
+    await processEvent(event);
+    res.json({ received: true });
+  } catch (err) {
+    console.error('Webhook processing failed:', event.type, err.message);
+    await alert('webhook_failure', { event_id: event.id, event_type: event.type, error: err.message });
+    // 500 tells Stripe to retry; the license_events/stripe_events rows make
+    // that retry idempotent.
+    return res.status(500).json({ error: 'Webhook processing failed' });
   }
-
-  res.json({ received: true });
 };
+
+module.exports.processEvent = processEvent;
+module.exports.planFromSession = planFromSession;
+module.exports.planFromSubscription = planFromSubscription;
+module.exports.periodEndIso = periodEndIso;
+module.exports.licensePatchForSubscription = licensePatchForSubscription;
+module.exports.createLicenseFromSession = createLicenseFromSession;
+module.exports.recordEvent = recordEvent;
+module.exports.GRACE_DAYS = GRACE_DAYS;

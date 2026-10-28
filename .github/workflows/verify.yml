@@ -1,0 +1,32 @@
+name: Verify
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      - name: JS syntax
+        run: |
+          set -euo pipefail
+          while IFS= read -r f; do node --check "$f"; done < <(find api scripts -name '*.js' | sort)
+      - name: Plan schema and parity
+        run: |
+          node scripts/check-plan-schema.js
+          node scripts/check-plan-parity.js
+      - name: Coverage claims
+        run: node scripts/check-coverage-claims.js
+      - name: HTML, links and SEO metadata
+        run: node scripts/check-html.js
+      - name: Unit tests
+        run: node --test scripts/plans.test.js scripts/license-server.test.js

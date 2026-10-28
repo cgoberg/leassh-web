@@ -118,6 +118,43 @@ else
 fi
 echo ""
 
+# 6. Plan catalog, parity and coverage truth
+echo "--- Plan catalog ---"
+if node scripts/check-plan-schema.js; then
+  ok "plan schema"
+else
+  fail "plan schema"
+fi
+if node scripts/check-plan-parity.js; then
+  ok "plan parity"
+else
+  fail "plan parity"
+fi
+if node scripts/check-coverage-claims.js; then
+  ok "coverage claims"
+else
+  fail "coverage claims"
+fi
+echo ""
+
+# 7. Static HTML/SEO and internal links
+echo "--- HTML/SEO ---"
+if node scripts/check-html.js; then
+  ok "HTML/SEO"
+else
+  fail "HTML/SEO"
+fi
+echo ""
+
+# 8. Unit tests (checkout, webhook, license, parity helpers)
+echo "--- Unit tests ---"
+if node --test scripts/plans.test.js scripts/license-server.test.js; then
+  ok "unit tests"
+else
+  fail "unit tests"
+fi
+echo ""
+
 # Result
 if [[ $ERRORS -eq 0 ]]; then
   echo -e "${GREEN}=== All checks passed — safe to push ===${NC}"

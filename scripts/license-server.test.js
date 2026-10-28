@@ -6,7 +6,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const DATA_DIR = path.join(__dirname, '../../data');
+const DATA_DIR = path.join(__dirname, '../data');
 const DB_PATH = path.join(DATA_DIR, 'licenses.json');
 const PORT = 18484; // Use a non-conflicting port for tests
 
@@ -164,17 +164,19 @@ async function runTests(server) {
   assert(thirdRes.body.valid === false, 'Third instance rejected');
   assert(thirdRes.body.error && thirdRes.body.error.includes('exceeded'), 'Error mentions exceeded');
 
-  // 8. Create starter tier and verify features
-  console.log('\n--- Starter tier ---');
+  // 8. Legacy starter tier maps to Family for 90 days
+  console.log('\n--- Legacy Starter tier ---');
   const starterRes = await request(
     'POST',
     '/api/license/create',
     { email: 'starter@example.com', tier: 'starter' },
     { Authorization: 'Bearer lsh-admin-secret' },
   );
-  assert(starterRes.body.max_nodes === 5, 'Starter max nodes is 5');
-  assert(!starterRes.body.features.includes('vision'), 'Starter has no vision');
-  assert(!starterRes.body.features.includes('enforcement'), 'Starter has no enforcement');
+  assert(starterRes.body.tier === 'family', 'Starter maps to Family');
+  assert(starterRes.body.legacy_tier === 'starter', 'Starter legacy id recorded');
+  assert(starterRes.body.max_nodes === 10, 'Starter/Family max nodes is 10');
+  assert(starterRes.body.features.includes('vision'), 'Starter/Family has vision');
+  assert(starterRes.body.features.includes('enforcement'), 'Starter/Family has enforcement');
 
   // Summary
   console.log(`\n${'='.repeat(40)}`);

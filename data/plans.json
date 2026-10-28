@@ -1,0 +1,296 @@
+{
+  "version": "2026-10-28",
+  "effective_from": "2026-10-28",
+  "currency": "usd",
+  "billing": {
+    "annual_default": true,
+    "annual_savings_label": "Save 33%",
+    "trial_disclosure": "14-day free trial, then the plan price above. Cancel before the trial ends to pay nothing.",
+    "refund_days": 30,
+    "refund_policy": "30-day refund: email hello@leassh.com within 30 days of a charge and we will refund it."
+  },
+  "plans": [
+    {
+      "id": "free",
+      "license_tier": "free",
+      "name": "Free",
+      "devices": 2,
+      "prices": {
+        "monthly": 0,
+        "annual": 0,
+        "annual_monthly_equivalent": 0
+      },
+      "trial_days": 0,
+      "cta": {
+        "label": "Start free",
+        "href": "/setup",
+        "checkout": false
+      },
+      "license_features": [
+        "monitoring",
+        "dashboard",
+        "notifications",
+        "api",
+        "home_assistant"
+      ],
+      "marketing": {
+        "tagline": "Free for two computers",
+        "description": "Local-first monitoring, presence and Home Assistant for your first two computers.",
+        "badge": null,
+        "bullets": [
+          "2 computers",
+          "Local dashboard",
+          "Home Assistant integration",
+          "Sensors, presence and Assist",
+          "Basic alerts",
+          "One ha API token"
+        ]
+      },
+      "legacy_ids": []
+    },
+    {
+      "id": "family",
+      "license_tier": "family",
+      "name": "Family",
+      "devices": 10,
+      "prices": {
+        "monthly": 1499,
+        "annual": 11988,
+        "annual_monthly_equivalent": 999
+      },
+      "trial_days": 14,
+      "cta": {
+        "label": "Start 14-Day Free Trial",
+        "href": "/pricing",
+        "checkout": true
+      },
+      "license_features": [
+        "monitoring",
+        "dashboard",
+        "notifications",
+        "notification_channels",
+        "api",
+        "home_assistant",
+        "vision",
+        "reports",
+        "screen_time",
+        "enforcement",
+        "content_safety"
+      ],
+      "marketing": {
+        "tagline": "Understand the day, not just the uptime",
+        "description": "AI insights, weekly reports, screen time and alerts for a family fleet.",
+        "badge": "For most families",
+        "bullets": [
+          "10 computers",
+          "Everything in Free",
+          "AI screen analysis (runs on your hardware)",
+          "Weekly reports",
+          "Screen time and time limits",
+          "Content alerts",
+          "Telegram and email alerts"
+        ]
+      },
+      "legacy_ids": [
+        "essential",
+        "starter"
+      ]
+    },
+    {
+      "id": "pro",
+      "license_tier": "pro",
+      "name": "Pro",
+      "devices": 25,
+      "prices": {
+        "monthly": 2999,
+        "annual": 23988,
+        "annual_monthly_equivalent": 1999
+      },
+      "trial_days": 14,
+      "cta": {
+        "label": "Start 14-Day Free Trial",
+        "href": "/pricing",
+        "checkout": true
+      },
+      "license_features": [
+        "monitoring",
+        "dashboard",
+        "notifications",
+        "notification_channels",
+        "api",
+        "api_full",
+        "home_assistant",
+        "vision",
+        "reports",
+        "screen_time",
+        "enforcement",
+        "content_safety",
+        "rules",
+        "actuation",
+        "webhooks",
+        "mqtt",
+        "ssh_actuation",
+        "fleet",
+        "openclaw"
+      ],
+      "marketing": {
+        "tagline": "Full control for technical households",
+        "description": "Rules, webhooks, remote actions and the full API for a larger fleet.",
+        "badge": null,
+        "bullets": [
+          "25 computers",
+          "Everything in Family",
+          "Fleet dashboard",
+          "Rules engine",
+          "Webhooks and MQTT",
+          "SSH actuation",
+          "Full REST API",
+          "OpenClaw Fleet"
+        ]
+      },
+      "legacy_ids": []
+    },
+    {
+      "id": "unlimited",
+      "license_tier": "unlimited",
+      "name": "Unlimited",
+      "devices": 0,
+      "prices": {
+        "monthly": null,
+        "annual": null,
+        "annual_monthly_equivalent": null
+      },
+      "trial_days": 0,
+      "cta": {
+        "label": "Contact us",
+        "href": "mailto:hello@leassh.com?subject=Leassh%20Unlimited",
+        "checkout": false
+      },
+      "license_features": [
+        "monitoring",
+        "dashboard",
+        "notifications",
+        "notification_channels",
+        "api",
+        "api_full",
+        "home_assistant",
+        "vision",
+        "reports",
+        "screen_time",
+        "enforcement",
+        "content_safety",
+        "rules",
+        "actuation",
+        "webhooks",
+        "mqtt",
+        "ssh_actuation",
+        "fleet",
+        "openclaw",
+        "priority_support",
+        "multi_site"
+      ],
+      "marketing": {
+        "tagline": "For multi-site fleets",
+        "description": "Unlimited computers, priority support and onboarding. Contact us for a quote.",
+        "badge": null,
+        "bullets": [
+          "Unlimited computers",
+          "Everything in Pro",
+          "Priority support",
+          "Multi-site and onboarding"
+        ]
+      },
+      "legacy_ids": []
+    }
+  ],
+  "legacy_mapping": {
+    "essential": {
+      "plan_id": "family",
+      "until": "2027-01-26",
+      "note": "Essential/Starter are accepted as legacy tiers for 90 days and map to Family entitlements."
+    },
+    "starter": {
+      "plan_id": "family",
+      "until": "2027-01-26",
+      "note": "Essential/Starter are accepted as legacy tiers for 90 days and map to Family entitlements."
+    }
+  },
+  "comparison": {
+    "groups": [
+      {
+        "name": "Monitoring",
+        "rows": [
+          { "label": "Computers", "values": { "free": "2", "family": "10", "pro": "25", "unlimited": "Unlimited" } },
+          { "label": "Local dashboard", "values": { "free": true, "family": true, "pro": true, "unlimited": true } },
+          { "label": "Home Assistant integration", "values": { "free": true, "family": true, "pro": true, "unlimited": true } },
+          { "label": "Sensors, binary sensors and presence", "values": { "free": true, "family": true, "pro": true, "unlimited": true } },
+          { "label": "Notify and Assist", "values": { "free": true, "family": true, "pro": true, "unlimited": true } },
+          { "label": "Basic alerts", "values": { "free": true, "family": true, "pro": true, "unlimited": true } },
+          { "label": "API tokens", "values": { "free": "1 ha token", "family": "Multiple", "pro": "Multiple", "unlimited": "Multiple" } }
+        ]
+      },
+      {
+        "name": "Understanding",
+        "rows": [
+          { "label": "AI screen analysis", "values": { "free": false, "family": true, "pro": true, "unlimited": true } },
+          { "label": "Weekly reports", "values": { "free": false, "family": true, "pro": true, "unlimited": true } },
+          { "label": "Content alerts", "values": { "free": false, "family": true, "pro": true, "unlimited": true } },
+          { "label": "Screen time", "values": { "free": false, "family": true, "pro": true, "unlimited": true } }
+        ]
+      },
+      {
+        "name": "Control",
+        "rows": [
+          { "label": "Time limits", "values": { "free": false, "family": true, "pro": true, "unlimited": true } },
+          { "label": "Enforcement", "values": { "free": false, "family": true, "pro": true, "unlimited": true } },
+          { "label": "Rules engine", "values": { "free": false, "family": false, "pro": true, "unlimited": true } }
+        ]
+      },
+      {
+        "name": "Fleet & integrations",
+        "rows": [
+          { "label": "Fleet dashboard", "values": { "free": false, "family": false, "pro": true, "unlimited": true } },
+          { "label": "Webhooks and MQTT", "values": { "free": false, "family": false, "pro": true, "unlimited": true } },
+          { "label": "SSH actuation", "values": { "free": false, "family": false, "pro": true, "unlimited": true } },
+          { "label": "Full REST API", "values": { "free": false, "family": false, "pro": true, "unlimited": true } },
+          { "label": "OpenClaw Fleet", "values": { "free": false, "family": false, "pro": true, "unlimited": true } },
+          { "label": "Telegram and email alerts", "values": { "free": false, "family": true, "pro": true, "unlimited": true } }
+        ]
+      }
+    ]
+  },
+  "faq": [
+    {
+      "q": "Is the Free plan really free?",
+      "a": "Yes. Free covers two computers, the local dashboard, the Home Assistant integration, sensors, presence, notify, Assist and basic alerts. No card is required. It is a Leassh server license, not the OpenClaw Fleet plugin."
+    },
+    {
+      "q": "What happens when the trial ends?",
+      "a": "Family and Pro trials convert to the plan you chose unless you cancel before the trial ends. We email a reminder before conversion. If you cancel, your agents keep running but paid features stop."
+    },
+    {
+      "q": "Can I switch plans?",
+      "a": "Yes. Upgrades take effect immediately. Downgrades take effect at the end of the current billing period; if the lower plan has fewer computers, existing nodes keep reporting and new nodes are blocked until you remove one."
+    },
+    {
+      "q": "What counts as a computer?",
+      "a": "Each Windows PC, Apple Silicon Mac, or Linux machine with a Leassh agent or SSH entry counts once. Phones and tablets do not run Leassh. See /platforms for the full support matrix."
+    },
+    {
+      "q": "Does Leassh monitor phones?",
+      "a": "No. Leassh is for computers. Use Google Family Link for Android and Apple Screen Time for iPhone and iPad, alongside Leassh for the computers in the house."
+    },
+    {
+      "q": "Which payment methods do you accept?",
+      "a": "Card payments through Stripe. Annual and monthly billing are available for Family and Pro."
+    },
+    {
+      "q": "What is the refund policy?",
+      "a": "Email hello@leassh.com within 30 days of a charge and we will refund it. This is a commercial policy, not legal advice."
+    },
+    {
+      "q": "What does Unlimited include?",
+      "a": "Unlimited computers, everything in Pro, priority support, and multi-site onboarding. Contact us for a quote; fair use applies to support and onboarding."
+    }
+  ]
+}

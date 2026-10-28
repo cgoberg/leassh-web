@@ -18,6 +18,8 @@ const LIMITS = {
   checkout: { window: 60000, max: 30 },
   // Account registration: 10 requests per minute per IP
   account: { window: 60000, max: 10 },
+  // Funnel events: beacons are cheap but still capped per IP
+  events: { window: 60000, max: 60 },
 };
 
 // In-memory cache for rate limiting (not suitable for high-scale distributed usage)
@@ -35,6 +37,8 @@ const cleanupCache = () => {
 
 // Cleanup cache periodically (every 5 minutes)
 const cacheCleanupInterval = setInterval(cleanupCache, 5 * 60 * 1000);
+// Do not keep a serverless/test process alive just for cache cleanup.
+if (typeof cacheCleanupInterval.unref === 'function') cacheCleanupInterval.unref();
 
 const checkRateLimit = (req, endpoint) => {
   const ip = getClientIp(req);

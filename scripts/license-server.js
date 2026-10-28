@@ -12,31 +12,37 @@ const crypto = require('crypto');
 
 const PORT = parseInt(process.env.LICENSE_PORT || '8484', 10);
 const API_SECRET = process.env.LICENSE_API_SECRET || 'lsh-admin-secret';
-const DATA_DIR = path.join(__dirname, '../../data');
+const DATA_DIR = path.join(__dirname, '../data');
 const DB_PATH = path.join(DATA_DIR, 'licenses.json');
 const MAX_INSTANCES_PER_LICENSE = 2;
 
 // ---------------------------------------------------------------------------
-// Tier definitions
+// Tier definitions — derived from the canonical plan catalog
 // ---------------------------------------------------------------------------
-const TIERS = {
-  starter: {
-    max_nodes: 5,
-    features: ['monitoring', 'dashboard'],
-  },
-  pro: {
-    max_nodes: 25,
-    features: ['monitoring', 'dashboard', 'vision', 'enforcement', 'notifications', 'screen_time'],
-  },
-  family: {
-    max_nodes: 10,
-    features: ['monitoring', 'dashboard', 'vision', 'enforcement', 'notifications', 'screen_time'],
-  },
-  unlimited: {
-    max_nodes: 0, // 0 = unlimited
-    features: ['monitoring', 'dashboard', 'vision', 'enforcement', 'notifications', 'screen_time'],
-  },
-};
+const { plans, loadCatalog, getPlan } = require('../api/_lib/plans');
+
+function buildTiers() {
+  const table = {};
+  for (const plan of plans()) {
+    table[plan.id] = {
+      max_nodes: plan.devices === 0 ? 0 : plan.devices,
+      features: [...plan.license_features],
+      plan_id: plan.id,
+    };
+  }
+  for (const [legacyId, mapping] of Object.entries(loadCatalog().legacy_mapping || {})) {
+    const plan = getPlan(mapping.plan_id);
+    if (!plan) continue;
+    table[legacyId] = {
+      max_nodes: plan.devices === 0 ? 0 : plan.devices,
+      features: [...plan.license_features],
+      plan_id: plan.id,
+    };
+  }
+  return table;
+}
+
+const TIERS = buildTiers();
 
 // ---------------------------------------------------------------------------
 // Database helpers
@@ -199,16 +205,18 @@ async function handleCreate(req, res) {
 
   const days = duration_days || 365;
   const now = new Date();
-  const expires = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+  const expires = tier === 'free' ? null : new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
 
   const license = {
     key: generateKey(),
     email,
-    tier,
+    tier: tierDef.plan_id || tier,
+    legacy_tier: tier !== (tierDef.plan_id || tier) ? tier : null,
     max_nodes: tierDef.max_nodes,
     features: tierDef.features,
     created_at: now.toISOString(),
-    expires_at: expires.toISOString(),
+    expires_at: expires ? expires.toISOString() : null,
+    status: 'active',
     active_instances: [],
   };
 
