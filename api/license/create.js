@@ -114,7 +114,6 @@ module.exports = async (req, res) => {
         features: row.features,
         email: row.email,
         max_nodes: row.max_nodes,
-        billing: row.billing,
         expires_at: row.expires_at,
         created_at: row.created_at,
       };
