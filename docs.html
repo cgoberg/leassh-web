@@ -510,42 +510,38 @@
   <div class="toc">
     <h2>On This Page</h2>
     <ol>
-      <li><a href="#quick-start"><h2>Quick Start</h2>
-    <p>Leassh runs on your network — no cloud account, no phone-home. One binary, one YAML file.</p>
-    <h3>Step 1: Install the server</h3>
-    <p>Download the release for your OS from <a href="https://github.com/cgoberg/releases">github.com/cgoberg/releases</a>, or install the <a href="#home-assistant">Home Assistant add-on</a> for the one-click tier.</p>
-    <h3>Step 2: Point it at your machines</h3>
-    <pre>nodes:
-  - name: kids-pc
-    host: 192.168.1.131
-    ssh: monitoring@192.168.1.131
-    os: windows</pre>
-    <h3>Step 3: Add your license</h3>
-    <p>Licenses are offline Ed25519-signed tokens (LSH1.&hellip;) — validation is local, your fleet never phones home. The free tier monitors two nodes forever.</p>
-    <h3>Step 4: See it everywhere</h3>
-    <p>The <a href="#home-assistant">Home Assistant integration</a> turns every node into a device with presence, load, and safe action buttons; the <a href="#openclaw">OpenClaw plugin</a> exposes the same fleet to your agent; anything with HTTP speaks the REST+WS API below.</p>
-
-    Connection Modes</a></li>
+      <li><a href="#quick-start">Quick Start</a></li>
+      <li><a href="#connection-modes">Connection Modes</a></li>
       <li><a href="#deploy-agents-ssh">Deploy Agents via SSH</a></li>
       <li><a href="#self-hosting">Self-Hosting</a></li>
       <li><a href="#configuration">Configuration Reference</a></li>
       <li><a href="#openclaw">OpenClaw Plugin</a></li>
       <li><a href="#api">API Reference</a></li>
+      <li><a href="#home-assistant">Home Assistant</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ol>
   </div>
 
   <div class="section" id="quick-start">
     <h2>Quick Start</h2>
-    <p>The fastest way to get started. Choose the connection method that works best for you.</p>
+    <p>Leassh runs on your network — your monitoring data never leaves it. One binary, one YAML file.</p>
 
-    <h3>Step 1: Create an Account</h3>
-    <p>Sign up at <a href="/#pricing">leassh.com</a> and choose a plan. You will receive a pairing code that identifies your fleet.</p>
+    <h3>Step 1: Install the server</h3>
+    <p>Download the release for your OS from <a href="https://github.com/cgoberg/releases">github.com/cgoberg/releases</a>, or install the <a href="#home-assistant">Home Assistant add-on</a> for the one-click tier.</p>
 
-    <h3>Step 2: Connect Your Machines</h3>
-    <p>You have two options for connecting machines:</p>
+    <h3>Step 2: Point it at your machines</h3>
+    <p>Add each machine to <code style="color: var(--amber);">fleet.yaml</code>. You can monitor over SSH, or install the agent on the machine for outbound-only connectivity.</p>
 
-    <p><strong>Option A: Install the Agent (recommended)</strong><br>
+    <div class="cmd-block">
+      <code id="cmd-nodes-quick">nodes:
+  - name: kids-pc
+    host: 192.168.1.131
+    ssh: monitoring@192.168.1.131
+    os: windows</code>
+      <button class="copy-btn" data-target="cmd-nodes-quick">Copy</button>
+    </div>
+
+    <p><strong>Option A: Install the agent (recommended)</strong><br>
     Install the lightweight Leassh agent on each device. Enter a pairing code and it connects automatically. Works through firewalls and NAT.</p>
 
     <div class="cmd-block">
@@ -555,9 +551,15 @@
     </div>
 
     <div class="cmd-block">
-      <span class="cmd-label">Linux / macOS</span>
+      <span class="cmd-label">Linux</span>
       <code id="cmd-nix">curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE='YOUR_CODE' bash</code>
       <button class="copy-btn" data-target="cmd-nix">Copy</button>
+    </div>
+
+    <div class="cmd-block">
+      <span class="cmd-label">macOS (Apple Silicon)</span>
+      <code id="cmd-macos">curl -fsSL https://leassh.com/install.sh | sudo LEASSH_CODE='YOUR_CODE' bash</code>
+      <button class="copy-btn" data-target="cmd-macos">Copy</button>
     </div>
 
     <p>Replace <code style="color: var(--amber);">YOUR_CODE</code> with the pairing code from your dashboard. For detailed platform-specific instructions, see the <a href="/install">Install page</a>.</p>
@@ -565,8 +567,11 @@
     <p><strong>Option B: SSH Probing (no install on targets)</strong><br>
     Add machines to <code style="color: var(--amber);">fleet.yaml</code> with their SSH details. Leassh probes them directly. Nothing installed on the monitored machines. Requires SSH key access. See <a href="#self-hosting">Self-Hosting</a> for details.</p>
 
-    <h3>Step 3: Verify</h3>
-    <p>Devices appear in your dashboard within a minute. You will start receiving activity reports and can configure screen time limits, rules, and notifications.</p>
+    <h3>Step 3: Add your license</h3>
+    <p>Licenses are offline Ed25519-signed tokens (LSH1.&hellip;) — validation is local, your fleet never phones home. The free tier monitors two nodes forever.</p>
+
+    <h3>Step 4: See it everywhere</h3>
+    <p>The <a href="#home-assistant">Home Assistant integration</a> turns every node into a device with presence, load, and safe action buttons; the <a href="#openclaw">OpenClaw plugin</a> exposes the same fleet to your agent; anything with HTTP speaks the REST+WS API below.</p>
   </div>
 
   <div class="section" id="connection-modes">
@@ -620,7 +625,7 @@
     <p>Run everything on your own hardware. Zero data leaves your network.</p>
 
     <h3>Option A: Binary (recommended)</h3>
-    <p>Download the server binary from <a href="https://github.com/leassh/releases">GitHub Releases</a> and run it directly:</p>
+    <p>Download the server binary from <a href="https://github.com/cgoberg/releases">GitHub Releases</a> and run it directly:</p>
     <div class="cmd-block">
       <span class="cmd-label">Linux x64</span>
       <code id="cmd-binary">curl -L https://github.com/cgoberg/releases/releases/latest/download/leassh-server-linux-x64.tar.gz | tar xz
@@ -732,11 +737,13 @@ services:
 
     <div class="cmd-block">
       <span class="cmd-label">Install the plugin</span>
-      <code id="cmd-openclaw">git clone https://github.com/leassh/openclaw-fleet.git
+      <code id="cmd-openclaw">git clone https://github.com/cgoberg/openclaw-fleet.git
 cd openclaw-fleet
-pip insta<p>v0.2.0 adds <strong>server mode</strong>: pair the plugin with a Leassh server (<code>{"mode": "server", "serverUrl": "&hellip;", "apiToken": "&hellip;"}</code>) instead of spawning a local binary — same tools, one fleet authority. Standalone mode now mDNS-probes and warns before running a second authority.</p>ll -r requirements.txt</code>
+pip install -r requirements.txt</code>
       <button class="copy-btn" data-target="cmd-openclaw">Copy</button>
     </div>
+
+    <p>v0.2.0 adds <strong>server mode</strong>: pair the plugin with a Leassh server (<code>{"mode": "server", "serverUrl": "&hellip;", "apiToken": "&hellip;"}</code>) instead of spawning a local binary — same tools, one fleet authority. Standalone mode now mDNS-probes and warns before running a second authority.</p>
 
     <p>Once installed, you can ask your AI agent things like:</p>
     <ul>
@@ -746,11 +753,11 @@ pip insta<p>v0.2.0 adds <strong>server mode</strong>: pair the plugin with a Lea
       <li>"Kill all Steam processes on gpu-server"</li>
     </ul>
 
-    <p>See the <a href="https://github.com/leassh/openclaw-fleet">openclaw-fleet repository</a> for full setup instructions and configuration.</p>
+    <p>See the <a href="https://github.com/cgoberg/openclaw-fleet">openclaw-fleet repository</a> for full setup instructions and configuration.</p>
   </div>
 
   <div class="section" id="api">
-    <h2 id="api">API Reference</h2>
+    <h2>API Reference</h2>
     <p>One dialect, multiple transports: the same JSON-RPC vocabulary over stdio, REST, and WebSocket. Scoped tokens (<code>forge</code> &middot; <code>ha</code> &middot; <code>openclaw</code> &middot; <code>admin</code>) are minted in <code>fleet.yaml</code>; the HA scope structurally cannot execute commands.</p>
     <h3>REST</h3>
     <pre>GET  /api/health                  # liveness + license banner (public)
@@ -764,10 +771,14 @@ GET  /api/actions                 # the curated verb catalog</pre>
             &lt;- welcome + correlation-id RPC (same methods)
             &lt;- {method: "leassh_event", params: {kind, data, ts}}</pre>
     <p>Events: <code>node.online/offline/activity</code>, <code>trigger.*</code>, <code>notify</code>, <code>action.*</code>. The server advertises <code>_leassh._tcp</code> via mDNS for discovery.</p>
+  </div>
 
-    <h2 id="home-assistant">Home Assistant</h2>
+  <div class="section" id="home-assistant">
+    <h2>Home Assistant</h2>
     <p>Add <a href="https://github.com/cgoberg/leassh-hacs">cgoberg/leassh-hacs</a> as a custom repository in HACS, or use the <a href="https://github.com/cgoberg/leassh-addon">HAOS add-on</a> which installs and pairs everything automatically. Every fleet node becomes a device — presence, signed-in, CPU, RAM — with curated action buttons and urgent notifications as iOS critical alerts through your own HA.</p>
+  </div>
 
+  <div class="section" id="faq">
     <h2>FAQ</h2>
     <p>Common questions are answered on the <a href="/#faq">main site FAQ section</a>. Here are some additional technical questions:</p>
 
