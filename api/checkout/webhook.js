@@ -624,6 +624,13 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Missing stripe-signature' });
   }
 
+  // Reject very old events. Stripe retries recent events; an old replay must
+  // not be able to shorten or resurrect a license.
+  if (event.created && (Date.now() / 1000 - event.created) > 30 * 86400) {
+    console.error('Webhook: refusing event older than 30 days', event.id);
+    return res.status(400).json({ error: 'Event too old' });
+  }
+
   try {
     if (alreadyProcessed(event.id)) {
       console.log('Webhook: duplicate event ignored in warm instance', event.id);

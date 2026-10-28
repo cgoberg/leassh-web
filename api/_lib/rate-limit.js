@@ -20,6 +20,8 @@ const LIMITS = {
   account: { window: 60000, max: 10 },
   // Funnel events: beacons are cheap but still capped per IP
   events: { window: 60000, max: 60 },
+  // Admin mint/revoke: brute-force resistance even with a strong secret
+  admin: { window: 60000, max: 10 },
 };
 
 // In-memory cache for rate limiting (not suitable for high-scale distributed usage)

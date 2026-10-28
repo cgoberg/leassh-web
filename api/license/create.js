@@ -7,6 +7,7 @@
 const supabase = require("../_lib/supabase");
 const { createLicense, setCorsHeaders } = require("../_lib/license");
 const { alert } = require("../_lib/alerts");
+const { enforceRateLimit } = require("../_lib/rate-limit");
 
 async function audit(licenseKey, action, detail) {
   const { error } = await supabase.from("license_events").insert({
@@ -30,6 +31,9 @@ module.exports = async (req, res) => {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
+
+  const rateLimitError = enforceRateLimit(req, res, "admin");
+  if (rateLimitError) return rateLimitError;
 
   const adminSecret = process.env.LEASSH_ADMIN_SECRET;
   if (!adminSecret) {
