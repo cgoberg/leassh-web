@@ -489,22 +489,40 @@ module.exports = async (req, res) => {
   const sig = req.headers['stripe-signature'];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  if (!sig) {
-    console.error('Webhook: missing stripe-signature');
-    return res.status(400).json({ error: 'Missing stripe-signature' });
-  }
-  if (!webhookSecret) {
-    console.error('Webhook: STRIPE_WEBHOOK_SECRET is not configured');
-    return res.status(500).json({ error: 'Webhook secret not configured' });
+  let event;
+  let rawBody;
+  try {
+    rawBody = await getRawBody(req);
+  } catch (err) {
+    return res.status(400).json({ error: 'Could not read request body' });
   }
 
-  let event;
-  try {
-    const rawBody = await getRawBody(req);
-    event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
-  } catch (err) {
-    console.error('Webhook signature verification failed:', err.message);
-    return res.status(400).json({ error: 'Webhook signature verification failed' });
+  if (webhookSecret && sig) {
+    try {
+      event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
+    } catch (err) {
+      console.error('Webhook signature verification failed:', err.message);
+      return res.status(400).json({ error: 'Webhook signature verification failed' });
+    }
+  } else if (!webhookSecret) {
+    // Temporary fallback while Vercel is missing STRIPE_WEBHOOK_SECRET:
+    // never trust the posted body. Take only its event id, then re-fetch the
+    // event from Stripe with the secret key. An attacker cannot forge a paid
+    // event; replay is idempotent via stripe_events.
+    console.error('Webhook: STRIPE_WEBHOOK_SECRET is not configured; using Stripe event-id verification');
+    try {
+      const posted = JSON.parse(rawBody.toString('utf8'));
+      if (!posted?.id || !/^evt_/.test(String(posted.id))) {
+        return res.status(400).json({ error: 'Missing Stripe event id' });
+      }
+      event = await stripe.events.retrieve(String(posted.id));
+    } catch (err) {
+      console.error('Webhook event-id verification failed:', err.message);
+      return res.status(400).json({ error: 'Could not verify Stripe event' });
+    }
+  } else {
+    console.error('Webhook: missing stripe-signature');
+    return res.status(400).json({ error: 'Missing stripe-signature' });
   }
 
   try {
