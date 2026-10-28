@@ -1439,45 +1439,6 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   });
 });
 
-// Billing toggle
-(function() {
-  var toggle = document.getElementById('billing-toggle');
-  var labelAnnual = document.getElementById('toggle-annual');
-  var labelMonthly = document.getElementById('toggle-monthly');
-
-  function updatePrices() {
-    var isMonthly = toggle.checked;
-    labelAnnual.classList.toggle('active', !isMonthly);
-    labelMonthly.classList.toggle('active', isMonthly);
-
-    document.querySelectorAll('.pricing-price[data-annual]').forEach(function(el) {
-      var priceVal = el.querySelector('.price-value');
-      var crossed = el.querySelector('.monthly-crossed');
-      if (isMonthly) {
-        priceVal.textContent = el.getAttribute('data-monthly');
-        if (crossed) crossed.style.display = 'none';
-      } else {
-        priceVal.textContent = el.getAttribute('data-annual');
-        if (crossed) crossed.style.display = 'inline';
-      }
-      el.style.opacity = '0.6';
-      setTimeout(function() { el.style.opacity = '1'; }, 50);
-    });
-
-    document.querySelectorAll('.pricing-billed').forEach(function(el) {
-      if (isMonthly) {
-        el.textContent = el.getAttribute('data-monthly-text');
-      } else {
-        el.textContent = el.getAttribute('data-annual-text');
-      }
-      el.style.opacity = '0.6';
-      setTimeout(function() { el.style.opacity = '1'; }, 50);
-    });
-  }
-
-  toggle.addEventListener('change', updatePrices);
-})();
-
 // Feature comparison toggle
 function toggleComparison(btn) {
   var table = document.getElementById('comparison-table');
@@ -1485,27 +1446,6 @@ function toggleComparison(btn) {
   table.classList.toggle('visible');
 }
 
-// Stripe checkout
-function startCheckout(tier) {
-  var isAnnual = !document.getElementById('billing-toggle').checked;
-  var billing = isAnnual ? 'annual' : 'monthly';
-  fetch('/api/checkout/create', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tier: tier, billing: billing }),
-  })
-    .then(function (r) { return r.json(); })
-    .then(function (d) {
-      if (d.url) {
-        window.location = d.url;
-      } else {
-        alert('Something went wrong. Please try again.');
-      }
-    })
-    .catch(function () {
-      alert('Network error. Please try again.');
-    });
-}
 </script>
 </body>
 </html>
