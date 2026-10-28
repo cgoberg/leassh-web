@@ -63,17 +63,25 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: 'Registration failed' });
     }
 
-    const { error: licenseError } = await supabase.from('licenses').insert({
+    const licenseRow = {
       license_key: license.key,
       stripe_session_id: null,
       tier: 'free',
       features: license.features,
       email,
       max_nodes: license.max_nodes,
-      billing: 'free',
       expires_at: null,
       created_at,
+    };
+    let { error: licenseError } = await supabase.from('licenses').insert({
+      ...licenseRow,
+      billing: 'free',
     });
+    // Production schema may predate the billing/lifecycle migration. Retry
+    // with the columns every Leassh licenses table has had since launch.
+    if (licenseError && /column .* does not exist|schema cache|Could not find the '.*' column/i.test(licenseError.message || '')) {
+      ({ error: licenseError } = await supabase.from('licenses').insert(licenseRow));
+    }
 
     if (licenseError) {
       console.error('Supabase free license insert error:', licenseError.message);
