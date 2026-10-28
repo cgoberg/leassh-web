@@ -1182,12 +1182,13 @@
   <ul class="nav-links">
     <li><a href="/features">Features</a></li>
     <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/platforms">Platforms</a></li>
     <li><a href="/use-cases">Use Cases</a></li>
     <li><a href="/blog">Blog</a></li>
     <li><a href="/privacy">Privacy</a></li>
     <li><a href="/docs">Docs</a></li>
     <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
-    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+    <li><a href="/setup" class="nav-cta">Start free</a></li>
   </ul>
   <a href="/setup" class="nav-link-desktop">Families</a>
   <a href="/setup" class="nav-link-mobile">Families</a>
@@ -1200,7 +1201,7 @@
     Monitor every machine via SSH &mdash; or install a lightweight agent for even easier setup. Rules engine with webhooks, MQTT, and command actuation. Talk to your fleet through your OpenClaw agent. Process management, GPU orchestration, and predictive alerts &mdash; all from one tool.
   </p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="/pricing">Start Free Trial</a>
+    <a class="btn btn-primary" href="/pricing">Start free</a>
     <a class="btn btn-ghost" href="https://github.com/cgoberg/openclaw-fleet" target="_blank" rel="noopener">View OpenClaw Fleet on GitHub</a>
   </div>
   <div class="hero-alt-link">
@@ -1323,117 +1324,15 @@
 
 <section class="pricing reveal" id="pricing">
   <div class="pricing-header">
-    <h2>Simple, honest pricing</h2>
-    <p>Choose the plan that fits your infrastructure.</p>
+    <h2>Plans for every fleet</h2>
+    <p>Free covers two computers. Pro adds the fleet dashboard, rules, webhooks, MQTT, SSH actuation and the full API for up to 25 computers.</p>
   </div>
-
-  <div class="billing-toggle">
-    <span class="toggle-label active" id="toggle-annual">Annual <span class="save-badge">Save 33%</span></span>
-    <label class="toggle-switch">
-      <input type="checkbox" id="billing-toggle">
-      <span class="toggle-slider"></span>
-    </label>
-    <span class="toggle-label" id="toggle-monthly">Monthly</span>
-  </div>
-
-  <div class="pricing-grid">
-
-    <!-- Essential -->
-    <div class="pricing-card">
-      <div class="pricing-name">Essential</div>
-      <div class="pricing-price" data-annual="4.99" data-monthly="7.99">
-        <del class="monthly-crossed" style="display:inline">$7.99</del> $<span class="price-value">4.99</span><span>/mo</span>
-      </div>
-      <div class="pricing-billed" data-annual-text="billed annually at $59.88" data-monthly-text="">billed annually at $59.88</div>
-      <div class="pricing-desc">Basic monitoring</div>
-      <ul class="pricing-features">
-        <li><span class="check">+</span> 3 machines</li>
-        <li><span class="check">+</span> SSH probing</li>
-        <li><span class="check">+</span> Daily summaries</li>
-        <li><span class="check">+</span> Basic alerts</li>
-      </ul>
-      <button class="btn btn-primary" onclick="startCheckout('essential')">Get Started</button>
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;max-width:880px;margin:0 auto;padding:24px 28px;border:1px solid var(--border);border-radius:12px;background:var(--bg-warm);">
+    <div>
+      <div style="font-weight:700;color:var(--text);font-size:18px;">Free, Family, Pro or Unlimited</div>
+      <div style="color:var(--text-mid);font-size:14px;margin-top:4px;">2, 10, 25, or unlimited computers. Family and Pro include a 14-day free trial. Home Assistant is included on every plan.</div>
     </div>
-
-    <!-- Family -->
-    <div class="pricing-card">
-      <div class="pricing-name">Family</div>
-      <div class="pricing-price" data-annual="9.99" data-monthly="14.99">
-        <del class="monthly-crossed" style="display:inline">$14.99</del> $<span class="price-value">9.99</span><span>/mo</span>
-      </div>
-      <div class="pricing-billed" data-annual-text="billed annually at $119.88" data-monthly-text="">billed annually at $119.88</div>
-      <div class="pricing-desc">Monitoring + AI insights</div>
-      <ul class="pricing-features">
-        <li><span class="check">+</span> 10 machines</li>
-        <li><span class="check">+</span> AI screenshot analysis</li>
-        <li><span class="check">+</span> Weekly behavioral reports</li>
-        <li><span class="check">+</span> Time limits + enforcement</li>
-        <li><span class="check">+</span> Content safety alerts</li>
-        <li><span class="check">+</span> Telegram notifications</li>
-      </ul>
-      <button class="btn btn-primary" onclick="startCheckout('family')">Start 14-Day Free Trial</button>
-    </div>
-
-    <!-- Pro (Recommended on fleet page) -->
-    <div class="pricing-card featured">
-      <div class="pricing-badge">Full Fleet Control</div>
-      <div class="pricing-name">Pro</div>
-      <div class="pricing-price" data-annual="19.99" data-monthly="29.99">
-        <del class="monthly-crossed" style="display:inline">$29.99</del> $<span class="price-value">19.99</span><span>/mo</span>
-      </div>
-      <div class="pricing-billed" data-annual-text="billed annually at $239.88" data-monthly-text="">billed annually at $239.88</div>
-      <div class="pricing-desc">Everything you need for fleet control</div>
-      <ul class="pricing-features">
-        <li><span class="check">+</span> Unlimited machines</li>
-        <li><span class="check">+</span> Everything in Family</li>
-        <li><span class="check">+</span> Rules engine + YAML config</li>
-        <li><span class="check">+</span> Webhooks + MQTT + SSH actuation</li>
-        <li><span class="check">+</span> Fleet dashboard with SSH control</li>
-        <li><span class="check">+</span> OpenClaw plugin included</li>
-        <li><span class="check">+</span> Self-hosting (Docker + binary)</li>
-        <li><span class="check">+</span> Full REST API</li>
-      </ul>
-      <button class="btn btn-primary" onclick="startCheckout('pro')">Start 14-Day Free Trial</button>
-      <div class="founder-note">&#128274; Founder's price: limited spots</div>
-    </div>
-
-  </div>
-
-  <!-- Feature comparison table -->
-  <div class="feature-comparison">
-    <button class="comparison-toggle" onclick="toggleComparison(this)">
-      Compare all features <span class="arrow">&#9660;</span>
-    </button>
-    <div class="comparison-table" id="comparison-table">
-      <table>
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Essential</th>
-            <th>Family</th>
-            <th>Pro</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Machines</td><td>3</td><td>10</td><td>Unlimited</td></tr>
-          <tr><td>SSH probing</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Daily summaries</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Basic alerts</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>AI screenshot analysis</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Weekly reports</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Time limits + enforcement</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Telegram notifications</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Rules engine + YAML</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Webhooks + MQTT</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>SSH actuation</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Fleet dashboard</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>OpenClaw plugin</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Self-hosting</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>Full REST API</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td></tr>
-          <tr><td>14-day free trial</td><td style="color:var(--text-dim)">&mdash;</td><td style="color:var(--green)">&#10003;</td><td style="color:var(--green)">&#10003;</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <a class="btn btn-primary" href="/pricing">Compare plans &rarr;</a>
   </div>
 </section>
 
@@ -1498,7 +1397,7 @@
   <h2>Put your fleet on a leash</h2>
   <p>Rules, webhooks, and SSH actuation. Deploy in under three minutes.</p>
   <div class="hero-actions" style="justify-content: center;">
-    <a class="btn btn-primary" href="/pricing">Start Free Trial</a>
+    <a class="btn btn-primary" href="/pricing">Start free</a>
     <a class="btn btn-ghost" href="https://github.com/cgoberg/openclaw-fleet" target="_blank" rel="noopener">OpenClaw Fleet</a>
   </div>
 </section>
@@ -1510,6 +1409,7 @@
       <li><a href="/">Home</a></li>
       <li><a href="/features">Features</a></li>
       <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/platforms">Platforms</a></li>
       <li><a href="/use-cases">Use Cases</a></li>
       <li><a href="/privacy">Privacy</a></li>
       <li><a href="/docs">Docs</a></li>
@@ -1517,6 +1417,7 @@
       <li><a href="/privacy-policy">Privacy Policy</a></li>
       <li><a href="/privacy-policy#terms">Terms</a></li>
       <li><a href="https://github.com/cgoberg/openclaw-fleet" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="/account">Account</a></li>
       <li><a href="/support">Support</a></li>
     </ul>
   </div>

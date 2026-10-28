@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account — Leassh</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="View your Leassh plan, license and billing. Open the Stripe customer portal to update payment or cancel.">
+<link rel="canonical" href="https://leassh.com/account">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #12100d; --bg-warm: #1a1712; --bg-raised: #211d17; --border: #302b23;
+    --amber: #d4a24c; --amber-soft: #e3bd77; --amber-bg: rgba(212,162,76,0.08);
+    --text: #f2ece1; --text-mid: #b9b0a2; --text-dim: #857c6f; --green: #7fbf8a; --red: #d98b7f;
+    --font-d: 'Bricolage Grotesque', sans-serif; --font-b: 'Instrument Sans', sans-serif;
+    --max: 820px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text-mid); font-family: var(--font-b); line-height: 1.65; }
+  a { color: var(--amber); text-decoration: none; }
+  nav { border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: var(--max); margin: 0 auto; padding: 0 28px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-brand { font-family: var(--font-d); font-size: 22px; font-weight: 800; color: var(--text); }
+  .nav-links { display: flex; gap: 22px; list-style: none; font-size: 14px; }
+  .nav-links a { color: var(--text-mid); }
+  .nav-links a:hover { color: var(--text); }
+  main { max-width: var(--max); margin: 0 auto; padding: 64px 28px 100px; }
+  h1 { font-family: var(--font-d); font-size: 44px; color: var(--text); letter-spacing: -1px; margin-bottom: 10px; }
+  .sub { font-size: 17px; margin-bottom: 32px; }
+  .panel { background: var(--bg-warm); border: 1px solid var(--border); border-radius: 12px; padding: 24px 26px; margin-bottom: 18px; }
+  .panel h2 { font-family: var(--font-d); font-size: 21px; color: var(--text); margin-bottom: 12px; }
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: var(--font-b); font-size: 16px; padding: 12px 14px; letter-spacing: 2px; text-transform: uppercase; }
+  input:focus { outline: 2px solid var(--amber); border-color: transparent; }
+  button, .btn { display: inline-flex; align-items: center; justify-content: center; background: var(--amber); color: var(--bg); border: 0; border-radius: 8px; padding: 12px 22px; font-family: var(--font-b); font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+  button:disabled { opacity: 0.5; cursor: wait; }
+  .muted { color: var(--text-dim); font-size: 13px; }
+  .error { color: var(--red); font-size: 14px; margin-top: 10px; }
+  .hidden { display: none; }
+  .row { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid rgba(48,43,35,0.5); font-size: 14px; }
+  .row:last-child { border-bottom: 0; }
+  .row span:first-child { color: var(--text-dim); }
+  .row span:last-child { color: var(--text); text-align: right; }
+  .license { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 1px; word-break: break-all; }
+  .badge { display: inline-block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 3px 9px; border-radius: 20px; background: rgba(127,191,138,0.12); color: var(--green); }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .secondary { background: transparent; color: var(--amber); border: 1px solid var(--border); }
+  footer { border-top: 1px solid var(--border); padding: 32px 28px; }
+  .footer-inner { max-width: var(--max); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; font-size: 13px; color: var(--text-dim); }
+  .footer-links { display: flex; flex-wrap: wrap; gap: 18px; list-style: none; }
+  .footer-links a { color: var(--text-dim); }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="/">Leassh</a>
+    <ul class="nav-links">
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/account">Account</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <h1>Your account</h1>
+  <p class="sub">Enter the pairing code from setup to see your plan and open the billing portal.</p>
+
+  <section class="panel">
+    <h2>Find your account</h2>
+    <form id="lookup-form" onsubmit="return false;">
+      <label for="pairing-code">Pairing code</label>
+      <input id="pairing-code" name="pairing-code" inputmode="text" autocomplete="one-time-code" maxlength="6" placeholder="ABC234" required>
+      <button type="submit" id="lookup-btn">View account</button>
+      <div class="error hidden" id="lookup-error"></div>
+    </form>
+  </section>
+
+  <section class="panel hidden" id="account-panel">
+    <h2><span id="plan-name">Plan</span> <span class="badge" id="plan-status">active</span></h2>
+    <div class="row"><span>Email</span><span id="account-email"></span></div>
+    <div class="row"><span>Computers included</span><span id="plan-devices"></span></div>
+    <div class="row"><span>License key</span><span class="license" id="license-key"></span></div>
+    <div class="row"><span>Renews / expires</span><span id="plan-expiry"></span></div>
+    <div class="row" id="cancel-row"><span>Cancellation</span><span id="cancel-state"></span></div>
+    <div class="actions">
+      <button id="portal-btn" class="hidden">Manage billing</button>
+      <a class="btn secondary" href="/support">Contact support</a>
+      <a class="btn secondary" href="/pricing" id="upgrade-link">Change plan</a>
+    </div>
+    <p class="muted" style="margin-top:16px;">To cancel, open Manage billing. Cancellation stops renewal; your license stays valid until the period end. Refunds: email hello@leassh.com within 30 days of a charge.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>Leassh &mdash; understand digital life.</span>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/platforms">Platforms</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/account">Account</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+let pairingCode = '';
+const form = document.getElementById('lookup-form');
+const input = document.getElementById('pairing-code');
+const errorEl = document.getElementById('lookup-error');
+const panel = document.getElementById('account-panel');
+const btn = document.getElementById('lookup-btn');
+
+function showError(message) {
+  errorEl.textContent = message;
+  errorEl.classList.remove('hidden');
+}
+
+function fmtDate(value) {
+  if (!value) return 'No expiry';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+form.addEventListener('submit', async () => {
+  pairingCode = input.value.trim().toUpperCase();
+  if (pairingCode.length !== 6) {
+    showError('Enter the 6-character pairing code.');
+    return;
+  }
+  errorEl.classList.add('hidden');
+  btn.disabled = true;
+  btn.textContent = 'Loading...';
+  try {
+    const res = await fetch('/api/account/status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pairing_code: pairingCode }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Could not load account');
+
+    document.getElementById('plan-name').textContent = 'Leassh ' + (data.plan_name || data.plan_id);
+    document.getElementById('plan-status').textContent = data.status || 'active';
+    document.getElementById('account-email').textContent = data.email;
+    document.getElementById('plan-devices').textContent = data.max_nodes === 0 ? 'Unlimited' : data.max_nodes;
+    document.getElementById('license-key').textContent = data.license_key;
+    document.getElementById('plan-expiry').textContent = data.cancel_at_period_end
+      ? 'Cancels on ' + fmtDate(data.current_period_end || data.expires_at)
+      : (data.current_period_end ? 'Renews ' + fmtDate(data.current_period_end) : fmtDate(data.expires_at));
+    document.getElementById('cancel-state').textContent = data.cancel_at_period_end ? 'Cancels at period end' : 'Renews automatically';
+    document.getElementById('portal-btn').classList.toggle('hidden', !data.has_billing_portal);
+    panel.classList.remove('hidden');
+  } catch (err) {
+    showError(err.message);
+    panel.classList.add('hidden');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'View account';
+  }
+});
+
+document.getElementById('portal-btn').addEventListener('click', async () => {
+  const portalBtn = document.getElementById('portal-btn');
+  portalBtn.disabled = true;
+  portalBtn.textContent = 'Opening...';
+  try {
+    const res = await fetch('/api/account/portal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pairing_code: pairingCode }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Could not open billing portal');
+    window.location.href = data.url;
+  } catch (err) {
+    showError(err.message);
+    portalBtn.disabled = false;
+    portalBtn.textContent = 'Manage billing';
+  }
+});
+</script>
+<script src="/analytics.js" defer></script>
+</body>
+</html>

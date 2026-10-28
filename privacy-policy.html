@@ -318,19 +318,20 @@
   <ul class="nav-links">
     <li><a href="/features">Features</a></li>
     <li><a href="/pricing">Pricing</a></li>
+      <li><a href="/platforms">Platforms</a></li>
     <li><a href="/use-cases">Use Cases</a></li>
     <li><a href="/privacy">Privacy</a></li>
     <li><a href="/docs">Docs</a></li>
     <li><a href="/fleet" class="nav-fleet">Fleet</a></li>
-    <li><a href="/setup" class="nav-cta">Start Free Trial</a></li>
+    <li><a href="/setup" class="nav-cta">Start free</a></li>
   </ul>
-  <a href="/setup" class="nav-cta-mobile">Start Free Trial</a>
+  <a href="/setup" class="nav-cta-mobile">Start free</a>
 </nav>
 
 <section class="header">
   <h1>Privacy <em>Policy</em></h1>
   <p>How Leassh handles your data. The short version: your data is yours, and we go to great lengths to keep it that way.</p>
-  <p class="updated">Last updated: April 4, 2026</p>
+  <p class="updated">Last updated: October 28, 2026</p>
 </section>
 
 <div class="content">
@@ -357,15 +358,10 @@
     <p>When you self-host Leassh, all data collection, AI analysis, and storage happens entirely on your own hardware. Screenshots are analyzed locally using your own Ollama instance and are stored on your own disk. No data is transmitted to Leassh servers or any third party.</p>
     <p>You have full control over data retention periods, what is collected, and when it is deleted. We cannot access your data because we never receive it.</p>
 
-    <h3>Cloud Mode (Managed)</h3>
-    <p>When using Leassh Cloud, screenshots and system metrics are transmitted to our servers over encrypted connections (TLS 1.3) for AI analysis. Here is what happens:</p>
-    <ul>
-      <li><strong>Screenshots are analyzed and immediately deleted.</strong> We do not store raw screenshots. The AI classification result (e.g., "gaming", "homework", "social media") is retained; the image is not.</li>
-      <li><strong>System metrics</strong> are retained for the duration of your configured retention period (default: 30 days) to generate reports and trends.</li>
-      <li><strong>Activity classifications</strong> are retained to produce weekly reports and insights.</li>
-    </ul>
+    <h3>No hosted dashboard at launch</h3>
+    <p>Leassh does not offer a hosted dashboard or a managed monitoring service at launch. The dashboard, AI analysis, and monitoring data live on the server you run. If a hosted service is introduced later, this policy will be updated before any data is collected for it, and it will be opt-in.</p>
     <div class="highlight-box">
-      <p><strong>Key principle:</strong> We analyze and discard. Raw screenshots are never stored in Cloud Mode. Only the derived classification data is kept.</p>
+      <p><strong>Key principle:</strong> monitoring data stays on your hardware. The only data Leassh receives for a paid subscription is billing and license data (email, plan, Stripe identifiers, license status).</p>
     </div>
   </div>
 
@@ -384,7 +380,7 @@
     <p>If you are in the European Economic Area (EEA), you have the following rights under GDPR:</p>
     <ul>
       <li><strong>Right to access</strong> &mdash; request a copy of all data we hold about you</li>
-      <li><strong>Right to deletion</strong> &mdash; request that we delete all your data. In Cloud Mode, we will purge all activity data, classifications, and account information within 30 days of your request.</li>
+      <li><strong>Right to deletion</strong> &mdash; request that we delete all your data. We will purge account and billing data within 30 days of a verified request, except records we must keep for tax or accounting. Local monitoring data is on your server and is yours to delete.</li>
       <li><strong>Right to data portability</strong> &mdash; request your data in a machine-readable format (JSON export)</li>
       <li><strong>Right to rectification</strong> &mdash; request correction of inaccurate data</li>
       <li><strong>Right to restrict processing</strong> &mdash; request that we stop processing your data while retaining it</li>
@@ -399,7 +395,7 @@
     <ul>
       <li><strong>Parental consent is required.</strong> Leassh must be installed and configured by a parent or legal guardian. Children cannot create accounts or install agents themselves.</li>
       <li><strong>COPPA compliance.</strong> We comply with the Children's Online Privacy Protection Act. We do not knowingly collect personal information from children under 13 without verified parental consent.</li>
-      <li><strong>Minimal collection.</strong> Even in Cloud Mode, we only retain activity classifications, never raw screenshots or personal content.</li>
+      <li><strong>Minimal collection.</strong> Leassh does not receive activity classifications, screenshots, or personal content; those stay on your server.</li>
       <li><strong>Age-appropriate controls.</strong> Parents control exactly what is monitored, what limits are enforced, and what data is retained.</li>
     </ul>
     <p>If you believe we have inadvertently collected data from a child without proper parental consent, please contact us immediately at <a href="mailto:hello@leassh.com" style="color: var(--amber);">hello@leassh.com</a> and we will delete it promptly.</p>
@@ -419,7 +415,7 @@
   <div class="section">
     <h2>Data Retention</h2>
     <ul>
-      <li><strong>Screenshots (Cloud Mode):</strong> Analyzed and immediately deleted. Never stored.</li>
+      <li><strong>Screenshots:</strong> Analyzed locally by your own server; not transmitted to Leassh.</li>
       <li><strong>Activity classifications:</strong> Retained for your configured retention period (default 30 days), then automatically purged.</li>
       <li><strong>System metrics:</strong> Retained for your configured retention period, then automatically purged.</li>
       <li><strong>Account data:</strong> Retained while your account is active. Deleted within 30 days of account closure.</li>
@@ -428,15 +424,31 @@
 
   <div class="section" id="terms">
     <h2>Terms of Service</h2>
-    <p>By using Leassh, you agree to the following terms:</p>
+    <p><strong>Approved by the Leassh owner on 2026-10-28.</strong> By using Leassh, you agree to these terms.</p>
     <ul>
       <li><strong>Lawful use.</strong> You may only install Leassh on devices you own or have legal authority to monitor. Installing monitoring software on devices without the owner's consent may violate local laws.</li>
       <li><strong>Parental responsibility.</strong> If monitoring a minor's device, you must be the child's parent or legal guardian.</li>
       <li><strong>No reverse engineering.</strong> You may not decompile, reverse engineer, or attempt to extract the source code of the Leassh agent, except where permitted by law.</li>
-      <li><strong>Service availability.</strong> Leassh Cloud is provided "as is." We aim for high availability but do not guarantee uninterrupted service. Self-hosted deployments are under your own control.</li>
-      <li><strong>License scope.</strong> Your license entitles you to monitor the number of devices specified in your plan. Exceeding your device limit requires an upgrade.</li>
-      <li><strong>Termination.</strong> We may suspend or terminate accounts that violate these terms. You may cancel your subscription at any time.</li>
+      <li><strong>Service availability.</strong> Leassh is provided "as is." We aim for high availability but do not guarantee uninterrupted service. Self-hosted deployments are under your own control.</li>
+      <li><strong>License scope.</strong> Your plan covers a fixed number of computers: Free 2, Family 10, Pro 25, Unlimited unlimited. Exceeding the limit blocks new nodes while existing nodes keep reporting; an upgrade or node removal resolves it.</li>
+      <li><strong>Free plan.</strong> Free is a 2-computer license with the local dashboard, Home Assistant integration, sensors, presence, notify, Assist, basic alerts and one <code>ha</code> API token. It has no expiry and no card requirement. OpenClaw Fleet is a separate free/open-source plugin, not a Leassh Free server license.</li>
+      <li><strong>Trial.</strong> Family and Pro include a 14-day free trial. A payment card is required at trial start. The trial converts to the selected paid plan automatically at the end of the 14 days unless you cancel before conversion. We email a reminder before conversion. You will not be charged during the trial if you cancel in time.</li>
+      <li><strong>Auto-renewal.</strong> Paid subscriptions renew automatically at the end of each billing period (monthly or annual) at the price shown at checkout, until canceled. Prices are in USD. We will give at least 30 days' notice before a price change applies to an existing subscription, and you may cancel before it takes effect.</li>
+      <li><strong>Cancellation.</strong> You may cancel at any time in the Stripe customer portal at <a href="/account">leassh.com/account</a>. Cancellation stops future renewals. Your license remains valid until the end of the period you already paid for; after that, paid features stop and the account falls back to the Free limits. No data is deleted solely because you cancel.</li>
+      <li><strong>Refunds.</strong> Email <a href="mailto:hello@leassh.com">hello@leassh.com</a> within 30 days of a charge and we will refund that charge. Refunds are issued to the original payment method. This policy is in addition to any mandatory statutory rights; it does not limit rights you have under applicable consumer law.</li>
+      <li><strong>Taxes.</strong> Prices exclude taxes unless stated otherwise at checkout. Where required, VAT, sales tax, or similar taxes are calculated and collected by Stripe based on your billing address and tax ID. You are responsible for providing accurate billing information.</li>
+      <li><strong>Payments and failed charges.</strong> Payments are processed by Stripe. If a renewal charge fails, we may keep the license active for a 7-day grace period while you update the payment method, and we will email you. After the grace period, the license may stop validating until payment is resolved.</li>
+      <li><strong>Refund-related revocation.</strong> If a charge is refunded or reversed in full, the associated license may be revoked immediately. Partial refunds are handled commercially and do not automatically revoke access.</li>
+      <li><strong>Unlimited fair use.</strong> Unlimited is intended for a single organization's multi-site fleet. "Unlimited" computers is subject to reasonable fair use for support and onboarding capacity; it is not a license to resell Leassh or to run an unlimited public hosting service. We will discuss any exceptional use with you before restricting it.</li>
+      <li><strong>No founder price lock.</strong> Leassh does not offer a "founder's price locked for life" commitment. The price you pay is the price shown at checkout for your current billing period and renews at the then-current price after the notice described above.</li>
+      <li><strong>Data retention after cancellation.</strong> Account and billing records are retained as required for tax and accounting purposes. License records are retained to prevent abuse and to honor refunds. Local monitoring data lives on your own server and is not deleted by Leassh when you cancel; you control it.</li>
+      <li><strong>Termination.</strong> We may suspend or terminate accounts that violate these terms or abuse the service. You may cancel your subscription at any time.</li>
     </ul>
+  </div>
+
+  <div class="section">
+    <h2>Billing data</h2>
+    <p>We use Stripe to process payments. Leassh stores your email, plan, license status, Stripe customer and subscription identifiers, current period end, and cancellation flag so the license can be validated and the account page can show your plan. We do not store full card numbers. Stripe's privacy policy applies to payment processing.</p>
   </div>
 
   <div class="section">

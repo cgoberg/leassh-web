@@ -98,6 +98,46 @@
       "source": "/privacy-policy/",
       "destination": "/privacy-policy",
       "permanent": true
+    },
+    {
+      "source": "/platforms/",
+      "destination": "/platforms",
+      "permanent": true
+    },
+    {
+      "source": "/account/",
+      "destination": "/account",
+      "permanent": true
+    },
+    {
+      "source": "/blog/leassh-vs-family-link",
+      "destination": "/blog-leassh-vs-family-link-2026.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/leassh-vs-family-link/",
+      "destination": "/blog-leassh-vs-family-link-2026.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/leassh-vs-family-link.html",
+      "destination": "/blog-leassh-vs-family-link-2026.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/monitor-kids-computer.html",
+      "destination": "/monitor-kids-computer",
+      "permanent": true
+    },
+    {
+      "source": "/blog/open-source-parental-controls-2026",
+      "destination": "/blog-open-source-parental-controls-the-truth-about-privacy-and-control-in-2026.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/leassh-vs-apple-screen-time-2026",
+      "destination": "/blog-leassh-vs-apple-screen-time-2026.html",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -352,6 +392,26 @@
     {
       "source": "/blog/homelab-monitoring-leassh",
       "destination": "/blog-homelab-monitoring-leassh.html"
+    },
+    {
+      "source": "/platforms",
+      "destination": "/platforms.html"
+    },
+    {
+      "source": "/account",
+      "destination": "/account.html"
+    },
+    {
+      "source": "/api/account/status",
+      "destination": "/api/account/status"
+    },
+    {
+      "source": "/api/account/portal",
+      "destination": "/api/account/portal"
+    },
+    {
+      "source": "/api/events",
+      "destination": "/api/events"
     }
   ]
 }
