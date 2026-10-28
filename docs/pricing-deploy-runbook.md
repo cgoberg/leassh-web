@@ -38,6 +38,12 @@ The migration adds `plan_id`, Stripe lifecycle columns, `stripe_events`,
 `license_events`, and `funnel_events`. It maps legacy `essential`/`starter`
 rows to Family. It is guarded and safe to re-run.
 
+The deployed code also works on the legacy schema: it resolves subscription
+licenses by Stripe customer email, performs legacy-safe updates, self-heals
+paid issuance from the success redirect, and refreshes renewal expiry from
+Stripe on validation. The migration is still required for stored lifecycle
+fields and the audit/idempotency tables.
+
 ## 3. Deploy order
 
 1. Core server (tag/release only if the binary needs to ship): `cargo test`, `cargo build --release`, then the normal release pipeline. The server accepts old and new license shapes; ship it first.
