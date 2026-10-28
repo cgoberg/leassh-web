@@ -35,10 +35,13 @@ async function latestLicense(email) {
     .select('*')
     .eq('email', email)
     .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
+    .limit(5);
   if (error) throw new Error('License lookup failed');
-  return data || null;
+  const rows = data || [];
+  return rows.find((row) => row.tier && row.tier !== 'free' && row.stripe_session_id)
+    || rows.find((row) => row.tier && row.tier !== 'free')
+    || rows[0]
+    || null;
 }
 
 async function stripeCustomerForEmail(email, license) {
