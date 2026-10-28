@@ -3,6 +3,12 @@
 // Stores in Supabase + Vercel function logs
 
 const supabase = require('../_lib/supabase');
+const { enforceRateLimit } = require('../_lib/rate-limit');
+
+const FUNNEL_EVENTS = new Set([
+  'pricing_view', 'plan_cta_click', 'checkout_start', 'trial_start',
+  'checkout_complete', 'platforms_view', 'companion_click', 'account_view',
+]);
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,7 +16,27 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const data = req.body;
+    const data = req.body || {};
+
+    // First-party funnel events share this function to stay within the
+    // Vercel Hobby 12-function limit. No PII, 204 ack for sendBeacon.
+    if (data.kind === 'funnel') {
+      const rateLimitError = enforceRateLimit(req, res, 'events');
+      if (rateLimitError) return rateLimitError;
+      if (!FUNNEL_EVENTS.has(String(data.event || ''))) {
+        return res.status(400).json({ error: 'Unknown event' });
+      }
+      const props = data.props && typeof data.props === 'object' ? data.props : {};
+      for (const key of ['email', 'license_key', 'pairing_code', 'api_key']) delete props[key];
+      const { error } = await supabase.from('funnel_events').insert({
+        event: data.event,
+        path: String(data.path || '').slice(0, 200),
+        props,
+        created_at: new Date().toISOString(),
+      });
+      if (error && error.code !== '42P01') console.error('funnel_events insert failed:', error.message);
+      return res.status(204).end();
+    }
 
     // Validate required fields
     if (!data.leassh_version || !data.os || !data.binary_type) {

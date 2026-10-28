@@ -400,18 +400,6 @@
     {
       "source": "/account",
       "destination": "/account.html"
-    },
-    {
-      "source": "/api/account/status",
-      "destination": "/api/account/status"
-    },
-    {
-      "source": "/api/account/portal",
-      "destination": "/api/account/portal"
-    },
-    {
-      "source": "/api/events",
-      "destination": "/api/events"
     }
   ]
 }

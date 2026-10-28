@@ -1,17 +1,18 @@
 // Minimal first-party funnel tracking. No cookies, no third-party script.
-// Events land in Supabase `funnel_events` via /api/events (204, best effort).
+// Events land in Supabase `funnel_events` via /api/telemetry/ingest (204).
 (function () {
   function track(event, props) {
     try {
       var payload = JSON.stringify({
+        kind: 'funnel',
         event: event,
         path: location.pathname,
         props: props || {},
       });
       if (navigator.sendBeacon) {
-        navigator.sendBeacon('/api/events', new Blob([payload], { type: 'application/json' }));
+        navigator.sendBeacon('/api/telemetry/ingest', new Blob([payload], { type: 'application/json' }));
       } else {
-        fetch('/api/events', {
+        fetch('/api/telemetry/ingest', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: payload,

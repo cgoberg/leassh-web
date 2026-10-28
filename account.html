@@ -142,10 +142,10 @@ form.addEventListener('submit', async () => {
   btn.disabled = true;
   btn.textContent = 'Loading...';
   try {
-    const res = await fetch('/api/account/status', {
+    const res = await fetch('/api/account/upgrade', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pairing_code: pairingCode }),
+      body: JSON.stringify({ action: 'status', pairing_code: pairingCode }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Could not load account');
@@ -175,10 +175,10 @@ document.getElementById('portal-btn').addEventListener('click', async () => {
   portalBtn.disabled = true;
   portalBtn.textContent = 'Opening...';
   try {
-    const res = await fetch('/api/account/portal', {
+    const res = await fetch('/api/account/upgrade', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pairing_code: pairingCode }),
+      body: JSON.stringify({ action: 'portal', pairing_code: pairingCode }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Could not open billing portal');
